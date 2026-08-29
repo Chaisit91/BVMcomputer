@@ -1,0 +1,8 @@
+﻿dataset,feature,type,correlation,pure_groups,unique_values
+cpu_cooler,cpu_tdp,numeric,-0.33089011938064716,,
+cpu_cooler,cooler_height,numeric,0.13156662598483587,,
+cpu_cooler,fan_quantity,numeric,0.02420550635764743,,
+cpu_cooler,fan_size,numeric,0.0445997984167325,,
+cpu_cooler,radiator_size,numeric,-0.03927749147961985,,
+cpu_cooler,water_cooled,numeric,0.14142937118298285,,
+cpu_cooler,water_cooled,categorical,,0.0,2.0

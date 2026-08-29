@@ -1,0 +1,9 @@
+﻿dataset,compatible,incompatible,total
+cpu_motherboard.csv,2000,2000,4000
+cpu_cooler.csv,2000,2000,4000
+ram_motherboard.csv,2000,2000,4000
+gpu_case.csv,2000,2000,4000
+cooler_case.csv,2000,2000,4000
+motherboard_case.csv,2000,2000,4000
+psu_case.csv,2000,2000,4000
+storage_motherboard.csv,2000,2000,4000

@@ -1,0 +1,7 @@
+﻿dataset,feature,type,correlation
+cpu_motherboard,cpu_cores,numeric,-0.08146964580954345
+cpu_motherboard,cpu_threads,numeric,-0.1015525250062082
+cpu_motherboard,cpu_base_clock,numeric,0.01781890570098626
+cpu_motherboard,cpu_boost_clock,numeric,0.14475831170314205
+cpu_motherboard,cpu_tdp,numeric,-0.22291272132156065
+cpu_motherboard,motherboard_ram_slots,numeric,0.0005020576392446133

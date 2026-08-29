@@ -1,0 +1,37 @@
+{
+  "opendb_id": "fbf4f018-5b23-4b73-8c38-934e300306a3",
+  "modules": {
+    "quantity": 2,
+    "capacity_gb": 64
+  },
+  "metadata": {
+    "name": "Crucial CT2K64G56C46U5 128GB (2x64GB) DDR5-5600 CL46 Black",
+    "manufacturer": "Crucial",
+    "part_numbers": ["CT2K64G56C46U5"],
+    "series": "CT2K64G56C46U5",
+    "variant": "5600 CL46",
+    "manufacturer_color": "Black",
+    "releaseYear": 2025
+  },
+  "speed": 5600,
+  "ram_type": "DDR5",
+  "form_factor": "288-pin DIMM",
+  "capacity": 128,
+  "color": ["BLACK"],
+  "cas_latency": 46,
+  "voltage": 1.1,
+  "ecc": "Non-ECC",
+  "registered": "Unbuffered",
+  "heat_spreader": true,
+  "rgb": false,
+  "profile_support": ["XMP", "EXPO"],
+  "lighting": ["None"],
+  "timings": "46-45-45",
+  "height": 31.25,
+  "general_product_information": {
+    "amazon_sku": "B0DSQWFYPP",
+    "newegg_sku": "N82E16820156424",
+    "walmart_sku": 15312818991,
+    "manufacturer_url": "https://uk.crucial.com/memory/ddr5/ct2k64g56c46u5"
+  }
+}

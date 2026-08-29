@@ -1,0 +1,51 @@
+﻿opendb_id,name,manufacturer,form_factor,expansion_slots,internal_2_5_bays,internal_3_5_bays,gpu_clearance_mm,cooler_clearance_mm,psu_clearance_mm,volume_liters,supported_motherboards,supported_psu,transparent_side_panel
+0c3c19d6-ba05-41aa-8936-0eafc4a14fb9,Lian Li Vector V100 Mini,Lian Li,Micro ATX Mid Tower,5,2,1,415.0,163.5,200.0,42.8,Mini-ITX | Micro ATX,ATX,true
+13890e42-7d80-43db-9ef8-4b65b9c13276,Montech Sky 3 ATX Mid Tower with Tempered Glass Side Panel - White,MONTECH,ATX Mid Tower,7,2,2,445.0,185.0,160.0,55.03,Mini-ITX | Micro ATX | ATX,ATX,true
+42d93091-c824-480a-b77b-ce7be1628e4a,Montech Sky 3 ATX Mid Tower with Tempered Glass Side Panel - Black,MONTECH,ATX Mid Tower,7,2,2,445.0,185.0,160.0,55.03,Mini-ITX | Micro ATX | ATX,ATX,true
+fd263975-75c0-473d-964c-71b1df4ad722,Fractal Design Pop 2 Air Black Solid - ATX Mid Tower,Fractal Design,ATX Mid Tower,7,2,1,416.0,170.0,180.0,47.8,ATX | Micro ATX | Mini-ITX,ATX,false
+928046a4-02df-4779-a80d-4d5b24b1e77f,Fractal Design Pop 2 Air Black Tempered Glass - ATX Mid Tower,Fractal Design,ATX Mid Tower,7,2,1,416.0,170.0,180.0,47.8,ATX | Micro ATX | Mini-ITX,ATX,true
+2ca8aecb-0f6e-4941-87f2-2f584a5a046a,Fractal Design Pop 2 Air White Tempered Glass RGB - ATX Mid Tower,Fractal Design,ATX Mid Tower,7,2,1,416.0,170.0,180.0,47.8,ATX | Micro ATX | Mini-ITX,ATX,true
+bd591f2c-5798-48f1-a823-2ce56ab00a8a,Fractal Design Pop 2 Air Black Tempered Glass RGB - ATX Mid Tower,Fractal Design,ATX Mid Tower,7,2,1,416.0,170.0,180.0,47.8,ATX | Micro ATX | Mini-ITX,ATX,true
+1bd48682-e6ca-41a0-b07d-4c785f380acb,Corsair FRAME 4000D Vault Series Modular Mid-Tower PC Case – Nova,Corsair,ATX Mid Tower,7,2,1,430.0,170.0,220.0,56.91,ATX | Mini-ITX | Micro ATX | EATX,ATX,true
+e9d87f70-80d3-45d7-8253-351b6a240277,Corsair FRAME 4000D Vault Series Modular Mid-Tower PC Case – Galaxy,Corsair,ATX Mid Tower,7,2,1,430.0,170.0,220.0,56.91,ATX | Mini-ITX | Micro ATX | EATX,ATX,true
+df604b3d-74bb-4eee-a5ee-e62b3ba81dd2,"iBuypower Slate 9 Mesh ATX Mid Tower White with Mesh, Tempered Glass Side Panel, USB 3.2 Gen 2 Type-C, USB 3.2 Gen 1 Type-A",iBUYPOWER,ATX Mid Tower,7,2,1,405.0,168.0,,53.361,ATX | Micro ATX | Mini-ITX | EATX,,true
+74f340b7-df31-4bd8-a80b-f412b6b27acb,iBUYPOWER Element Pulse X Gaming Case - Black,iBUYPOWER,ATX Mid Tower,7,2,1,360.0,165.0,,57.9,ATX | Micro ATX | Mini-ITX,,true
+beca4055-ee16-4f2a-b467-5e11c3ca671a,iBUYPOWER Trace X RGB Gaming Case - Black,iBUYPOWER,ATX Mid Tower,7,2,1,360.0,165.0,,57.9,ATX | Mini-ITX | Micro ATX,,true
+987e0325-5fff-4ab7-a4e4-b4aa610919b7,iBUYPOWER Trace X RGB Gaming Case - White,iBUYPOWER,ATX Mid Tower,7,2,1,360.0,165.0,,57.9,ATX | Micro ATX | Mini-ITX,,true
+4e24bff5-ec53-4068-a18a-d4d3540b8980,"iBuypower Slate 9 Mesh ATX Mid Tower Black with Mesh, Tempered Glass Side Panel",iBUYPOWER,ATX Mid Tower,7,2,1,405.0,168.0,,53.361,ATX | Micro ATX | Mini-ITX | EATX,,true
+3904917d-82cb-496a-a814-84fb849ac200,Thermaltake View 370 TG Black,Thermaltake,ATX Mid Tower,7,3,1,420.0,279.0,,55.41,Micro ATX | ATX | Mini-ITX,,true
+2d7ef623-4253-467a-9767-d0afcec7b98c,Thermaltake View 370 TG White,Thermaltake,ATX Mid Tower,7,3,1,420.0,279.0,,55.41,Micro ATX | ATX | Mini-ITX,,true
+f9918e12-bbd5-4d30-97c7-2a3275954714,SAMA S50 Black,SAMA,ATX Mid Tower,7,4,3,410.0,165.0,180.0,47.6,Micro ATX | Mini-ITX | ATX,ATX,true
+e6e3d555-041f-4426-b669-cdece8799809,Corsair 3200D RS Black,Corsair,ATX Mid Tower,7,2,1,400.0,165.0,180.0,,ATX | Micro ATX | Mini-ITX,ATX,true
+e19caca6-15c5-435e-9285-1a4b4698239a,Lian Li O11 Vision M Digital White,Lian Li,Micro ATX Mid Tower,5,3,1,410.0,162.0,182.0,45.6,Mini-ITX | Micro ATX,ATX,true
+de186213-df2d-445e-a57a-26bdcde3e997,Corsair WARTHOG Black,Corsair,ATX Mid Tower,7,2,1,430.0,190.0,200.0,82.8,EATX | Mini-ITX | Micro ATX | ATX,ATX,true
+d376a58d-c9f6-43a8-a79f-c9a750a76310,Okinos Aqua UNO Micro ATX Mini Tower Yolk,Okinos,Micro ATX Mini Tower,4,1,1,309.0,165.0,160.0,26.1,Micro ATX | Mini-ITX,ATX,true
+cee29e22-2c45-4d28-9768-10243278541c,Okinos Aqua UNO Micro ATX Mini Tower Zebra,Okinos,Micro ATX Mini Tower,4,1,1,309.0,165.0,160.0,26.1,Micro ATX | Mini-ITX,ATX,true
+cd4568b7-29a5-4ed2-b85f-97738ea155c9,Formula V Line Air Power G9 Duo PA Black,Formula V Line,ATX Mid Tower,7,1,1,420.0,182.0,,54.6,ATX | Micro ATX | EATX | Mini-ITX,ATX,true
+c1929670-8da8-4ecf-a40c-2e3116279251,Corsair 3200D RS ARGB White,Corsair,ATX Mid Tower,7,2,1,400.0,165.0,180.0,,ATX | Micro ATX | Mini-ITX,ATX,true
+bf866219-af85-40e9-94e1-cff6f4ddd63d,NZXT H6 (2026) ATX Mid Tower White Tempered Glass,NZXT,ATX Mid Tower,7,2,1,360.0,165.0,200.0,55.0,ATX | Micro ATX | Mini-ITX,ATX,true
+bd22ec2e-6668-41e1-85c6-1305c6c7100a,Okinos Aqua UNO Micro ATX Mini Tower Canary,Okinos,Micro ATX Mini Tower,4,1,1,309.0,165.0,160.0,26.1,Micro ATX | Mini-ITX,ATX,true
+b4c6cd1c-22f8-4268-b8fc-17e120fac5d9,Corsair WARTHOG RS OLIVE DRAB,Corsair,ATX Mid Tower,7,2,1,430.0,190.0,200.0,82.8,Mini-ITX | Micro ATX | EATX | ATX,ATX,true
+b25d4954-d8f3-4b73-a3aa-ddfe6f79dea4,Formula V Line Air Power G9 Duo SA White,Formula V Line,ATX Mid Tower,7,1,1,420.0,182.0,,54.6,ATX | Micro ATX | Mini-ITX | EATX,ATX,true
+b097da10-4442-4d31-a7e1-fbf7a1b2a477,Corsair 3200D RS White,Corsair,ATX Mid Tower,7,2,1,400.0,165.0,180.0,,ATX | Micro ATX | Mini-ITX,ATX,true
+a94dbf7d-13a8-4454-8dd2-8570bb1bc56c,TRYX FLOVA F50 White,TRYX,ATX Mid Tower,7,4,4,360.0,170.0,200.0,58.0,ATX | Mini-ITX | Micro ATX,ATX,true
+a665c556-dbb3-47bf-afa6-a561d66c6f0f,Montech TG3 ATX Mid Tower White,MONTECH,ATX Mid Tower,7,2,1,430.0,180.0,250.0,58.1,ATX | Micro ATX | Mini-ITX,ATX,true
+95af7ccd-f5cd-4b4a-875d-8a59b0d82e62,NZXT H6 RGB+ (2026) ATX Mid Tower Black Tempered Glass,NZXT,ATX Mid Tower,7,2,1,360.0,165.0,200.0,55.0,ATX | Micro ATX | Mini-ITX,ATX,true
+948b8007-fa96-47ee-aae1-b30ca6758058,Okinos Aqua UNO Micro ATX Mini Tower Silverback,Okinos,Micro ATX Mini Tower,4,1,,309.0,165.0,160.0,26.1,Micro ATX | Mini-ITX,ATX,true
+86816bd7-32e5-4493-a219-c70e72d4dec6,Montech TG3 ATX Mid Tower Black,MONTECH,ATX Mid Tower,7,2,1,430.0,180.0,250.0,58.1,ATX | Micro ATX | Mini-ITX,ATX,true
+7f7b3e0c-03f6-42ca-a2ca-2575c2f6ec82,Formula V Line Air Power G9 Duo SA Black,Formula V Line,ATX Mid Tower,7,1,1,420.0,182.0,,54.6,ATX | Micro ATX | Mini-ITX | EATX,ATX,true
+7c3451cf-80fc-4040-a23a-a83bdb494606,Corsair 3200D RS ARGB Black,Corsair,ATX Mid Tower,7,2,1,400.0,165.0,180.0,,ATX | Micro ATX | Mini-ITX,ATX,true
+7b4883af-7e1e-4482-9d70-0ee8c65847ab,Formula V Line Air Power G9 Duo Black,Formula V Line,ATX Mid Tower,7,1,1,420.0,182.0,,54.6,ATX | Micro ATX | Mini-ITX | EATX,ATX,true
+7453d50f-f6f1-4400-9a50-174d8346eef7,Lian Li Vector V100R Mini,Lian Li,Micro ATX Mid Tower,5,2,1,415.0,163.5,200.0,42.8,Mini-ITX | Micro ATX,ATX,true
+6b734e18-04e6-4256-a58d-7c9b9458a9fe,NZXT H6 RGB+ (2026) ATX Mid Tower White Tempered Glass,NZXT,ATX Mid Tower,7,2,1,360.0,165.0,200.0,55.0,ATX | Micro ATX | Mini-ITX,ATX,true
+55b94e26-2495-4727-acff-6ac025396bcd,NZXT H6 (2026) ATX Mid Tower Black Tempered Glass,NZXT,ATX Mid Tower,7,2,1,360.0,165.0,200.0,55.0,ATX | Mini-ITX | Micro ATX,ATX,true
+54bc84f1-7b59-42b5-8719-dda673514c54,Lian Li O11 Vision M Digital Black,Lian Li,Micro ATX Mid Tower,5,,1,410.0,162.0,182.0,45.62,Mini-ITX | Micro ATX,ATX,true
+537c48e2-b6d1-4f7c-b3ca-0b3892509dc4,Formula V Line Air Power G9 Duo White,Formula V Line,ATX Mid Tower,7,1,1,420.0,182.0,,54.6,ATX | Micro ATX | Mini-ITX | EATX,ATX,true
+51c2e82d-01c1-47b9-9c6d-5798a19ff6bd,TRYX FLOVA F50 Pink,TRYX,ATX Mid Tower,7,4,4,360.0,170.0,200.0,58.0,Micro ATX | Mini-ITX | ATX,ATX,true
+49304391-cb2d-4357-8684-5a87f874b30b,Corsair WARTHOG OLIVE DRAB,Corsair,ATX Mid Tower,7,2,1,430.0,190.0,200.0,82.8,Micro ATX | EATX | Mini-ITX | ATX,ATX,true
+456a564c-2998-4260-b779-ee852852a829,NZXT H2 Flow Black,NZXT,Mini ITX Tower,,2,,331.0,75.0,,20.7,Mini-ITX,SFX | SFX-L,true
+410188d1-1b41-4e31-9852-7697c5d91bec,Okinos Aqua UNO Micro ATX Mini Tower Scarlet,Okinos,Micro ATX Mini Tower,4,1,1,309.0,165.0,160.0,26.1,Micro ATX | Mini-ITX,ATX,true
+3dabc329-0636-405b-875b-142f36f7a81b,Corsair 3200D RS Smoke,Corsair,ATX Mid Tower,7,2,1,400.0,165.0,180.0,,ATX | Micro ATX | Mini-ITX,ATX,true
+3ccdeed3-a4d9-4141-babe-b715614472bf,Lian Li O11 Vision M White,Lian Li,Micro ATX Mid Tower,5,3,1,410.0,162.0,182.0,45.6,Mini-ITX | Micro ATX,ATX,true
+397a6df3-efca-4fc5-b81f-29c878a9f283,Formula V Line Air Power G9 Duo PA White,Formula V Line,ATX Mid Tower,7,1,1,420.0,182.0,,54.6,ATX | Micro ATX | Mini-ITX | EATX,ATX,true
+374476df-3dd6-42de-8b81-d87fd1ac128d,iBUYPOWER Element Pulse X Gaming Case - White,iBUYPOWER,ATX Mid Tower,7,2,1,360.0,165.0,,57.9,ATX | Micro ATX | Mini-ITX,,true

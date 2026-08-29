@@ -1,0 +1,8 @@
+﻿dataset,records,features,accuracy,precision,recall,f1_score
+cpu_motherboard,4000,10,1.0,1.0,1.0,1.0
+cpu_cooler,4000,8,0.9815,0.9824649298597194,0.9805,0.9814814814814815
+ram_motherboard,4000,8,1.0,1.0,1.0,1.0
+gpu_case,4000,8,1.0,1.0,1.0,1.0
+cooler_case,4000,7,1.0,1.0,1.0,1.0
+motherboard_case,4000,5,0.99975,1.0,0.9995,0.9997499374843711
+psu_case,4000,8,1.0,1.0,1.0,1.0

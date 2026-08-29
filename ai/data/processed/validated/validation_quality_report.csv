@@ -1,0 +1,9 @@
+﻿dataset,rows,duplicates,training_overlap,status
+cpu_motherboard,4000,0,0,PASS
+cpu_cooler,4000,0,0,PASS
+ram_motherboard,4000,0,0,PASS
+gpu_case,4000,0,0,PASS
+cooler_case,4000,0,0,PASS
+motherboard_case,4000,0,0,PASS
+psu_case,4000,0,0,PASS
+storage_motherboard,4000,0,0,PASS

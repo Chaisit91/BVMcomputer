@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>BuildCores Compatibility</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0b1020; --panel:#151c30; --line:#29334d; --text:#edf2ff; --muted:#9ca9c4; --accent:#62d9a7; --bad:#ff7474; --unknown:#f5c768; }
+    * { box-sizing:border-box }
+    body { margin:0; background:radial-gradient(circle at top,#182343 0,var(--bg) 48%); color:var(--text); font:15px/1.5 system-ui,"Noto Sans Thai",sans-serif }
+    main { width:min(1180px,calc(100% - 32px)); margin:32px auto 64px }
+    h1 { margin:0; font-size:clamp(28px,5vw,48px) }
+    .lead { color:var(--muted); margin:6px 0 28px }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px }
+    .part,.panel { background:color-mix(in srgb,var(--panel) 92%,transparent); border:1px solid var(--line); border-radius:14px; padding:16px }
+    .part { position:relative; min-width:0 }
+    .part.active { z-index:100 }
+    label { display:block; font-weight:700; margin-bottom:8px }
+    .dropdown { position:relative }
+    .dropdown-toggle { position:relative; width:100%; min-height:44px; border:1px solid var(--line); border-radius:9px; padding:10px 36px 10px 12px; color:var(--text); background:#0e1528; text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer }
+    .dropdown-toggle::after { content:"⌄"; position:absolute; right:12px; top:9px; color:var(--muted); font-size:18px }
+    .dropdown-toggle:focus,.dropdown-toggle[aria-expanded="true"] { border-color:var(--accent); outline:none }
+    .dropdown-toggle:disabled { opacity:.55; cursor:not-allowed }
+    .dropdown-menu { position:absolute; z-index:110; top:calc(100% + 6px); left:0; right:0; max-height:310px; overflow-y:auto; overscroll-behavior:contain; border:1px solid var(--line); border-radius:10px; background:#0e1528; box-shadow:0 18px 45px #0009 }
+    .dropdown-search-wrap { position:sticky; z-index:2; top:0; padding:9px; background:#121a30; border-bottom:1px solid var(--line) }
+    .dropdown-search { width:100%; border:1px solid var(--line); border-radius:8px; padding:9px 10px; color:var(--text); background:#0b1020; outline:none }
+    .dropdown-search:focus { border-color:var(--accent) }
+    .dropdown-meta,.dropdown-loading { position:sticky; z-index:1; padding:8px 11px; color:var(--muted); background:#121a30; font-size:12px }
+    .dropdown-meta { top:54px; border-bottom:1px solid var(--line) }
+    .dropdown-loading { bottom:0; border-top:1px solid var(--line); text-align:center }
+    .dropdown-option { display:block; width:100%; border:0; border-bottom:1px solid #202a43; padding:10px 12px; color:var(--text); background:transparent; text-align:left; cursor:pointer }
+    .dropdown-option:hover,.dropdown-option:focus { color:#07130e; background:var(--accent); outline:none }
+    .selected { min-height:23px; color:var(--accent); margin-top:8px; font-size:13px }
+    .clear { float:right; border:0; color:var(--muted); background:none; cursor:pointer }
+    .panel { margin-top:18px }
+    .status { display:inline-block; padding:5px 10px; border-radius:999px; font-weight:800; text-transform:uppercase }
+    .compatible { color:var(--accent); background:#173b32 }.incompatible { color:var(--bad); background:#47242d }.unknown { color:var(--unknown); background:#41361d }
+    .green { color:var(--accent); background:#173b32 }.yellow { color:var(--unknown); background:#41361d }.red { color:var(--bad); background:#47242d }
+    .meter { height:10px; margin:12px 0; overflow:hidden; border-radius:999px; background:#0e1528 }
+    .meter span { display:block; height:100%; border-radius:inherit }.meter .green { background:var(--accent) }.meter .yellow { background:var(--unknown) }.meter .red { background:var(--bad) }
+    .counts { display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 }
+    .count { border:1px solid var(--line); border-radius:8px; padding:7px 10px; color:var(--muted) }
+    .check { padding:9px 0; border-bottom:1px solid var(--line) }
+    .check b { margin-right:8px }.error { color:var(--bad); white-space:pre-wrap }
+    .hint { color:var(--muted); font-size:13px }
+    .build-actions { display:flex; align-items:center; flex-wrap:wrap; gap:12px }
+    .primary { border:0; border-radius:10px; padding:11px 18px; color:#07130e; background:var(--accent); font-weight:800; cursor:pointer }
+    .primary:disabled { opacity:.45; cursor:not-allowed }
+    .build-preview { display:grid; grid-template-columns:minmax(0,2fr) minmax(220px,1fr); gap:18px; margin-top:16px }
+    .build-preview[hidden] { display:none }
+    .turntable { position:relative; overflow:hidden; border:1px solid var(--line); border-radius:12px; background:#0e1528; cursor:ew-resize; touch-action:pan-y; user-select:none }
+    .turntable:focus { outline:2px solid var(--accent); outline-offset:2px }
+    .turntable img { display:block; width:100%; pointer-events:none; -webkit-user-drag:none }
+    .turntable-hint { position:absolute; left:50%; bottom:10px; transform:translateX(-50%); padding:5px 9px; border-radius:999px; color:#fff; background:#07101dcc; font-size:12px; white-space:nowrap }
+    .turntable-controls { display:flex; align-items:center; justify-content:center; gap:9px; margin-top:10px }
+    .turntable-controls button { border:1px solid var(--line); border-radius:8px; padding:7px 11px; color:var(--text); background:#0e1528; cursor:pointer }
+    .turntable-controls button:hover { border-color:var(--accent) }
+    #build-angle { min-width:92px; color:var(--muted); text-align:center; font-size:13px }
+    .manifest { margin:0; padding-left:20px; color:var(--muted) }
+    @media (max-width:720px) { .build-preview { grid-template-columns:1fr } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>BuildCores Compatibility</h1>
+  <p class="lead">เลือกอุปกรณ์จาก dropdown ระบบจะเหลือเฉพาะรายการที่เข้ากันได้และกรองใหม่ทุกครั้งที่เลือกเพิ่ม</p>
+  <section class="grid" id="parts"></section>
+  <section class="panel">
+    <h2>ผลการตรวจสอบ</h2>
+    <div id="summary" class="hint">ค้นหาและเลือก CPU เพื่อเริ่มต้น</div>
+    <div id="error" class="error"></div>
+    <div id="checks"></div>
+  </section>
+  <section class="panel">
+    <h2>ภาพจำลองชุดสเปก</h2>
+    <div class="build-actions">
+      <button id="assemble" class="primary" type="button" disabled>สร้างภาพเครื่องจากอุปกรณ์ที่เลือก</button>
+      <span id="assemble-status" class="hint">เลือกอุปกรณ์ให้ครบทั้ง 8 หมวดก่อน</span>
+    </div>
+    <div id="assemble-error" class="error"></div>
+    <div id="build-preview" class="build-preview" hidden>
+      <div>
+        <div id="turntable" class="turntable" tabindex="0" role="group" aria-label="ภาพจำลองหมุน 360 องศา ใช้เมาส์หรือนิ้วลากซ้ายขวา">
+          <img id="build-image" draggable="false" alt="ภาพจำลองคอมพิวเตอร์จากอุปกรณ์ที่เลือก">
+          <span class="turntable-hint">ลากซ้าย–ขวาเพื่อหมุน 360°</span>
+        </div>
+        <div class="turntable-controls">
+          <button id="turn-prev" type="button" aria-label="มุมก่อนหน้า">←</button>
+          <button id="turn-auto" type="button">หมุนอัตโนมัติ</button>
+          <button id="turn-next" type="button" aria-label="มุมถัดไป">→</button>
+          <span id="build-angle"></span>
+        </div>
+      </div>
+      <div>
+        <h3>อุปกรณ์ที่ส่งให้ AI</h3>
+        <ol id="build-manifest" class="manifest"></ol>
+        <p id="build-disclaimer" class="hint"></p>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+const TYPE_LIST = [
+  ["cpu","CPU"],["motherboard","Motherboard"],["gpu","GPU"],["ram","RAM"],
+  ["cooler","CPU Cooler"],["case","Case"],["psu","PSU"],["storage","Storage"]
+];
+const TYPE_LABEL = Object.fromEntries(TYPE_LIST);
+const PAGE_SIZE = 100;
+const picked = {};
+const pickedNames = {};
+const dropdowns = {};
+let requestVersion = 0;
+let lastValidationStatus = "unknown";
+const partsRoot = document.querySelector("#parts");
+const assembleButton = document.querySelector("#assemble");
+const assembleStatus = document.querySelector("#assemble-status");
+const assembleError = document.querySelector("#assemble-error");
+const buildPreview = document.querySelector("#build-preview");
+const turntable = document.querySelector("#turntable");
+const buildImage = document.querySelector("#build-image");
+const buildAngle = document.querySelector("#build-angle");
+const autoButton = document.querySelector("#turn-auto");
+let buildFrames = [];
+let buildFrameIndex = 0;
+let dragStartX = null;
+let dragFrameX = null;
+let autoRotateTimer = null;
+
+const CHILDREN = {
+  cpu:["motherboard","gpu","ram","cooler","case","psu","storage"],
+  motherboard:["ram","case","psu","storage"], gpu:["case","psu"],
+  cooler:["case"], psu:["case","storage"], case:["storage"]
+};
+const FILTER_CONTEXT = {
+  motherboard:["cpu","gpu"], gpu:["motherboard"], ram:["cpu","motherboard"],
+  cooler:["cpu"], case:["cpu","motherboard","gpu","cooler","psu"],
+  psu:["cpu","motherboard","gpu"], storage:["motherboard","case","psu"]
+};
+
+function signatureFor(type) {
+  if (type === "cpu") return "all-cpu";
+  return (FILTER_CONTEXT[type] || []).map(key => picked[key] || "").join("|");
+}
+
+function closeDropdown(type) {
+  const ui = dropdowns[type];
+  if (!ui) return;
+  ui.menu.hidden = true;
+  ui.toggle.setAttribute("aria-expanded", "false");
+  ui.card.classList.remove("active");
+}
+
+function closeAllDropdowns(except) {
+  for (const [type] of TYPE_LIST) if (type !== except) closeDropdown(type);
+}
+
+function resetPage(type) {
+  const ui = dropdowns[type];
+  ui.options.replaceChildren();
+  ui.offset = 0;
+  ui.total = null;
+  ui.hasMore = false;
+  ui.loaded = false;
+  ui.loading.textContent = "";
+}
+
+function placeholderFor(type) {
+  const ui = dropdowns[type];
+  if (picked[type]) return pickedNames[type] || `เลือกแล้ว · ${TYPE_LABEL[type]}`;
+  if (ui.total === 0) return "ไม่มีรายการที่เข้ากันได้";
+  if (Number.isInteger(ui.total)) return `เลือก ${TYPE_LABEL[type]} · ${ui.total.toLocaleString()} รายการ`;
+  return `เลือก ${TYPE_LABEL[type]}`;
+}
+
+function clearPicked(type) {
+  delete picked[type];
+  delete pickedNames[type];
+  const ui = dropdowns[type];
+  if (!ui) return;
+  closeDropdown(type);
+  ui.toggle.textContent = placeholderFor(type);
+  ui.chosen.textContent = "";
+  clearBuildPreview();
+}
+
+function clearBuildPreview() {
+  stopAutoRotate();
+  buildFrames = [];
+  buildFrameIndex = 0;
+  dragStartX = null;
+  dragFrameX = null;
+  buildPreview.hidden = true;
+  buildImage.removeAttribute("src");
+  buildAngle.textContent = "";
+  document.querySelector("#build-manifest").replaceChildren();
+  document.querySelector("#build-disclaimer").textContent = "";
+  assembleError.textContent = "";
+}
+
+function showBuildFrame(index) {
+  if (!buildFrames.length) return;
+  buildFrameIndex = (index + buildFrames.length) % buildFrames.length;
+  const frame = buildFrames[buildFrameIndex];
+  buildImage.src = frame.src;
+  buildAngle.textContent = `${frame.angle}° · ${buildFrameIndex + 1}/${buildFrames.length}`;
+}
+
+function stepBuildFrame(direction) {
+  stopAutoRotate();
+  showBuildFrame(buildFrameIndex + direction);
+}
+
+function stopAutoRotate() {
+  if (autoRotateTimer !== null) window.clearInterval(autoRotateTimer);
+  autoRotateTimer = null;
+  if (autoButton) autoButton.textContent = "หมุนอัตโนมัติ";
+}
+
+function toggleAutoRotate() {
+  if (autoRotateTimer !== null) return stopAutoRotate();
+  if (buildFrames.length < 2) return;
+  autoButton.textContent = "หยุดหมุน";
+  autoRotateTimer = window.setInterval(() => showBuildFrame(buildFrameIndex + 1), 800);
+}
+
+turntable.onpointerdown = event => {
+  if (buildFrames.length < 2) return;
+  stopAutoRotate();
+  dragStartX = event.clientX;
+  dragFrameX = event.clientX;
+  turntable.setPointerCapture(event.pointerId);
+};
+turntable.onpointermove = event => {
+  if (dragStartX === null) return;
+  const distance = event.clientX - dragFrameX;
+  if (Math.abs(distance) < 24) return;
+  showBuildFrame(buildFrameIndex + (distance < 0 ? 1 : -1));
+  dragFrameX = event.clientX;
+};
+turntable.onpointerup = turntable.onpointercancel = () => {
+  dragStartX = null;
+  dragFrameX = null;
+};
+turntable.onkeydown = event => {
+  if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+    event.preventDefault();
+    stepBuildFrame(event.key === "ArrowRight" ? 1 : -1);
+  }
+};
+document.querySelector("#turn-prev").onclick = () => stepBuildFrame(-1);
+document.querySelector("#turn-next").onclick = () => stepBuildFrame(1);
+autoButton.onclick = toggleAutoRotate;
+
+function updateAssemblyAvailability() {
+  const complete = TYPE_LIST.every(([type]) => Boolean(picked[type]));
+  assembleButton.disabled = !complete || lastValidationStatus === "incompatible";
+  assembleStatus.textContent = complete
+    ? (assembleButton.disabled ? "ชุดนี้ยังไม่ผ่านการตรวจสอบ" : "พร้อมสร้างภาพจำลองจากรูปสินค้าจริงทั้ง 8 ชิ้น")
+    : `เลือกแล้ว ${Object.keys(picked).length}/8 หมวด`;
+}
+
+function invalidateChangedContext(type) {
+  const ui = dropdowns[type];
+  const signature = signatureFor(type);
+  if (ui.signature !== signature) {
+    ui.signature = signature;
+    resetPage(type);
+  }
+}
+
+partsRoot.replaceChildren();
+for (const [type,label] of TYPE_LIST) {
+  const card = document.createElement("div");
+  card.className = "part";
+  card.innerHTML = `<label>${label}<button class="clear" type="button">ล้าง</button></label>
+    <div class="dropdown">
+      <button class="dropdown-toggle" type="button" aria-expanded="false" disabled>กำลังโหลด...</button>
+      <div class="dropdown-menu" hidden>
+        <div class="dropdown-search-wrap"><input class="dropdown-search" type="search" placeholder="พิมพ์ชื่อสินค้าเพื่อค้นหา" autocomplete="off"></div>
+        <div class="dropdown-meta"></div>
+        <div class="dropdown-options"></div>
+        <div class="dropdown-loading"></div>
+      </div>
+    </div>
+    <div class="selected"></div>`;
+  const ui = {
+    card,
+    toggle:card.querySelector(".dropdown-toggle"),
+    menu:card.querySelector(".dropdown-menu"),
+    search:card.querySelector(".dropdown-search"),
+    meta:card.querySelector(".dropdown-meta"),
+    options:card.querySelector(".dropdown-options"),
+    loading:card.querySelector(".dropdown-loading"),
+    chosen:card.querySelector(".selected"),
+    signature:"", offset:0, total:null, hasMore:false, loaded:false, busy:false,
+    searchQuery:"", searchTimer:null, pendingSearch:false
+  };
+  dropdowns[type] = ui;
+
+  card.querySelector(".clear").onclick = () => {
+    clearPicked(type);
+    for (const child of CHILDREN[type] || []) clearPicked(child);
+    refreshCompatibility();
+  };
+  ui.toggle.onclick = async event => {
+    event.stopPropagation();
+    if (ui.toggle.disabled) return;
+    const opening = ui.menu.hidden;
+    closeAllDropdowns(type);
+    if (!opening) return closeDropdown(type);
+    ui.menu.hidden = false;
+    ui.toggle.setAttribute("aria-expanded", "true");
+    ui.card.classList.add("active");
+    if (!ui.loaded) await loadOptionPage(type, true);
+    ui.search.focus();
+  };
+  ui.search.oninput = () => {
+    ui.searchQuery = ui.search.value.trim();
+    window.clearTimeout(ui.searchTimer);
+    ui.searchTimer = window.setTimeout(() => loadOptionPage(type, true), 250);
+  };
+  ui.search.onkeydown = event => {
+    if (event.key === "Escape") closeDropdown(type);
+  };
+  ui.menu.onclick = event => event.stopPropagation();
+  ui.menu.onscroll = () => {
+    if (ui.hasMore && !ui.busy && ui.menu.scrollTop + ui.menu.clientHeight >= ui.menu.scrollHeight - 80) {
+      loadOptionPage(type, false);
+    }
+  };
+  partsRoot.append(card);
+}
+
+document.addEventListener("click", () => closeAllDropdowns());
+
+function appendOptionButtons(type, rawItems) {
+  const ui = dropdowns[type];
+  const fragment = document.createDocumentFragment();
+  for (const raw of rawItems) {
+    const item = Array.isArray(raw) ? {opendb_id:raw[0], name:raw[1]} : raw;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "dropdown-option";
+    button.textContent = item.name;
+    button.onclick = () => {
+      for (const child of CHILDREN[type] || []) clearPicked(child);
+      picked[type] = item.opendb_id;
+      pickedNames[type] = item.name;
+      ui.search.value = "";
+      ui.searchQuery = "";
+      resetPage(type);
+      ui.toggle.textContent = item.name;
+      ui.chosen.textContent = `เลือกแล้ว · ${item.name}`;
+      closeDropdown(type);
+      clearBuildPreview();
+      refreshCompatibility(type);
+    };
+    fragment.append(button);
+  }
+  ui.options.append(fragment);
+}
+
+async function loadOptionPage(type, reset) {
+  const ui = dropdowns[type];
+  if (ui.busy) {
+    if (reset) ui.pendingSearch = true;
+    return;
+  }
+  if (type !== "cpu" && !picked.cpu) return;
+  if (type === "storage" && !picked.motherboard) return;
+  invalidateChangedContext(type);
+  if (reset) resetPage(type);
+
+  const expectedSignature = ui.signature;
+  const expectedSearch = ui.searchQuery;
+  const expectedOffset = ui.offset;
+  ui.busy = true;
+  ui.loading.textContent = "กำลังโหลด...";
+  try {
+    const query = new URLSearchParams({...picked, type, q:expectedSearch, limit:String(PAGE_SIZE), offset:String(expectedOffset), compact:"1"});
+    const response = await fetch(`/search?${query}`);
+    const data = await response.json();
+    if (!response.ok || expectedSignature !== ui.signature || expectedSearch !== ui.searchQuery || expectedOffset !== ui.offset) return;
+    if (expectedOffset === 0) ui.options.replaceChildren();
+    appendOptionButtons(type, data.items || []);
+    ui.total = data.count;
+    ui.offset += (data.items || []).length;
+    ui.hasMore = Boolean(data.has_more);
+    ui.loaded = true;
+    ui.meta.textContent = `${expectedSearch ? "ผลการค้นหา" : "ทั้งหมด"} ${data.count.toLocaleString()} รายการ · แสดง ${ui.offset.toLocaleString()} รายการ`;
+    ui.loading.textContent = ui.hasMore ? "เลื่อนลงเพื่อโหลดรายการถัดไป" : (data.count ? "แสดงครบแล้ว" : "ไม่มีรายการที่เข้ากันได้");
+    ui.toggle.disabled = data.count === 0;
+    ui.toggle.textContent = placeholderFor(type);
+  } catch (error) {
+    ui.loading.textContent = "โหลดข้อมูลไม่สำเร็จ กรุณาลองอีกครั้ง";
+  } finally {
+    ui.busy = false;
+    if (ui.pendingSearch) {
+      ui.pendingSearch = false;
+      loadOptionPage(type, true);
+    }
+  }
+}
+
+function prepareDropdowns(counts = {}) {
+  for (const [type] of TYPE_LIST) {
+    const ui = dropdowns[type];
+    invalidateChangedContext(type);
+    if (type === "cpu") {
+      ui.toggle.disabled = false;
+    } else if (!picked.cpu) {
+      ui.toggle.disabled = true;
+      ui.total = null;
+      ui.toggle.textContent = "เลือก CPU ก่อน";
+      continue;
+    } else if (type === "storage" && !picked.motherboard) {
+      ui.toggle.disabled = true;
+      ui.total = null;
+      ui.toggle.textContent = "เลือก Motherboard ก่อน";
+      continue;
+    } else {
+      if (Object.prototype.hasOwnProperty.call(counts, type)) ui.total = counts[type];
+      ui.toggle.disabled = ui.total === 0;
+    }
+    ui.toggle.textContent = placeholderFor(type);
+  }
+}
+
+async function refreshCompatibility(changedType) {
+  const version = ++requestVersion;
+  const summary = document.querySelector("#summary");
+  const errorBox = document.querySelector("#error");
+  const checks = document.querySelector("#checks");
+  errorBox.textContent = "";
+  checks.innerHTML = "";
+  prepareDropdowns();
+  if (!picked.cpu) {
+    lastValidationStatus = "unknown";
+    updateAssemblyAvailability();
+    summary.className = "hint";
+    summary.textContent = "กรุณาเลือก CPU ก่อน";
+    return;
+  }
+
+  summary.className = "hint";
+  summary.textContent = "กำลังตรวจสอบ...";
+  try {
+    const query = new URLSearchParams({...picked, limit:"10"});
+    const response = await fetch(`/recommend?${query}`);
+    const data = await response.json();
+    if (version !== requestVersion) return;
+    if (!response.ok) {
+      if (changedType) clearPicked(changedType);
+      prepareDropdowns();
+      summary.className = "";
+      summary.innerHTML = '<span class="status red">เข้ากันไม่ได้</span><div class="meter"><span class="red" style="width:0%"></span></div>';
+      errorBox.textContent = (data.error || "เกิดข้อผิดพลาด") + "\nกรุณาเลือกรายการใหม่จาก dropdown ที่ผ่านการกรอง";
+      lastValidationStatus = "incompatible";
+      updateAssemblyAvailability();
+      return;
+    }
+
+    prepareDropdowns(data.compatible_counts || {});
+    const quality = data.validation.quality;
+    lastValidationStatus = data.validation.status;
+    updateAssemblyAvailability();
+    summary.className = "";
+    summary.innerHTML = `<span class="status ${quality.color}">${quality.label}</span> <strong>${quality.score}/100</strong><div class="meter"><span class="${quality.color}" style="width:${quality.score}%"></span></div><div class="hint">เลือกแล้ว ${quality.selected_parts}/${quality.total_part_types} หมวด · ${quality.note}</div><div class="counts">${Object.entries(data.compatible_counts).map(([key,value]) => `<span class="count">${key}: ${value.toLocaleString()}</span>`).join("")}</div><div class="hint">PSU ขั้นต่ำ: ${data.constraints.recommended_psu_watts ?? "ข้อมูลไม่พอ"} W</div>`;
+    checks.innerHTML = data.validation.checks.map(check => `<div class="check"><b class="${check.status}">${check.status}</b>${check.reason}</div>`).join("");
+    if (data.validation.limitations.length) checks.innerHTML += `<p class="hint">ข้อจำกัด: ${data.validation.limitations.join(" · ")}</p>`;
+  } catch (fetchError) {
+    if (version !== requestVersion) return;
+    summary.textContent = "เชื่อมต่อ API ไม่สำเร็จ";
+    errorBox.textContent = fetchError.message;
+    updateAssemblyAvailability();
+  }
+}
+
+assembleButton.onclick = async () => {
+  clearBuildPreview();
+  assembleButton.disabled = true;
+  assembleStatus.textContent = "AI กำลังสร้างภาพรอบเครื่องหลายมุม อาจใช้เวลาหลายนาที...";
+  try {
+    const response = await fetch("/assemble", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({selection:picked})
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "สร้างภาพไม่สำเร็จ");
+    const sourceFrames = Array.isArray(data.images) && data.images.length
+      ? data.images
+      : [{angle:0, media_type:data.media_type, image_base64:data.image_base64}];
+    buildFrames = sourceFrames.map(frame => ({
+      angle:frame.angle,
+      src:`data:${frame.media_type || data.media_type};base64,${frame.image_base64}`
+    }));
+    for (const frame of buildFrames) {
+      const preload = new Image();
+      preload.src = frame.src;
+    }
+    showBuildFrame(0);
+    const manifest = document.querySelector("#build-manifest");
+    for (const part of data.parts) {
+      const item = document.createElement("li");
+      item.textContent = `${TYPE_LABEL[part.type]}: ${part.name} · รูปอ้างอิง ${part.reference_size}`;
+      manifest.append(item);
+    }
+    document.querySelector("#build-disclaimer").textContent = data.disclaimer;
+    buildPreview.hidden = false;
+    assembleStatus.textContent = `สร้างภาพหมุน 360° จำนวน ${buildFrames.length} มุมเรียบร้อย`;
+  } catch (error) {
+    assembleError.textContent = error.message;
+    assembleStatus.textContent = "ยังสร้างภาพไม่ได้";
+  } finally {
+    updateAssemblyAvailability();
+  }
+};
+
+dropdowns.cpu.signature = signatureFor("cpu");
+dropdowns.cpu.toggle.disabled = false;
+dropdowns.cpu.toggle.textContent = "เลือก CPU";
+prepareDropdowns();
+updateAssemblyAvailability();
+</script>
+</body>
+</html>

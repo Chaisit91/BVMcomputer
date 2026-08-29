@@ -1,0 +1,8 @@
+﻿dataset,feature,type,correlation
+gpu_case,gpu_memory,numeric,-0.32936741173748024
+gpu_case,gpu_tdp,numeric,-0.40437294196878076
+gpu_case,gpu_length,numeric,-0.5537444783822121
+gpu_case,gpu_slot_width,numeric,-0.1551753996403795
+gpu_case,case_max_gpu_length,numeric,0.6903326970289844
+gpu_case,case_gpu_clearance,numeric,0.6903326970289844
+gpu_case,length_difference,numeric,0.8086178751252234

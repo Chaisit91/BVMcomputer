@@ -1,0 +1,17 @@
+[
+  "num__ram_speed",
+  "num__ram_capacity",
+  "num__ram_modules",
+  "num__ram_cas_latency",
+  "num__motherboard_memory_max",
+  "num__motherboard_memory_slots",
+  "cat__ram_type_DDR",
+  "cat__ram_type_DDR2",
+  "cat__ram_type_DDR3",
+  "cat__ram_type_DDR4",
+  "cat__ram_type_DDR5",
+  "cat__motherboard_ram_type_DDR2",
+  "cat__motherboard_ram_type_DDR3",
+  "cat__motherboard_ram_type_DDR4",
+  "cat__motherboard_ram_type_DDR5"
+]

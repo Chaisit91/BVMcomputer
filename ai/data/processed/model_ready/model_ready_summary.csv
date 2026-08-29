@@ -1,0 +1,9 @@
+﻿dataset,training_rows,validation_rows,columns,leakage_removed,ids_removed
+cpu_motherboard.csv,20000,4000,11,1,2
+cpu_cooler.csv,20000,4000,9,1,2
+ram_motherboard.csv,20000,4000,9,1,2
+gpu_case.csv,20000,4000,9,1,2
+cooler_case.csv,20000,4000,8,1,2
+motherboard_case.csv,20000,4000,6,1,2
+psu_case.csv,20000,4000,7,2,2
+storage_motherboard.csv,20000,4000,10,1,2

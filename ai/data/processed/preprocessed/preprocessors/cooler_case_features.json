@@ -1,0 +1,19 @@
+[
+  "num__cooler_height",
+  "num__case_cooler_clearance",
+  "num__cooler_fan_size",
+  "num__cooler_fan_quantity",
+  "num__radiator_size",
+  "num__height_difference",
+  "cat__case_form_factor_ATX Full Tower",
+  "cat__case_form_factor_ATX Mid Tower",
+  "cat__case_form_factor_ATX Mini Tower",
+  "cat__case_form_factor_EATX Full Tower",
+  "cat__case_form_factor_EATX Mid Tower",
+  "cat__case_form_factor_HTPC",
+  "cat__case_form_factor_Micro ATX Desktop",
+  "cat__case_form_factor_Micro ATX Mid Tower",
+  "cat__case_form_factor_Micro ATX Mini Tower",
+  "cat__case_form_factor_Micro ATX Slim Tower",
+  "cat__case_form_factor_Mini ITX Tower"
+]

@@ -1,0 +1,9 @@
+﻿category,total_records,id_filled,unique_ids,duplicate_id_count,duplicate_records
+CPU,789,789,789,0,0
+GPU,3835,3835,3835,0,0
+RAM,4828,4828,4828,0,0
+Motherboard,3699,3699,3699,0,0
+PSU,3295,3295,3295,0,0
+Cooler,2398,2398,2398,0,0
+Case,3749,3749,3749,0,0
+Storage,3495,3495,3495,0,0

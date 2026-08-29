@@ -1,0 +1,51 @@
+﻿opendb_id,name,manufacturer,wattage,efficiency_rating,modular,form_factor,length_mm,atx_24_pin,eps_8_pin,pcie_12vhpwr,pcie_6_plus_2_pin,sata_connectors
+f026ce60-70b9-4ea7-9b47-b1a49cad9b86,NZXT C850 (2026) SFX Gold,NZXT,850.0,80+ GOLD,full,SFX,125.0,1,1,2,1,6
+1d967fd9-6c6f-4693-9b1f-8c5af65fe4a7,Asus ROG Thor Platinum III Gaming White 1200W Fully Modular,Asus,1200.0,80+ PLATINUM,full,ATX,190.0,1,2,1,4,7
+33175663-f529-4704-ad80-f7cab00dd2b0,Gigabyte AORUS ELITE P1000 Black 1000W Fully Modular 80+ Platinum Certified,Gigabyte,1000.0,80+ PLATINUM,full,ATX,140.0,1,2,1,6,8
+a95d8fc7-2ce9-4b4c-9a4e-a09e83f95d6d,MSI MPG A1250GS PCIE5 II,MSI,1250.0,80+ GOLD,full,ATX,150.0,1,2,2,3,8
+f75bfa00-b690-48cf-868e-90f5cb7a7fd7,MSI MPG A1000GS PCIE5 II,MSI,1000.0,80+ GOLD,full,ATX,150.0,1,2,2,3,8
+e87217a4-0bcf-4534-a971-469f0c5a31c7,MSI MAG A850GLS PCIE5,MSI,850.0,80+ GOLD,full,ATX,150.0,1,2,1,4,8
+66d1d46c-c823-4df1-a801-8eda5cbf45e6,MSI MAG A750GLS,MSI,750.0,80+ GOLD,full,ATX,150.0,1,2,1,4,5
+683bc2e2-73c4-4dfa-8e87-18da2178a4f4,MSI MAG A750BN PCIE5 III,MSI,750.0,80+ GOLD,non-modular,ATX,140.0,1,2,1,3,3
+e9b6e689-e31e-41e7-96a3-36dbc4e04828,MSI MAG A650GLS PCIE5,MSI,650.0,80+ GOLD,full,ATX,150.0,1,2,1,2,5
+7b9be75b-da3d-40e1-bda3-5a9933459eb3,MSI MAG A1000GLS PCIE5 Black ATX 1000W Fully Modular 80+ Gold,MSI,1000.0,80+ GOLD,full,ATX,150.0,1,2,1,4,11
+816b9984-cd89-40d7-9b44-46480f547ac1,MSI MAG A1000GL PCIE5 WHITE,MSI,1000.0,80+ GOLD,full,ATX,150.0,1,2,1,4,12
+f8d76782-32fb-4818-b90d-820f2284c728,Lian Li SP Platinum 1000W White SP1000P,Lian Li,1000.0,80+ PLATINUM,full,SFX,100.0,1,2,1,3,7
+0a55c5e5-9b5b-4193-ba37-1301473175a7,Lian Li SP Platinum 1000W Black SP1000P,Lian Li,1000.0,80+ PLATINUM,full,SFX,100.0,1,2,1,3,7
+ad08495c-90b1-4e37-8bed-d96d56f0db8d,Lian Li SP Platinum 850W White SP0850P,Lian Li,850.0,80+ PLATINUM,full,SFX,100.0,1,2,1,3,8
+3e2b1992-3c5f-4d66-ac9a-a9fb9f8c57bb,Lian Li SP Platinum 850W Black SP0850P,Lian Li,850.0,80+ PLATINUM,full,SFX,100.0,1,2,1,3,8
+e544099a-38be-44ec-834a-2802432dd1ad,Lian Li SX Platinum 1200W SXP Compact ATX Form Factor Power Supply w/ 12V-2x6 Cable - ATX 3.1 & PCIE 5.1 Compliant - 140mm Fan - Full Modular - 10 Year Warranty - Black (SX1200P.B),Lian Li,1200.0,80+ PLATINUM,full,ATX,140.0,1,2,1,3,2
+2f35817b-60c6-4968-9e52-894a39cfed51,Lian Li SX Platinum 1200W SXP Compact ATX Form Factor Power Supply w/ 12V-2x6 Cable - ATX 3.1 & PCIE 5.1 Compliant - 140mm Fan - Full Modular - 10 Year Warranty - White (SX1200P.W),Lian Li,1200.0,80+ PLATINUM,full,ATX,140.0,1,2,1,3,2
+f084ae3e-b076-41fe-be99-b71fd8f18882,Lian Li SX Platinum 1000W SXP Compact ATX Form Factor Power Supply w/ 12V-2x6 Cable - ATX 3.1 & PCIE 5.1 Compliant - 140mm Fan - Full Modular - 10 Year Warranty - White (SX1000P.W),Lian Li,1000.0,80+ PLATINUM,full,ATX,140.0,1,2,1,3,2
+c4c27482-f80b-46a7-a0fe-308bd259b886,Lian Li SX Platinum 1000W SXP Compact ATX Form Factor Power Supply w/ 12V-2x6 Cable - ATX 3.1 & PCIE 5.1 Compliant - 140mm Fan - Full Modular - 10 Year Warranty - Black (SX1000P.B),Lian Li,1000.0,80+ PLATINUM,full,ATX,140.0,1,2,1,3,2
+3aa204e4-6038-4321-badb-1c24a91d451a,Lian Li SX Platinum 850W SXP Compact ATX Form Factor Power Supply w/ 12V-2x6 Cable - ATX 3.1 & PCIE 5.1 Compliant - 140mm Fan - Full Modular - 10 Year Warranty - Black (SX0850P.B,Lian Li,850.0,80+ PLATINUM,full,ATX,140.0,1,2,1,3,2
+e3d6bcaf-0875-4e7a-bab2-0c9caac726c4,Lian Li SX Platinum 850W SXP Compact ATX Form Factor Power Supply w/ 12V-2x6 Cable - ATX 3.1 & PCIE 5.1 Compliant - 140mm Fan - Full Modular - White (SX0850P.W),Lian Li,850.0,80+ PLATINUM,full,ATX,140.0,1,2,1,3,2
+efd088ae-f796-4d90-a727-bc76fb2bda6c,Rosewill VSB Black 650W Semi-Modular 80+ Bronze Certified ATX,Rosewill,650.0,80+ BRONZE,semi-modular,ATX,140.0,1,2,1,2,6
+ec1a0a97-b826-4b18-a72f-aa514d428b69,be quiet! Pure Power 13 M Fully Modular ATX Power Supply - 1000 Watts ATX 3.1 - Black,be quiet!,1000.0,80+ GOLD,full,ATX,160.0,1,2,1,4,6
+da5c4943-1ffd-4f7f-9f9b-052c37fd6fb9,Thermaltake Toughpower GT 1000W Black,Thermaltake,1000.0,80+ GOLD,full,ATX,140.0,1,2,1,5,2
+c5109e67-8757-4050-b5a5-531e3c170cb9,be quiet! DARK POWER 14 1200W,be quiet!,1200.0,80+ TITANIUM,full,ATX,175.0,1,2,2,4,13
+9a7c181c-4e10-4d78-9524-c8ded8b6ec28,be quiet! Pure Power 13 M Fully Modular ATX Power Supply - 850 Watts ATX 3.1 - Black,be quiet!,850.0,80+ GOLD,full,ATX,160.0,1,2,1,4,6
+74f50641-6b93-4122-aae7-83ce11b95259,be quiet! DARK POWER 14 850W,be quiet!,850.0,80+ TITANIUM,full,ATX,175.0,1,2,1,4,13
+65248196-cf73-4005-8376-0f0bca2d05d6,Thermaltake Toughpower GT 1000W White,Thermaltake,1000.0,80+ GOLD,full,ATX,140.0,1,2,1,5,2
+5b7c14bc-1df9-4975-b854-e67c0df70e14,be quiet! DARK POWER 14 1000W,be quiet!,1000.0,80+ TITANIUM,full,ATX,175.0,1,2,1,4,13
+4e736ab9-c9fc-4ebe-ae55-734f4308e080,Thermaltake Toughpower GT 1200W White,Thermaltake,1200.0,80+ GOLD,full,ATX,140.0,1,2,2,5,2
+47a48b04-10a3-4e9a-894d-7d99d3f049d2,Thermaltake Toughpower GT 1200W Black,Thermaltake,1200.0,80+ GOLD,full,ATX,140.0,,,2,5,
+1f9a90a4-fc9a-4a30-a4dd-0ac6cfd1b583,Rosewill VMG 750W Fully Modular 80+ Gold Certified ATX,Rosewill,750.0,80+ GOLD,full,ATX,140.0,1,2,1,3,8
+a5e2ece9-9d1d-4ca6-b7fa-61213df1ac99,NZXT C850 Fully Modular ATX Power Supply - 850 Watts ATX 3.1 - Black,NZXT,850.0,80+ GOLD,full,ATX,150.0,1,1,1,3,12
+366d0bad-b460-4b94-b7dd-45c851347a0b,NZXT C1200 Fully Modular ATX Power Supply - 1200 Watts ATX 3.1 - White,NZXT,1200.0,80+ GOLD,full,ATX,150.0,1,2,1,3,12
+528c5c8e-36df-4bbc-96d3-3e88fcacc2fa,NZXT C1000 Fully Modular ATX Power Supply - 1000 Watts ATX 3.1 - White,NZXT,1000.0,80+ GOLD,full,ATX,150.0,1,2,1,3,12
+991d00c2-04ac-449f-a8a2-72a9ee8c66a6,Seasonic Focus V4 GX-1000 Fully Modular ATX Power Supply - 1000 Watts ATX 3.1 - White,SeaSonic,1000.0,80+ GOLD,full,ATX,140.0,1,1,1,1,4
+fc0369d9-82e4-4ac0-967e-a1c6cd7a3970,Gigabyte AORUS ELITE P850 Black 850W Fully Modular 80+ Platinum Certified,Gigabyte,850.0,80+ PLATINUM,full,ATX,140.0,1,2,1,6,8
+a3328835-e0d1-495b-b053-99c1a56b4a0b,MSI MAG A750BN PCIE5 Black 750W Non-Modular 80+ Bronze Certified,MSI,750.0,80+ BRONZE,non-modular,ATX,140.0,1,2,1,2,5
+fa68196b-913a-4018-878e-e192ae5531df,Asus ROG Thor P3 Gaming 1200W Fully Modular 80+ Platinum Certified,Asus,1200.0,80+ PLATINUM,full,ATX,190.0,1,2,1,4,7
+fa04b07e-26d0-4d0b-8dce-483c68018950,NZXT C1000 Fully Modular ATX Power Supply - 1000 Watts ATX 3.1 - Black,NZXT,1000.0,80+ GOLD,full,ATX,150.0,1,2,1,3,12
+ef595478-e6f3-4c42-acc8-0d6b3e703715,Thermaltake Toughpower GT 750W White,Thermaltake,750.0,80+ GOLD,full,ATX,140.0,1,2,1,4,6
+cd89fd83-3211-4c64-9d87-b5c4d673462a,Seasonic G12 GM-650 (2024),SeaSonic,650.0,80+ GOLD,semi-modular,ATX/EPS,140.0,1,2,0,2,6
+c46ce72e-7bcc-408c-aaf9-e89a73ecef40,Asus ROG Thor P3 Gaming 1000W Fully Modular 80+ Platinum Certified,Asus,1000.0,80+ PLATINUM,full,ATX,190.0,1,2,1,4,7
+c0476df8-2446-49d7-ad20-1b83470702c2,"Phanteks AMP 1000W V2 80PLUS Gold, ATX Power Supply, 12VHPWR Included, Fully Modular, Hybrid Mode, Silent fan, Revolt PRO LINK Certified",Phanteks,1000.0,80+ GOLD,full,ATX,220.0,1,2,1,3,4
+b7b94b98-24fd-428a-a118-46bceb160339,Thermaltake Toughpower GT 750W Black,Thermaltake,750.0,80+ GOLD,full,ATX,140.0,1,2,1,4,6
+a1d44606-a38f-4f4f-9c13-d2ad771c9a64,Thermaltake Toughpower GT 850W Black,Thermaltake,850.0,80+ GOLD,full,ATX,140.0,1,2,1,4,6
+65a7c3ea-6651-48a0-9c18-abfdfcbf78e0,NZXT C850 Fully Modular ATX Power Supply - 850 Watts ATX 3.1 - White,NZXT,850.0,80+ GOLD,full,ATX,150.0,1,1,1,3,12
+4c52cd70-607f-4b6e-8ec7-b20003211085,Thermaltake Toughpower GT 850W White,Thermaltake,850.0,80+ GOLD,full,ATX,140.0,1,2,1,4,6
+49db5faf-8d78-431f-a80b-9880b52a0b95,Lian Li EDGE Black ATX 1300W Fully Modular 80+ Platinum Certified,Lian Li,1300.0,80+ PLATINUM,full,ATX,182.0,1,0,0,0,12
+1cbbb5bb-dd71-4fef-8cb2-2271aa21b85f,Enermax PlatiGemini Fully Modular ATX Power Supply - 1200 Watts ATX 3.1 - Black,Enermax,1200.0,80+ PLATINUM,full,ATX,150.0,1,2,1,3,8

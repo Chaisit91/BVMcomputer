@@ -1,0 +1,6 @@
+﻿dataset,validation_records,features,compatible,incompatible,correct,incorrect,accuracy,precision,recall,f1_score
+cpu_motherboard,4000,7,2000,2000,3815,185,0.95375,0.936928,0.973,0.954623
+ram_motherboard,4000,6,2000,2000,3868,132,0.967,0.970766,0.963,0.966867
+gpu_case,4000,5,2000,2000,3070,930,0.7675,0.785791,0.7355,0.759814
+cooler_case,4000,4,2000,2000,3076,924,0.769,0.747243,0.813,0.778736
+motherboard_case,4000,2,2000,2000,3225,775,0.80625,0.771378,0.8705,0.817947

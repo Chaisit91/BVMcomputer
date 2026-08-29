@@ -1,0 +1,35 @@
+{
+  "opendb_id": "c3cb68f3-b4ef-4f55-8372-41c0084f298a",
+  "modules": {
+    "quantity": 2,
+    "capacity_gb": 64
+  },
+  "metadata": {
+    "name": "G.Skill Flare X5 128GB (2x64GB)  DDR5-6000 CL32 Black",
+    "manufacturer": "G.SKILL",
+    "part_numbers": ["F5-6000J3244G64GX2-FX5"],
+    "series": "Flare",
+    "variant": "6000 CL32",
+    "manufacturer_color": "Black",
+    "releaseYear": 2025
+  },
+  "speed": 6000,
+  "ram_type": "DDR5",
+  "form_factor": "288-pin DIMM",
+  "capacity": 128,
+  "color": ["BLACK"],
+  "cas_latency": 32,
+  "timings": "32-44-44-96",
+  "voltage": 1.4,
+  "ecc": "Non-ECC",
+  "registered": "Unbuffered",
+  "heat_spreader": true,
+  "rgb": false,
+  "profile_support": ["EXPO"],
+  "lighting": ["None"],
+  "height": 33,
+  "general_product_information": {
+    "amazon_sku": "B0FH5VJK18",
+    "manufacturer_url": "https://www.gskill.com/product/165/396/1750729150/F5-6000J3244G64GX2-FX5"
+  }
+}

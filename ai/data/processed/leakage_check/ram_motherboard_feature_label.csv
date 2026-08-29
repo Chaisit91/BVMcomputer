@@ -1,0 +1,7 @@
+﻿dataset,feature,type,correlation
+ram_motherboard,ram_speed,numeric,-0.10234842409601547
+ram_motherboard,ram_capacity,numeric,-0.0074323717618025266
+ram_motherboard,ram_modules,numeric,0.039447154971376124
+ram_motherboard,ram_cas_latency,numeric,-0.12269748381510182
+ram_motherboard,motherboard_memory_max,numeric,0.16360378138529796
+ram_motherboard,motherboard_memory_slots,numeric,-0.020267647612159306

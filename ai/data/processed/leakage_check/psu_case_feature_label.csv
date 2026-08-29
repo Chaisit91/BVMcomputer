@@ -1,0 +1,6 @@
+﻿dataset,feature,type,correlation
+psu_case,psu_wattage,numeric,0.045551196413905176
+psu_case,psu_length,numeric,0.2218692284950423
+psu_case,case_psu_clearance,numeric,0.2550740658995605
+psu_case,psu_form_factor_match,numeric,0.8487815428759515
+psu_case,psu_length_ok,numeric,0.30184014657794855

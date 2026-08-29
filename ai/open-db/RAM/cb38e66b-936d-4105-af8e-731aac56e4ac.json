@@ -1,0 +1,38 @@
+{
+  "opendb_id": "cb38e66b-936d-4105-af8e-731aac56e4ac",
+  "modules": {
+    "quantity": 2,
+    "capacity_gb": 32
+  },
+  "metadata": {
+    "name": "Crucial Pro Overclocking 64GB (2x32GB) DDR5-6400 CL40 Black",
+    "manufacturer": "Crucial",
+    "part_numbers": ["CP2K32G64C40U5B"],
+    "series": "Pro",
+    "variant": "6400 CL40",
+    "releaseYear": 2025,
+    "manufacturer_color": "Black"
+  },
+  "speed": 6400,
+  "ram_type": "DDR5",
+  "form_factor": "288-pin DIMM",
+  "capacity": 64,
+  "color": ["BLACK"],
+  "cas_latency": 40,
+  "timings": "40-40-40-84",
+  "voltage": null,
+  "ecc": "Non-ECC",
+  "registered": "Unbuffered",
+  "heat_spreader": true,
+  "rgb": false,
+  "profile_support": ["XMP", "EXPO"],
+  "lighting": ["None"],
+  "height": 33.3,
+  "general_product_information": {
+    "amazon_sku": "B0DSR14511",
+    "newegg_sku": "N82E16820156421",
+    "bestbuy_sku": 6637077,
+    "walmart_sku": 15255316117,
+    "manufacturer_url": "https://www.crucial.in/memory/ddr5/cp2k32g64c40u5b"
+  }
+}

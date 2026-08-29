@@ -1,0 +1,132 @@
+{
+  "opendb_id": "45143eb0-44eb-4f88-a6c8-38fc8e000270",
+  "memory": {
+    "max": 192,
+    "ram_type": "DDR5",
+    "slots": 4
+  },
+  "storage_devices": {
+    "sata_6_gb_s": 6,
+    "sata_3_gb_s": 0,
+    "u2": 0
+  },
+  "usb_headers": {
+    "usb_2_0": 2,
+    "usb_3_2_gen_1": 2,
+    "usb_3_2_gen_2": 1,
+    "usb_3_2_gen_2x2": 0,
+    "usb_4": 0
+  },
+  "fan_headers": {
+    "cpu_fan": 1,
+    "pump": 1,
+    "case_fan": 6
+  },
+  "rgb_headers": {
+    "argb_5v": 2,
+    "rgb_12v": 2
+  },
+  "front_panel_headers": {
+    "power_button": true,
+    "hdd_led": true,
+    "power_led": true,
+    "reset_button": true
+  },
+  "other_headers": {
+    "thunderbolt": 1
+  },
+  "power_connectors": {
+    "cpu_power": ["8-pin", "8-pin"],
+    "main_power": "24-pin"
+  },
+  "bios_features": {
+    "flashback": true,
+    "clear_cmos": false
+  },
+  "audio": {
+    "chipset": "Realtek",
+    "channels": "7.1"
+  },
+  "metadata": {
+    "name": "MSI Z790 GAMING PLUS WIFI7 DDR5 ATX",
+    "manufacturer": "MSI",
+    "part_numbers": ["Z790 GAMING PLUS WIFI7"],
+    "series": "GAMING",
+    "variant": "Z790 PLUS WIFI7",
+    "manufacturer_color": "Black",
+    "releaseYear": 2024
+  },
+  "socket": "LGA 1700",
+  "form_factor": "ATX",
+  "chipset": "Intel Z790",
+  "color": ["BLACK"],
+  "pcie_slots": [
+    {
+      "gen": "5.0",
+      "quantity": 1,
+      "lanes": 16
+    },
+    {
+      "gen": "3.0",
+      "quantity": 2,
+      "lanes": 1
+    },
+    {
+      "gen": "4.0",
+      "quantity": 1,
+      "lanes": 4
+    }
+  ],
+  "m2_slots": [
+    {
+      "size": "2242/ 2260/ 2280/ 22110",
+      "key": "M",
+      "interface": "PCIe 4.0 x4"
+    },
+    {
+      "size": "2242/ 2260/ 2280",
+      "key": "M",
+      "interface": "PCIe 4.0 x4"
+    },
+    {
+      "size": "2242/ 2260/ 2280",
+      "key": "M",
+      "interface": "PCIe 4.0 x4"
+    },
+    {
+      "size": "2242/ 2260/ 2280",
+      "key": "M",
+      "interface": "PCIe 4.0 x4"
+    }
+  ],
+  "onboard_ethernet": [
+    {
+      "speed": "2.5 Gb/s",
+      "controller": "Intel"
+    }
+  ],
+  "ecc_support": false,
+  "raid_support": true,
+  "back_connect_connectors": false,
+  "back_panel_ports": [
+    "1x Flash BIOS button",
+    "1x PS/2 port",
+    "4x USB 2.0 Type-A ports",
+    "1x DisplayPort",
+    "1x HDMI port",
+    "1x LAN (RJ45) jack",
+    "2x USB 3.2 Gen 1 5Gbps Type-A ports",
+    "1x USB 3.2 Gen 2 10Gbps Type-A port",
+    "1x USB 3.2 Gen 2x2 20Gbps Type-C port",
+    "2x Wi-Fi Antenna connectors",
+    "6x Audio jacks"
+  ],
+  "lighting": ["None"],
+  "wireless_networking": "Wi-Fi 7 Bluetooth 5.4",
+  "general_product_information": {
+    "amazon_sku": "B0D2JFH7NQ",
+    "newegg_sku": "9SIC5MUKTF5369",
+    "bestbuy_sku": 6571301,
+    "manufacturer_url": "https://www.msi.com/Motherboard/Z790-GAMING-PLUS-WIFI7/Overview"
+  }
+}

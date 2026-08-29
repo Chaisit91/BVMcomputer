@@ -1,0 +1,2 @@
+﻿dataset,training_records,validation_records,training_duplicates,validation_duplicates,cross_overlap
+psu_case,20000,4000,0,0,195

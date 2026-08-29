@@ -1,0 +1,8 @@
+﻿dataset,feature,type,correlation
+cooler_case,cooler_height,numeric,-0.4836374986001307
+cooler_case,case_max_cooler_height,numeric,0.667146578688026
+cooler_case,case_cooler_clearance,numeric,0.667146578688026
+cooler_case,cooler_fan_size,numeric,0.13481403770028086
+cooler_case,cooler_fan_quantity,numeric,0.0008613338964673785
+cooler_case,radiator_size,numeric,-0.08780686287322526
+cooler_case,height_difference,numeric,0.7676372527790375
