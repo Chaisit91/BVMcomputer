@@ -1,8 +1,11 @@
+import { BrowserRouter } from 'react-router-dom'
+import { AuthRouter } from './routes/AuthRouter'
+
 function App() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <h1 className="text-2xl font-medium">BVMcomputer Admin</h1>
-    </div>
+    <BrowserRouter>
+      <AuthRouter />
+    </BrowserRouter>
   )
 }
 
