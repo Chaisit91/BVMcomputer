@@ -19,6 +19,12 @@ import { MotherboardListPage } from '../pages/inventory/motherboard/MotherboardL
 import { PromoSetCreatePage } from '../pages/inventory/promo-sets/PromoSetCreatePage'
 import { PromoSetEditPage } from '../pages/inventory/promo-sets/PromoSetEditPage'
 import { PromoSetListPage } from '../pages/inventory/promo-sets/PromoSetListPage'
+import { RamCreatePage } from '../pages/inventory/ram/RamCreatePage'
+import { RamEditPage } from '../pages/inventory/ram/RamEditPage'
+import { RamListPage } from '../pages/inventory/ram/RamListPage'
+import { StorageCreatePage } from '../pages/inventory/storage/StorageCreatePage'
+import { StorageEditPage } from '../pages/inventory/storage/StorageEditPage'
+import { StorageListPage } from '../pages/inventory/storage/StorageListPage'
 import { LoginPage } from '../pages/login/LoginPage'
 import { ProtectedRoute } from './ProtectedRoute'
 
@@ -51,6 +57,14 @@ export function AuthRouter() {
           <Route path="/inventory/motherboard/new" element={<MotherboardCreatePage />} />
           <Route path="/inventory/motherboard/:motherboardId" element={<MotherboardEditPage readOnly />} />
           <Route path="/inventory/motherboard/:motherboardId/edit" element={<MotherboardEditPage />} />
+          <Route path="/inventory/ram" element={<RamListPage />} />
+          <Route path="/inventory/ram/new" element={<RamCreatePage />} />
+          <Route path="/inventory/ram/:ramId" element={<RamEditPage readOnly />} />
+          <Route path="/inventory/ram/:ramId/edit" element={<RamEditPage />} />
+          <Route path="/inventory/storage" element={<StorageListPage />} />
+          <Route path="/inventory/storage/new" element={<StorageCreatePage />} />
+          <Route path="/inventory/storage/:storageId" element={<StorageEditPage readOnly />} />
+          <Route path="/inventory/storage/:storageId/edit" element={<StorageEditPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />

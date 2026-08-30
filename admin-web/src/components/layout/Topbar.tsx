@@ -1,18 +1,30 @@
 import { useEffect, useRef, useState } from 'react'
-import { FiBell, FiChevronDown, FiMenu, FiMonitor, FiX } from 'react-icons/fi'
-import { Link, useLocation } from 'react-router-dom'
-import { useAppSelector } from '../../store/hooks'
+import { FiBell, FiChevronDown, FiLogOut, FiMenu, FiMonitor, FiUser, FiX } from 'react-icons/fi'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { logout } from '../../services/auth.service'
+import { clearUser } from '../../store/authSlice'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { InventoryMenu } from './InventoryMenu'
 import { ManageMenu } from './ManageMenu'
 
-type OpenMenu = 'inventory' | 'manage' | null
+type OpenMenu = 'inventory' | 'manage' | 'user' | null
+
+function getInitials(name: string) {
+  const parts = name.trim().split(/\s+/)
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase()
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+}
 
 export function Topbar() {
   const user = useAppSelector((state) => state.auth.user)
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const location = useLocation()
   const [openMenu, setOpenMenu] = useState<OpenMenu>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [loggingOut, setLoggingOut] = useState(false)
   const navRef = useRef<HTMLDivElement>(null)
+  const userMenuRef = useRef<HTMLDivElement>(null)
   const mobilePanelRef = useRef<HTMLDivElement>(null)
   const hamburgerRef = useRef<HTMLButtonElement>(null)
 
@@ -25,10 +37,11 @@ export function Topbar() {
     function handleClickOutside(event: MouseEvent) {
       const target = event.target as Node
       const insideDesktopNav = navRef.current?.contains(target)
+      const insideUserMenu = userMenuRef.current?.contains(target)
       const insideMobilePanel = mobilePanelRef.current?.contains(target)
       const insideHamburger = hamburgerRef.current?.contains(target)
 
-      if (!insideDesktopNav && !insideMobilePanel) {
+      if (!insideDesktopNav && !insideUserMenu && !insideMobilePanel) {
         setOpenMenu(null)
       }
       if (!insideMobilePanel && !insideHamburger) {
@@ -47,6 +60,18 @@ export function Topbar() {
   const handleNavigate = () => {
     setOpenMenu(null)
     setMobileMenuOpen(false)
+  }
+
+  const handleLogout = async () => {
+    if (loggingOut) return
+    setLoggingOut(true)
+    try {
+      await logout()
+    } catch {
+      // ponytail: no real backend yet — clear local session regardless of the call's outcome
+    }
+    dispatch(clearUser())
+    navigate('/login', { replace: true })
   }
 
   return (
@@ -108,9 +133,58 @@ export function Topbar() {
           <button type="button" className="text-gray-400 hover:text-gray-600" aria-label="การแจ้งเตือน">
             <FiBell size={20} />
           </button>
-          <div className="text-right">
-            <p className="text-sm font-medium text-gray-800">{user?.name ?? 'แอดมิน'}</p>
-            <p className="text-xs text-gray-400">ผู้ดูแลระบบ</p>
+
+          <div ref={userMenuRef} className="relative">
+            <button
+              type="button"
+              onClick={() => toggleMenu('user')}
+              className="flex items-center gap-2 rounded-xl py-1 pl-1 pr-2 hover:bg-gray-50"
+            >
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-rose-500 text-sm font-semibold text-white">
+                {getInitials(user?.name ?? 'แอดมิน')}
+              </span>
+              <span className="hidden text-right sm:block">
+                <span className="block text-sm font-medium text-gray-800">{user?.name ?? 'แอดมิน'}</span>
+                <span className="block text-xs text-gray-400">ผู้ดูแลระบบ</span>
+              </span>
+              <FiChevronDown
+                size={14}
+                className={`hidden text-gray-400 transition-transform sm:block ${openMenu === 'user' ? 'rotate-180' : ''}`}
+              />
+            </button>
+
+            {openMenu === 'user' && (
+              <div className="absolute right-0 top-full mt-2 w-64 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl">
+                <div className="flex items-center gap-3 border-b border-gray-100 px-4 py-3">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-rose-500 text-sm font-semibold text-white">
+                    {getInitials(user?.name ?? 'แอดมิน')}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-gray-800">{user?.name ?? 'แอดมิน'}</p>
+                    <p className="truncate text-xs text-gray-400">{user?.email ?? 'ผู้ดูแลระบบ'}</p>
+                  </div>
+                </div>
+                <div className="p-1.5">
+                  <button
+                    type="button"
+                    disabled
+                    className="flex w-full cursor-not-allowed items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm text-gray-300"
+                  >
+                    <FiUser size={16} />
+                    โปรไฟล์ของฉัน
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    disabled={loggingOut}
+                    className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-rose-500 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    <FiLogOut size={16} />
+                    {loggingOut ? 'กำลังออกจากระบบ...' : 'ออกจากระบบ'}
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

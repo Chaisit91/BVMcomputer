@@ -105,12 +105,12 @@ export function GpuListPage() {
   const [gpus, setGpus] = useState<Gpu[]>([])
   const [search, setSearch] = useState('')
 
-  const brands = useToggleSet(brandFacet)
-  const series = useToggleSet(seriesFacet)
-  const models = useToggleSet(modelFacet)
-  const memorySizes = useToggleSet(memorySizeFacet)
-  const powerRequirements = useToggleSet(powerRequirementFacet)
-  const pcieInterfaces = useToggleSet(pcieInterfaceFacet)
+  const brands = useToggleSet()
+  const series = useToggleSet()
+  const models = useToggleSet()
+  const memorySizes = useToggleSet()
+  const powerRequirements = useToggleSet()
+  const pcieInterfaces = useToggleSet()
 
   const [addedFilterKeys, setAddedFilterKeys] = useState<string[]>([])
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
