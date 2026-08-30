@@ -1,4 +1,4 @@
-import type { Brand, Category, Product, PromoBanner } from '../types';
+import type { Category, Product, PromoBanner } from '../types';
 
 // ---------------------------------------------------------------------------
 // Mockup content only. The backend team owns the real endpoints — swap the
@@ -22,14 +22,14 @@ export const mockCategories: Category[] = [
 ];
 
 export const mockProducts: Product[] = [
-  { id: 'p1', name: 'RTX 4070 SUPER Gaming OC 12GB', slug: 'rtx-4070-super', price: 24900, originalPrice: 27900, category: 'gpu', badge: 'sale', rating: 4.8 },
-  { id: 'p2', name: 'AMD Ryzen 7 7800X3D', slug: 'ryzen-7-7800x3d', price: 12900, category: 'cpu', badge: 'bestseller', rating: 4.9 },
-  { id: 'p3', name: 'ROG STRIX B650-A GAMING WIFI', slug: 'strix-b650-a', price: 8900, category: 'motherboard', badge: 'new', rating: 4.6 },
-  { id: 'p4', name: 'Corsair Vengeance DDR5 32GB 6000MHz', slug: 'vengeance-ddr5-32gb', price: 4590, category: 'ram', rating: 4.7 },
-  { id: 'p5', name: 'Samsung 990 PRO 2TB NVMe SSD', slug: 'samsung-990-pro-2tb', price: 5990, originalPrice: 6990, category: 'storage', badge: 'sale', rating: 4.9 },
-  { id: 'p6', name: 'NZXT H5 Flow RGB Case', slug: 'nzxt-h5-flow-rgb', price: 3290, category: 'case', badge: 'new', rating: 4.5 },
-  { id: 'p7', name: 'Corsair RM850x 850W PSU', slug: 'corsair-rm850x', price: 4290, category: 'psu', rating: 4.8 },
-  { id: 'p8', name: 'iCUE H150i RGB Elite Liquid Cooler', slug: 'icue-h150i-elite', price: 5490, category: 'accessory', badge: 'hot', rating: 4.7 },
+  { id: 'p1', name: 'RTX 4070 SUPER Gaming OC 12GB', slug: 'rtx-4070-super', price: 24900, originalPrice: 27900, category: 'gpu', badge: 'sale', rating: 4.9, reviewCount: 128 },
+  { id: 'p2', name: 'AMD Ryzen 7 7800X3D', slug: 'ryzen-7-7800x3d', price: 12900, category: 'cpu', badge: 'bestseller', rating: 4.8, reviewCount: 96 },
+  { id: 'p3', name: 'ROG STRIX B650-A GAMING WIFI', slug: 'strix-b650-a', price: 8900, category: 'motherboard', badge: 'new', rating: 4.9, reviewCount: 72 },
+  { id: 'p4', name: 'Corsair Vengeance DDR5 32GB 6000MHz', slug: 'vengeance-ddr5-32gb', price: 4590, category: 'ram', rating: 4.9, reviewCount: 64 },
+  { id: 'p5', name: 'Samsung 990 PRO 2TB NVMe SSD', slug: 'samsung-990-pro-2tb', price: 5990, originalPrice: 6990, category: 'storage', badge: 'sale', rating: 4.8, reviewCount: 64 },
+  { id: 'p6', name: 'NZXT H5 Flow RGB Case', slug: 'nzxt-h5-flow-rgb', price: 3290, category: 'case', badge: 'new', rating: 4.7, reviewCount: 30 },
+  { id: 'p7', name: 'Corsair RM850x 850W PSU', slug: 'corsair-rm850x', price: 4290, category: 'psu', rating: 4.8, reviewCount: 88 },
+  { id: 'p8', name: 'iCUE H150i RGB Elite Liquid Cooler', slug: 'icue-h150i-elite', price: 5490, category: 'accessory', badge: 'hot', rating: 4.7, reviewCount: 52 },
 ];
 
 export const mockPromoBanners: PromoBanner[] = [
@@ -57,14 +57,4 @@ export const mockPromoBanners: PromoBanner[] = [
     gradient: 'from-fuchsia-900 via-ink to-ink-light',
     href: '#promo-upgrade',
   },
-];
-
-export const mockBrands: Brand[] = [
-  { id: 'br1', name: 'INTEL' },
-  { id: 'br2', name: 'AMD' },
-  { id: 'br3', name: 'NVIDIA' },
-  { id: 'br4', name: 'ASUS' },
-  { id: 'br5', name: 'MSI' },
-  { id: 'br6', name: 'CORSAIR' },
-  { id: 'br7', name: 'GIGABYTE' },
 ];

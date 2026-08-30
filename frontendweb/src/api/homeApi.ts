@@ -1,6 +1,6 @@
 import { api } from './axiosClient';
-import { mockBrands, mockCategories, mockProducts, mockPromoBanners } from './mockData';
-import type { Brand, Category, Product, PromoBanner } from '../types';
+import { mockCategories, mockProducts, mockPromoBanners } from './mockData';
+import type { Category, Product, PromoBanner } from '../types';
 
 /**
  * Try the real backend first; if it's unreachable (not built yet, CORS not
@@ -22,5 +22,3 @@ export const getCategories = (): Promise<Category[]> => safeGet('/categories', m
 export const getProducts = (): Promise<Product[]> => safeGet('/products/popular', mockProducts);
 
 export const getPromoBanners = (): Promise<PromoBanner[]> => safeGet('/banners/promo', mockPromoBanners);
-
-export const getBrands = (): Promise<Brand[]> => safeGet('/brands', mockBrands);

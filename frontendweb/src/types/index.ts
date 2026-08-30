@@ -30,6 +30,7 @@ export interface Product {
   category: CategoryIconKey;
   badge?: ProductBadge;
   rating?: number;
+  reviewCount?: number;
 }
 
 export interface PromoBanner {
@@ -39,9 +40,4 @@ export interface PromoBanner {
   tagColor: 'red' | 'yellow';
   gradient: string;
   href: string;
-}
-
-export interface Brand {
-  id: string;
-  name: string;
 }

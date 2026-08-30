@@ -5,7 +5,7 @@ import { Header } from '../components/layout/Header';
 import { CategoryNav } from '../components/layout/CategoryNav';
 import { Footer } from '../components/layout/Footer';
 import { HeroBanner } from '../components/home/HeroBanner';
-import { BrandStrip } from '../components/home/BrandStrip';
+import { FeatureLinks } from '../components/home/FeatureLinks';
 import { CategorySection } from '../components/home/CategorySection';
 import { PromoBanners } from '../components/home/PromoBanners';
 import { ProductSection } from '../components/home/ProductSection';
@@ -29,7 +29,7 @@ export function HomePage() {
 
       <main className="flex-1">
         <HeroBanner />
-        <BrandStrip />
+        <FeatureLinks />
         <CategorySection />
         <PromoBanners />
         <ProductSection />
