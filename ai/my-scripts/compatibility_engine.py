@@ -23,7 +23,7 @@ from typing import Any, Callable
 
 
 ROOT = Path(__file__).resolve().parent.parent
-FEATURE_DIR = ROOT / "data" / "processed" / "features"
+FEATURE_DIR = ROOT / "data" / "processed" / "web_catalog"
 PART_FILES = {
     "cpu": "cpu.csv",
     "motherboard": "motherboard.csv",
@@ -501,6 +501,76 @@ def case_fits(case: dict[str, str], board: dict[str, str] | None, gpu: dict[str,
     return overall_status(case_checks(case, board, gpu, cooler, psu)) == "compatible"
 
 
+def complete_build_exists(
+    catalog: dict[str, list[dict[str, str]]],
+    selected: dict[str, dict[str, str]],
+) -> bool:
+    """Return whether a partial selection has at least one path to all 8 parts.
+
+    Unknown source fields are allowed, but an explicitly incompatible check is
+    never allowed. This forward check keeps the UI from offering dead ends.
+    """
+
+    cpu = selected.get("cpu")
+    if cpu is None:
+        return False
+
+    chosen_board = selected.get("motherboard")
+    boards = [chosen_board] if chosen_board else [
+        board for board in catalog["motherboard"] if motherboard_fits_cpu(board, cpu)
+    ]
+    chosen_cooler = selected.get("cooler")
+    cpu_socket = cooler_socket_key(cpu.get("socket"))
+    coolers = [chosen_cooler] if chosen_cooler else [
+        cooler for cooler in catalog["cooler"]
+        if cpu_socket and cpu_socket in effective_cooler_sockets(cooler)
+    ]
+    gpus = [selected["gpu"]] if selected.get("gpu") else catalog["gpu"]
+
+    if not boards or not coolers or not gpus:
+        return False
+
+    for board in boards:
+        if not motherboard_fits_cpu(board, cpu):
+            continue
+        ram_candidates = [selected["ram"]] if selected.get("ram") else catalog["ram"]
+        if not any(ram_fits_board(ram, board) for ram in ram_candidates):
+            continue
+        if (number(board.get("pcie_x16_slots")) or 0) <= 0:
+            continue
+
+        for gpu in gpus:
+            minimum_watts = recommended_psu_watts(cpu, gpu)
+            psu_candidates = [selected["psu"]] if selected.get("psu") else catalog["psu"]
+            psus = [
+                psu for psu in psu_candidates
+                if overall_status(psu_checks(psu, minimum_watts, board, gpu)) != "incompatible"
+            ]
+            if not psus:
+                continue
+
+            for cooler in coolers:
+                for psu in psus:
+                    case_candidates = [selected["case"]] if selected.get("case") else catalog["case"]
+                    cases = [
+                        case for case in case_candidates
+                        if overall_status(case_checks(case, board, gpu, cooler, psu)) != "incompatible"
+                    ]
+                    for case in cases:
+                        storage_candidates = (
+                            [selected["storage"]]
+                            if selected.get("storage")
+                            else catalog["storage"]
+                        )
+                        if any(
+                            overall_status(storage_checks(storage, board, case, psu))
+                            != "incompatible"
+                            for storage in storage_candidates
+                        ):
+                            return True
+    return False
+
+
 def build_recommendations(
     catalog: dict[str, list[dict[str, str]]],
     queries: dict[str, str | None],
@@ -647,6 +717,7 @@ def build_recommendations(
             "motherboard": top(boards, lambda row: motherboard_score(row, cpu), limit),
             "cooler": top(coolers, lambda row: cooler_score(row, cpu), limit),
             "ram": top(ram_rows, ram_score, limit),
+            "gpu": [public_part(row) for row in catalog["gpu"][:limit]],
             "psu": top(psus, lambda row: psu_score(row, minimum_watts), limit),
             "case": [public_part(row) for row in cases[:limit]],
             "storage": [public_part(row) for row in storage[:limit]],

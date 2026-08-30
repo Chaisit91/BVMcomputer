@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import joblib
+import sys
 from pathlib import Path
 
 from sklearn.metrics import (
@@ -11,6 +12,11 @@ from sklearn.metrics import (
     confusion_matrix,
     classification_report
 )
+
+
+for stream in (sys.stdout, sys.stderr):
+    if hasattr(stream, "reconfigure"):
+        stream.reconfigure(encoding="utf-8", errors="replace")
 
 # ============================================================
 # PATH
@@ -140,7 +146,10 @@ DATASETS = {
 
         "target": "label",
 
-        "remove_columns": []
+        "remove_columns": [
+            "psu_form_factor_match",
+            "psu_length_ok"
+        ]
     }
 }
 

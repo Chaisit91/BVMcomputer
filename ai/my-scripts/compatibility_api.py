@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import gzip
+import hmac
 import json
 import os
 import re
@@ -19,6 +20,7 @@ from compatibility_engine import (
     SelectionError,
     build_recommendations,
     case_checks,
+    complete_build_exists,
     compatible_board_sockets,
     cooler_socket_key,
     effective_cooler_sockets,
@@ -41,10 +43,9 @@ from build_visualizer import (
 )
 
 
-CATALOG = {
-    part_type: sorted(rows, key=lambda row: row.get("name", "").casefold())
-    for part_type, rows in load_catalog().items()
-}
+# The curated CSV writer already orders rows by completeness, coverage and
+# recency. Preserve that order so forward-checking tries the safest paths first.
+CATALOG = load_catalog()
 BY_ID = {
     part_type: {row.get("opendb_id", ""): row for row in rows}
     for part_type, rows in CATALOG.items()
@@ -53,6 +54,9 @@ BY_ID = {
 
 def attach_database_image_urls() -> None:
     """Attach optional PostgreSQL image URLs to the in-memory CSV catalog."""
+    if not os.getenv("PGPASSWORD") and os.getenv("BUILDCORES_LOAD_DB_IMAGES") != "1":
+        print("Product images: PostgreSQL loading is disabled")
+        return
     try:
         import psycopg2
         from psycopg2 import sql
@@ -65,6 +69,7 @@ def attach_database_image_urls() -> None:
         print("Product images: invalid PGSCHEMA; image generation is disabled")
         return
     table_by_type = {"case": "pc_case", "cooler": "cpu_cooler"}
+    connection = None
     try:
         connection = psycopg2.connect(
             host=os.getenv("PGHOST", "localhost"),
@@ -83,11 +88,13 @@ def attach_database_image_urls() -> None:
                 for opendb_id, image_url in cursor.fetchall():
                     if opendb_id in BY_ID[part_type]:
                         BY_ID[part_type][opendb_id]["image_url"] = image_url
-        connection.close()
         image_count = sum(bool(row.get("image_url")) for rows in CATALOG.values() for row in rows)
         print(f"Product images: loaded {image_count:,} URLs from PostgreSQL")
     except Exception as error:
         print(f"Product images: PostgreSQL unavailable ({error})")
+    finally:
+        if connection is not None:
+            connection.close()
 
 
 attach_database_image_urls()
@@ -142,27 +149,35 @@ def filter_compatible_search(
 
     if part_type == "motherboard" and cpu:
         allowed = {item["opendb_id"] for item in cpu_boards}
-        return [item for item in rows if item.get("opendb_id") in allowed]
-    if part_type == "cooler" and cpu:
+        rows = [item for item in rows if item.get("opendb_id") in allowed]
+    elif part_type == "cooler" and cpu:
         socket = cooler_socket_key(cpu.get("socket"))
         allowed = {item.get("opendb_id") for item in COOLERS_BY_SOCKET.get(socket, [])}
-        return [item for item in rows if item.get("opendb_id") in allowed]
-    if part_type == "ram" and (board or cpu):
+        rows = [item for item in rows if item.get("opendb_id") in allowed]
+    elif part_type == "ram" and (board or cpu):
         boards = [board] if board else cpu_boards
-        return [item for item in rows if any(ram_fits_board(item, candidate) for candidate in boards)]
-    if part_type == "gpu" and board:
-        return rows if (number(board.get("pcie_x16_slots")) or 0) > 0 else []
-    if part_type == "psu" and cpu:
+        rows = [item for item in rows if any(ram_fits_board(item, candidate) for candidate in boards)]
+    elif part_type == "gpu" and board:
+        rows = rows if (number(board.get("pcie_x16_slots")) or 0) > 0 else []
+    elif part_type == "psu" and cpu:
         minimum = recommended_psu_watts(cpu, gpu)
-        return [item for item in rows if overall_status(psu_checks(item, minimum, board, gpu)) != "incompatible"]
-    if part_type == "case" and (board or cpu):
+        rows = [item for item in rows if overall_status(psu_checks(item, minimum, board, gpu)) != "incompatible"]
+    elif part_type == "case" and (board or cpu):
         boards = [board] if board else cpu_boards
-        return [
+        rows = [
             item for item in rows
             if any(overall_status(case_checks(item, candidate, gpu, cooler, psu)) != "incompatible" for candidate in boards)
         ]
-    if part_type == "storage" and board:
-        return [item for item in rows if overall_status(storage_checks(item, board, case, psu)) != "incompatible"]
+    elif part_type == "storage" and board:
+        rows = [item for item in rows if overall_status(storage_checks(item, board, case, psu)) != "incompatible"]
+
+    # Forward-check every offered product. A locally compatible part is hidden
+    # when no combination of the remaining categories can complete the build.
+    if cpu or part_type == "cpu":
+        return [
+            item for item in rows
+            if complete_build_exists(CATALOG, {**context, part_type: item})
+        ]
     return rows
 
 
@@ -203,6 +218,17 @@ def cached_recommendation(
 
 class CompatibilityHandler(BaseHTTPRequestHandler):
     server_version = "BuildCoresCompatibility/1.0"
+    api_token: str | None = None
+
+    def require_api_auth(self) -> bool:
+        """Require a bearer token only when the server is exposed remotely."""
+        if self.api_token is None:
+            return True
+        supplied = self.headers.get("Authorization", "")
+        if hmac.compare_digest(supplied, f"Bearer {self.api_token}"):
+            return True
+        self.send_json(401, {"error": "missing or invalid API token"})
+        return False
 
     def write_body(self, body: bytes) -> None:
         try:
@@ -243,11 +269,13 @@ class CompatibilityHandler(BaseHTTPRequestHandler):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
         self.end_headers()
 
     def do_POST(self) -> None:  # noqa: N802 - BaseHTTPRequestHandler API
         try:
+            if not self.require_api_auth():
+                return
             if urlparse(self.path).path != "/assemble":
                 self.send_json(404, {"error": "ใช้ POST /assemble"})
                 return
@@ -283,6 +311,8 @@ class CompatibilityHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         params = {key: values[-1] for key, values in parse_qs(parsed.query).items()}
         try:
+            if parsed.path in {"/health", "/search", "/recommend"} and not self.require_api_auth():
+                return
             if parsed.path in {"/", "/index.html"}:
                 self.send_html(UI_PATH)
                 return
@@ -357,6 +387,13 @@ def main() -> None:
     parser.add_argument("--port", type=int, default=8000)
     parser.add_argument("--open-browser", action="store_true")
     args = parser.parse_args()
+    remote = args.host not in {"127.0.0.1", "localhost", "::1"}
+    api_token = os.getenv("BUILDCORES_API_TOKEN", "")
+    if remote and len(api_token) < 32:
+        parser.error(
+            "BUILDCORES_API_TOKEN must contain at least 32 characters when --host is remote"
+        )
+    CompatibilityHandler.api_token = api_token if remote else None
     server = ThreadingHTTPServer((args.host, args.port), CompatibilityHandler)
     browser_host = "127.0.0.1" if args.host in {"0.0.0.0", "::"} else args.host
     browser_url = f"http://{browser_host}:{server.server_port}/"

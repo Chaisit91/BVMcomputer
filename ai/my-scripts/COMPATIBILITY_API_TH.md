@@ -89,3 +89,12 @@ python my-scripts/feature_engineering.py
 ```powershell
 python my-scripts/test_compatibility_engine.py
 ```
+
+## โครงสร้างข้อมูลและความปลอดภัยล่าสุด
+
+- `data/processed/features` เก็บ feature ฉบับเต็มสำหรับสร้าง training และ validation
+- `data/processed/web_catalog` เก็บสินค้าใหม่สุดหมวดละ 50 รายการสำหรับหน้าเว็บ
+- สร้าง web catalog ใหม่ด้วย `python my-scripts/trim_feature_catalog.py --keep 50 --apply`
+- การเปิดเว็บแบบ local ไม่ต้องเชื่อม PostgreSQL; ตั้ง `PGPASSWORD` เมื่อต้องการโหลด `image_url`
+- หาก bind API ออกนอกเครื่อง ต้องตั้ง `BUILDCORES_API_TOKEN` อย่างน้อย 32 ตัวอักษร และส่ง `Authorization: Bearer <token>`
+- ตรวจ training/validation ก่อน train ด้วย `python my-scripts/check_training_validation.py`; คำสั่งคืน exit code ที่ไม่ใช่ศูนย์เมื่อพบ schema drift, label ผิดรูปแบบ, คู่ซ้ำ หรือ data leakage

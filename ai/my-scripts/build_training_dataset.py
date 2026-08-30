@@ -1,6 +1,14 @@
 import csv
 import random
+import sys
 from pathlib import Path
+
+from dataset_compatibility_rules import required_with_optional_constraint
+
+
+for stream in (sys.stdout, sys.stderr):
+    if hasattr(stream, "reconfigure"):
+        stream.reconfigure(encoding="utf-8", errors="replace")
 
 
 # ============================================================
@@ -21,8 +29,28 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 RANDOM_SEED = 42
 MAX_PER_CLASS = 10000
+CANDIDATE_POOL_PER_CLASS = MAX_PER_CLASS * 5
 
 random.seed(RANDOM_SEED)
+
+
+class Reservoir(list):
+    """Keep a uniform bounded sample instead of every Cartesian-product row."""
+
+    def __init__(self, capacity):
+        super().__init__()
+        self.capacity = capacity
+        self.seen = 0
+
+    def append(self, item):
+        self.seen += 1
+        if len(self) < self.capacity:
+            super().append(item)
+            return
+
+        position = random.randrange(self.seen)
+        if position < self.capacity:
+            self[position] = item
 
 
 FILES = {
@@ -149,6 +177,13 @@ def get_values(value):
     if not value:
         return set()
 
+    value = (
+        value
+        .replace(",", "|")
+        .replace(";", "|")
+        .replace("/", "|")
+    )
+
     return {
         item.strip().lower()
         for item in value.split("|")
@@ -184,8 +219,8 @@ def supported_match(supported_value, target_value):
 
 def build_cpu_motherboard(cpu_rows, motherboard_rows):
 
-    compatible = []
-    incompatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     print()
     print("🔗 CPU ↔ MOTHERBOARD")
@@ -273,8 +308,8 @@ def build_cpu_motherboard(cpu_rows, motherboard_rows):
 
 def build_cpu_cooler(cpu_rows, cooler_rows):
 
-    compatible = []
-    incompatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     print()
     print("🔗 CPU ↔ COOLER")
@@ -352,8 +387,8 @@ def build_cpu_cooler(cpu_rows, cooler_rows):
 
 def build_ram_motherboard(ram_rows, motherboard_rows):
 
-    compatible = []
-    incompatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     print()
     print("🔗 RAM ↔ MOTHERBOARD")
@@ -435,8 +470,8 @@ def build_ram_motherboard(ram_rows, motherboard_rows):
 
 def build_gpu_case(gpu_rows, case_rows):
 
-    compatible = []
-    incompatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     print()
     print("🔗 GPU ↔ CASE")
@@ -520,8 +555,8 @@ def build_gpu_case(gpu_rows, case_rows):
 
 def build_cooler_case(cooler_rows, case_rows):
 
-    compatible = []
-    incompatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     print()
     print("🔗 COOLER ↔ CASE")
@@ -605,8 +640,8 @@ def build_motherboard_case(
     case_rows
 ):
 
-    compatible = []
-    incompatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     print()
     print("🔗 MOTHERBOARD ↔ CASE")
@@ -675,8 +710,8 @@ def build_motherboard_case(
 
 def build_psu_case(psu_rows, case_rows):
 
-    compatible = []
-    incompatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     print()
     print("🔗 PSU ↔ CASE")
@@ -717,15 +752,19 @@ def build_psu_case(psu_rows, case_rows):
                     psu_length <= case_psu_clearance
                 )
 
-                match = int(
-                    supported == 1
-                    and length_ok == 1
+                match = required_with_optional_constraint(
+                    supported,
+                    length_ok,
                 )
 
             else:
 
-                match = supported
                 length_ok = -1
+
+                match = required_with_optional_constraint(
+                    supported,
+                    length_ok,
+                )
 
             row = {
 
@@ -781,8 +820,8 @@ def build_storage_motherboard(
     motherboard_rows
 ):
 
-    compatible = []
-    incompatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     print()
     print("🔗 STORAGE ↔ MOTHERBOARD")

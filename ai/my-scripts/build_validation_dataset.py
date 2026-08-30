@@ -1,8 +1,16 @@
 import csv
 import random
 import re
+import sys
 import pandas as pd
 from pathlib import Path
+
+from dataset_compatibility_rules import required_with_optional_constraint
+
+
+for stream in (sys.stdout, sys.stderr):
+    if hasattr(stream, "reconfigure"):
+        stream.reconfigure(encoding="utf-8", errors="replace")
 
 
 # ============================================================
@@ -32,6 +40,25 @@ random.seed(
 )
 
 VALIDATION_PER_CLASS = 2000
+CANDIDATE_POOL_PER_CLASS = VALIDATION_PER_CLASS * 5
+
+
+class Reservoir(list):
+    """Uniform bounded sample that avoids retaining millions of candidate rows."""
+
+    def __init__(self, capacity):
+        super().__init__()
+        self.capacity = capacity
+        self.seen = 0
+
+    def append(self, item):
+        self.seen += 1
+        if len(self) < self.capacity:
+            super().append(item)
+            return
+        position = random.randrange(self.seen)
+        if position < self.capacity:
+            self[position] = item
 
 
 # ============================================================
@@ -221,9 +248,13 @@ def save_csv(
 
         return path
 
-    fieldnames = list(
-        rows[0].keys()
-    )
+    fieldnames = list(rows[0].keys())
+    training_path = TRAINING_DIR / filename
+    if training_path.is_file():
+        with training_path.open("r", encoding="utf-8-sig", newline="") as training_handle:
+            training_fields = next(csv.reader(training_handle), [])
+        if set(training_fields) == set(fieldnames):
+            fieldnames = training_fields
 
     try:
 
@@ -947,9 +978,9 @@ def build_cpu_motherboard(
     motherboard_rows
 ):
 
-    compatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
-    incompatible = []
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     dataset_name = (
         "cpu_motherboard"
@@ -1110,9 +1141,9 @@ def build_cpu_cooler(
     cooler_rows
 ):
 
-    compatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
-    incompatible = []
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     dataset_name = (
         "cpu_cooler"
@@ -1259,9 +1290,9 @@ def build_ram_motherboard(
     motherboard_rows
 ):
 
-    compatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
-    incompatible = []
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     dataset_name = (
         "ram_motherboard"
@@ -1409,9 +1440,9 @@ def build_gpu_case(
     case_rows
 ):
 
-    compatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
-    incompatible = []
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     dataset_name = (
         "gpu_case"
@@ -1558,9 +1589,9 @@ def build_cooler_case(
     case_rows
 ):
 
-    compatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
-    incompatible = []
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     dataset_name = (
         "cooler_case"
@@ -1700,9 +1731,9 @@ def build_motherboard_case(
     case_rows
 ):
 
-    compatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
-    incompatible = []
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     dataset_name = (
         "motherboard_case"
@@ -1828,9 +1859,9 @@ def build_psu_case(
     case_rows
 ):
 
-    compatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
-    incompatible = []
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     dataset_name = (
         "psu_case"
@@ -1903,12 +1934,13 @@ def build_psu_case(
 
             else:
 
-                length_ok = 1
+                # Unknown clearance is not a failure. Keep the same sentinel
+                # used by the training builder so feature semantics stay equal.
+                length_ok = -1
 
-            label = int(
-                form_match == 1
-                and
-                length_ok == 1
+            label = required_with_optional_constraint(
+                form_match,
+                length_ok,
             )
 
             case_id = clean(
@@ -2000,9 +2032,9 @@ def build_storage_motherboard(
     motherboard_rows
 ):
 
-    compatible = []
+    compatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
-    incompatible = []
+    incompatible = Reservoir(CANDIDATE_POOL_PER_CLASS)
 
     dataset_name = (
         "storage_motherboard"
@@ -2100,13 +2132,7 @@ def build_storage_motherboard(
             # already evaluates NVMe/M.2 compatibility.
             # ------------------------------------------------
 
-            storage_m2_slot_ok = int(
-                label == 1
-                and
-                storage_interface == "nvme"
-                and
-                storage_form_factor == "m2"
-            )
+            storage_m2_slot_ok = label
 
             row = {
 
@@ -2125,45 +2151,51 @@ def build_storage_motherboard(
 
                 "storage_type":
                     clean(
-                        storage.get(
-                            "type"
-                        )
+                        storage.get("storage_type")
                     ),
 
                 "storage_form_factor":
-                    clean(
-                        storage.get(
-                            "form_factor"
-                        )
-                    ),
+                    clean(storage.get("form_factor")).lower(),
 
                 "storage_interface":
-                    clean(
-                        storage.get(
-                            "interface"
-                        )
-                    ),
+                    clean(storage.get("interface")).lower(),
 
                 "storage_nvme":
-                    clean(
-                        storage.get(
-                            "nvme"
-                        )
-                    ),
+                    clean(storage.get("nvme")).lower(),
 
                 "motherboard_m2_slots":
                     clean(
-                        board.get("has_m2")
-                        or board.get("m2_slot_count")
-                        or board.get("m2_slots")
+                        board.get("m2_slot_count")
                     ),
 
                 "motherboard_pcie_slots":
                     clean(
-                        board.get(
-                            "pcie_slots"
-                        )
+                        board.get("pcie_total_slots")
                     ),
+
+                "motherboard_pcie_x16_slots":
+                    clean(board.get("pcie_x16_slots")),
+
+                "motherboard_pcie_x8_slots":
+                    clean(board.get("pcie_x8_slots")),
+
+                "motherboard_pcie_x4_slots":
+                    clean(board.get("pcie_x4_slots")),
+
+                "motherboard_pcie_x1_slots":
+                    clean(board.get("pcie_x1_slots")),
+
+                "motherboard_pcie_gen3_slots":
+                    clean(board.get("pcie_gen3_slots")),
+
+                "motherboard_pcie_gen4_slots":
+                    clean(board.get("pcie_gen4_slots")),
+
+                "motherboard_pcie_gen5_slots":
+                    clean(board.get("pcie_gen5_slots")),
+
+                "motherboard_pcie_max_gen":
+                    clean(board.get("pcie_max_gen")),
 
                 "motherboard_form_factor":
                     clean(

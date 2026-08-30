@@ -3,6 +3,7 @@ import unittest
 from compatibility_engine import (
     SelectionError,
     build_recommendations,
+    complete_build_exists,
     effective_cooler_sockets,
     load_catalog,
     motherboard_fits_cpu,
@@ -46,6 +47,21 @@ class CompatibilityEngineTests(unittest.TestCase):
         self.assertEqual(result["validation"]["quality"]["score"], 100)
         self.assertTrue(result["validation"]["checks"])
 
+    def test_partial_selection_has_a_complete_path(self):
+        self.assertTrue(complete_build_exists(self.catalog, {"cpu": self.catalog["cpu"][0]}))
+
+    def test_dead_end_product_is_rejected_by_forward_check(self):
+        impossible_case = row(
+            "tiny", "Tiny Case", supported_motherboards="Mini ITX",
+            gpu_clearance_mm="100", expansion_slots="1", cooler_clearance_mm="50",
+            supported_psu="SFX", psu_clearance_mm="100",
+        )
+        selection = {
+            "cpu": self.catalog["cpu"][0],
+            "case": impossible_case,
+        }
+        self.assertFalse(complete_build_exists(self.catalog, selection))
+
     def test_wrong_socket_is_rejected(self):
         with self.assertRaisesRegex(SelectionError, "socket"):
             build_recommendations(self.catalog, self.queries(motherboard="wrong-board"), 5)
@@ -72,13 +88,30 @@ class CompatibilityEngineTests(unittest.TestCase):
         self.assertFalse(motherboard_fits_cpu(fm2_board, fm2_plus_cpu))
 
 
-class TrimmedCatalogRegressionTests(unittest.TestCase):
+class WebCatalogRegressionTests(unittest.TestCase):
     def test_web_catalog_has_50_unique_products_per_category(self):
         catalog = load_catalog()
         for part_type, rows in catalog.items():
             with self.subTest(part_type=part_type):
                 self.assertEqual(len(rows), 50)
                 self.assertEqual(len({row["opendb_id"] for row in rows}), 50)
+
+    def test_every_web_cpu_has_enough_choices_and_a_complete_path(self):
+        catalog = load_catalog()
+        for cpu in catalog["cpu"]:
+            with self.subTest(cpu=cpu["name"]):
+                boards = [
+                    board for board in catalog["motherboard"]
+                    if motherboard_fits_cpu(board, cpu)
+                ]
+                socket = next(iter(effective_cooler_sockets({"cpu_sockets": cpu["socket"]})), "")
+                coolers = [
+                    cooler for cooler in catalog["cooler"]
+                    if socket in effective_cooler_sockets(cooler)
+                ]
+                self.assertGreaterEqual(len(boards), 8)
+                self.assertGreaterEqual(len(coolers), 8)
+                self.assertTrue(complete_build_exists(catalog, {"cpu": cpu}))
 
 
 if __name__ == "__main__":

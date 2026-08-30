@@ -77,7 +77,7 @@ flowchart LR
 
 ## 3. ข้อมูลที่ใช้
 
-ข้อมูลมาจากชุดข้อมูล BuildCores OpenDB ภายในโฟลเดอร์ `data/raw` และผ่านกระบวนการจนอยู่ใน `data/processed/features`
+ข้อมูลมาจากชุดข้อมูล BuildCores OpenDB และผ่านกระบวนการจนอยู่ใน `data/processed/features` ฉบับเต็มสำหรับ ML ส่วนหน้าเว็บอ่านชุดย่อใน `data/processed/web_catalog` เพื่อไม่ให้การลดจำนวนสินค้ากระทบ training และ validation
 
 จำนวนข้อมูล feature ปัจจุบัน:
 

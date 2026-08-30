@@ -20,26 +20,18 @@ if errorlevel 1 (
   )
 )
 
-if not defined PGPASSWORD (
-  echo Enter the PostgreSQL password. The password will not be displayed.
-  for /f "usebackq delims=" %%P in (`powershell -NoProfile -Command "$s=Read-Host 'PostgreSQL password' -AsSecureString; $b=[Runtime.InteropServices.Marshal]::SecureStringToBSTR($s); try {[Runtime.InteropServices.Marshal]::PtrToStringBSTR($b)} finally {[Runtime.InteropServices.Marshal]::ZeroFreeBSTR($b)}"`) do set "PGPASSWORD=%%P"
-)
-
-if not defined PGPASSWORD (
-  echo [ERROR] PostgreSQL password is required.
-  pause
-  exit /b 1
-)
-
-rem Cloudinary is disabled for the current local workflow.
-set "CLOUDINARY_URL="
-
-echo Saving the 8 product image URLs to PostgreSQL...
-python "my-scripts\seed_selected_product_images.py"
-if errorlevel 1 (
-  echo [ERROR] Could not save product images. Check the PostgreSQL password and database status.
-  pause
-  exit /b 1
+if defined BUILDCORES_SEED_IMAGES (
+  if not defined PGPASSWORD (
+    echo Enter the PostgreSQL password. The password will not be displayed.
+    for /f "usebackq delims=" %%P in (`powershell -NoProfile -Command "$s=Read-Host 'PostgreSQL password' -AsSecureString; $b=[Runtime.InteropServices.Marshal]::SecureStringToBSTR($s); try {[Runtime.InteropServices.Marshal]::PtrToStringBSTR($b)} finally {[Runtime.InteropServices.Marshal]::ZeroFreeBSTR($b)}"`) do set "PGPASSWORD=%%P"
+  )
+  if defined PGPASSWORD (
+    echo Saving demo product image URLs to PostgreSQL...
+    python "my-scripts\seed_selected_product_images.py"
+    if errorlevel 1 echo [WARNING] Product image seeding failed; the catalog will still start.
+  ) else (
+    echo [WARNING] Product image seeding skipped because PGPASSWORD is empty.
+  )
 )
 
 set "BUILDCORES_MAXPLUS_KEY_FILE=%LOCALAPPDATA%\BuildCores\maxplus_api_key.dat"
@@ -68,9 +60,17 @@ if defined BUILDCORES_SAVE_MAXPLUS_KEY (
 
 if not defined MAXPLUS_API_KEY echo [WARNING] AI build-image generation is disabled because MAXPLUS_API_KEY is empty.
 
+echo Refreshing the compatibility-aware web catalog...
+python -B "my-scripts\trim_feature_catalog.py" --keep 50 --apply
+if errorlevel 1 (
+  echo [ERROR] Could not refresh the web catalog.
+  pause
+  exit /b 1
+)
+
 echo Starting BuildCores at http://127.0.0.1:8000/
 echo Press Ctrl+C to stop the server.
-python -u "my-scripts\compatibility_api.py" --host 127.0.0.1 --port 8000 --open-browser
+python -B -u "my-scripts\compatibility_api.py" --host 127.0.0.1 --port 8000 --open-browser
 
 if errorlevel 1 (
   echo.

@@ -1,5 +1,6 @@
 import csv
 import pickle
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -18,6 +19,11 @@ from sklearn.metrics import (
     classification_report,
     confusion_matrix
 )
+
+
+for stream in (sys.stdout, sys.stderr):
+    if hasattr(stream, "reconfigure"):
+        stream.reconfigure(encoding="utf-8", errors="replace")
 
 
 # ============================================================
@@ -68,23 +74,15 @@ DATASETS = {
 
 
 # ============================================================
-# DIRECT COMPATIBILITY / DATA LEAKAGE COLUMNS
+# TARGET-DERIVED / DATA LEAKAGE COLUMNS
 # ============================================================
 #
 # IMPORTANT
 #
-# Columns in this set are directly responsible for creating
-# the compatibility label.
-#
-# Example:
-#
-# cpu_socket == motherboard_socket
-#        ↓
-#      label
-#
-# Therefore these columns must NOT be used by AI.
-#
-# This prevents data leakage and makes validation meaningful.
+# Raw product specifications (for example sockets, dimensions and clearances)
+# are valid inference inputs. Remove only helper columns that already contain
+# the compatibility decision, otherwise the model is forced to guess from
+# unrelated proxy features.
 # ============================================================
 
 LEAKAGE_COLUMNS = {
@@ -93,24 +91,11 @@ LEAKAGE_COLUMNS = {
     # CPU ↔ Motherboard
     # --------------------------------------------------------
 
-    "cpu_socket",
-    "motherboard_socket",
-
-    "socket_match",
-
-    # --------------------------------------------------------
-    # CPU ↔ Cooler
-    # --------------------------------------------------------
-
-    "cooler_sockets",
     "socket_match",
 
     # --------------------------------------------------------
     # RAM ↔ Motherboard
     # --------------------------------------------------------
-
-    "ram_type",
-    "motherboard_ram_type",
 
     "ram_type_match",
 
@@ -118,21 +103,11 @@ LEAKAGE_COLUMNS = {
     # GPU ↔ Case
     # --------------------------------------------------------
 
-    "gpu_length",
-    "case_gpu_clearance",
-    "case_max_gpu_length",
-    "length_difference",
-
     "gpu_case_length_ok",
 
     # --------------------------------------------------------
     # Cooler ↔ Case
     # --------------------------------------------------------
-
-    "cooler_height",
-    "case_cooler_clearance",
-    "case_max_cooler_height",
-    "height_difference",
 
     "cooler_case_height_ok",
 
@@ -140,17 +115,11 @@ LEAKAGE_COLUMNS = {
     # Motherboard ↔ Case
     # --------------------------------------------------------
 
-    "motherboard_form_factor",
-    "case_supported_motherboards",
-
     "form_factor_match",
 
     # --------------------------------------------------------
     # PSU ↔ Case
     # --------------------------------------------------------
-
-    "psu_length",
-    "psu_form_factor",
 
     "psu_form_factor_match",
     "psu_length_ok",

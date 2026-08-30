@@ -1,4 +1,4 @@
-"""Store demo product images in Cloudinary and save their URLs to PostgreSQL."""
+"""Save public demo product-image URLs to PostgreSQL."""
 
 from __future__ import annotations
 
@@ -70,36 +70,6 @@ PRODUCT_IMAGES = (
 )
 
 
-def cloudinary_image_url(source_url: str, table: str, opendb_id: str) -> str:
-    """Upload a source image when Cloudinary is configured and return its HTTPS URL."""
-    if not os.getenv("CLOUDINARY_URL"):
-        return source_url
-
-    try:
-        from cloudinary import uploader
-    except ImportError as error:
-        raise RuntimeError(
-            "Cloudinary is configured but the cloudinary package is not installed"
-        ) from error
-
-    folder = os.getenv("CLOUDINARY_FOLDER", "buildcores/products").strip("/")
-    if not folder or not re.fullmatch(r"[A-Za-z0-9_/-]+", folder):
-        raise RuntimeError("CLOUDINARY_FOLDER contains unsupported characters")
-
-    result = uploader.upload(
-        source_url,
-        resource_type="image",
-        public_id=f"{folder}/{table}/{opendb_id}",
-        unique_filename=False,
-        overwrite=os.getenv("CLOUDINARY_OVERWRITE", "").lower() in {"1", "true", "yes"},
-        tags=["buildcores", "product-image", table],
-    )
-    secure_url = str(result.get("secure_url") or "")
-    if not secure_url.startswith("https://"):
-        raise RuntimeError(f"Cloudinary did not return a secure URL for {table}.{opendb_id}")
-    return secure_url
-
-
 def main() -> int:
     schema = os.getenv("PGSCHEMA", "buildcores_clean")
     if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", schema):
@@ -117,8 +87,7 @@ def main() -> int:
     updated: list[tuple[str, str, str]] = []
     try:
         with connection, connection.cursor() as cursor:
-            for table, opendb_id, expected_name, source_url in PRODUCT_IMAGES:
-                image_url = cloudinary_image_url(source_url, table, opendb_id)
+            for table, opendb_id, expected_name, image_url in PRODUCT_IMAGES:
                 cursor.execute(
                     sql.SQL(
                         "UPDATE {}.{} SET image_url = %s, updated_at = CURRENT_TIMESTAMP "
@@ -141,10 +110,6 @@ def main() -> int:
         f"Product images: saved {unique_products} products "
         f"({len(updated)} database rows) to {schema}"
     )
-    if os.getenv("CLOUDINARY_URL"):
-        print("Product images: Cloudinary upload is enabled; PostgreSQL contains secure URLs")
-    else:
-        print("Product images: CLOUDINARY_URL is not set; original source URLs were saved")
     for _, name, _ in updated:
         print(f"  OK  {name}")
     return 0

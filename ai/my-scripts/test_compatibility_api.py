@@ -6,7 +6,7 @@ from unittest.mock import Mock
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
-from compatibility_api import CompatibilityHandler
+from compatibility_api import CATALOG, CompatibilityHandler, filter_compatible_search
 
 
 class CompatibilityApiTests(unittest.TestCase):
@@ -27,6 +27,27 @@ class CompatibilityApiTests(unittest.TestCase):
         with urlopen(f"{self.base_url}/health", timeout=3) as response:
             payload = json.load(response)
         self.assertEqual(payload["status"], "ok")
+        self.assertEqual(set(payload["catalog_counts"].values()), {50})
+
+    def test_api_token_is_enforced_when_configured(self):
+        previous = CompatibilityHandler.api_token
+        CompatibilityHandler.api_token = "x" * 32
+        try:
+            with self.assertRaises(HTTPError) as caught:
+                urlopen(f"{self.base_url}/health", timeout=3)
+            try:
+                self.assertEqual(caught.exception.code, 401)
+            finally:
+                caught.exception.close()
+
+            request = Request(
+                f"{self.base_url}/health",
+                headers={"Authorization": f"Bearer {'x' * 32}"},
+            )
+            with urlopen(request, timeout=3) as response:
+                self.assertEqual(json.load(response)["status"], "ok")
+        finally:
+            CompatibilityHandler.api_token = previous
 
     def test_client_disconnect_does_not_raise_a_server_error(self):
         handler = object.__new__(CompatibilityHandler)
@@ -67,6 +88,19 @@ class CompatibilityApiTests(unittest.TestCase):
             self.assertEqual(caught.exception.code, 403)
         finally:
             caught.exception.close()
+
+    def test_first_offered_choice_can_reach_all_eight_categories(self):
+        order = ("cpu", "motherboard", "gpu", "ram", "cooler", "psu", "case", "storage")
+        picked = {}
+        for part_type in order:
+            params = {
+                key: row["opendb_id"]
+                for key, row in picked.items()
+            }
+            options = filter_compatible_search(part_type, CATALOG[part_type], params)
+            self.assertTrue(options, f"no viable {part_type} after {tuple(picked)}")
+            picked[part_type] = options[0]
+        self.assertEqual(set(picked), set(order))
 
 
 if __name__ == "__main__":
