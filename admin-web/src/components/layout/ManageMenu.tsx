@@ -14,7 +14,7 @@ interface ManageMenuItem {
 const items: ManageMenuItem[] = [
   { id: 'users', name: 'จัดการผู้ใช้งาน', description: 'ตรวจสอบข้อมูลและสถานะบัญชีลูกค้า', icon: <FiUsers />, path: '/manage/users' },
   { id: 'orders', name: 'จัดการคำสั่งซื้อ', description: 'ตรวจสอบและอัปเดตสถานะคำสั่งซื้อ', icon: <FiFileText />, path: '/manage/orders' },
-  { id: 'banners', name: 'จัดการโฆษณาและแบนเนอร์', description: 'จัดการภาพประชาสัมพันธ์ที่แสดงบนหน้าบ้าน', icon: <HiMegaphone /> },
+  { id: 'banners', name: 'จัดการโฆษณาและแบนเนอร์', description: 'จัดการภาพประชาสัมพันธ์ที่แสดงบนหน้าบ้าน', icon: <HiMegaphone />, path: '/manage/banners' },
   { id: 'admins', name: 'จัดการผู้ดูแล', description: 'จัดการบัญชีของผู้ดูแลระบบ', icon: <FiShield /> },
   { id: 'promotions', name: 'จัดการโปรโมชั่น', description: 'จัดการคูปองและส่วนลด', icon: <FiPercent /> },
 ]

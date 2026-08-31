@@ -56,6 +56,7 @@ export function UserListPage() {
 
   const toggleSuspend = async (customer: Customer) => {
     const nextStatus: CustomerStatus = customer.status === 'suspended' ? 'active' : 'suspended'
+    if (nextStatus === 'suspended' && !window.confirm(`ยืนยันการระงับบัญชีของ ${customer.fullName}?`)) return
     await updateCustomerStatus(customer.id, nextStatus)
     setCustomers((prev) => prev.map((item) => (item.id === customer.id ? { ...item, status: nextStatus } : item)))
   }

@@ -263,6 +263,7 @@ export function PromoSetCreatePage() {
                     className={inputClass}
                     {...register('discountAmount', { valueAsNumber: true })}
                   />
+                  {errors.discountAmount && <p className="mt-1 text-xs text-red-500">{errors.discountAmount.message}</p>}
                 </div>
 
                 <Toggle

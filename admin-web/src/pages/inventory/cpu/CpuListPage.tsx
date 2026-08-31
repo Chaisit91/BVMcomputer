@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { FiAlertTriangle, FiBox, FiEdit2, FiMail, FiPlus, FiShield, FiTrash2, FiX } from 'react-icons/fi'
+import { FiAlertTriangle, FiBox, FiEdit2, FiEye, FiMail, FiPlus, FiShield, FiTrash2, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
@@ -405,6 +405,13 @@ export function CpuListPage() {
                       </td>
                       <td className="py-3 pr-4">
                         <div className="flex items-center gap-2">
+                          <Link
+                            to={`/inventory/cpu/${cpu.id}`}
+                            className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
+                            aria-label="ดู"
+                          >
+                            <FiEye size={16} />
+                          </Link>
                           <Link
                             to={`/inventory/cpu/${cpu.id}/edit`}
                             className="rounded-lg p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-600"

@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { FiSave, FiX } from 'react-icons/fi'
+import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { CpuFormFields } from '../../../components/inventory/cpu/CpuFormFields'
 import { cpuFormSchema, type CpuFormValues } from '../../../schemas/cpu.schema'
-import { getCpuDetail, saveCpu } from '../../../services/cpu.service'
+import { deleteCpu, getCpuDetail, saveCpu } from '../../../services/cpu.service'
 import type { Cpu, CpuBenchmark } from '../../../types/cpu'
 
 type LoadStatus = 'loading' | 'error' | 'not_found' | 'success'
 
-export function CpuEditPage() {
+export function CpuEditPage({ readOnly = false }: { readOnly?: boolean }) {
   const { cpuId = '' } = useParams()
   const navigate = useNavigate()
   const [status, setStatus] = useState<LoadStatus>('loading')
@@ -81,6 +81,12 @@ export function CpuEditPage() {
     navigate('/inventory/cpu')
   }
 
+  const handleDelete = async () => {
+    if (!window.confirm('ยืนยันการลบซีพียูนี้?')) return
+    await deleteCpu(cpuId)
+    navigate('/inventory/cpu')
+  }
+
   if (status === 'loading') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-gray-400">กำลังโหลดข้อมูล...</div>
@@ -106,12 +112,14 @@ export function CpuEditPage() {
     )
   }
 
+  const pageTitle = readOnly ? 'ดูสินค้า' : 'แก้ไขสินค้า'
+
   return (
     <main className="mx-auto max-w-7xl space-y-6 px-6 py-6">
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="text-xl font-bold text-gray-900">แก้ไขสินค้า</h1>
+            <h1 className="text-xl font-bold text-gray-900">{pageTitle}</h1>
             <p className="text-sm text-gray-400">{detail.sku}</p>
           </div>
           <div className="flex items-center gap-3">
@@ -121,16 +129,28 @@ export function CpuEditPage() {
               className="flex items-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50"
             >
               <FiX size={16} />
-              ยกเลิก
+              {readOnly ? 'ปิด' : 'ยกเลิก'}
             </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <FiSave size={16} />
-              {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกสินค้า'}
-            </button>
+            {!readOnly && (
+              <>
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="flex items-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-50"
+                >
+                  <FiTrash2 size={16} />
+                  ลบ
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <FiSave size={16} />
+                  {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกสินค้า'}
+                </button>
+              </>
+            )}
           </div>
         </div>
 
@@ -149,7 +169,8 @@ export function CpuEditPage() {
             <label className="mb-1.5 block text-sm font-medium text-gray-700">ชื่อสินค้า (Product Name) *</label>
             <input
               type="text"
-              className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100"
+              disabled={readOnly}
+              className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100 disabled:cursor-default disabled:text-gray-500"
               {...register('name')}
             />
             {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
@@ -158,6 +179,7 @@ export function CpuEditPage() {
 
         <CpuFormFields
           mode="edit"
+          readOnly={readOnly}
           register={register}
           errors={errors}
           watch={watch}

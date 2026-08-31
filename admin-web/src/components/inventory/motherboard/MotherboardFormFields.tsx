@@ -70,6 +70,7 @@ export function MotherboardFormFields({ mode, readOnly = false, register, errors
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">ส่วนลด (Discount)</label>
               <input type="number" disabled={readOnly} className={inputClass} {...register('discount', { valueAsNumber: true })} />
+              {errors.discount && <p className="mt-1 text-xs text-red-500">{errors.discount.message}</p>}
             </div>
 
             <div className="flex items-center justify-between">

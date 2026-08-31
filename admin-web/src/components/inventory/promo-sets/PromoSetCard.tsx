@@ -41,12 +41,20 @@ export function PromoSetCard({ set }: { set: PromoSet }) {
             <span className={`h-1.5 w-1.5 rounded-full ${set.stock > 0 ? 'bg-emerald-400' : 'bg-rose-400'}`} />
             {set.stock > 0 ? `คงเหลือ ${set.stock} เครื่อง` : 'หมดสต็อก'}
           </span>
-          <Link
-            to={`/inventory/promo-sets/${set.id}/edit`}
-            className="rounded-lg border border-rose-200 px-3 py-1.5 text-xs font-medium text-rose-500 hover:bg-rose-50"
-          >
-            แก้ไข
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              to={`/inventory/promo-sets/${set.id}`}
+              className="rounded-lg border border-gray-200 px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-50"
+            >
+              ดู
+            </Link>
+            <Link
+              to={`/inventory/promo-sets/${set.id}/edit`}
+              className="rounded-lg border border-rose-200 px-3 py-1.5 text-xs font-medium text-rose-500 hover:bg-rose-50"
+            >
+              แก้ไข
+            </Link>
+          </div>
         </div>
       </div>
     </div>

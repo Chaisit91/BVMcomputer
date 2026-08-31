@@ -35,6 +35,9 @@ import { StorageCreatePage } from '../pages/inventory/storage/StorageCreatePage'
 import { StorageEditPage } from '../pages/inventory/storage/StorageEditPage'
 import { StorageListPage } from '../pages/inventory/storage/StorageListPage'
 import { LoginPage } from '../pages/login/LoginPage'
+import { BannerCreatePage } from '../pages/manage/banners/BannerCreatePage'
+import { BannerEditPage } from '../pages/manage/banners/BannerEditPage'
+import { BannerListPage } from '../pages/manage/banners/BannerListPage'
 import { OrderEditPage } from '../pages/manage/orders/OrderEditPage'
 import { OrderListPage } from '../pages/manage/orders/OrderListPage'
 import { UserCreatePage } from '../pages/manage/users/UserCreatePage'
@@ -55,6 +58,7 @@ export function AuthRouter() {
           <Route path="/inventory/custom-build/:orderId/edit" element={<CustomBuildEditPage />} />
           <Route path="/inventory/promo-sets" element={<PromoSetListPage />} />
           <Route path="/inventory/promo-sets/new" element={<PromoSetCreatePage />} />
+          <Route path="/inventory/promo-sets/:setId" element={<PromoSetEditPage readOnly />} />
           <Route path="/inventory/promo-sets/:setId/edit" element={<PromoSetEditPage />} />
           <Route path="/inventory/desktop-pc" element={<DesktopPcListPage />} />
           <Route path="/inventory/desktop-pc/new" element={<DesktopPcCreatePage />} />
@@ -62,6 +66,7 @@ export function AuthRouter() {
           <Route path="/inventory/desktop-pc/:productId/edit" element={<DesktopPcEditPage />} />
           <Route path="/inventory/cpu" element={<CpuListPage />} />
           <Route path="/inventory/cpu/new" element={<CpuCreatePage />} />
+          <Route path="/inventory/cpu/:cpuId" element={<CpuEditPage readOnly />} />
           <Route path="/inventory/cpu/:cpuId/edit" element={<CpuEditPage />} />
           <Route path="/inventory/gpu" element={<GpuListPage />} />
           <Route path="/inventory/gpu/new" element={<GpuCreatePage />} />
@@ -96,6 +101,9 @@ export function AuthRouter() {
           <Route path="/manage/users/:userId/edit" element={<UserEditPage />} />
           <Route path="/manage/orders" element={<OrderListPage />} />
           <Route path="/manage/orders/:orderId/edit" element={<OrderEditPage />} />
+          <Route path="/manage/banners" element={<BannerListPage />} />
+          <Route path="/manage/banners/new" element={<BannerCreatePage />} />
+          <Route path="/manage/banners/:bannerId/edit" element={<BannerEditPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />

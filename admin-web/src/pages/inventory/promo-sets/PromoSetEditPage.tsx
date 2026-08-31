@@ -12,7 +12,7 @@ import type { PromoSet, PromoSetComponents, PromoSetExtraPart, PromoSetStatus } 
 type LoadStatus = 'loading' | 'error' | 'not_found' | 'success'
 
 const inputClass =
-  'w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100'
+  'w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100 disabled:cursor-default disabled:text-gray-500'
 
 const componentFields: { key: keyof PromoSetComponents; label: string }[] = [
   { key: 'cpu', label: 'ซีพียู (CPU)' },
@@ -37,7 +37,7 @@ const statusBadgeVariant: Record<PromoSetStatus, 'success' | 'warning' | 'danger
   closed: 'danger',
 }
 
-export function PromoSetEditPage() {
+export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
   const { setId = '' } = useParams()
   const navigate = useNavigate()
   const [status, setStatus] = useState<LoadStatus>('loading')
@@ -155,7 +155,7 @@ export function PromoSetEditPage() {
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex items-center gap-3">
-            <h1 className="text-xl font-bold text-gray-900">แก้ไขเซ็ตโปรโมชั่น</h1>
+            <h1 className="text-xl font-bold text-gray-900">{readOnly ? 'ดูเซ็ตโปรโมชั่น' : 'แก้ไขเซ็ตโปรโมชั่น'}</h1>
             <Badge variant={statusBadgeVariant[detail.status]}>
               {statusOptions.find((option) => option.value === detail.status)?.label}
             </Badge>
@@ -167,16 +167,18 @@ export function PromoSetEditPage() {
               className="flex items-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50"
             >
               <FiX size={16} />
-              ยกเลิก
+              {readOnly ? 'ปิด' : 'ยกเลิก'}
             </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <FiSave size={16} />
-              {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกข้อมูล'}
-            </button>
+            {!readOnly && (
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <FiSave size={16} />
+                {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกข้อมูล'}
+              </button>
+            )}
           </div>
         </div>
 
@@ -187,17 +189,17 @@ export function PromoSetEditPage() {
               <div className="space-y-4">
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-gray-700">ชื่อเซ็ตโปรโมชั่น *</label>
-                  <input type="text" className={inputClass} {...register('name')} />
+                  <input type="text" disabled={readOnly} className={inputClass} {...register('name')} />
                   {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
                 </div>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">รหัสเซ็ต *</label>
-                    <input type="text" className={inputClass} {...register('code')} />
+                    <input type="text" disabled={readOnly} className={inputClass} {...register('code')} />
                   </div>
                   <div>
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">สถานะ *</label>
-                    <select className={inputClass} {...register('status')}>
+                    <select disabled={readOnly} className={inputClass} {...register('status')}>
                       {statusOptions.map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
@@ -211,17 +213,19 @@ export function PromoSetEditPage() {
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">ราคาปกติ (฿) *</label>
                     <input
                       type="number"
+                      disabled={readOnly}
                       className={inputClass}
                       {...register('regularPrice', { valueAsNumber: true })}
                     />
                   </div>
                   <div>
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">ราคาโปรโมชั่น (฿) *</label>
-                    <input type="number" className={inputClass} {...register('promoPrice', { valueAsNumber: true })} />
+                    <input type="number" disabled={readOnly} className={inputClass} {...register('promoPrice', { valueAsNumber: true })} />
+                    {errors.promoPrice && <p className="mt-1 text-xs text-red-500">{errors.promoPrice.message}</p>}
                   </div>
                   <div>
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">จำนวนคงเหลือ *</label>
-                    <input type="number" className={inputClass} {...register('stock', { valueAsNumber: true })} />
+                    <input type="number" disabled={readOnly} className={inputClass} {...register('stock', { valueAsNumber: true })} />
                   </div>
                 </div>
               </div>
@@ -233,7 +237,7 @@ export function PromoSetEditPage() {
                 {componentFields.map((field) => (
                   <div key={field.key}>
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">{field.label} *</label>
-                    <input type="text" className={inputClass} {...register(`components.${field.key}`)} />
+                    <input type="text" disabled={readOnly} className={inputClass} {...register(`components.${field.key}`)} />
                     {errors.components?.[field.key] && (
                       <p className="mt-1 text-xs text-red-500">{errors.components[field.key]?.message}</p>
                     )}
@@ -241,14 +245,15 @@ export function PromoSetEditPage() {
                 ))}
               </div>
               <p className="mb-2 mt-4 text-sm font-medium text-gray-700">อุปกรณ์เสริมอื่นๆ</p>
-              <ExtraPartsEditor parts={extraParts} onChange={setExtraParts} />
+              <ExtraPartsEditor parts={extraParts} onChange={setExtraParts} readOnly={readOnly} />
             </section>
 
             <section className="rounded-2xl border border-gray-100 bg-white p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">รายละเอียดสินค้า</h2>
-              <textarea rows={4} className={inputClass} {...register('description')} />
+              <textarea rows={4} disabled={readOnly} className={inputClass} {...register('description')} />
 
               <p className="mb-2 mt-4 text-sm font-medium text-gray-700">จุดเด่นสินค้า</p>
+              {readOnly && highlights.length === 0 && <p className="mb-2 text-xs text-gray-400">ไม่มีจุดเด่นสินค้า</p>}
               <div className="mb-3 flex flex-wrap gap-2">
                 {highlights.map((tag) => (
                   <span
@@ -256,42 +261,47 @@ export function PromoSetEditPage() {
                     className="flex items-center gap-1 rounded-full bg-rose-50 px-3 py-1 text-xs font-medium text-rose-600"
                   >
                     {tag}
-                    <button
-                      type="button"
-                      onClick={() => setHighlights((prev) => prev.filter((t) => t !== tag))}
-                      className="text-rose-400 hover:text-rose-600"
-                    >
-                      <FiX size={12} />
-                    </button>
+                    {!readOnly && (
+                      <button
+                        type="button"
+                        onClick={() => setHighlights((prev) => prev.filter((t) => t !== tag))}
+                        className="text-rose-400 hover:text-rose-600"
+                      >
+                        <FiX size={12} />
+                      </button>
+                    )}
                   </span>
                 ))}
               </div>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={highlightInput}
-                  onChange={(event) => setHighlightInput(event.target.value)}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter') {
-                      event.preventDefault()
-                      addHighlight()
-                    }
-                  }}
-                  placeholder="พิมพ์จุดเด่นแล้วกด Enter"
-                  className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-rose-400"
-                />
-                <button
-                  type="button"
-                  onClick={addHighlight}
-                  className="flex items-center gap-1 rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50"
-                >
-                  <FiPlus size={14} /> เพิ่มจุดเด่น
-                </button>
-              </div>
+              {!readOnly && (
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={highlightInput}
+                    onChange={(event) => setHighlightInput(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') {
+                        event.preventDefault()
+                        addHighlight()
+                      }
+                    }}
+                    placeholder="พิมพ์จุดเด่นแล้วกด Enter"
+                    className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-rose-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={addHighlight}
+                    className="flex items-center gap-1 rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50"
+                  >
+                    <FiPlus size={14} /> เพิ่มจุดเด่น
+                  </button>
+                </div>
+              )}
             </section>
 
             <section className="rounded-2xl border border-gray-100 bg-white p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">วิดีโอรีวิวประกอบ</h2>
+              {readOnly && videoLinks.length === 0 && <p className="text-xs text-gray-400">ไม่มีวิดีโอรีวิวประกอบ</p>}
               <div className="space-y-2">
                 {videoLinks.map((link) => (
                   <div
@@ -299,38 +309,43 @@ export function PromoSetEditPage() {
                     className="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2"
                   >
                     <span className="flex-1 truncate text-sm text-gray-600">{link}</span>
-                    <button
-                      type="button"
-                      onClick={() => setVideoLinks((prev) => prev.filter((l) => l !== link))}
-                      className="text-gray-400 hover:text-rose-500"
-                    >
-                      <FiX size={14} />
-                    </button>
+                    {!readOnly && (
+                      <button
+                        type="button"
+                        onClick={() => setVideoLinks((prev) => prev.filter((l) => l !== link))}
+                        className="text-gray-400 hover:text-rose-500"
+                      >
+                        <FiX size={14} />
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
-              <div className="mt-2 flex gap-2">
-                <input
-                  type="text"
-                  value={videoInput}
-                  onChange={(event) => setVideoInput(event.target.value)}
-                  placeholder="วางลิงก์ YouTube เช่น https://youtube.com/watch?v=..."
-                  className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-rose-400"
-                />
-                <button
-                  type="button"
-                  onClick={addVideoLink}
-                  className="flex items-center gap-1 rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50"
-                >
-                  <FiPlus size={14} /> เพิ่มวิดีโอ
-                </button>
-              </div>
+              {!readOnly && (
+                <div className="mt-2 flex gap-2">
+                  <input
+                    type="text"
+                    value={videoInput}
+                    onChange={(event) => setVideoInput(event.target.value)}
+                    placeholder="วางลิงก์ YouTube เช่น https://youtube.com/watch?v=..."
+                    className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-rose-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={addVideoLink}
+                    className="flex items-center gap-1 rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50"
+                  >
+                    <FiPlus size={14} /> เพิ่มวิดีโอ
+                  </button>
+                </div>
+              )}
             </section>
 
             <section className="rounded-2xl border border-gray-100 bg-white p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">ของแถมและเงื่อนไขเพิ่มเติม</h2>
               <textarea
                 rows={2}
+                disabled={readOnly}
                 placeholder="เช่น เสื้อ iHAVECPU Sticker, ร่มเดินทาง, USB WiFi D-Link N150"
                 className={inputClass}
                 {...register('notes')}
@@ -344,12 +359,14 @@ export function PromoSetEditPage() {
               <div className="flex h-40 items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
                 ยังไม่มีรูปภาพ
               </div>
-              <button
-                type="button"
-                className="mt-3 w-full rounded-xl border border-dashed border-gray-300 py-2 text-sm text-gray-500 hover:bg-gray-50"
-              >
-                + เพิ่มรูป
-              </button>
+              {!readOnly && (
+                <button
+                  type="button"
+                  className="mt-3 w-full rounded-xl border border-dashed border-gray-300 py-2 text-sm text-gray-500 hover:bg-gray-50"
+                >
+                  + เพิ่มรูป
+                </button>
+              )}
             </section>
 
             <section className="rounded-2xl border border-gray-100 bg-white p-5">
@@ -374,20 +391,24 @@ export function PromoSetEditPage() {
                   <span className="font-medium text-gray-800">{stock} เครื่อง</span>
                 </div>
               </div>
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="mt-4 w-full rounded-xl bg-rose-500 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:opacity-60"
-              >
-                เผยแพร่การเปลี่ยนแปลง
-              </button>
-              <button
-                type="button"
-                onClick={handleDelete}
-                className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-50"
-              >
-                <FiTrash2 size={14} /> ลบเซ็ต
-              </button>
+              {!readOnly && (
+                <>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="mt-4 w-full rounded-xl bg-rose-500 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:opacity-60"
+                  >
+                    เผยแพร่การเปลี่ยนแปลง
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleDelete}
+                    className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-50"
+                  >
+                    <FiTrash2 size={14} /> ลบเซ็ต
+                  </button>
+                </>
+              )}
             </section>
           </div>
         </div>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { FiSave, FiX } from 'react-icons/fi'
+import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { PsuFormFields } from '../../../components/inventory/psu/PsuFormFields'
 import { psuFormSchema, type PsuFormValues } from '../../../schemas/psu.schema'
-import { getPsuDetail, savePsu } from '../../../services/psu.service'
+import { deletePsu, getPsuDetail, savePsu } from '../../../services/psu.service'
 import { useAppSelector } from '../../../store/hooks'
 import type { ExtraSpec, Psu } from '../../../types/psu'
 
@@ -72,6 +72,12 @@ export function PsuEditPage({ readOnly = false }: { readOnly?: boolean }) {
     navigate('/inventory/psu')
   })
 
+  const handleDelete = async () => {
+    if (!window.confirm('ยืนยันการลบพาวเวอร์ซัพพลายนี้?')) return
+    await deletePsu(psuId)
+    navigate('/inventory/psu')
+  }
+
   if (status === 'loading') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-gray-400">กำลังโหลดข้อมูล...</div>
@@ -119,14 +125,24 @@ export function PsuEditPage({ readOnly = false }: { readOnly?: boolean }) {
               {readOnly ? 'ปิด' : 'ยกเลิก'}
             </button>
             {!readOnly && (
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                <FiSave size={16} />
-                {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกข้อมูล'}
-              </button>
+              <>
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="flex items-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-50"
+                >
+                  <FiTrash2 size={16} />
+                  ลบ
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <FiSave size={16} />
+                  {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกข้อมูล'}
+                </button>
+              </>
             )}
           </div>
         </div>

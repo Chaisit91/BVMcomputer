@@ -243,6 +243,7 @@ export function OrderEditPage() {
                         </option>
                       ))}
                     </select>
+                    {errors.status && <p className="mt-1 text-xs text-red-500">{errors.status.message}</p>}
                   </div>
                 </div>
                 <div>

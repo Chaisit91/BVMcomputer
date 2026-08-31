@@ -128,6 +128,7 @@ export function StorageFormFields({
               className={inputClass}
               {...register('promoPrice', { valueAsNumber: true })}
             />
+            {errors.promoPrice && <p className="text-xs text-red-500">{errors.promoPrice.message}</p>}
 
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">จำนวนคงเหลือในคลัง (Stock)</label>

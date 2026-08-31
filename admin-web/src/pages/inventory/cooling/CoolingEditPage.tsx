@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { FiSave, FiX } from 'react-icons/fi'
+import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { CoolingFormFields } from '../../../components/inventory/cooling/CoolingFormFields'
 import { coolingFormSchema, type CoolingFormValues } from '../../../schemas/cooling.schema'
-import { getCoolingDetail, saveCooling } from '../../../services/cooling.service'
+import { deleteCooling, getCoolingDetail, saveCooling } from '../../../services/cooling.service'
 import { useAppSelector } from '../../../store/hooks'
 import type { Cooling, ExtraSpec } from '../../../types/cooling'
 
@@ -72,6 +72,12 @@ export function CoolingEditPage({ readOnly = false }: { readOnly?: boolean }) {
     navigate('/inventory/cooling')
   })
 
+  const handleDelete = async () => {
+    if (!window.confirm('ยืนยันการลบชุดระบายความร้อนนี้?')) return
+    await deleteCooling(coolingId)
+    navigate('/inventory/cooling')
+  }
+
   if (status === 'loading') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-gray-400">กำลังโหลดข้อมูล...</div>
@@ -119,14 +125,24 @@ export function CoolingEditPage({ readOnly = false }: { readOnly?: boolean }) {
               {readOnly ? 'ปิด' : 'ยกเลิก'}
             </button>
             {!readOnly && (
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                <FiSave size={16} />
-                {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกข้อมูล'}
-              </button>
+              <>
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  className="flex items-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-50"
+                >
+                  <FiTrash2 size={16} />
+                  ลบ
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <FiSave size={16} />
+                  {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกข้อมูล'}
+                </button>
+              </>
             )}
           </div>
         </div>
