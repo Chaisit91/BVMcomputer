@@ -16,7 +16,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['"Prompt"', 'system-ui', '"Segoe UI"', 'sans-serif'],
+        sans: ['"Noto Sans Thai"', 'system-ui', '"Segoe UI"', 'sans-serif'],
       },
       boxShadow: {
         card: '0 4px 20px -4px rgba(11, 18, 32, 0.12)',

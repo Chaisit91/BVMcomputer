@@ -1,4 +1,8 @@
-import type { Category, Product, PromoBanner } from '../types';
+import type { Category, Product, PromoBanner, SpecialDeal } from '../types';
+
+// Shared countdown for the whole "Special deals" event — every card ticks
+// down from the same deadline, rather than each having its own timer.
+const SPECIAL_DEALS_ENDS_IN_SECONDS = 9 * 3600 + 31 * 60 + 51;
 
 // ---------------------------------------------------------------------------
 // Mockup content only. The backend team owns the real endpoints — swap the
@@ -56,5 +60,80 @@ export const mockPromoBanners: PromoBanner[] = [
     tagColor: 'yellow',
     gradient: 'from-fuchsia-900 via-ink to-ink-light',
     href: '#promo-upgrade',
+  },
+];
+
+export const mockSpecialDeals: SpecialDeal[] = [
+  {
+    id: 'sd1',
+    name: 'Gigabyte RTX 4060 WINDFORCE OC 8GB',
+    slug: 'gigabyte-rtx-4060-windforce-oc',
+    price: 11900,
+    originalPrice: 16500,
+    discountPercent: 28,
+    category: 'gpu',
+    stockLeft: 12,
+    soldPercent: 64,
+    endsInSeconds: SPECIAL_DEALS_ENDS_IN_SECONDS,
+  },
+  {
+    id: 'sd2',
+    name: 'AMD Ryzen 7 7800X3D (AM5)',
+    slug: 'amd-ryzen-7-7800x3d',
+    price: 12490,
+    originalPrice: 15490,
+    discountPercent: 19,
+    category: 'cpu',
+    stockLeft: 9,
+    soldPercent: 58,
+    endsInSeconds: SPECIAL_DEALS_ENDS_IN_SECONDS,
+  },
+  {
+    id: 'sd3',
+    name: 'Corsair Vengeance RGB 32GB (16GBx2) DDR5 6000MHz',
+    slug: 'corsair-vengeance-rgb-32gb-ddr5',
+    price: 4690,
+    originalPrice: 6190,
+    discountPercent: 24,
+    category: 'ram',
+    stockLeft: 15,
+    soldPercent: 67,
+    endsInSeconds: SPECIAL_DEALS_ENDS_IN_SECONDS,
+  },
+  {
+    id: 'sd4',
+    name: 'Samsung 990 PRO 1TB NVMe M.2',
+    slug: 'samsung-990-pro-1tb',
+    price: 4990,
+    originalPrice: 7190,
+    discountPercent: 31,
+    category: 'storage',
+    stockLeft: 18,
+    soldPercent: 61,
+    endsInSeconds: SPECIAL_DEALS_ENDS_IN_SECONDS,
+  },
+  {
+    id: 'sd5',
+    name: 'Corsair RM850e 850W 80+ Gold (Fully Modular)',
+    slug: 'corsair-rm850e-850w',
+    price: 3890,
+    originalPrice: 5090,
+    discountPercent: 23,
+    category: 'psu',
+    stockLeft: 11,
+    soldPercent: 70,
+    endsInSeconds: SPECIAL_DEALS_ENDS_IN_SECONDS,
+  },
+  {
+    id: 'sd6',
+    name: 'MSI B650M MORTAR WIFI (AM5)',
+    slug: 'msi-b650m-mortar-wifi',
+    price: 4290,
+    originalPrice: 5690,
+    discountPercent: 25,
+    category: 'motherboard',
+    stockLeft: 7,
+    soldPercent: 54,
+    endsInSeconds: SPECIAL_DEALS_ENDS_IN_SECONDS,
   },
 ];

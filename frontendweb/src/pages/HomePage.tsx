@@ -9,6 +9,7 @@ import { FeatureLinks } from '../components/home/FeatureLinks';
 import { CategorySection } from '../components/home/CategorySection';
 import { PromoBanners } from '../components/home/PromoBanners';
 import { ProductSection } from '../components/home/ProductSection';
+import { SpecialDealsSection } from '../components/home/SpecialDealsSection';
 import { CustomPcCta } from '../components/home/CustomPcCta';
 
 export function HomePage() {
@@ -33,6 +34,7 @@ export function HomePage() {
         <CategorySection />
         <PromoBanners />
         <ProductSection />
+        <SpecialDealsSection />
         <CustomPcCta />
       </main>
 
