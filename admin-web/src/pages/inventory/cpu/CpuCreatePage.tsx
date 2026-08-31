@@ -80,17 +80,7 @@ export function CpuCreatePage() {
         </div>
 
         <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-gray-700">รหัสสินค้า (SKU) *</label>
-            <input
-              type="text"
-              placeholder="เช่น CPU-AMD-006"
-              className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-rose-400 focus:ring-2 focus:ring-rose-100"
-              {...register('sku')}
-            />
-            {errors.sku && <p className="mt-1 text-xs text-red-500">{errors.sku.message}</p>}
-          </div>
-          <div>
+          <div className="sm:col-span-2">
             <label className="mb-1.5 block text-sm font-medium text-gray-700">ชื่อสินค้า (Product Name) *</label>
             <input
               type="text"

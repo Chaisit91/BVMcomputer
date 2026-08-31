@@ -2,28 +2,28 @@ import { useState } from 'react'
 import { FiBold, FiItalic, FiList, FiPlus, FiTrash2, FiUnderline } from 'react-icons/fi'
 import type { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { Toggle } from '../../ui/Toggle'
-import type { StorageFormValues } from '../../../schemas/storage.schema'
-import type { ExtraSpec } from '../../../types/storage'
+import type { PsuFormValues } from '../../../schemas/psu.schema'
+import type { ExtraSpec } from '../../../types/psu'
 
 const inputClass =
   'w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-rose-400 focus:ring-2 focus:ring-rose-100 disabled:cursor-default disabled:text-gray-500'
 
-const brandOptions = ['SAMSUNG', 'WD', 'KINGSTON', 'SEAGATE', 'CRUCIAL', 'SANDISK', 'TOSHIBA']
-const typeOptions = ['SSD M.2 NVMe', 'SSD SATA 2.5 inch', 'HDD Internal 3.5 inch', 'HDD Internal 2.5 inch']
-const interfaceOptions = ['PCIe Gen 4.0 x4', 'PCIe Gen 3.0 x4', 'SATA III', 'PCIe Gen 5.0 x4']
-const formFactorOptions = ['M.2 2280', '2.5 inch', '3.5 inch']
-const warrantyOptions = ['2 Years', '3 Years', '5 Years', 'Limited Lifetime']
-const statusOptions: { value: StorageFormValues['status']; label: string }[] = [
+const brandOptions = ['ASUS', 'CORSAIR', 'COOLER MASTER', 'FSP', 'GIGABYTE', 'MSI', 'THERMALTAKE', 'AEROCOOL']
+const continuousPowerOptions = ['550 Watt', '600 Watt', '650 Watt', '750 Watt', '850 Watt', '1000 Watt', '1200 Watt']
+const certificationOptions = ['80+ Bronze', '80+ Gold', '80+ Platinum', '80+ Titanium']
+const modularityOptions = ['Full Modular', 'Semi Modular', 'Non Modular']
+const formFactorOptions = ['ATX', 'SFX', 'SFX-L']
+const statusOptions: { value: PsuFormValues['status']; label: string }[] = [
   { value: 'active', label: 'พร้อมจำหน่ายปกติ (Active)' },
   { value: 'inactive', label: 'ปิดการขาย (Inactive)' },
 ]
 
-interface StorageFormFieldsProps {
+interface PsuFormFieldsProps {
   readOnly?: boolean
-  register: UseFormRegister<StorageFormValues>
-  errors: FieldErrors<StorageFormValues>
-  watch: UseFormWatch<StorageFormValues>
-  setValue: UseFormSetValue<StorageFormValues>
+  register: UseFormRegister<PsuFormValues>
+  errors: FieldErrors<PsuFormValues>
+  watch: UseFormWatch<PsuFormValues>
+  setValue: UseFormSetValue<PsuFormValues>
   videoLinks: string[]
   onVideoLinksChange: (links: string[]) => void
   extraSpecs: ExtraSpec[]
@@ -31,7 +31,7 @@ interface StorageFormFieldsProps {
   showSku?: boolean
 }
 
-export function StorageFormFields({
+export function PsuFormFields({
   readOnly = false,
   register,
   errors,
@@ -42,19 +42,12 @@ export function StorageFormFields({
   extraSpecs,
   onExtraSpecsChange,
   showSku = true,
-}: StorageFormFieldsProps) {
+}: PsuFormFieldsProps) {
   const [videoInput, setVideoInput] = useState('')
   const [showExtraSpecForm, setShowExtraSpecForm] = useState(false)
   const [extraSpecName, setExtraSpecName] = useState('')
   const [extraSpecDetail, setExtraSpecDetail] = useState('')
   const promoEnabled = watch('promoEnabled')
-  const specType = watch('specs.type')
-
-  const typeBadge = specType?.startsWith('SSD')
-    ? 'Solid State Drive'
-    : specType?.startsWith('HDD')
-      ? 'Hard Disk Drive'
-      : 'Solid State Drive / Hard Disk'
 
   const addVideoLink = () => {
     const value = videoInput.trim()
@@ -76,29 +69,44 @@ export function StorageFormFields({
     <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
       <div className="space-y-6">
         <section className="rounded-2xl border border-gray-100 bg-white p-5">
-          <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปสินค้าหลัก</h2>
-          <div className="flex h-40 items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
-            {readOnly ? 'ยังไม่มีรูปภาพ' : 'อัปโหลดรูปสินค้าหลัก'}
+          <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพสินค้าหลัก</h2>
+          <div className="flex h-40 flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
+            {readOnly ? (
+              'ยังไม่มีรูปภาพ'
+            ) : (
+              <>
+                <span>อัปโหลดรูปภาพหลัก</span>
+                <span className="text-[11px] text-gray-300">แนะนำขนาด 800 x 800px (JPG, PNG)</span>
+              </>
+            )}
           </div>
           {!readOnly && (
-            <button
-              type="button"
-              className="mt-3 w-full rounded-xl border border-dashed border-gray-300 py-2 text-sm text-gray-500 hover:bg-gray-50"
-            >
-              + เพิ่มรูปภาพ
-            </button>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                className="rounded-xl border border-gray-200 py-2 text-sm text-gray-500 hover:bg-gray-50"
+              >
+                เลือกรูปที่มีอยู่
+              </button>
+              <button
+                type="button"
+                className="rounded-xl bg-rose-50 py-2 text-sm font-medium text-rose-500 hover:bg-rose-100"
+              >
+                อัปโหลดใหม่
+              </button>
+            </div>
           )}
         </section>
 
         <section className="rounded-2xl border border-gray-100 bg-white p-5">
-          <h2 className="mb-4 text-sm font-semibold text-gray-800">ข้อมูลการขายและสต๊อก</h2>
+          <h2 className="mb-4 text-sm font-semibold text-gray-800">ข้อมูลการขายและสต็อก</h2>
           <div className="space-y-4">
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">ชื่อสินค้า (Product Name)</label>
               <input
                 type="text"
                 disabled={readOnly}
-                placeholder="เช่น SAMSUNG 990 PRO M.2 NVMe..."
+                placeholder="เช่น CORSAIR RM850x 850W 80+ Gold"
                 className={inputClass}
                 {...register('name')}
               />
@@ -112,7 +120,7 @@ export function StorageFormFields({
               </div>
             )}
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">ราคาขาย (Selling Price)</label>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">ราคาปกติ (Selling Price)</label>
               <input type="number" disabled={readOnly} className={inputClass} {...register('sellingPrice', { valueAsNumber: true })} />
               {errors.sellingPrice && <p className="mt-1 text-xs text-red-500">{errors.sellingPrice.message}</p>}
             </div>
@@ -124,7 +132,7 @@ export function StorageFormFields({
             <input
               type="number"
               disabled={readOnly || !promoEnabled}
-              placeholder={promoEnabled ? '' : 'ยังไม่เปิดใช้ราคาพิเศษ'}
+              placeholder={promoEnabled ? '' : 'ปิดใช้งานราคาโปรโมชั่น'}
               className={inputClass}
               {...register('promoPrice', { valueAsNumber: true })}
             />
@@ -135,7 +143,7 @@ export function StorageFormFields({
             </div>
 
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">สถานะสินค้า (Status)</label>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">สถานะผลิตภัณฑ์ (Status)</label>
               <select disabled={readOnly} className={inputClass} {...register('status')}>
                 {statusOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -152,14 +160,16 @@ export function StorageFormFields({
         <section className="rounded-2xl border border-gray-100 bg-white p-5">
           <div className="mb-1 flex items-center justify-between">
             <h2 className="text-sm font-semibold text-gray-800">ข้อมูลสเปคทางเทคนิค (Specifications)</h2>
-            <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-500">{typeBadge}</span>
+            <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-500">Power Supply Unit</span>
           </div>
-          <p className="mb-4 text-xs text-gray-400">กรุณากรอกข้อมูลด้านล่างให้ครบถ้วนเพื่อกำหนดคุณสมบัติเบื้องต้นและสเปคจำเพาะให้ครบถ้วน</p>
+          <p className="mb-4 text-xs text-gray-400">
+            ข้อมูลสเปคจะถูกนำไปใช้ในระบบตัวกรองการจัดสเปคคอมพิวเตอร์และระบบค้นหาหน้าเว็บอร์ดหลัก กรุณากรอกให้ละเอียด
+          </p>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">แบรนด์ (Brand)</label>
               <select disabled={readOnly} className={inputClass} {...register('brand')}>
-                <option value="">เลือกแบรนด์ เช่น SAMSUNG, WD, SEAGATE</option>
+                <option value="">เลือกแบรนด์สินค้า... (เช่น CORSAIR, ASUS, GIGABYTE)</option>
                 {brandOptions.map((option) => (
                   <option key={option} value={option}>
                     {option}
@@ -169,44 +179,45 @@ export function StorageFormFields({
               {errors.brand && <p className="mt-1 text-xs text-red-500">{errors.brand.message}</p>}
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">ประเภทการทำงาน (Type)</label>
-              <select disabled={readOnly} className={inputClass} {...register('specs.type')}>
-                <option value="">เลือกประเภทอุปกรณ์</option>
-                {typeOptions.map((option) => (
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">กำลังไฟ (Continuous Power)</label>
+              <select disabled={readOnly} className={inputClass} {...register('specs.continuousPower')}>
+                <option value="">เลือกขนาดกำลังวัตต์... (เช่น 850 Watt, 750W)</option>
+                {continuousPowerOptions.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>
                 ))}
               </select>
-              {errors.specs?.type && <p className="mt-1 text-xs text-red-500">{errors.specs.type.message}</p>}
+              {errors.specs?.continuousPower && <p className="mt-1 text-xs text-red-500">{errors.specs.continuousPower.message}</p>}
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">ความจุ (Capacity)</label>
-              <input
-                type="text"
-                disabled={readOnly}
-                placeholder="เช่น 500 GB, 1 TB, 2 TB, 4 TB"
-                className={inputClass}
-                {...register('specs.capacity')}
-              />
-              {errors.specs?.capacity && <p className="mt-1 text-xs text-red-500">{errors.specs.capacity.message}</p>}
-            </div>
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">อินเทอร์เฟส (Interface)</label>
-              <select disabled={readOnly} className={inputClass} {...register('specs.interface')}>
-                <option value="">เลือกอินเตอร์เฟส</option>
-                {interfaceOptions.map((option) => (
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">มาตรฐาน (Certification)</label>
+              <select disabled={readOnly} className={inputClass} {...register('specs.certification')}>
+                <option value="">เลือกมาตรฐานรับรอง... (เช่น 80+ Gold, 80+ Bronze)</option>
+                {certificationOptions.map((option) => (
                   <option key={option} value={option}>
                     {option}
                   </option>
                 ))}
               </select>
-              {errors.specs?.interface && <p className="mt-1 text-xs text-red-500">{errors.specs.interface.message}</p>}
+              {errors.specs?.certification && <p className="mt-1 text-xs text-red-500">{errors.specs.certification.message}</p>}
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">ฟอร์มแฟกเตอร์ (Form Factor)</label>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">การถอดสาย (Modularity)</label>
+              <select disabled={readOnly} className={inputClass} {...register('specs.modularity')}>
+                <option value="">เลือกรูปแบบถอดสาย... (เช่น Full Modular, Non-Modular)</option>
+                {modularityOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              {errors.specs?.modularity && <p className="mt-1 text-xs text-red-500">{errors.specs.modularity.message}</p>}
+            </div>
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">ขนาด (Form Factor)</label>
               <select disabled={readOnly} className={inputClass} {...register('specs.formFactor')}>
-                <option value="">เลือกฟอร์มแฟกเตอร์</option>
+                <option value="">เลือกขนาดฟอร์มแฟกเตอร์... (เช่น ATX, SFX)</option>
                 {formFactorOptions.map((option) => (
                   <option key={option} value={option}>
                     {option}
@@ -216,31 +227,20 @@ export function StorageFormFields({
               {errors.specs?.formFactor && <p className="mt-1 text-xs text-red-500">{errors.specs.formFactor.message}</p>}
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">ความเร็วการอ่านสูงสุด (Sequential Read)</label>
-              <input type="text" disabled={readOnly} placeholder="เช่น 7,400 MB/s" className={inputClass} {...register('specs.sequentialRead')} />
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">ขนาดพัดลม (Fan Size)</label>
+              <input type="text" disabled={readOnly} placeholder="ระบุขนาดพัดลม... (เช่น 135mm)" className={inputClass} {...register('specs.fanSize')} />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">ความเร็วการเขียนสูงสุด (Sequential Write)</label>
-              <input type="text" disabled={readOnly} placeholder="เช่น 6,900 MB/s" className={inputClass} {...register('specs.sequentialWrite')} />
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">หัวเชื่อมต่อสายไฟ (Connectors)</label>
+              <input type="text" disabled={readOnly} placeholder="เช่น 24-pin ATX, 2x 8-pin CPU, 4x PCIe" className={inputClass} {...register('specs.connectors')} />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">หน่วยความจำแคช (Cache Memory)</label>
-              <input type="text" disabled={readOnly} placeholder="เช่น 2GB LPDDR4 หรือ N/A" className={inputClass} {...register('specs.cacheMemory')} />
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">ระบบป้องกันกระแสไฟ (Protection)</label>
+              <input type="text" disabled={readOnly} placeholder="เช่น OVP, UVP, OCP, SCP, OPP, OTP" className={inputClass} {...register('specs.protection')} />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">อายุการใช้งานเฉลี่ย (MTBF)</label>
-              <input type="text" disabled={readOnly} placeholder="เช่น 1.5 Million Hours" className={inputClass} {...register('specs.mtbf')} />
-            </div>
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">ระยะเวลารับประกัน (Warranty)</label>
-              <select disabled={readOnly} className={inputClass} {...register('specs.warranty')}>
-                <option value="">เลือกระยะเวลา</option>
-                {warrantyOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">ระยะเวลาการรับประกัน (Warranty)</label>
+              <input type="text" disabled={readOnly} placeholder="ระบุระยะเวลารับประกัน... (เช่น 10 Years)" className={inputClass} {...register('specs.warranty')} />
             </div>
           </div>
 
@@ -305,9 +305,9 @@ export function StorageFormFields({
             <button
               type="button"
               onClick={() => setShowExtraSpecForm(true)}
-              className="mt-4 flex items-center gap-1 text-sm text-rose-500 hover:underline"
+              className="mt-4 flex w-full items-center justify-center gap-1 rounded-xl border border-dashed border-rose-200 py-2.5 text-sm text-rose-500 hover:bg-rose-50"
             >
-              <FiPlus size={14} /> เพิ่มหัวข้อสเปคเพิ่มเติม
+              <FiPlus size={14} /> เพิ่มหัวข้อสเปคพิเศษ
             </button>
           )}
         </section>
@@ -318,18 +318,21 @@ export function StorageFormFields({
 
           <p className="mb-2 text-sm font-medium text-gray-700">แกลเลอรี่รูปภาพประกอบสินค้าเพิ่มเติม (Product Gallery)</p>
           <div className="mb-5 grid grid-cols-4 gap-2 sm:w-2/3">
-            {[0, 1, 2, 3].map((slot) => (
+            {[0, 1, 2].map((slot) => (
               <div
                 key={slot}
-                className="flex aspect-square items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-gray-300"
-              >
-                {!readOnly && <FiPlus size={16} />}
-              </div>
+                className="flex aspect-square items-center justify-center rounded-xl border border-gray-200 bg-gray-50 text-gray-300"
+              />
             ))}
+            {!readOnly && (
+              <div className="flex aspect-square items-center justify-center rounded-xl border-2 border-dashed border-gray-200 text-gray-300">
+                <FiPlus size={16} />
+              </div>
+            )}
           </div>
 
-          <p className="mb-2 text-sm font-medium text-gray-700">ลิงก์วิดีโอรีวิวและแนะนำสินค้าเพิ่มเติม</p>
-          {videoLinks.length === 0 && <p className="mb-2 text-xs text-gray-400">ยังไม่มีลิงก์วิดีโอเพิ่มเติมในตอนนี้</p>}
+          <p className="mb-2 text-sm font-medium text-gray-700">ลิงก์วิดีโอรีวิวและแนะนำสินค้าเพิ่มเติม (Review Videos)</p>
+          {videoLinks.length === 0 && <p className="mb-2 text-xs text-gray-400">ยังไม่มีวิดีโอรีวิวถูกเชื่อมโยงกับสินค้านี้</p>}
           <div className="space-y-2">
             {videoLinks.map((link) => (
               <div key={link} className="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2">
@@ -352,7 +355,7 @@ export function StorageFormFields({
                 type="text"
                 value={videoInput}
                 onChange={(event) => setVideoInput(event.target.value)}
-                placeholder="ใส่ URL วิดีโอ YouTube หรือลิงก์อื่นๆ..."
+                placeholder="ใส่ URL วิดีโอ YouTube ที่ต้องการเชื่อมโยง..."
                 className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-rose-400"
               />
               <button
@@ -365,7 +368,7 @@ export function StorageFormFields({
             </div>
           )}
 
-          <p className="mb-2 mt-5 text-sm font-medium text-gray-700">คำอธิบายรายละเอียดสินค้า (Product Description)</p>
+          <p className="mb-2 mt-5 text-sm font-medium text-gray-700">คำอธิบายรายละเอียดคุณสมบัติสินค้า (Product Description)</p>
           {!readOnly && (
             <div className="mb-2 flex items-center gap-1 rounded-t-xl border border-b-0 border-gray-200 bg-gray-50 px-2 py-1.5 text-gray-400">
               <span className="rounded p-1 hover:bg-gray-100 hover:text-gray-600">
@@ -383,9 +386,9 @@ export function StorageFormFields({
             </div>
           )}
           <textarea
-            rows={4}
+            rows={5}
             disabled={readOnly}
-            placeholder="กรอกรายละเอียดสินค้า จุดเด่น หรือข้อมูลเพิ่มเติมเชิงลึกเกี่ยวกับสินค้านี้..."
+            placeholder="ระบุรายละเอียดของผลิตภัณฑ์ คอนเทนต์โปรษณา จุดขาย หรือฟีเจอร์เด่นของพาวเวอร์ซัพพลายรุ่นนี้เพิ่มเติม..."
             className={`${inputClass} ${readOnly ? '' : 'rounded-t-none'}`}
             {...register('description')}
           />

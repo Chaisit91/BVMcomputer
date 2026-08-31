@@ -82,6 +82,7 @@ export function StorageCreatePage() {
         </div>
 
         <StorageFormFields
+          showSku={false}
           register={register}
           errors={errors}
           watch={watch}

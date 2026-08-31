@@ -21,7 +21,7 @@ const specsSchema = z.object({
 })
 
 export const motherboardFormSchema = z.object({
-  sku: z.string().min(1, 'กรุณากรอกรหัสสินค้า'),
+  sku: z.string(),
   name: z.string().min(1, 'กรุณากรอกชื่อสินค้า'),
   brand: z.string().min(1, 'กรุณาเลือกแบรนด์'),
   sellingPrice: z.number().min(0, 'ราคาต้องไม่ติดลบ'),

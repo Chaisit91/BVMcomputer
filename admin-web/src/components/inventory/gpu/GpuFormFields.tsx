@@ -29,9 +29,10 @@ interface GpuFormFieldsProps {
   readOnly?: boolean
   register: UseFormRegister<GpuFormValues>
   errors: FieldErrors<GpuFormValues>
+  showSku?: boolean
 }
 
-export function GpuFormFields({ readOnly = false, register, errors }: GpuFormFieldsProps) {
+export function GpuFormFields({ readOnly = false, register, errors, showSku = true }: GpuFormFieldsProps) {
   return (
     <div className="space-y-6">
       <section className="rounded-2xl border border-gray-100 bg-white p-5">
@@ -49,11 +50,13 @@ export function GpuFormFields({ readOnly = false, register, errors }: GpuFormFie
             {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">รหัสสินค้า (Product ID/SKU)</label>
-              <input type="text" disabled={readOnly} placeholder="GPU-XXXX-X" className={inputClass} {...register('sku')} />
-              {errors.sku && <p className="mt-1 text-xs text-red-500">{errors.sku.message}</p>}
-            </div>
+            {showSku && (
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">รหัสสินค้า (Product ID/SKU)</label>
+                <input type="text" disabled className={inputClass} {...register('sku')} />
+                <p className="mt-1 text-xs text-gray-400">กำหนดโดยระบบ แก้ไขไม่ได้</p>
+              </div>
+            )}
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">ราคา (Price ฿)</label>
               <input type="number" disabled={readOnly} className={inputClass} {...register('price', { valueAsNumber: true })} />

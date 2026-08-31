@@ -1,6 +1,12 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from '../components/layout/AppLayout'
 import { DashboardPage } from '../pages/dashboard/DashboardPage'
+import { CaseCreatePage } from '../pages/inventory/case/CaseCreatePage'
+import { CaseEditPage } from '../pages/inventory/case/CaseEditPage'
+import { CaseListPage } from '../pages/inventory/case/CaseListPage'
+import { CoolingCreatePage } from '../pages/inventory/cooling/CoolingCreatePage'
+import { CoolingEditPage } from '../pages/inventory/cooling/CoolingEditPage'
+import { CoolingListPage } from '../pages/inventory/cooling/CoolingListPage'
 import { CpuCreatePage } from '../pages/inventory/cpu/CpuCreatePage'
 import { CpuEditPage } from '../pages/inventory/cpu/CpuEditPage'
 import { CpuListPage } from '../pages/inventory/cpu/CpuListPage'
@@ -19,6 +25,9 @@ import { MotherboardListPage } from '../pages/inventory/motherboard/MotherboardL
 import { PromoSetCreatePage } from '../pages/inventory/promo-sets/PromoSetCreatePage'
 import { PromoSetEditPage } from '../pages/inventory/promo-sets/PromoSetEditPage'
 import { PromoSetListPage } from '../pages/inventory/promo-sets/PromoSetListPage'
+import { PsuCreatePage } from '../pages/inventory/psu/PsuCreatePage'
+import { PsuEditPage } from '../pages/inventory/psu/PsuEditPage'
+import { PsuListPage } from '../pages/inventory/psu/PsuListPage'
 import { RamCreatePage } from '../pages/inventory/ram/RamCreatePage'
 import { RamEditPage } from '../pages/inventory/ram/RamEditPage'
 import { RamListPage } from '../pages/inventory/ram/RamListPage'
@@ -65,6 +74,18 @@ export function AuthRouter() {
           <Route path="/inventory/storage/new" element={<StorageCreatePage />} />
           <Route path="/inventory/storage/:storageId" element={<StorageEditPage readOnly />} />
           <Route path="/inventory/storage/:storageId/edit" element={<StorageEditPage />} />
+          <Route path="/inventory/case" element={<CaseListPage />} />
+          <Route path="/inventory/case/new" element={<CaseCreatePage />} />
+          <Route path="/inventory/case/:caseId" element={<CaseEditPage readOnly />} />
+          <Route path="/inventory/case/:caseId/edit" element={<CaseEditPage />} />
+          <Route path="/inventory/psu" element={<PsuListPage />} />
+          <Route path="/inventory/psu/new" element={<PsuCreatePage />} />
+          <Route path="/inventory/psu/:psuId" element={<PsuEditPage readOnly />} />
+          <Route path="/inventory/psu/:psuId/edit" element={<PsuEditPage />} />
+          <Route path="/inventory/cooling" element={<CoolingListPage />} />
+          <Route path="/inventory/cooling/new" element={<CoolingCreatePage />} />
+          <Route path="/inventory/cooling/:coolingId" element={<CoolingEditPage readOnly />} />
+          <Route path="/inventory/cooling/:coolingId/edit" element={<CoolingEditPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />

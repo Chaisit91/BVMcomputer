@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const cpuFormSchema = z.object({
-  sku: z.string().min(1, 'กรุณากรอกรหัสสินค้า'),
+  sku: z.string(),
   name: z.string().min(1, 'กรุณากรอกชื่อสินค้า'),
   brand: z.enum(['AMD', 'Intel']),
   series: z.string().min(1, 'กรุณาเลือกซีรีส์'),

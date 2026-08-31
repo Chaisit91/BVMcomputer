@@ -59,7 +59,7 @@ export function GpuCreatePage() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
-        <GpuFormFields register={register} errors={errors} />
+        <GpuFormFields showSku={false} register={register} errors={errors} />
 
         <div className="flex justify-end gap-3">
           <button

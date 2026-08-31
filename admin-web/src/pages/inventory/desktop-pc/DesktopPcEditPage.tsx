@@ -196,7 +196,8 @@ export function DesktopPcEditPage({ readOnly = false }: { readOnly?: boolean }) 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">SKU</label>
-                    <input type="text" disabled={readOnly} className={inputClass} {...register('sku')} />
+                    <input type="text" disabled className={inputClass} {...register('sku')} />
+                    <p className="mt-1 text-xs text-gray-400">รหัสสินค้าถูกกำหนดโดยระบบ ไม่สามารถแก้ไขได้</p>
                   </div>
                   <div>
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">หมวดหมู่</label>

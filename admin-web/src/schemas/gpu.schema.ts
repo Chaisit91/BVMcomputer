@@ -17,7 +17,7 @@ const specsSchema = z.object({
 })
 
 export const gpuFormSchema = z.object({
-  sku: z.string().min(1, 'กรุณากรอกรหัสสินค้า'),
+  sku: z.string(),
   name: z.string().min(1, 'กรุณากรอกชื่อสินค้า'),
   brand: z.string().min(1, 'กรุณาเลือกแบรนด์'),
   series: z.string().min(1, 'กรุณาเลือก GPU Series'),

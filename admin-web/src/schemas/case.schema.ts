@@ -1,21 +1,22 @@
 import { z } from 'zod'
 
 const specsSchema = z.object({
-  memoryType: z.string().min(1, 'กรุณาเลือกประเภทแรม'),
-  capacity: z.string().min(1, 'กรุณาเลือกความจุ'),
-  speed: z.string().min(1, 'กรุณาเลือกความเร็วบัส'),
-  voltage: z.string(),
-  casLatency: z.string(),
+  mbSupport: z.string().min(1, 'กรุณาเลือกขนาดเมนบอร์ดที่รองรับ'),
+  caseType: z.string().min(1, 'กรุณาเลือกประเภทเคส'),
+  sidePanel: z.string().min(1, 'กรุณาเลือกฝาข้าง'),
+  dimensions: z.string(),
+  weight: z.string(),
+  driveBays: z.string(),
+  fanSupport: z.string(),
+  radiatorSupport: z.string(),
+  ioPorts: z.string(),
   warranty: z.string(),
-  heatSpreader: z.string(),
-  rgbLighting: z.string(),
 })
 
-export const ramFormSchema = z.object({
+export const caseFormSchema = z.object({
   sku: z.string(),
   name: z.string().min(1, 'กรุณากรอกชื่อสินค้า'),
   brand: z.string().min(1, 'กรุณาเลือกแบรนด์'),
-  series: z.string().min(1, 'กรุณาเลือกรุ่น/ซีรีส์'),
   sellingPrice: z.number().min(0, 'ราคาต้องไม่ติดลบ'),
   promoEnabled: z.boolean(),
   promoPrice: z.number().min(0, 'ราคาต้องไม่ติดลบ'),
@@ -25,4 +26,4 @@ export const ramFormSchema = z.object({
   description: z.string(),
 })
 
-export type RamFormValues = z.infer<typeof ramFormSchema>
+export type CaseFormValues = z.infer<typeof caseFormSchema>

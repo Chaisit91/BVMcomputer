@@ -32,6 +32,7 @@ interface RamFormFieldsProps {
   onVideoLinksChange: (links: string[]) => void
   extraSpecs: ExtraSpec[]
   onExtraSpecsChange: (specs: ExtraSpec[]) => void
+  showSku?: boolean
 }
 
 export function RamFormFields({
@@ -44,6 +45,7 @@ export function RamFormFields({
   onVideoLinksChange,
   extraSpecs,
   onExtraSpecsChange,
+  showSku = true,
 }: RamFormFieldsProps) {
   const [videoInput, setVideoInput] = useState('')
   const [showExtraSpecForm, setShowExtraSpecForm] = useState(false)
@@ -99,6 +101,13 @@ export function RamFormFields({
               />
               {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
             </div>
+            {showSku && (
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">รหัสสินค้า / SKU</label>
+                <input type="text" disabled className={inputClass} {...register('sku')} />
+                <p className="mt-1 text-xs text-gray-400">รหัสสินค้าถูกกำหนดโดยระบบ ไม่สามารถแก้ไขได้</p>
+              </div>
+            )}
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">ราคาขาย (Selling Price)</label>
               <input type="number" disabled={readOnly} className={inputClass} {...register('sellingPrice', { valueAsNumber: true })} />

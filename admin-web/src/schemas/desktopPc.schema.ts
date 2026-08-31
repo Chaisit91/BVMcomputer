@@ -15,7 +15,7 @@ const specsSchema = z.object({
 
 export const desktopPcFormSchema = z.object({
   name: z.string().min(1, 'กรุณากรอกชื่อสินค้า'),
-  sku: z.string().min(1, 'กรุณากรอก SKU'),
+  sku: z.string(),
   category: z.enum(['desktop', 'mini_pc', 'all_in_one', 'ai_workstation', 'ai_enterprise']),
   status: z.enum(['selling', 'low_stock', 'out_of_stock', 'discontinued']),
   price: z.number().min(0, 'ราคาต้องไม่ติดลบ'),

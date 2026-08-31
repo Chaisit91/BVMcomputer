@@ -82,6 +82,7 @@ export function RamCreatePage() {
         </div>
 
         <RamFormFields
+          showSku={false}
           register={register}
           errors={errors}
           watch={watch}

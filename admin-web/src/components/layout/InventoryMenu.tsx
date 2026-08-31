@@ -32,9 +32,9 @@ const items: InventoryMenuItem[] = [
   { id: 'motherboard', name: 'เมนบอร์ด', description: 'เมนบอร์ดทุกแพลตฟอร์ม', icon: <FiLayers />, path: '/inventory/motherboard' },
   { id: 'ram', name: 'แรม', description: 'แรม DDR4 และ DDR5', icon: <FiDatabase />, path: '/inventory/ram' },
   { id: 'storage', name: 'ฮาร์ดดิสก์ และ เอสเอสดี', description: 'อุปกรณ์จัดเก็บข้อมูล', icon: <FiHardDrive />, path: '/inventory/storage' },
-  { id: 'psu', name: 'พาวเวอร์ซัพพลาย', description: 'พาวเวอร์ซัพพลายทุกวัตต์', icon: <FiZap /> },
-  { id: 'case', name: 'เคส', description: 'เคสคอมพิวเตอร์ทุกขนาด', icon: <FiBox /> },
-  { id: 'cooling', name: 'ชุดระบายความร้อน', description: 'ระบบระบายความร้อน', icon: <FiWind /> },
+  { id: 'psu', name: 'พาวเวอร์ซัพพลาย', description: 'พาวเวอร์ซัพพลายทุกวัตต์', icon: <FiZap />, path: '/inventory/psu' },
+  { id: 'case', name: 'เคส', description: 'เคสคอมพิวเตอร์ทุกขนาด', icon: <FiBox />, path: '/inventory/case' },
+  { id: 'cooling', name: 'ชุดระบายความร้อน', description: 'ระบบระบายความร้อน', icon: <FiWind />, path: '/inventory/cooling' },
 ]
 
 export function InventoryMenu({ onNavigate }: { onNavigate?: () => void }) {

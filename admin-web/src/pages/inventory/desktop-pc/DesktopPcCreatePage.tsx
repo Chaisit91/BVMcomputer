@@ -118,22 +118,15 @@ export function DesktopPcCreatePage() {
                   />
                   {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
                 </div>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700">SKU *</label>
-                    <input type="text" placeholder="เช่น GDT-G8-2026" className={inputClass} {...register('sku')} />
-                    {errors.sku && <p className="mt-1 text-xs text-red-500">{errors.sku.message}</p>}
-                  </div>
-                  <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700">หมวดหมู่ *</label>
-                    <select className={inputClass} {...register('category')}>
-                      {categoryOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-gray-700">หมวดหมู่ *</label>
+                  <select className={inputClass} {...register('category')}>
+                    {categoryOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>

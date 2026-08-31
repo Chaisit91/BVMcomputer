@@ -154,10 +154,11 @@ export function MotherboardEditPage({ readOnly = false }: { readOnly?: boolean }
             <label className="mb-1.5 block text-sm font-medium text-gray-700">รหัสสินค้า (SKU)</label>
             <input
               type="text"
-              disabled={readOnly}
-              className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100 disabled:cursor-default disabled:text-gray-500"
+              disabled
+              className="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-500 outline-none disabled:cursor-default"
               {...register('sku')}
             />
+            <p className="mt-1 text-xs text-gray-400">รหัสสินค้าถูกกำหนดโดยระบบ ไม่สามารถแก้ไขได้</p>
           </div>
         </div>
 
