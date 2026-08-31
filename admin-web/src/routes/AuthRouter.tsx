@@ -35,6 +35,11 @@ import { StorageCreatePage } from '../pages/inventory/storage/StorageCreatePage'
 import { StorageEditPage } from '../pages/inventory/storage/StorageEditPage'
 import { StorageListPage } from '../pages/inventory/storage/StorageListPage'
 import { LoginPage } from '../pages/login/LoginPage'
+import { OrderEditPage } from '../pages/manage/orders/OrderEditPage'
+import { OrderListPage } from '../pages/manage/orders/OrderListPage'
+import { UserCreatePage } from '../pages/manage/users/UserCreatePage'
+import { UserEditPage } from '../pages/manage/users/UserEditPage'
+import { UserListPage } from '../pages/manage/users/UserListPage'
 import { ProtectedRoute } from './ProtectedRoute'
 
 export function AuthRouter() {
@@ -86,6 +91,11 @@ export function AuthRouter() {
           <Route path="/inventory/cooling/new" element={<CoolingCreatePage />} />
           <Route path="/inventory/cooling/:coolingId" element={<CoolingEditPage readOnly />} />
           <Route path="/inventory/cooling/:coolingId/edit" element={<CoolingEditPage />} />
+          <Route path="/manage/users" element={<UserListPage />} />
+          <Route path="/manage/users/new" element={<UserCreatePage />} />
+          <Route path="/manage/users/:userId/edit" element={<UserEditPage />} />
+          <Route path="/manage/orders" element={<OrderListPage />} />
+          <Route path="/manage/orders/:orderId/edit" element={<OrderEditPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />

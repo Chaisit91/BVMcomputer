@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react'
 
-type SummaryTone = 'rose' | 'amber' | 'emerald' | 'gray'
+type SummaryTone = 'rose' | 'amber' | 'emerald' | 'gray' | 'blue'
 
 const toneStyles: Record<SummaryTone, string> = {
   rose: 'bg-rose-50 text-rose-500',
   amber: 'bg-amber-50 text-amber-500',
   emerald: 'bg-emerald-50 text-emerald-500',
   gray: 'bg-gray-100 text-gray-500',
+  blue: 'bg-blue-50 text-blue-500',
 }
 
 interface SummaryCardProps {

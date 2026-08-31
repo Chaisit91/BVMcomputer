@@ -113,7 +113,7 @@ export function Topbar() {
               </button>
               {openMenu === 'manage' && (
                 <div className="absolute left-0 top-full mt-2 w-96">
-                  <ManageMenu />
+                  <ManageMenu onNavigate={handleNavigate} />
                 </div>
               )}
             </div>
@@ -213,7 +213,7 @@ export function Topbar() {
             จัดการ
             <FiChevronDown className={`transition-transform ${openMenu === 'manage' ? 'rotate-180' : ''}`} size={16} />
           </button>
-          {openMenu === 'manage' && <ManageMenu />}
+          {openMenu === 'manage' && <ManageMenu onNavigate={handleNavigate} />}
         </div>
       )}
     </header>
