@@ -11,6 +11,7 @@ import { PromoBanners } from '../components/home/PromoBanners';
 import { ProductSection } from '../components/home/ProductSection';
 import { SpecialDealsSection } from '../components/home/SpecialDealsSection';
 import { CustomPcCta } from '../components/home/CustomPcCta';
+import { TrustBadgesSection } from '../components/home/TrustBadgesSection';
 
 export function HomePage() {
   const dispatch = useAppDispatch();
@@ -36,6 +37,7 @@ export function HomePage() {
         <ProductSection />
         <SpecialDealsSection />
         <CustomPcCta />
+        <TrustBadgesSection />
       </main>
 
       <Footer />
