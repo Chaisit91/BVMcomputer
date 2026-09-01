@@ -1,3 +1,5 @@
+import type { AdminRole } from './admin'
+
 export interface LoginPayload {
   identifier: string
   password: string
@@ -9,5 +11,6 @@ export interface LoginResponse {
     id: string
     name: string
     email: string
+    role: AdminRole
   }
 }

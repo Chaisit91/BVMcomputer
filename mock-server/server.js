@@ -7,7 +7,10 @@ import express from 'express'
 
 const PORT = 4000
 const COOKIE_NAME = 'bvm_session'
-const mockUser = { id: '1', name: 'นครกร มหาสงคราม', email: 'admin@bvm.local' }
+// ponytail: hardcoded to super_admin so every route is reachable while the
+// real backend doesn't exist yet — role-restricted views need a real login
+// endpoint that returns the actual role to test properly.
+const mockUser = { id: '1', name: 'นครกร มหาสงคราม', email: 'admin@bvm.local', role: 'super_admin' }
 
 const app = express()
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }))

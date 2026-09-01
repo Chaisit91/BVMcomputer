@@ -1,11 +1,14 @@
 import { useEffect } from 'react'
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { canAccess } from '../lib/permissions'
 import { checkSession } from '../store/authSlice'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 
 export function ProtectedRoute() {
   const dispatch = useAppDispatch()
   const status = useAppSelector((state) => state.auth.status)
+  const user = useAppSelector((state) => state.auth.user)
+  const location = useLocation()
 
   useEffect(() => {
     if (status === 'idle') {
@@ -23,6 +26,10 @@ export function ProtectedRoute() {
 
   if (status === 'unauthenticated') {
     return <Navigate to="/login" replace />
+  }
+
+  if (!canAccess(user?.role, location.pathname)) {
+    return <Navigate to="/dashboard" replace />
   }
 
   return <Outlet />

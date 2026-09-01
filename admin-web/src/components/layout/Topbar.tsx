@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { FiBell, FiChevronDown, FiLogOut, FiMenu, FiMonitor, FiUser, FiX } from 'react-icons/fi'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { canAccess } from '../../lib/permissions'
 import { logout } from '../../services/auth.service'
 import { clearUser } from '../../store/authSlice'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { adminRoleMeta } from '../../types/admin'
 import { InventoryMenu } from './InventoryMenu'
 import { ManageMenu } from './ManageMenu'
+
+const managePaths = ['/manage/orders', '/manage/users', '/manage/banners']
 
 type OpenMenu = 'inventory' | 'manage' | 'user' | null
 
@@ -30,6 +34,12 @@ export function Topbar() {
 
   const isInventoryActive = location.pathname.startsWith('/inventory')
   const isManageActive = location.pathname.startsWith('/manage')
+  const isAdminsActive = location.pathname.startsWith('/admins')
+
+  const showInventoryNav = canAccess(user?.role, '/inventory')
+  const showManageNav = managePaths.some((path) => canAccess(user?.role, path))
+  const showAdminsNav = user?.role === 'super_admin'
+  const roleLabel = user?.role ? adminRoleMeta[user.role].label : 'ผู้ดูแลระบบ'
 
   useEffect(() => {
     if (!openMenu && !mobileMenuOpen) return
@@ -86,37 +96,51 @@ export function Topbar() {
           </Link>
 
           <nav ref={navRef} className="hidden items-center gap-6 text-sm font-medium text-gray-500 md:flex">
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => toggleMenu('inventory')}
-                className={`flex items-center gap-1 hover:text-gray-900 ${isInventoryActive ? 'text-rose-500' : ''}`}
-              >
-                คลังสินค้า
-                <FiChevronDown size={14} />
-              </button>
-              {openMenu === 'inventory' && (
-                <div className="absolute left-0 top-full mt-2 w-80">
-                  <InventoryMenu onNavigate={handleNavigate} />
-                </div>
-              )}
-            </div>
+            {showInventoryNav && (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => toggleMenu('inventory')}
+                  className={`flex items-center gap-1 hover:text-gray-900 ${isInventoryActive ? 'text-rose-500' : ''}`}
+                >
+                  คลังสินค้า
+                  <FiChevronDown size={14} />
+                </button>
+                {openMenu === 'inventory' && (
+                  <div className="absolute left-0 top-full mt-2 w-80">
+                    <InventoryMenu onNavigate={handleNavigate} />
+                  </div>
+                )}
+              </div>
+            )}
 
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => toggleMenu('manage')}
-                className={`flex items-center gap-1 hover:text-gray-900 ${isManageActive ? 'text-rose-500' : ''}`}
+            {showManageNav && (
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => toggleMenu('manage')}
+                  className={`flex items-center gap-1 hover:text-gray-900 ${isManageActive ? 'text-rose-500' : ''}`}
+                >
+                  จัดการ
+                  <FiChevronDown size={14} />
+                </button>
+                {openMenu === 'manage' && (
+                  <div className="absolute left-0 top-full mt-2 w-96">
+                    <ManageMenu onNavigate={handleNavigate} />
+                  </div>
+                )}
+              </div>
+            )}
+
+            {showAdminsNav && (
+              <Link
+                to="/admins"
+                onClick={handleNavigate}
+                className={`hover:text-gray-900 ${isAdminsActive ? 'text-rose-500' : ''}`}
               >
-                จัดการ
-                <FiChevronDown size={14} />
-              </button>
-              {openMenu === 'manage' && (
-                <div className="absolute left-0 top-full mt-2 w-96">
-                  <ManageMenu onNavigate={handleNavigate} />
-                </div>
-              )}
-            </div>
+                ผู้ดูแลระบบ
+              </Link>
+            )}
           </nav>
         </div>
 
@@ -145,7 +169,7 @@ export function Topbar() {
               </span>
               <span className="hidden text-right sm:block">
                 <span className="block text-sm font-medium text-gray-800">{user?.name ?? 'แอดมิน'}</span>
-                <span className="block text-xs text-gray-400">ผู้ดูแลระบบ</span>
+                <span className="block text-xs text-gray-400">{roleLabel}</span>
               </span>
               <FiChevronDown
                 size={14}
@@ -191,29 +215,47 @@ export function Topbar() {
 
       {mobileMenuOpen && (
         <div ref={mobilePanelRef} className="space-y-2 border-t border-gray-100 px-4 py-3 md:hidden">
-          <button
-            type="button"
-            onClick={() => toggleMenu('inventory')}
-            className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium ${
-              isInventoryActive ? 'text-rose-500' : 'text-gray-700'
-            }`}
-          >
-            คลังสินค้า
-            <FiChevronDown className={`transition-transform ${openMenu === 'inventory' ? 'rotate-180' : ''}`} size={16} />
-          </button>
-          {openMenu === 'inventory' && <InventoryMenu onNavigate={handleNavigate} />}
+          {showInventoryNav && (
+            <>
+              <button
+                type="button"
+                onClick={() => toggleMenu('inventory')}
+                className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium ${
+                  isInventoryActive ? 'text-rose-500' : 'text-gray-700'
+                }`}
+              >
+                คลังสินค้า
+                <FiChevronDown className={`transition-transform ${openMenu === 'inventory' ? 'rotate-180' : ''}`} size={16} />
+              </button>
+              {openMenu === 'inventory' && <InventoryMenu onNavigate={handleNavigate} />}
+            </>
+          )}
 
-          <button
-            type="button"
-            onClick={() => toggleMenu('manage')}
-            className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium ${
-              isManageActive ? 'text-rose-500' : 'text-gray-700'
-            }`}
-          >
-            จัดการ
-            <FiChevronDown className={`transition-transform ${openMenu === 'manage' ? 'rotate-180' : ''}`} size={16} />
-          </button>
-          {openMenu === 'manage' && <ManageMenu onNavigate={handleNavigate} />}
+          {showManageNav && (
+            <>
+              <button
+                type="button"
+                onClick={() => toggleMenu('manage')}
+                className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium ${
+                  isManageActive ? 'text-rose-500' : 'text-gray-700'
+                }`}
+              >
+                จัดการ
+                <FiChevronDown className={`transition-transform ${openMenu === 'manage' ? 'rotate-180' : ''}`} size={16} />
+              </button>
+              {openMenu === 'manage' && <ManageMenu onNavigate={handleNavigate} />}
+            </>
+          )}
+
+          {showAdminsNav && (
+            <Link
+              to="/admins"
+              onClick={handleNavigate}
+              className={`block rounded-lg px-3 py-2 text-sm font-medium ${isAdminsActive ? 'text-rose-500' : 'text-gray-700'}`}
+            >
+              ผู้ดูแลระบบ
+            </Link>
+          )}
         </div>
       )}
     </header>
