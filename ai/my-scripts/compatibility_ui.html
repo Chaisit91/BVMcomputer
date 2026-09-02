@@ -57,7 +57,18 @@
     .turntable-controls button:hover { border-color:var(--accent) }
     #build-angle { min-width:92px; color:var(--muted); text-align:center; font-size:13px }
     .manifest { margin:0; padding-left:20px; color:var(--muted) }
+    .upgrade-controls { display:grid; grid-template-columns:repeat(2,minmax(180px,1fr)) auto; gap:12px; align-items:end }
+    .upgrade-controls label { margin:0; color:var(--muted); font-size:13px }
+    .upgrade-controls select { display:block; width:100%; margin-top:6px; border:1px solid var(--line); border-radius:9px; padding:10px 12px; color:var(--text); background:#0e1528 }
+    .upgrade-results { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px; margin-top:14px }
+    .upgrade-card { border:1px solid var(--line); border-radius:12px; padding:14px; background:#0e1528 }
+    .upgrade-card h3 { margin:0 0 5px; font-size:16px }
+    .upgrade-card ul { margin:8px 0; padding-left:20px; color:var(--muted) }
+    .upgrade-score { color:var(--accent); font-weight:800 }
+    .required-change { margin-top:8px; border-left:3px solid var(--unknown); padding:8px 10px; background:#30291c }
+    .required-change strong { color:var(--unknown) }
     @media (max-width:720px) { .build-preview { grid-template-columns:1fr } }
+    @media (max-width:720px) { .upgrade-controls { grid-template-columns:1fr } }
   </style>
 </head>
 <body>
@@ -70,6 +81,36 @@
     <div id="summary" class="hint">ค้นหาและเลือก CPU เพื่อเริ่มต้น</div>
     <div id="error" class="error"></div>
     <div id="checks"></div>
+  </section>
+  <section class="panel">
+    <h2>แนะนำการอัปเกรด</h2>
+    <p class="hint">ระบบจะถือว่าอุปกรณ์ที่เลือกด้านบนคือเครื่องปัจจุบัน แล้วแนะนำรุ่นที่แรงขึ้นพร้อมบอกชิ้นส่วนที่ต้องเปลี่ยนตาม</p>
+    <div class="upgrade-controls">
+      <label>เป้าหมายการใช้งาน
+        <select id="upgrade-goal">
+          <option value="gaming">เล่นเกม</option>
+          <option value="creator">ตัดต่อ / เรนเดอร์ / งานสร้างสรรค์</option>
+          <option value="general">ใช้งานทั่วไป</option>
+        </select>
+      </label>
+      <label>ชิ้นส่วนที่ต้องการอัปเกรด
+        <select id="upgrade-target">
+          <option value="auto">ให้ระบบเลือกจุดที่ควรอัปเกรด</option>
+          <option value="cpu">CPU</option>
+          <option value="motherboard">Motherboard</option>
+          <option value="gpu">GPU</option>
+          <option value="ram">RAM</option>
+          <option value="cooler">CPU Cooler</option>
+          <option value="psu">PSU</option>
+          <option value="case">Case</option>
+          <option value="storage">Storage</option>
+        </select>
+      </label>
+      <button id="upgrade-button" class="primary" type="button" disabled>แนะนำการอัปเกรด</button>
+    </div>
+    <div id="upgrade-status" class="hint"></div>
+    <div id="upgrade-error" class="error"></div>
+    <div id="upgrade-results" class="upgrade-results"></div>
   </section>
   <section class="panel">
     <h2>ภาพจำลองชุดสเปก</h2>
@@ -115,6 +156,10 @@ const partsRoot = document.querySelector("#parts");
 const assembleButton = document.querySelector("#assemble");
 const assembleStatus = document.querySelector("#assemble-status");
 const assembleError = document.querySelector("#assemble-error");
+const upgradeButton = document.querySelector("#upgrade-button");
+const upgradeStatus = document.querySelector("#upgrade-status");
+const upgradeError = document.querySelector("#upgrade-error");
+const upgradeResults = document.querySelector("#upgrade-results");
 const buildPreview = document.querySelector("#build-preview");
 const turntable = document.querySelector("#turntable");
 const buildImage = document.querySelector("#build-image");
@@ -172,6 +217,12 @@ function placeholderFor(type) {
   return `เลือก ${TYPE_LABEL[type]}`;
 }
 
+function clearUpgradeResults() {
+  upgradeStatus.textContent = "";
+  upgradeError.textContent = "";
+  upgradeResults.replaceChildren();
+}
+
 function clearPicked(type) {
   delete picked[type];
   delete pickedNames[type];
@@ -181,6 +232,7 @@ function clearPicked(type) {
   ui.toggle.textContent = placeholderFor(type);
   ui.chosen.textContent = "";
   clearBuildPreview();
+  clearUpgradeResults();
 }
 
 function clearBuildPreview() {
@@ -254,10 +306,87 @@ autoButton.onclick = toggleAutoRotate;
 function updateAssemblyAvailability() {
   const complete = TYPE_LIST.every(([type]) => Boolean(picked[type]));
   assembleButton.disabled = !complete || lastValidationStatus === "incompatible";
+  upgradeButton.disabled = !Object.keys(picked).length;
   assembleStatus.textContent = complete
     ? (assembleButton.disabled ? "ชุดนี้ยังไม่ผ่านการตรวจสอบ" : "พร้อมสร้างภาพจำลองจากรูปสินค้าจริงทั้ง 8 ชิ้น")
     : `เลือกแล้ว ${Object.keys(picked).length}/8 หมวด`;
 }
+
+function renderUpgradeResults(data) {
+  upgradeResults.replaceChildren();
+  upgradeStatus.textContent = data.summary;
+  for (const recommendation of data.recommendations) {
+    const card = document.createElement("article");
+    card.className = "upgrade-card";
+    const title = document.createElement("h3");
+    title.textContent = `${recommendation.label}: ${recommendation.product.name}`;
+    const score = document.createElement("div");
+    score.className = "upgrade-score";
+    const gain = recommendation.estimated_gain_percent == null
+      ? "ยังไม่มีชิ้นเดิมสำหรับเทียบ"
+      : `feature score เพิ่มประมาณ ${recommendation.estimated_gain_percent}%`;
+    score.textContent = `คะแนนแนะนำ ${recommendation.upgrade_score}/100 · ${gain}`;
+    const reasons = document.createElement("ul");
+    for (const reason of recommendation.reasons) {
+      const item = document.createElement("li");
+      item.textContent = reason;
+      reasons.append(item);
+    }
+    card.append(title, score, reasons);
+
+    if (recommendation.required_changes.length) {
+      for (const change of recommendation.required_changes) {
+        const box = document.createElement("div");
+        box.className = "required-change";
+        const heading = document.createElement("strong");
+        heading.textContent = `ต้องเปลี่ยน ${change.label} ตาม`;
+        const detail = document.createElement("div");
+        detail.textContent = change.reasons.join(" · ");
+        box.append(heading, detail);
+        card.append(box);
+      }
+    } else {
+      const keep = document.createElement("p");
+      keep.className = "hint";
+      keep.textContent = "จากข้อมูลที่เลือก ยังไม่พบชิ้นส่วนที่จำเป็นต้องเปลี่ยนตาม";
+      card.append(keep);
+    }
+    upgradeResults.append(card);
+  }
+  if (data.limitations.length) {
+    const limitations = document.createElement("p");
+    limitations.className = "hint";
+    limitations.textContent = `ข้อจำกัด: ${data.limitations.join(" · ")}`;
+    upgradeResults.append(limitations);
+  }
+}
+
+upgradeButton.onclick = async () => {
+  upgradeButton.disabled = true;
+  upgradeError.textContent = "";
+  upgradeResults.replaceChildren();
+  upgradeStatus.textContent = "กำลังวิเคราะห์จุดอัปเกรดและ dependency...";
+  try {
+    const response = await fetch("/upgrade-recommend", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        current_build:picked,
+        goal:document.querySelector("#upgrade-goal").value,
+        target:document.querySelector("#upgrade-target").value,
+        limit:5
+      })
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "แนะนำการอัปเกรดไม่สำเร็จ");
+    renderUpgradeResults(data);
+  } catch (error) {
+    upgradeStatus.textContent = "ยังวิเคราะห์การอัปเกรดไม่ได้";
+    upgradeError.textContent = error.message;
+  } finally {
+    updateAssemblyAvailability();
+  }
+};
 
 function invalidateChangedContext(type) {
   const ui = dropdowns[type];
@@ -353,6 +482,7 @@ function appendOptionButtons(type, rawItems) {
       ui.chosen.textContent = `เลือกแล้ว · ${item.name}`;
       closeDropdown(type);
       clearBuildPreview();
+      clearUpgradeResults();
       refreshCompatibility(type);
     };
     fragment.append(button);

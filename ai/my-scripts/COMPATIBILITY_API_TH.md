@@ -53,6 +53,16 @@ python -m pip install -r my-scripts/requirements-postgres.txt
 python my-scripts/compatibility_api.py --host 127.0.0.1 --port 8000
 ```
 
+ถ้าต้องการให้ API และระบบแนะนำอัปเกรดอ่าน clean catalog จาก Supabase ให้ตั้งเฉพาะ URL และ publishable key ซึ่งเปิดเผยใน client ได้ ห้ามใช้ secret/service-role key:
+
+```powershell
+$env:SUPABASE_URL = "https://<project-ref>.supabase.co"
+$env:SUPABASE_PUBLISHABLE_KEY = "sb_publishable_..."
+$env:BUILDCORES_SUPABASE_REQUIRED = "1" # ไม่บังคับ; ให้หยุด server ถ้า Supabase ใช้งานไม่ได้
+```
+
+หากไม่ตั้งค่า ระบบจะใช้ `data/processed/web_catalog` ในเครื่อง และหากตั้ง Supabase แต่เชื่อมต่อไม่ได้ ระบบจะ fallback เป็น CSV เว้นแต่ตั้ง `BUILDCORES_SUPABASE_REQUIRED=1`
+
 เปิดหน้าเลือกอุปกรณ์ใน browser:
 
 ```text
@@ -65,10 +75,33 @@ Endpoints:
 GET /health
 GET /search?type=cpu&q=7800X3D&limit=20
 GET /recommend?cpu=<id>&motherboard=<id>&gpu=<id>&limit=10
+POST /upgrade-recommend
 POST /assemble
 ```
 
 หน้าเว็บควรเรียก `/search` เพื่อให้ผู้ใช้เลือก `opendb_id` ที่แน่นอน แล้วเรียก `/recommend` ใหม่ทุกครั้งที่เพิ่มหรือถอดอุปกรณ์
+
+`POST /upgrade-recommend` รับเครื่องปัจจุบันและเป้าหมาย เช่น:
+
+```json
+{
+  "current_build": {
+    "cpu": "<cpu-id>",
+    "motherboard": "<motherboard-id>",
+    "gpu": "<gpu-id>",
+    "ram": "<ram-id>",
+    "cooler": "<cooler-id>",
+    "case": "<case-id>",
+    "psu": "<psu-id>",
+    "storage": "<storage-id>"
+  },
+  "goal": "gaming",
+  "target": "auto",
+  "limit": 5
+}
+```
+
+ค่า `goal` รองรับ `gaming`, `creator`, `general` ส่วน `target` ใช้ `auto` หรือชื่อหมวดอุปกรณ์ ระบบจัดอันดับรุ่นที่ feature score สูงขึ้นอย่างน้อย 5% แล้วใช้กฎ compatibility ตรวจผลกระทบ พร้อมคืน `required_changes` เพื่อบอกว่าต้องเปลี่ยนเมนบอร์ด, RAM, cooler, PSU หรือเคสตามหรือไม่ คะแนนที่เพิ่มเป็น heuristic ภายในหมวด ไม่ใช่ FPS/benchmark และยังไม่ใช้ budget เพราะ catalog ไม่มีราคา
 
 `POST /assemble` รับ JSON รูปแบบ `{"selection":{"cpu":"<id>", ...}}` หลังเลือกครบ 8 หมวด ระบบจะดึง `image_url` จาก PostgreSQL ย่อแต่ละรูปให้ไม่เกิน `1024×1024` โดยรักษาอัตราส่วน แล้วส่งข้อมูลสินค้าครบทุกชิ้นไปยัง MaxPlus Images API เนื่องจาก API รับรูปอ้างอิงได้สูงสุด 5 ไฟล์ ระบบจึงส่ง Case, Motherboard, CPU Cooler และ GPU เป็นรูปเดี่ยว และรวม CPU, RAM, PSU และ Storage เป็น contact sheet 2×2 ในไฟล์ที่ห้า ต้องตั้ง `MAXPLUS_API_KEY` (คีย์ `ccsk-...`) เฉพาะฝั่ง server และใช้ public HTTPS URL สำหรับรูปสินค้า ภาพที่ได้เป็นภาพจำลอง ไม่ใช่การรับรองรูปลักษณ์ของ SKU แบบ 100%
 

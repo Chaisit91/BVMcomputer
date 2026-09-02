@@ -41,11 +41,37 @@ from build_visualizer import (
     generate_build_turntable,
     selected_image_parts,
 )
+from upgrade_recommender import recommend_upgrades
+from supabase_catalog import load_supabase_catalog
 
 
-# The curated CSV writer already orders rows by completeness, coverage and
-# recency. Preserve that order so forward-checking tries the safest paths first.
-CATALOG = load_catalog()
+def load_runtime_catalog() -> tuple[dict[str, list[dict[str, str]]], str]:
+    """Prefer Supabase when configured and retain an offline CSV fallback."""
+
+    project_url = os.getenv("SUPABASE_URL", "").strip()
+    publishable_key = os.getenv("SUPABASE_PUBLISHABLE_KEY", "").strip()
+    required = os.getenv("BUILDCORES_SUPABASE_REQUIRED") == "1"
+    if project_url and publishable_key:
+        try:
+            catalog = load_supabase_catalog(project_url, publishable_key)
+            print("Product catalog: loaded clean data from Supabase")
+            return catalog, "supabase"
+        except Exception as error:
+            if required:
+                raise RuntimeError(f"Supabase catalog unavailable: {error}") from error
+            print(f"Product catalog: Supabase unavailable ({error}); using local CSV")
+    elif required:
+        raise RuntimeError(
+            "SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY are required when "
+            "BUILDCORES_SUPABASE_REQUIRED=1"
+        )
+
+    # The curated CSV writer orders rows by completeness, coverage and recency.
+    # Preserve that order so forward-checking tries the safest paths first.
+    return load_catalog(), "csv"
+
+
+CATALOG, CATALOG_SOURCE = load_runtime_catalog()
 BY_ID = {
     part_type: {row.get("opendb_id", ""): row for row in rows}
     for part_type, rows in CATALOG.items()
@@ -216,6 +242,22 @@ def cached_recommendation(
     return build_recommendations(CATALOG, dict(zip(PART_FILES, values)), limit)
 
 
+@lru_cache(maxsize=512)
+def cached_upgrade_recommendation(
+    values: tuple[str, ...],
+    goal: str,
+    target: str,
+    limit: int,
+) -> dict:
+    return recommend_upgrades(
+        CATALOG,
+        dict(zip(PART_FILES, values)),
+        goal=goal,
+        target=target,
+        limit=limit,
+    )
+
+
 class CompatibilityHandler(BaseHTTPRequestHandler):
     server_version = "BuildCoresCompatibility/1.0"
     api_token: str | None = None
@@ -276,8 +318,28 @@ class CompatibilityHandler(BaseHTTPRequestHandler):
         try:
             if not self.require_api_auth():
                 return
-            if urlparse(self.path).path != "/assemble":
-                self.send_json(404, {"error": "ใช้ POST /assemble"})
+            path = urlparse(self.path).path
+            if path not in {"/assemble", "/upgrade-recommend"}:
+                self.send_json(404, {"error": "ใช้ POST /assemble หรือ /upgrade-recommend"})
+                return
+            if path == "/upgrade-recommend":
+                length = int(self.headers.get("Content-Length", "0"))
+                if length <= 0 or length > 65_536:
+                    raise ValueError("request body ต้องเป็น JSON และมีขนาดไม่เกิน 64 KB")
+                payload = json.loads(self.rfile.read(length))
+                if not isinstance(payload, dict) or not isinstance(payload.get("current_build"), dict):
+                    raise ValueError("ต้องส่ง current_build เป็น JSON object")
+                values = tuple(
+                    str(payload["current_build"].get(part_type, "")).strip()
+                    for part_type in PART_FILES
+                )
+                goal = str(payload.get("goal", "gaming")).strip().lower()
+                target = str(payload.get("target", "auto")).strip().lower()
+                limit = min(max(int(payload.get("limit", 5)), 1), 20)
+                self.send_json(
+                    200,
+                    cached_upgrade_recommendation(values, goal, target, limit),
+                )
                 return
             origin = self.headers.get("Origin")
             host = self.headers.get("Host", "")
@@ -323,10 +385,12 @@ class CompatibilityHandler(BaseHTTPRequestHandler):
             if parsed.path == "/health":
                 self.send_json(200, {
                     "status": "ok",
+                    "catalog_source": CATALOG_SOURCE,
                     "catalog_counts": {key: len(value) for key, value in CATALOG.items()},
                     "cache": {
                         "search": compatible_ids.cache_info()._asdict(),
                         "recommend": cached_recommendation.cache_info()._asdict(),
+                        "upgrade": cached_upgrade_recommendation.cache_info()._asdict(),
                     },
                 })
                 return
@@ -336,7 +400,7 @@ class CompatibilityHandler(BaseHTTPRequestHandler):
             if parsed.path == "/recommend":
                 self.handle_recommend(params)
                 return
-            self.send_json(404, {"error": "ใช้ /health, /search, /recommend หรือ POST /assemble"})
+            self.send_json(404, {"error": "ใช้ /health, /search, /recommend, POST /upgrade-recommend หรือ POST /assemble"})
         except SelectionError as error:
             self.send_json(422, {"error": str(error)})
         except (TypeError, ValueError) as error:
@@ -398,7 +462,7 @@ def main() -> None:
     browser_host = "127.0.0.1" if args.host in {"0.0.0.0", "::"} else args.host
     browser_url = f"http://{browser_host}:{server.server_port}/"
     print(f"Compatibility API: {browser_url}")
-    print("Endpoints: /health, /search, /recommend, POST /assemble")
+    print("Endpoints: /health, /search, /recommend, POST /upgrade-recommend, POST /assemble")
     if args.open_browser:
         threading.Timer(0.5, webbrowser.open, args=(browser_url,)).start()
     try:

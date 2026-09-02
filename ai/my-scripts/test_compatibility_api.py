@@ -89,6 +89,72 @@ class CompatibilityApiTests(unittest.TestCase):
         finally:
             caught.exception.close()
 
+    def test_upgrade_recommend_endpoint(self):
+        current_gpu = min(
+            CATALOG["gpu"],
+            key=lambda row: float(row.get("compute_score") or 0),
+        )
+        request = Request(
+            f"{self.base_url}/upgrade-recommend",
+            data=json.dumps({
+                "current_build": {"gpu": current_gpu["opendb_id"]},
+                "goal": "gaming",
+                "target": "gpu",
+                "limit": 3,
+            }).encode(),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urlopen(request, timeout=3) as response:
+            payload = json.load(response)
+
+        self.assertEqual(payload["goal"], "gaming")
+        self.assertEqual(payload["target"], "gpu")
+        self.assertTrue(payload["recommendations"])
+        self.assertLessEqual(len(payload["recommendations"]), 3)
+
+    def test_upgrade_recommend_requires_current_build(self):
+        request = Request(
+            f"{self.base_url}/upgrade-recommend",
+            data=json.dumps({"current_build": {}, "goal": "gaming"}).encode(),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with self.assertRaises(HTTPError) as caught:
+            urlopen(request, timeout=3)
+        try:
+            self.assertEqual(caught.exception.code, 422)
+        finally:
+            caught.exception.close()
+
+    def test_upgrade_recommend_handles_a_complete_real_build(self):
+        order = ("cpu", "motherboard", "gpu", "ram", "cooler", "psu", "case", "storage")
+        picked = {}
+        for part_type in order:
+            params = {key: row["opendb_id"] for key, row in picked.items()}
+            options = filter_compatible_search(part_type, CATALOG[part_type], params)
+            self.assertTrue(options)
+            picked[part_type] = options[-1]
+
+        request = Request(
+            f"{self.base_url}/upgrade-recommend",
+            data=json.dumps({
+                "current_build": {
+                    part: row["opendb_id"] for part, row in picked.items()
+                },
+                "goal": "gaming",
+                "target": "auto",
+                "limit": 5,
+            }).encode(),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urlopen(request, timeout=5) as response:
+            payload = json.load(response)
+
+        self.assertEqual(len(payload["current_build"]), 8)
+        self.assertIn("recommendations", payload)
+
     def test_first_offered_choice_can_reach_all_eight_categories(self):
         order = ("cpu", "motherboard", "gpu", "ram", "cooler", "psu", "case", "storage")
         picked = {}
