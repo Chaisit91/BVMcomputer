@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { FiEdit2, FiPlus, FiRefreshCw, FiSlash } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
+import { StatChip } from '../../components/ui/SummaryCard'
 import { getAdminSummary, getAdmins, updateAdminStatus } from '../../services/admin.service'
 import { adminRoleMeta, type AdminAccount, type AdminRole, type AdminStatus, type AdminSummary } from '../../types/admin'
 
@@ -108,27 +109,9 @@ export function AdminListPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-gray-100 bg-white p-5">
-          <p className="text-sm text-gray-500">ผู้ดูแลทั้งหมด</p>
-          <p className="mt-2 flex items-center gap-2">
-            <span className="text-2xl font-bold text-rose-500">{summary.totalCount}</span>
-            <span className="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-500">คน</span>
-          </p>
-        </div>
-        <div className="rounded-2xl border border-gray-100 bg-white p-5">
-          <p className="text-sm text-gray-500">กำลังใช้งาน (Active)</p>
-          <p className="mt-2 flex items-center gap-2">
-            <span className="text-2xl font-bold text-emerald-500">{summary.activeCount}</span>
-            <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-600">คน</span>
-          </p>
-        </div>
-        <div className="rounded-2xl border border-gray-100 bg-white p-5">
-          <p className="text-sm text-gray-500">ระงับการใช้งาน (Inactive)</p>
-          <p className="mt-2 flex items-center gap-2">
-            <span className="text-2xl font-bold text-rose-500">{summary.inactiveCount}</span>
-            <span className="rounded-full bg-rose-50 px-2 py-0.5 text-xs font-medium text-rose-600">คน</span>
-          </p>
-        </div>
+        <StatChip dotColor="bg-gray-400" label="ผู้ดูแลทั้งหมด" value={`${summary.totalCount} คน`} />
+        <StatChip dotColor="bg-emerald-500" label="กำลังใช้งาน (Active)" value={`${summary.activeCount} คน`} />
+        <StatChip dotColor="bg-rose-500" label="ระงับการใช้งาน (Inactive)" value={`${summary.inactiveCount} คน`} />
       </div>
 
       <div className="rounded-2xl border border-gray-100 bg-white p-5">

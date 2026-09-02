@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { FiDownload, FiEdit2 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
+import { StatChip } from '../../../components/ui/SummaryCard'
 import { getOrders, getOrderSummary, getOrderTotal } from '../../../services/order.service'
 import { orderStatusMeta, paymentStatusMeta, type Order, type OrderStatus, type OrderSummary } from '../../../types/order'
 
@@ -11,18 +12,6 @@ const statusFilterOptions: { value: 'all' | OrderStatus; label: string }[] = [
   { value: 'all', label: 'สถานะคำสั่งซื้อทั้งหมด' },
   ...(Object.keys(orderStatusMeta) as OrderStatus[]).map((value) => ({ value, label: orderStatusMeta[value].label })),
 ]
-
-function StatusChip({ dot, label, value }: { dot: string; label: string; value: string }) {
-  return (
-    <div className="flex items-center gap-2 rounded-2xl border border-gray-100 bg-white px-4 py-3">
-      <span className={`h-2 w-2 shrink-0 rounded-full ${dot}`} />
-      <div>
-        <p className="text-xs text-gray-500">{label}</p>
-        <p className="text-xl font-bold text-gray-900">{value}</p>
-      </div>
-    </div>
-  )
-}
 
 export function OrderListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
@@ -92,12 +81,12 @@ export function OrderListPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
-        <StatusChip dot={orderStatusMeta.pending_payment.dot} label={orderStatusMeta.pending_payment.label} value={String(summary.pendingPaymentCount)} />
-        <StatusChip dot={orderStatusMeta.paid.dot} label={orderStatusMeta.paid.label} value={String(summary.paidCount)} />
-        <StatusChip dot={orderStatusMeta.preparing.dot} label={orderStatusMeta.preparing.label} value={String(summary.preparingCount)} />
-        <StatusChip dot={orderStatusMeta.shipping.dot} label={orderStatusMeta.shipping.label} value={String(summary.shippingCount)} />
-        <StatusChip dot={orderStatusMeta.completed.dot} label={orderStatusMeta.completed.label} value={summary.completedCount.toLocaleString()} />
-        <StatusChip dot={orderStatusMeta.cancelled.dot} label={orderStatusMeta.cancelled.label} value={String(summary.cancelledCount)} />
+        <StatChip dotColor={orderStatusMeta.pending_payment.dot} label={orderStatusMeta.pending_payment.label} value={String(summary.pendingPaymentCount)} />
+        <StatChip dotColor={orderStatusMeta.paid.dot} label={orderStatusMeta.paid.label} value={String(summary.paidCount)} />
+        <StatChip dotColor={orderStatusMeta.preparing.dot} label={orderStatusMeta.preparing.label} value={String(summary.preparingCount)} />
+        <StatChip dotColor={orderStatusMeta.shipping.dot} label={orderStatusMeta.shipping.label} value={String(summary.shippingCount)} />
+        <StatChip dotColor={orderStatusMeta.completed.dot} label={orderStatusMeta.completed.label} value={summary.completedCount.toLocaleString()} />
+        <StatChip dotColor={orderStatusMeta.cancelled.dot} label={orderStatusMeta.cancelled.label} value={String(summary.cancelledCount)} />
       </div>
 
       <div className="rounded-2xl border border-gray-100 bg-white p-5">

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { FiEdit2, FiPlus, FiTrash2 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
+import { StatChip } from '../../../components/ui/SummaryCard'
 import { Toggle } from '../../../components/ui/Toggle'
 import { deleteBanner, getBannerSummary, getBanners, updateBannerActive } from '../../../services/banner.service'
 import type { Banner, BannerStatus, BannerSummary, BannerType } from '../../../types/banner'
@@ -135,34 +136,10 @@ export function BannerListPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-2xl border border-gray-100 bg-white p-5">
-          <p className="flex items-center gap-2 text-sm text-gray-500">
-            <span className="h-2 w-2 rounded-full bg-gray-400" />
-            แบนเนอร์ทั้งหมด
-          </p>
-          <p className="mt-2 text-2xl font-bold text-gray-900">{summary.totalCount}</p>
-        </div>
-        <div className="rounded-2xl border border-gray-100 bg-white p-5">
-          <p className="flex items-center gap-2 text-sm text-gray-500">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
-            กำลังแสดง
-          </p>
-          <p className="mt-2 text-2xl font-bold text-gray-900">{summary.activeCount}</p>
-        </div>
-        <div className="rounded-2xl border border-gray-100 bg-white p-5">
-          <p className="flex items-center gap-2 text-sm text-gray-500">
-            <span className="h-2 w-2 rounded-full bg-gray-400" />
-            หยุดแสดง
-          </p>
-          <p className="mt-2 text-2xl font-bold text-gray-900">{summary.inactiveCount}</p>
-        </div>
-        <div className="rounded-2xl border border-gray-100 bg-white p-5">
-          <p className="flex items-center gap-2 text-sm text-gray-500">
-            <span className="h-2 w-2 rounded-full bg-rose-500" />
-            หมดอายุ
-          </p>
-          <p className="mt-2 text-2xl font-bold text-gray-900">{summary.expiredCount}</p>
-        </div>
+        <StatChip dotColor="bg-gray-400" label="แบนเนอร์ทั้งหมด" value={String(summary.totalCount)} />
+        <StatChip dotColor="bg-emerald-500" label="กำลังแสดง" value={String(summary.activeCount)} />
+        <StatChip dotColor="bg-gray-400" label="หยุดแสดง" value={String(summary.inactiveCount)} />
+        <StatChip dotColor="bg-rose-500" label="หมดอายุ" value={String(summary.expiredCount)} />
       </div>
 
       <div className="rounded-2xl border border-gray-100 bg-white p-5">
