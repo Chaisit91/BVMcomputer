@@ -105,7 +105,6 @@ flowchart LR
 ตัวอย่างสคริปต์ที่เกี่ยวข้อง:
 
 - `inspect_data.py`
-- `check_data.py`
 - `data_quality.py`
 - `data_validation.py`
 - `normalized_quality.py`
