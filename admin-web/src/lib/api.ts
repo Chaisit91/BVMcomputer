@@ -15,7 +15,10 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const config = error.config as RetryableConfig | undefined
-    if (error.response?.status !== 401 || !config || config._retry) {
+    // A failing refresh call must reject immediately — retrying it would await
+    // refreshPromise from inside the very call that promise is waiting on (deadlock).
+    const isRefreshCall = config?.url?.includes('/auth/refresh')
+    if (error.response?.status !== 401 || !config || config._retry || isRefreshCall) {
       return Promise.reject(error)
     }
     config._retry = true

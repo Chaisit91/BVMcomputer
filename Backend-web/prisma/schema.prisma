@@ -1,0 +1,568 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ---------- Enums ----------
+
+enum ActiveStatus {
+  active
+  inactive
+}
+
+enum CpuBrand {
+  AMD
+  Intel
+}
+
+enum GpuStatus {
+  available
+  preorder
+  discontinued
+}
+
+enum DesktopPcCategory {
+  desktop
+  mini_pc
+  all_in_one
+  ai_workstation
+  ai_enterprise
+}
+
+enum DesktopPcStatus {
+  selling
+  low_stock
+  out_of_stock
+  discontinued
+}
+
+enum PromoSetStatus {
+  selling
+  out_of_stock
+  closed
+}
+
+enum BuildStatus {
+  pending
+  in_progress
+  done
+  cancelled
+}
+
+enum CustomerStatus {
+  active
+  inactive
+  suspended
+}
+
+enum PaymentStatus {
+  paid
+  unpaid
+}
+
+enum OrderStatus {
+  pending_payment
+  paid
+  preparing
+  shipping
+  completed
+  cancelled
+}
+
+enum BannerType {
+  hero
+  promo
+  popup
+}
+
+enum AdminRole {
+  super_admin
+  inventory_manager
+  sales_staff
+  content_moderator
+}
+
+// The 8 sellable part categories — reused both as Product.category and as the
+// "which slot" discriminator on DesktopPc/PromoSet/CustomBuild components.
+enum PartCategory {
+  cpu
+  gpu
+  motherboard
+  ram
+  storage
+  case
+  psu
+  cooling
+}
+
+// ---------- EAV spec system ----------
+// Gpu/Motherboard/Ram/Storage/Case/Psu/Cooling specs used to be a Json blob per
+// category (1NF violation — nested structure in one column). Now: a shared
+// catalog of known fields per category (SpecField) + one value row per
+// product per field (ProductSpecValue). Cpu keeps its own flat columns
+// (its spec shape was already fixed/atomic, never a Json blob) but still gets
+// a Product anchor so build/promo-set slots below can reference "any product"
+// through one FK instead of 8 nullable ones.
+
+model Product {
+  id       String       @id @default(cuid())
+  category PartCategory
+
+  specValues ProductSpecValue[]
+  extraSpecs ExtraSpec[]
+  videoLinks ProductVideoLink[]
+
+  cpu         Cpu?
+  gpu         Gpu?
+  motherboard Motherboard?
+  ram         Ram?
+  storage     Storage?
+  case        Case?
+  psu         Psu?
+  cooling     Cooling?
+
+  desktopPcSlots   DesktopPcComponent[]
+  promoSetSlots    PromoSetComponent[]
+  customBuildSlots CustomBuildComponent[]
+}
+
+model SpecField {
+  id        String       @id @default(cuid())
+  category  PartCategory
+  key       String
+  label     String
+  sortOrder Int          @default(0)
+
+  values ProductSpecValue[]
+
+  @@unique([category, key])
+}
+
+model ProductSpecValue {
+  id        String    @id @default(cuid())
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  field     SpecField @relation(fields: [fieldId], references: [id])
+  fieldId   String
+  value     String
+
+  @@unique([productId, fieldId])
+}
+
+// Ad-hoc extra spec rows an admin free-types (not from the fixed SpecField catalog)
+model ExtraSpec {
+  id        String  @id @default(cuid())
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  name      String
+  detail    String
+}
+
+model ProductVideoLink {
+  id        String  @id @default(cuid())
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  url       String
+}
+
+// ---------- Product catalog ----------
+
+model Cpu {
+  productId          String   @id
+  product            Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku                String   @unique
+  name               String
+  brand              CpuBrand
+  series             String
+  processorLine      String
+  socket             String
+  processorNumber    String
+  coresThreads       String
+  baseFrequency      String
+  maxTurboFrequency  String
+  l2Cache            String
+  l3Cache            String
+  graphics           String
+  tdp                String
+  maxTdp             String
+  warranty            String
+  sellingPrice       Decimal  @db.Decimal(10, 2)
+  costPrice          Decimal  @db.Decimal(10, 2)
+  discount           Decimal  @default(0) @db.Decimal(10, 2)
+  stock              Int      @default(0)
+  publishImmediately Boolean  @default(true)
+  description        String   @default("")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  benchmarks CpuBenchmark[]
+}
+
+model CpuBenchmark {
+  id    String @id @default(cuid())
+  cpu   Cpu    @relation(fields: [cpuId], references: [productId], onDelete: Cascade)
+  cpuId String
+  name  String
+  score String
+  unit  String
+}
+
+model Gpu {
+  productId    String    @id
+  product      Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku          String    @unique
+  name         String
+  brand        String
+  series       String
+  model        String
+  chipsetModel String
+  memorySize   String
+  price        Decimal   @db.Decimal(10, 2)
+  stock        Int       @default(0)
+  status       GpuStatus @default(available)
+  description  String    @default("")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Motherboard {
+  productId          String   @id
+  product            Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku                String   @unique
+  name               String
+  brand              String
+  sellingPrice       Decimal  @db.Decimal(10, 2)
+  costPrice          Decimal  @db.Decimal(10, 2)
+  discount           Decimal  @default(0) @db.Decimal(10, 2)
+  stock              Int      @default(0)
+  publishImmediately Boolean  @default(true)
+  description        String   @default("")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Ram {
+  productId    String       @id
+  product      Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku          String       @unique
+  name         String
+  brand        String
+  series       String
+  sellingPrice Decimal      @db.Decimal(10, 2)
+  promoEnabled Boolean      @default(false)
+  promoPrice   Decimal      @default(0) @db.Decimal(10, 2)
+  stock        Int          @default(0)
+  status       ActiveStatus @default(active)
+  description  String       @default("")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Storage {
+  productId    String       @id
+  product      Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku          String       @unique
+  name         String
+  brand        String
+  sellingPrice Decimal      @db.Decimal(10, 2)
+  promoEnabled Boolean      @default(false)
+  promoPrice   Decimal      @default(0) @db.Decimal(10, 2)
+  stock        Int          @default(0)
+  status       ActiveStatus @default(active)
+  description  String       @default("")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Case {
+  productId    String       @id
+  product      Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  displayCode  String       @unique
+  sku          String       @unique
+  name         String
+  brand        String
+  sellingPrice Decimal      @db.Decimal(10, 2)
+  promoEnabled Boolean      @default(false)
+  promoPrice   Decimal      @default(0) @db.Decimal(10, 2)
+  stock        Int          @default(0)
+  status       ActiveStatus @default(active)
+  description  String       @default("")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Psu {
+  productId    String       @id
+  product      Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  displayCode  String       @unique
+  sku          String       @unique
+  name         String
+  brand        String
+  sellingPrice Decimal      @db.Decimal(10, 2)
+  promoEnabled Boolean      @default(false)
+  promoPrice   Decimal      @default(0) @db.Decimal(10, 2)
+  stock        Int          @default(0)
+  status       ActiveStatus @default(active)
+  description  String       @default("")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Cooling {
+  productId    String       @id
+  product      Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  displayCode  String       @unique
+  sku          String       @unique
+  name         String
+  brand        String
+  sellingPrice Decimal      @db.Decimal(10, 2)
+  promoEnabled Boolean      @default(false)
+  promoPrice   Decimal      @default(0) @db.Decimal(10, 2)
+  stock        Int          @default(0)
+  status       ActiveStatus @default(active)
+  description  String       @default("")
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+// Prebuilt desktop — each slot references a real catalog product instead of a
+// free-text name, so a renamed/discontinued part can't silently go stale here.
+model DesktopPc {
+  id          String            @id @default(cuid())
+  sku         String            @unique
+  name        String
+  category    DesktopPcCategory
+  status      DesktopPcStatus   @default(selling)
+  specSummary String
+  price       Decimal           @db.Decimal(10, 2)
+  stock       Int               @default(0)
+  description String            @default("")
+  os          String
+  warranty    String
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  components DesktopPcComponent[]
+  highlights DesktopPcHighlight[]
+}
+
+model DesktopPcComponent {
+  id          String       @id @default(cuid())
+  desktopPc   DesktopPc    @relation(fields: [desktopPcId], references: [id], onDelete: Cascade)
+  desktopPcId String
+  slot        PartCategory
+  product     Product      @relation(fields: [productId], references: [id])
+  productId   String
+
+  @@unique([desktopPcId, slot])
+}
+
+model DesktopPcHighlight {
+  id          String    @id @default(cuid())
+  desktopPc   DesktopPc @relation(fields: [desktopPcId], references: [id], onDelete: Cascade)
+  desktopPcId String
+  text        String
+}
+
+model PromoSet {
+  id           String         @id @default(cuid())
+  code         String         @unique
+  name         String
+  status       PromoSetStatus @default(selling)
+  specSummary  String
+  regularPrice Decimal        @db.Decimal(10, 2)
+  promoPrice   Decimal        @db.Decimal(10, 2)
+  stock        Int            @default(0)
+  description  String         @default("")
+  notes        String         @default("")
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  components DesktopPcComponent[] @relation("unused")
+  parts      PromoSetComponent[]
+  extraParts PromoSetExtraPart[]
+  highlights PromoSetHighlight[]
+  videoLinks PromoSetVideoLink[]
+}
+
+model PromoSetComponent {
+  id         String       @id @default(cuid())
+  promoSet   PromoSet     @relation(fields: [promoSetId], references: [id], onDelete: Cascade)
+  promoSetId String
+  slot       PartCategory
+  product    Product      @relation(fields: [productId], references: [id])
+  productId  String
+
+  @@unique([promoSetId, slot])
+}
+
+model PromoSetExtraPart {
+  id         String   @id @default(cuid())
+  promoSet   PromoSet @relation(fields: [promoSetId], references: [id], onDelete: Cascade)
+  promoSetId String
+  name       String
+  value      String
+}
+
+model PromoSetHighlight {
+  id         String   @id @default(cuid())
+  promoSet   PromoSet @relation(fields: [promoSetId], references: [id], onDelete: Cascade)
+  promoSetId String
+  text       String
+}
+
+model PromoSetVideoLink {
+  id         String   @id @default(cuid())
+  promoSet   PromoSet @relation(fields: [promoSetId], references: [id], onDelete: Cascade)
+  promoSetId String
+  url        String
+}
+
+// ---------- Customers & orders ----------
+
+model Customer {
+  id              String         @id @default(cuid())
+  customerCode    String         @unique
+  fullName        String
+  username        String         @unique
+  email           String         @unique
+  phone           String
+  registeredAt    DateTime       @default(now())
+  lastActiveAt    DateTime       @default(now())
+  status          CustomerStatus @default(active)
+  shippingAddress String         @default("")
+  note            String         @default("")
+  orders          Order[]
+}
+
+// customerName/Phone/shippingAddress stay on Order (not just via the Customer
+// relation) so a completed order keeps the details as they were at checkout,
+// even if the customer later edits their profile or the order has no account (guest).
+model Order {
+  id                    String          @id @default(cuid())
+  orderCode             String          @unique
+  orderedAt             DateTime        @default(now())
+  customer              Customer?       @relation(fields: [customerId], references: [id])
+  customerId            String?
+  customerName          String
+  customerPhone         String
+  shippingAddress       String
+  postalCode            String
+  province              String
+  district              String
+  subdistrict           String
+  paymentMethod         String
+  paymentStatus         PaymentStatus   @default(unpaid)
+  status                OrderStatus     @default(pending_payment)
+  trackingNumber        String          @default("")
+  shippingNote          String          @default("")
+  paymentSlipFilename   String          @default("")
+  paymentSlipUploadedAt DateTime?
+  items                 OrderLineItem[]
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+}
+
+model OrderLineItem {
+  id        String  @id @default(cuid())
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId   String
+  name      String
+  category  String
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)
+}
+
+// ---------- Custom PC builds (new-build specs & old-PC upgrade checks) ----------
+
+model CustomBuild {
+  id        String      @id @default(cuid())
+  orderNo   String      @unique
+  customer  String
+  status    BuildStatus @default(pending)
+  notes     String      @default("")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  components CustomBuildComponent[]
+}
+
+model CustomBuildComponent {
+  id            String       @id @default(cuid())
+  customBuild   CustomBuild  @relation(fields: [customBuildId], references: [id], onDelete: Cascade)
+  customBuildId String
+  slot          PartCategory
+  product       Product      @relation(fields: [productId], references: [id])
+  productId     String
+  // snapshot at build time — the catalog price can change later, this shouldn't
+  price         Decimal      @db.Decimal(10, 2)
+
+  @@unique([customBuildId, slot])
+}
+
+// ---------- Marketing ----------
+
+// "expired" is derived at read time from endDate, not stored, so it can
+// never drift out of sync with the date fields — only the admin's on/off
+// toggle is persisted.
+model Banner {
+  id              String     @id @default(cuid())
+  name            String
+  type            BannerType
+  targetLink      String
+  startDate       DateTime
+  endDate         DateTime
+  active          Boolean    @default(true)
+  previewTone     String     @default("")
+  imageFilename   String     @default("")
+  imageDimensions String     @default("")
+  imageFormat     String     @default("")
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+}
+
+// ---------- Admin accounts (RBAC) ----------
+
+model AdminAccount {
+  id           String       @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String       @unique
+  phone        String
+  passwordHash String
+  jobTitle     String       @default("")
+  role         AdminRole
+  status       ActiveStatus @default(active)
+  lastActiveAt DateTime?
+  createdAt    DateTime     @default(now())
+  createdBy    String       @default("")
+  notes        String       @default("")
+
+  roleHistory  AdminRoleHistory[]
+  loginHistory AdminLoginHistory[]
+}
+
+model AdminRoleHistory {
+  id          String       @id @default(cuid())
+  admin       AdminAccount @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  adminId     String
+  date        DateTime
+  description String
+}
+
+model AdminLoginHistory {
+  id      String       @id @default(cuid())
+  admin   AdminAccount @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  adminId String
+  date    DateTime
+  device  String
+}
