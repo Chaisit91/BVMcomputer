@@ -1,11 +1,14 @@
 import { BrowserRouter } from 'react-router-dom'
+import { ErrorBoundary } from './components/status/ErrorBoundary'
 import { AuthRouter } from './routes/AuthRouter'
 
 function App() {
   return (
-    <BrowserRouter>
-      <AuthRouter />
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <AuthRouter />
+      </BrowserRouter>
+    </ErrorBoundary>
   )
 }
 

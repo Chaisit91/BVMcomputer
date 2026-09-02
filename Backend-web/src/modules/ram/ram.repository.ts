@@ -1,9 +1,4 @@
 import { prisma } from '../../lib/prisma'
+import { createProductAnchoredRepository } from '../../lib/productAnchoredRepository'
 
-export const ramRepository = {
-  findMany: () => prisma.ram.findMany(),
-  findById: (id: string) => prisma.ram.findUnique({ where: { id } }),
-  create: (data: any) => prisma.ram.create({ data }),
-  update: (id: string, data: any) => prisma.ram.update({ where: { id }, data }),
-  remove: (id: string) => prisma.ram.delete({ where: { id } }),
-}
+export const ramRepository = createProductAnchoredRepository('ram', prisma.ram)

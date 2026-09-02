@@ -38,16 +38,15 @@ enum DesktopPcCategory {
   ai_enterprise
 }
 
+// low_stock/out_of_stock are derived from `stock` at read time, not stored —
+// only the states that are an actual admin decision (not stock-derivable) live here.
 enum DesktopPcStatus {
   selling
-  low_stock
-  out_of_stock
   discontinued
 }
 
 enum PromoSetStatus {
   selling
-  out_of_stock
   closed
 }
 
@@ -186,7 +185,8 @@ model Cpu {
   processorLine      String
   socket             String
   processorNumber    String
-  coresThreads       String
+  cores              Int
+  threads            Int
   baseFrequency      String
   maxTurboFrequency  String
   l2Cache            String
@@ -194,7 +194,7 @@ model Cpu {
   graphics           String
   tdp                String
   maxTdp             String
-  warranty            String
+  warranty           String
   sellingPrice       Decimal  @db.Decimal(10, 2)
   costPrice          Decimal  @db.Decimal(10, 2)
   discount           Decimal  @default(0) @db.Decimal(10, 2)
@@ -387,7 +387,6 @@ model PromoSet {
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
 
-  components DesktopPcComponent[] @relation("unused")
   parts      PromoSetComponent[]
   extraParts PromoSetExtraPart[]
   highlights PromoSetHighlight[]

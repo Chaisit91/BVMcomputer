@@ -1,6 +1,7 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { AppLayout } from '../components/layout/AppLayout'
 import { DashboardPage } from '../pages/dashboard/DashboardPage'
+import { NotFoundPage } from '../pages/status/NotFoundPage'
 import { AdminCreatePage } from '../pages/admins/AdminCreatePage'
 import { AdminEditPage } from '../pages/admins/AdminEditPage'
 import { AdminListPage } from '../pages/admins/AdminListPage'
@@ -112,7 +113,7 @@ export function AuthRouter() {
           <Route path="/admins/:adminId/edit" element={<AdminEditPage />} />
         </Route>
       </Route>
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
 }

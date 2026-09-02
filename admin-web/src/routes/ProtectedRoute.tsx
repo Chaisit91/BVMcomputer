@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { canAccess } from '../lib/permissions'
+import { ForbiddenPage } from '../pages/status/ForbiddenPage'
 import { checkSession } from '../store/authSlice'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 
@@ -29,7 +30,7 @@ export function ProtectedRoute() {
   }
 
   if (!canAccess(user?.role, location.pathname)) {
-    return <Navigate to="/dashboard" replace />
+    return <ForbiddenPage />
   }
 
   return <Outlet />

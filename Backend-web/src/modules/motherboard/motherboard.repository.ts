@@ -1,9 +1,4 @@
 import { prisma } from '../../lib/prisma'
+import { createProductAnchoredRepository } from '../../lib/productAnchoredRepository'
 
-export const motherboardRepository = {
-  findMany: () => prisma.motherboard.findMany(),
-  findById: (id: string) => prisma.motherboard.findUnique({ where: { id } }),
-  create: (data: any) => prisma.motherboard.create({ data }),
-  update: (id: string, data: any) => prisma.motherboard.update({ where: { id }, data }),
-  remove: (id: string) => prisma.motherboard.delete({ where: { id } }),
-}
+export const motherboardRepository = createProductAnchoredRepository('motherboard', prisma.motherboard)
