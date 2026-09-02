@@ -1,8 +1,20 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import type { IconType } from 'react-icons';
+import {
+  BsCpu,
+  BsDisplay,
+  BsGpuCard,
+  BsHdd,
+  BsMemory,
+  BsMotherboard,
+  BsPcDisplay,
+  BsPlug,
+  BsSnow2,
+  BsTools,
+} from 'react-icons/bs';
 import { FiChevronRight, FiGrid } from 'react-icons/fi';
+import { PiComputerTower } from 'react-icons/pi';
 import { Container } from '../ui/Container';
-import { categoryIcons } from '../home/categoryIcons';
-import { useAppSelector } from '../../app/hooks';
 
 interface NavLink {
   id: string;
@@ -18,9 +30,34 @@ const navLinks: NavLink[] = [
   { id: 'help', label: 'ช่วยเหลือ', href: '#help' },
 ];
 
-export function CategoryNav() {
-  const categories = useAppSelector((state) => state.home.categories);
+interface CategoryMenuItem {
+  id: string;
+  label: string;
+  href: string;
+  icon: IconType;
+  /** Per-row icon size override — defaults to 18 when omitted. */
+  iconSize?: number;
+  hasSubmenu: boolean;
+}
 
+// A curated, hand-ordered menu for the "หมวดหมู่สินค้า" dropdown — distinct
+// from the general category catalog, so it can carry entries like "จัดสเปคคอม"
+// that aren't product categories. All rows share one icon color (set below).
+const categoryMenuItems: CategoryMenuItem[] = [
+  { id: 'build', label: 'จัดสเปคคอม', href: '#build', icon: BsTools, hasSubmenu: false },
+  { id: 'pc-sets', label: 'คอมพิวเตอร์เซตโปรโมชั่น', href: '#category-pc-sets', icon: BsPcDisplay, hasSubmenu: true },
+  { id: 'desktop-pc', label: 'คอมพิวเตอร์ตั้งโต๊ะ', href: '#category-desktop-pc', icon: BsDisplay, hasSubmenu: true },
+  { id: 'cpu', label: 'ซีพียู', href: '#category-cpu', icon: BsCpu, hasSubmenu: true },
+  { id: 'gpu', label: 'การ์ดจอ', href: '#category-gpu', icon: BsGpuCard, hasSubmenu: true },
+  { id: 'motherboard', label: 'เมนบอร์ด', href: '#category-motherboard', icon: BsMotherboard, hasSubmenu: true },
+  { id: 'ram', label: 'แรม', href: '#category-ram', icon: BsMemory, hasSubmenu: true },
+  { id: 'storage', label: 'ฮาร์ดดิสก์ และ เอสเอสดี', href: '#category-storage', icon: BsHdd, hasSubmenu: true },
+  { id: 'psu', label: 'พาวเวอร์ซัพพลาย', href: '#category-psu', icon: BsPlug, hasSubmenu: true },
+  { id: 'case', label: 'เคส', href: '#category-case', icon: PiComputerTower, hasSubmenu: true },
+  { id: 'cooling', label: 'ชุดระบายความร้อน', href: '#category-cooling', icon: BsSnow2, hasSubmenu: true },
+];
+
+export function CategoryNav() {
   return (
     <div className="border-b border-slate-100 bg-white">
       <Container className="flex h-12 items-center justify-between gap-6">
@@ -36,22 +73,24 @@ export function CategoryNav() {
             <DropdownMenu.Content
               align="start"
               sideOffset={8}
-              className="z-50 grid w-72 grid-cols-2 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-card"
+              className="z-50 flex max-h-[420px] w-80 flex-col overflow-y-auto rounded-xl border border-slate-200 bg-white p-2 shadow-card"
             >
-              {categories.map((category) => {
-                const Icon = categoryIcons[category.icon];
-                return (
-                  <DropdownMenu.Item key={category.id} asChild>
-                    <a
-                      href={`#category-${category.slug}`}
-                      className="flex cursor-pointer select-none items-center gap-2 rounded-lg px-2.5 py-2 text-sm text-ink outline-none hover:bg-slate-100 focus:bg-slate-100"
-                    >
-                      <Icon size={15} className="shrink-0 text-slate-400" aria-hidden="true" />
-                      <span className="truncate">{category.name}</span>
-                    </a>
-                  </DropdownMenu.Item>
-                );
-              })}
+              {categoryMenuItems.map((item) => (
+                <DropdownMenu.Item key={item.id} asChild>
+                  <a
+                    href={item.href}
+                    className="flex cursor-pointer select-none items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-sm text-ink outline-none hover:bg-slate-50 focus:bg-slate-50"
+                  >
+                    <span className="flex min-w-0 items-center gap-3">
+                      <item.icon size={item.iconSize ?? 18} className="shrink-0 text-[#2B3445]" aria-hidden="true" />
+                      <span className="truncate">{item.label}</span>
+                    </span>
+                    {item.hasSubmenu && (
+                      <FiChevronRight size={14} className="shrink-0 text-slate-300" aria-hidden="true" />
+                    )}
+                  </a>
+                </DropdownMenu.Item>
+              ))}
             </DropdownMenu.Content>
           </DropdownMenu.Portal>
         </DropdownMenu.Root>
