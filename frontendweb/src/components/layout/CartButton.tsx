@@ -10,7 +10,7 @@ export function CartButton() {
     <button
       type="button"
       aria-label={`ตะกร้าสินค้า ${count} ชิ้น`}
-      className="flex flex-col items-center rounded-lg px-2.5 py-1.5 text-ink hover:bg-slate-100"
+      className="flex h-11 w-11 items-center justify-center rounded-full bg-[#F3F5F8] text-ink transition-colors hover:bg-slate-200"
     >
       <HeaderIconLabel icon={<FiShoppingCart size={20} aria-hidden="true" />} label="ตะกร้าสินค้า" badge={count} />
     </button>

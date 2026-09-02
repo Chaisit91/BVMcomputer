@@ -17,10 +17,10 @@ export function Header() {
           </span>
         </a>
 
-        <div className="order-2 ml-auto flex shrink-0 items-center gap-1 md:order-3 md:ml-0">
-          <AccountMenu />
+        <div className="order-2 ml-auto flex shrink-0 items-center gap-2 md:order-3 md:ml-0">
           <WishlistButton />
           <CartButton />
+          <AccountMenu />
         </div>
 
         <div className="order-3 w-full md:order-2 md:flex md:flex-1 md:justify-center">

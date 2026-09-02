@@ -5,7 +5,7 @@ export function WishlistButton() {
   return (
     <a
       href="#wishlist"
-      className="flex flex-col items-center rounded-lg px-2.5 py-1.5 text-ink hover:bg-slate-100"
+      className="flex h-11 w-11 items-center justify-center rounded-full bg-[#F3F5F8] text-ink transition-colors hover:bg-slate-200"
     >
       <HeaderIconLabel icon={<FiHeart size={20} aria-hidden="true" />} label="รายการโปรด" />
     </a>

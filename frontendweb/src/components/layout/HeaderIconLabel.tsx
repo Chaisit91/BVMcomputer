@@ -18,7 +18,8 @@ export function HeaderIconLabel({ icon, label, badge }: HeaderIconLabelProps) {
           </span>
         )}
       </span>
-      <span className="hidden text-[11px] font-medium text-ink sm:block">{label}</span>
+      {/* Visually hidden, not removed — screen readers still get the label. */}
+      <span className="sr-only">{label}</span>
     </span>
   );
 }
