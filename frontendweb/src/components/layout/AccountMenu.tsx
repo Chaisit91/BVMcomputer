@@ -67,7 +67,10 @@ export function AccountMenu() {
           <FiUser size={20} aria-hidden="true" />
         </button>
       </Dialog.Trigger>
-      <LoginModal onLoggedIn={() => setOpen(false)} />
+      {/* Mounted only while open, so it's a fresh component (fresh react-hook-form
+          state) every time — closing and reopening never carries over stale
+          validation errors from the last attempt. */}
+      {open && <LoginModal onLoggedIn={() => setOpen(false)} />}
     </Dialog.Root>
   );
 }

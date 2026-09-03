@@ -22,3 +22,41 @@ body {
 * {
   scrollbar-width: thin;
 }
+
+/* Belt-and-suspenders: no native focus ring on these inputs at all, autofilled or not. */
+.auth-input,
+.auth-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/*
+ * Browser-autofilled inputs (login email/password) get their own light
+ * blue fill instead of the browser's default — plain `background-color`
+ * can't override autofill styling in Chrome/Edge/Safari, so this uses the
+ * standard inset box-shadow trick. Untouched (typed) inputs are unaffected
+ * since this only matches the :autofill pseudo-state, not "has a value".
+ */
+.auth-input:-webkit-autofill,
+.auth-input:-webkit-autofill:hover,
+.auth-input:-webkit-autofill:focus,
+.auth-input:-webkit-autofill:active,
+.auth-input:autofill {
+  -webkit-box-shadow: 0 0 0 1000px #eaf2ff inset;
+  box-shadow: 0 0 0 1000px #eaf2ff inset;
+  -webkit-text-fill-color: #253047;
+  caret-color: #253047;
+  /* Some browsers draw their own dark focus ring on an autofilled field —
+     this isn't `:focus`, so Tailwind's `focus:outline-none` never catches it. */
+  outline: none;
+}
+
+/* The box-shadow above only fills the <input>'s own box, not the icon
+   sitting next to it in the pill — this colors the whole pill wrapper too,
+   so the fill is seamless edge to edge, icon included. Border color is left
+   alone here (no override) so the wrapper's own border-slate-200/border-red-500
+   class — driven by validation state — always wins, autofilled or not. */
+.auth-input-wrap:has(.auth-input:-webkit-autofill),
+.auth-input-wrap:has(.auth-input:autofill) {
+  background-color: #eaf2ff;
+}
