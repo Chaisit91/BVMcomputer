@@ -7,10 +7,17 @@ export interface JwtPayload {
   role: string
 }
 
+// jsonwebtoken adds `iat` (issued-at, seconds since epoch) to every signed
+// token automatically — widen the return type so callers can read it back
+// (needed to compare against AdminAccount.sessionsInvalidatedAt).
+export interface VerifiedJwtPayload extends JwtPayload {
+  iat: number
+}
+
 export function signToken(payload: JwtPayload, expiresIn: `${number}${'m' | 'h' | 'd'}` = '1d') {
   return jwt.sign(payload, JWT_SECRET, { expiresIn })
 }
 
-export function verifyToken(token: string): JwtPayload {
-  return jwt.verify(token, JWT_SECRET) as JwtPayload
+export function verifyToken(token: string): VerifiedJwtPayload {
+  return jwt.verify(token, JWT_SECRET) as VerifiedJwtPayload
 }

@@ -1,4 +1,8 @@
-import { prisma } from '../../lib/prisma'
-import { createProductAnchoredRepository } from '../../lib/productAnchoredRepository'
+import { createCategoryRepository } from '../../lib/categoryRepository'
 
-export const caseRepository = createProductAnchoredRepository('case', prisma.case)
+export const caseRepository = createCategoryRepository({
+  catalogCategory: 'case',
+  partCategory: 'case',
+  subtypeAccessor: 'case',
+  subtypeFields: ['displayCode'],
+})

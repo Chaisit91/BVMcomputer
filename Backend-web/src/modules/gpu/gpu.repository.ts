@@ -1,4 +1,8 @@
-import { prisma } from '../../lib/prisma'
-import { createProductAnchoredRepository } from '../../lib/productAnchoredRepository'
+import { createCategoryRepository } from '../../lib/categoryRepository'
 
-export const gpuRepository = createProductAnchoredRepository('gpu', prisma.gpu)
+export const gpuRepository = createCategoryRepository({
+  catalogCategory: 'gpu',
+  partCategory: 'gpu',
+  subtypeAccessor: 'gpu',
+  subtypeFields: ['series', 'model', 'chipsetModel', 'memorySize'],
+})

@@ -1,5 +1,6 @@
 import type { Response } from 'express'
 import { Router } from 'express'
+import { prisma } from '../../lib/prisma'
 import { authMiddleware, SESSION_COOKIE, type AuthenticatedRequest } from '../../middleware/authMiddleware'
 import { signToken } from '../../utils/jwt'
 import { adminRepository } from '../admin/admin.repository'
@@ -30,6 +31,14 @@ authRouter.post('/login', async (req, res) => {
     res.status(401).json({ message: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' })
     return
   }
+
+  await prisma.adminAccount.update({
+    where: { id: admin.id },
+    data: {
+      lastActiveAt: new Date(),
+      loginHistory: { create: { date: new Date(), device: req.headers['user-agent'] ?? 'unknown' } },
+    },
+  })
 
   const token = signToken({ id: admin.id, role: admin.role }, remember ? '30d' : '1d')
   setSessionCookie(res, token, Boolean(remember))

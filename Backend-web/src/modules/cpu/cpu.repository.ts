@@ -1,76 +1,113 @@
 import { prisma } from '../../lib/prisma'
+import { deriveDisplayStatus } from '../../lib/stockStatus'
+import { assertValidProductPricing } from '../../schemas/product.schema'
 
-const include = { benchmarks: true, product: { include: { videoLinks: true } } } as const
+const include = { cpu: { include: { benchmarks: true } }, videoLinks: true } as const
 
-// DB stores cores/threads as separate atomic Ints (1NF) — the API keeps the
-// combined "16/32" string admin-web already expects, split/joined right here.
-function splitCoresThreads(coresThreads: string) {
-  const [cores, threads] = coresThreads.split('/').map((n) => Number(n.trim()))
-  return { cores, threads }
+const PRODUCT_FIELDS = [
+  'sku',
+  'name',
+  'brand',
+  'sellingPrice',
+  'costPrice',
+  'promoPrice',
+  'stock',
+  'status',
+  'publishImmediately',
+  'description',
+]
+const CPU_FIELDS = [
+  'series',
+  'processorLine',
+  'socket',
+  'processorNumber',
+  'cores',
+  'threads',
+  'baseFrequencyGhz',
+  'maxTurboFrequencyGhz',
+  'l2CacheMb',
+  'l3CacheMb',
+  'graphics',
+  'tdpWatts',
+  'maxTdpWatts',
+  'warrantyMonths',
+]
+
+function split(body: Record<string, unknown>) {
+  const product: any = {}
+  const cpu: any = {}
+  for (const [key, value] of Object.entries(body)) {
+    if (CPU_FIELDS.includes(key)) cpu[key] = value
+    else if (PRODUCT_FIELDS.includes(key)) product[key] = value
+  }
+  return { product, cpu }
 }
 
 function shape(row: any) {
   if (!row) return row
-  const { product, benchmarks, cores, threads, ...own } = row
+  const { cpu, videoLinks, ...own } = row
   return {
     ...own,
-    id: own.productId,
-    coresThreads: `${cores}/${threads}`,
-    benchmarks: benchmarks.map(({ id, name, score, unit }: any) => ({ id, name, score, unit })),
-    videoLinks: product.videoLinks.map((v: any) => v.url),
+    ...cpu,
+    status: deriveDisplayStatus(own.status, own.stock),
+    benchmarks: cpu.benchmarks.map(({ id, name, score, unit }: any) => ({ id, name, score, unit })),
+    videoLinks: videoLinks.map((v: any) => v.url),
   }
 }
 
 export const cpuRepository = {
-  findMany: async () => (await prisma.cpu.findMany({ include })).map(shape),
+  findMany: async () => (await prisma.product.findMany({ where: { category: 'cpu' }, include })).map(shape),
 
-  findById: async (productId: string) => shape(await prisma.cpu.findUnique({ where: { productId }, include })),
+  findById: async (id: string) => shape(await prisma.product.findUnique({ where: { id }, include })),
 
   create: async (data: any) => {
-    const { benchmarks, videoLinks, coresThreads, ...own } = data
-    const created = await prisma.cpu.create({
+    const { benchmarks, videoLinks, ...body } = data
+    const { product, cpu } = split(body)
+    assertValidProductPricing(product)
+    const created = await prisma.product.create({
       data: {
-        ...own,
-        ...splitCoresThreads(coresThreads),
-        product: { create: { category: 'cpu' } },
-        benchmarks: { create: benchmarks ?? [] },
+        ...product,
+        category: 'cpu',
+        cpu: { create: { ...cpu, benchmarks: { create: benchmarks ?? [] } } },
       },
     })
     if (videoLinks?.length) {
       await prisma.productVideoLink.createMany({
-        data: videoLinks.map((url: string) => ({ productId: created.productId, url })),
+        data: videoLinks.map((url: string) => ({ productId: created.id, url })),
       })
     }
-    return cpuRepository.findById(created.productId)
+    return cpuRepository.findById(created.id)
   },
 
-  update: async (productId: string, data: any) => {
-    const { benchmarks, videoLinks, coresThreads, ...own } = data
-    await prisma.cpu.update({
-      where: { productId },
-      data: { ...own, ...(coresThreads ? splitCoresThreads(coresThreads) : {}) },
+  update: async (id: string, data: any) => {
+    const { benchmarks, videoLinks, ...body } = data
+    const { product, cpu } = split(body)
+    assertValidProductPricing(product)
+
+    await prisma.product.update({
+      where: { id },
+      data: { ...product, ...(Object.keys(cpu).length ? { cpu: { update: cpu } } : {}) },
     })
 
     if (benchmarks) {
-      await prisma.cpuBenchmark.deleteMany({ where: { cpuId: productId } })
+      await prisma.cpuBenchmark.deleteMany({ where: { cpuId: id } })
       if (benchmarks.length) {
         await prisma.cpuBenchmark.createMany({
-          data: benchmarks.map((b: any) => ({ cpuId: productId, name: b.name, score: b.score, unit: b.unit })),
+          data: benchmarks.map((b: any) => ({ cpuId: id, name: b.name, score: b.score, unit: b.unit })),
         })
       }
     }
 
     if (videoLinks) {
-      await prisma.productVideoLink.deleteMany({ where: { productId } })
+      await prisma.productVideoLink.deleteMany({ where: { productId: id } })
       if (videoLinks.length) {
-        await prisma.productVideoLink.createMany({ data: videoLinks.map((url: string) => ({ productId, url })) })
+        await prisma.productVideoLink.createMany({ data: videoLinks.map((url: string) => ({ productId: id, url })) })
       }
     }
 
-    return cpuRepository.findById(productId)
+    return cpuRepository.findById(id)
   },
 
-  // delete the shared Product anchor (cascades to Cpu, benchmarks, and video links) —
-  // deleting the Cpu row alone would orphan the Product and its video link rows.
-  remove: (productId: string) => prisma.product.delete({ where: { id: productId } }),
+  // Product is the root — deleting it cascades to Cpu, benchmarks, and video links.
+  remove: (id: string) => prisma.product.delete({ where: { id } }),
 }

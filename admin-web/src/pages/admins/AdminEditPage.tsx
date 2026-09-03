@@ -77,7 +77,7 @@ export function AdminEditPage() {
 
   const onSubmit = handleSubmit(async (values) => {
     await saveAdmin(adminId, values)
-    navigate('/admins')
+    navigate('/admins', { state: { toast: { type: 'success', message: 'บันทึกการเปลี่ยนแปลงสำเร็จ' } } })
   })
 
   const handleForceLogout = async () => {
@@ -90,7 +90,7 @@ export function AdminEditPage() {
     if (!detail) return
     if (!window.confirm(`ยืนยันการระงับบัญชีของ ${detail.firstName} ${detail.lastName}?`)) return
     await updateAdminStatus(adminId, 'inactive')
-    navigate('/admins')
+    navigate('/admins', { state: { toast: { type: 'success', message: 'ระงับบัญชีสำเร็จ' } } })
   }
 
   if (status === 'loading') {

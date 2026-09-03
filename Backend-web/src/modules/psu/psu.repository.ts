@@ -1,4 +1,8 @@
-import { prisma } from '../../lib/prisma'
-import { createProductAnchoredRepository } from '../../lib/productAnchoredRepository'
+import { createCategoryRepository } from '../../lib/categoryRepository'
 
-export const psuRepository = createProductAnchoredRepository('psu', prisma.psu)
+export const psuRepository = createCategoryRepository({
+  catalogCategory: 'psu',
+  partCategory: 'psu',
+  subtypeAccessor: 'psu',
+  subtypeFields: ['displayCode'],
+})

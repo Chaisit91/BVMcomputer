@@ -1,4 +1,6 @@
-import { prisma } from '../../lib/prisma'
-import { createProductAnchoredRepository } from '../../lib/productAnchoredRepository'
+import { createCategoryRepository } from '../../lib/categoryRepository'
 
-export const motherboardRepository = createProductAnchoredRepository('motherboard', prisma.motherboard)
+export const motherboardRepository = createCategoryRepository({
+  catalogCategory: 'motherboard',
+  partCategory: 'motherboard',
+})

@@ -6,7 +6,7 @@ async function shape(row: any) {
   const shapedComponents: Record<string, string> = {}
   const prices: Record<string, number> = {}
   for (const c of components) {
-    shapedComponents[c.slot] = await getProductName(c.slot, c.productId)
+    shapedComponents[c.slot] = await getProductName(c.productId)
     prices[c.slot] = Number(c.price)
   }
   const total = Object.values(prices).reduce((sum, price) => sum + price, 0)

@@ -1,3 +1,4 @@
+import { prisma } from '../../lib/prisma'
 import { comparePassword, hashPassword } from '../../utils/password'
 import { adminRepository } from './admin.repository'
 
@@ -15,11 +16,27 @@ export const adminService = {
 
   update: async (id: string, data: any) => {
     const { password, ...rest } = data
-    if (!password) return adminRepository.update(id, rest)
-    return adminRepository.update(id, { ...rest, passwordHash: await hashPassword(password) })
+    const current = await adminRepository.findById(id)
+
+    const updated = password
+      ? await adminRepository.update(id, { ...rest, passwordHash: await hashPassword(password) })
+      : await adminRepository.update(id, rest)
+
+    if (current && rest.role && rest.role !== current.role) {
+      await prisma.adminRoleHistory.create({
+        data: { adminId: id, date: new Date(), description: `เปลี่ยนบทบาทจาก ${current.role} เป็น ${rest.role}` },
+      })
+    }
+
+    return updated
   },
 
   remove: (id: string) => adminRepository.remove(id),
+
+  // Every token issued before "now" for this admin stops working on their
+  // next request — see authMiddleware.ts. Their session cookie itself is
+  // untouched (we can't reach into their browser), just rejected server-side.
+  forceLogout: (id: string) => adminRepository.update(id, { sessionsInvalidatedAt: new Date() }),
 
   // Verifies credentials only — src/modules/auth owns token issuing and the
   // response shape admin-web expects.

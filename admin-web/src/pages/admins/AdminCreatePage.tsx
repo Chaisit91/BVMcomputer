@@ -39,7 +39,7 @@ export function AdminCreatePage() {
 
   const onSubmit = handleSubmit(async (values) => {
     await createAdmin(values)
-    navigate('/admins')
+    navigate('/admins', { state: { toast: { type: 'success', message: 'เพิ่มผู้ดูแลใหม่สำเร็จ' } } })
   })
 
   return (

@@ -1,4 +1,5 @@
 import { prisma } from '../../lib/prisma'
+import { assertValidOrderItems } from '../../schemas/orderItem.schema'
 
 // Line items are nested writes (Order 1-N OrderLineItem), not a plain column,
 // so create/update need the { items: { create: [...] } } shape Prisma expects.
@@ -7,6 +8,7 @@ export const orderRepository = {
   findById: (id: string) => prisma.order.findUnique({ where: { id }, include: { items: true } }),
   create: (data: any) => {
     const { items, ...rest } = data
+    assertValidOrderItems(items)
     return prisma.order.create({
       data: { ...rest, items: { create: items ?? [] } },
       include: { items: true },
