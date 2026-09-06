@@ -31,7 +31,7 @@ export function GpuProductCard({ product }: { product: GpuProduct }) {
 
   return (
     <div className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-card">
-      <div className="relative flex aspect-square items-center justify-center bg-slate-50">
+      <div className="relative flex aspect-square items-center justify-center bg-slate-50 p-3">
         <FavoriteButton label={`เพิ่ม ${product.name} ในรายการโปรด`} />
         {product.badge && (
           <span
@@ -40,16 +40,20 @@ export function GpuProductCard({ product }: { product: GpuProduct }) {
             {product.badge}
           </span>
         )}
-        <BsGpuCard size={56} className="text-slate-300" aria-hidden="true" />
+        {product.imageUrl ? (
+          <img src={product.imageUrl} alt={product.name} className="h-full w-full object-contain" />
+        ) : (
+          <BsGpuCard size={56} className="text-slate-300" aria-hidden="true" />
+        )}
       </div>
 
       <div className="flex flex-1 flex-col gap-1.5 p-3">
         <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-medium text-ink">{product.name}</h3>
         <p className="text-xs text-slate-400">
-          {product.vram} {product.memoryType} | {product.boostClock}
+          {product.memorySize} | {product.boostClock}
         </p>
         <p className="text-[11px] text-slate-400">
-          {product.series} · {product.brand}
+          {product.model} · {product.brand}
         </p>
 
         <div className="mt-auto flex items-center justify-between gap-2 pt-1">

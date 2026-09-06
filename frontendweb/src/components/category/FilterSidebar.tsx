@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { FiChevronDown, FiChevronRight, FiGrid, FiList } from 'react-icons/fi';
-import { cpuSeriesOptions, type CpuFilterState, type CpuProduct } from '../../data/cpuProducts';
+import { cpuSeriesOptions, cpuSocketOptions, type CpuFilterState } from '../../data/cpuProducts';
 
 export type CategoryView = 'grid' | 'list';
 export type CategorySort = 'popular' | 'price-asc' | 'price-desc';
@@ -152,7 +152,7 @@ export function FilterSidebar({
               aria-pressed={view === 'grid'}
               onClick={() => onViewChange('grid')}
               className={`flex h-8 w-8 items-center justify-center rounded-lg border transition-colors ${
-                view === 'grid' ? 'border-brand bg-brand/10 text-brand' : 'border-slate-200 text-slate-400 hover:bg-slate-50'
+                view === 'grid' ? 'border-brand bg-brand/10 text-brand' : 'border-slate-200 text-[#2B3445] hover:bg-slate-50'
               }`}
             >
               <FiGrid size={15} aria-hidden="true" />
@@ -163,7 +163,7 @@ export function FilterSidebar({
               aria-pressed={view === 'list'}
               onClick={() => onViewChange('list')}
               className={`flex h-8 w-8 items-center justify-center rounded-lg border transition-colors ${
-                view === 'list' ? 'border-brand bg-brand/10 text-brand' : 'border-slate-200 text-slate-400 hover:bg-slate-50'
+                view === 'list' ? 'border-brand bg-brand/10 text-brand' : 'border-slate-200 text-[#2B3445] hover:bg-slate-50'
               }`}
             >
               <FiList size={15} aria-hidden="true" />
@@ -235,7 +235,7 @@ export function FilterSidebar({
           />
         </CollapsibleSection>
 
-        <CollapsibleSection title="Series">
+        <CollapsibleSection title="Processor Number">
           {cpuSeriesOptions.map((series) => (
             <Checkbox
               key={series}
@@ -246,18 +246,8 @@ export function FilterSidebar({
           ))}
         </CollapsibleSection>
 
-        <CollapsibleSection title="Processor Number">
-          <input
-            type="text"
-            value={filters.processorSearch}
-            onChange={(e) => onChange({ ...filters, processorSearch: e.target.value })}
-            placeholder="เช่น 14700K"
-            className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-ink placeholder:text-slate-400 focus:outline-none"
-          />
-        </CollapsibleSection>
-
         <CollapsibleSection title="Socket Type">
-          {(['AM4', 'AM5', 'LGA1700', 'LGA1200'] as CpuProduct['socket'][]).map((socket) => (
+          {cpuSocketOptions.map((socket) => (
             <Checkbox
               key={socket}
               label={socket}

@@ -31,7 +31,7 @@ export function CategoryProductCard({ product }: { product: CpuProduct }) {
 
   return (
     <div className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-card">
-      <div className="relative flex aspect-square items-center justify-center bg-slate-50">
+      <div className="relative flex aspect-square items-center justify-center bg-slate-50 p-3">
         <FavoriteButton label={`เพิ่ม ${product.name} ในรายการโปรด`} />
         {product.badge && (
           <span
@@ -40,7 +40,11 @@ export function CategoryProductCard({ product }: { product: CpuProduct }) {
             {product.badge}
           </span>
         )}
-        <BsCpu size={56} className="text-slate-300" aria-hidden="true" />
+        {product.imageUrl ? (
+          <img src={product.imageUrl} alt={product.name} className="h-full w-full object-contain" />
+        ) : (
+          <BsCpu size={56} className="text-slate-300" aria-hidden="true" />
+        )}
       </div>
 
       <div className="flex flex-1 flex-col gap-1.5 p-3">

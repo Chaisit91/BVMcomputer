@@ -1,6 +1,13 @@
 import { useState, type ReactNode } from 'react';
 import { FiChevronDown, FiChevronRight, FiGrid, FiList } from 'react-icons/fi';
-import { gpuSeriesOptions, gpuVramOptions, type GpuFilterState } from '../../data/gpuProducts';
+import {
+  gpuBrandOptions,
+  gpuMemorySizeOptions,
+  gpuModelOptions,
+  gpuPowerOptions,
+  gpuSeriesOptions,
+  type GpuFilterState,
+} from '../../data/gpuProducts';
 
 export type CategoryView = 'grid' | 'list';
 export type CategorySort = 'popular' | 'price-asc' | 'price-desc';
@@ -16,7 +23,7 @@ function Checkbox({ label, checked, onChange }: { label: string; checked: boolea
         type="checkbox"
         checked={checked}
         onChange={onChange}
-        className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
+        className="h-4 w-4 shrink-0 rounded border-slate-300 text-brand focus:ring-brand"
       />
       {label}
     </label>
@@ -152,7 +159,7 @@ export function GpuFilterSidebar({
               aria-pressed={view === 'grid'}
               onClick={() => onViewChange('grid')}
               className={`flex h-8 w-8 items-center justify-center rounded-lg border transition-colors ${
-                view === 'grid' ? 'border-brand bg-brand/10 text-brand' : 'border-slate-200 text-slate-400 hover:bg-slate-50'
+                view === 'grid' ? 'border-brand bg-brand/10 text-brand' : 'border-slate-200 text-[#2B3445] hover:bg-slate-50'
               }`}
             >
               <FiGrid size={15} aria-hidden="true" />
@@ -163,7 +170,7 @@ export function GpuFilterSidebar({
               aria-pressed={view === 'list'}
               onClick={() => onViewChange('list')}
               className={`flex h-8 w-8 items-center justify-center rounded-lg border transition-colors ${
-                view === 'list' ? 'border-brand bg-brand/10 text-brand' : 'border-slate-200 text-slate-400 hover:bg-slate-50'
+                view === 'list' ? 'border-brand bg-brand/10 text-brand' : 'border-slate-200 text-[#2B3445] hover:bg-slate-50'
               }`}
             >
               <FiList size={15} aria-hidden="true" />
@@ -223,19 +230,17 @@ export function GpuFilterSidebar({
         </div>
 
         <CollapsibleSection title="Brand" defaultOpen>
-          <Checkbox
-            label="NVIDIA"
-            checked={filters.brands.includes('NVIDIA')}
-            onChange={() => onChange({ ...filters, brands: toggle(filters.brands, 'NVIDIA') })}
-          />
-          <Checkbox
-            label="AMD"
-            checked={filters.brands.includes('AMD')}
-            onChange={() => onChange({ ...filters, brands: toggle(filters.brands, 'AMD') })}
-          />
+          {gpuBrandOptions.map((brand) => (
+            <Checkbox
+              key={brand}
+              label={brand}
+              checked={filters.brands.includes(brand)}
+              onChange={() => onChange({ ...filters, brands: toggle(filters.brands, brand) })}
+            />
+          ))}
         </CollapsibleSection>
 
-        <CollapsibleSection title="Series">
+        <CollapsibleSection title="GPU Series">
           {gpuSeriesOptions.map((series) => (
             <Checkbox
               key={series}
@@ -246,23 +251,35 @@ export function GpuFilterSidebar({
           ))}
         </CollapsibleSection>
 
-        <CollapsibleSection title="รุ่นการ์ดจอ">
-          <input
-            type="text"
-            value={filters.modelSearch}
-            onChange={(e) => onChange({ ...filters, modelSearch: e.target.value })}
-            placeholder="เช่น RTX 4070"
-            className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-ink placeholder:text-slate-400 focus:outline-none"
-          />
+        <CollapsibleSection title="GPU Model">
+          {gpuModelOptions.map((model) => (
+            <Checkbox
+              key={model}
+              label={model}
+              checked={filters.models.includes(model)}
+              onChange={() => onChange({ ...filters, models: toggle(filters.models, model) })}
+            />
+          ))}
         </CollapsibleSection>
 
-        <CollapsibleSection title="หน่วยความจำ (VRAM)">
-          {gpuVramOptions.map((vram) => (
+        <CollapsibleSection title="Memory Size">
+          {gpuMemorySizeOptions.map((size) => (
             <Checkbox
-              key={vram}
-              label={vram}
-              checked={filters.vrams.includes(vram)}
-              onChange={() => onChange({ ...filters, vrams: toggle(filters.vrams, vram) })}
+              key={size}
+              label={size}
+              checked={filters.memorySizes.includes(size)}
+              onChange={() => onChange({ ...filters, memorySizes: toggle(filters.memorySizes, size) })}
+            />
+          ))}
+        </CollapsibleSection>
+
+        <CollapsibleSection title="Power Requirement">
+          {gpuPowerOptions.map((power) => (
+            <Checkbox
+              key={power}
+              label={power}
+              checked={filters.powers.includes(power)}
+              onChange={() => onChange({ ...filters, powers: toggle(filters.powers, power) })}
             />
           ))}
         </CollapsibleSection>
