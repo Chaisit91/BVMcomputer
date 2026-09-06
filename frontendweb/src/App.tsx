@@ -4,6 +4,7 @@ import { store } from './app/store';
 import { Layout } from './components/layout/Layout';
 import { HomePage } from './pages/HomePage';
 import { CpuCategoryPage } from './pages/CpuCategoryPage';
+import { GpuCategoryPage } from './pages/GpuCategoryPage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/category/cpu" element={<CpuCategoryPage />} />
+            <Route path="/category/gpu" element={<GpuCategoryPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

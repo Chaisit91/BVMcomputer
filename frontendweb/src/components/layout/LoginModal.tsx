@@ -53,11 +53,11 @@ export function LoginModal({ onLoggedIn }: LoginModalProps) {
           modal={true}, which would also relock page scroll — we want the dark
           backdrop without losing the ability to scroll the page behind it. */}
       <div className="fixed inset-0 z-50 bg-black/60" aria-hidden="true" />
-      <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[92vw] max-w-sm -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-white shadow-xl outline-none focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2">
+      <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-[92vw] max-w-sm -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-white shadow-xl outline-none focus-visible:ring-2 focus-visible:ring-black/20 focus-visible:ring-offset-2">
         <div className="relative px-6 pb-6 pt-8">
           <Dialog.Close
             aria-label="ปิด"
-            className="absolute right-4 top-4 rounded-full p-1 text-slate-400 outline-none hover:bg-slate-100 hover:text-ink focus-visible:ring-2 focus-visible:ring-brand/40"
+            className="absolute right-4 top-4 rounded-full p-1 text-slate-400 outline-none hover:bg-slate-100 hover:text-ink focus-visible:ring-2 focus-visible:ring-black/20"
           >
             <FiX size={18} aria-hidden="true" />
           </Dialog.Close>

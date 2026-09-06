@@ -1,33 +1,33 @@
 import { useMemo, useState } from 'react';
 import { Container } from '../components/ui/Container';
-import { CpuHeroBanner } from '../components/category/CpuHeroBanner';
-import { FilterSidebar, type CategorySort, type CategoryView } from '../components/category/FilterSidebar';
-import { CategoryProductCard } from '../components/category/CategoryProductCard';
-import { CategoryProductListRow } from '../components/category/CategoryProductListRow';
+import { GpuHeroBanner } from '../components/category/GpuHeroBanner';
+import { GpuFilterSidebar, type CategorySort, type CategoryView } from '../components/category/GpuFilterSidebar';
+import { GpuProductCard } from '../components/category/GpuProductCard';
+import { GpuProductListRow } from '../components/category/GpuProductListRow';
 import { ProductPagination } from '../components/category/ProductPagination';
 import { ServiceBadges } from '../components/shared/ServiceBadges';
 import {
-  applyCpuFilters,
-  cpuProducts,
-  CPU_PRICE_CEILING,
-  defaultCpuFilters,
-  type CpuFilterState,
-} from '../data/cpuProducts';
+  applyGpuFilters,
+  gpuProducts,
+  GPU_PRICE_CEILING,
+  defaultGpuFilters,
+  type GpuFilterState,
+} from '../data/gpuProducts';
 
 // Mock dataset only has 12 items, but the storefront's real catalog is much bigger —
 // this decorative page count stands in until the backend exposes real pagination.
 const MOCK_PAGE_SIZE = 12;
-const MOCK_TOTAL_ITEMS = 104;
+const MOCK_TOTAL_ITEMS = 96;
 
-export function CpuCategoryPage() {
-  const [filters, setFilters] = useState<CpuFilterState>(defaultCpuFilters);
+export function GpuCategoryPage() {
+  const [filters, setFilters] = useState<GpuFilterState>(defaultGpuFilters);
   const [sort, setSort] = useState<CategorySort>('popular');
   const [view, setView] = useState<CategoryView>('grid');
   const [page, setPage] = useState(1);
 
   // Pure derived data — no side effect involved, so useMemo (not useEffect) is the right tool.
   const visibleProducts = useMemo(() => {
-    const filtered = applyCpuFilters(cpuProducts, filters);
+    const filtered = applyGpuFilters(gpuProducts, filters);
     if (sort === 'price-asc') return [...filtered].sort((a, b) => a.price - b.price);
     if (sort === 'price-desc') return [...filtered].sort((a, b) => b.price - a.price);
     return filtered;
@@ -35,22 +35,22 @@ export function CpuCategoryPage() {
 
   return (
     <>
-      <CpuHeroBanner />
+      <GpuHeroBanner />
 
-      <section id="cpu-products" className="bg-slate-50 pb-0 pt-8">
+      <section id="gpu-products" className="bg-slate-50 pb-0 pt-8">
         <Container>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-            <FilterSidebar
-              title="ซีพียู"
+            <GpuFilterSidebar
+              title="การ์ดจอ"
               count={visibleProducts.length}
               sort={sort}
               onSortChange={setSort}
               view={view}
               onViewChange={setView}
-              priceCeiling={CPU_PRICE_CEILING}
+              priceCeiling={GPU_PRICE_CEILING}
               filters={filters}
               onChange={setFilters}
-              onClear={() => setFilters(defaultCpuFilters)}
+              onClear={() => setFilters(defaultGpuFilters)}
             />
 
             <div className="min-w-0 flex-1">
@@ -61,13 +61,13 @@ export function CpuCategoryPage() {
               ) : view === 'grid' ? (
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                   {visibleProducts.map((product) => (
-                    <CategoryProductCard key={product.id} product={product} />
+                    <GpuProductCard key={product.id} product={product} />
                   ))}
                 </div>
               ) : (
                 <div className="flex flex-col gap-3">
                   {visibleProducts.map((product) => (
-                    <CategoryProductListRow key={product.id} product={product} />
+                    <GpuProductListRow key={product.id} product={product} />
                   ))}
                 </div>
               )}

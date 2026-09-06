@@ -1,20 +1,20 @@
-import { BsCpu } from 'react-icons/bs';
+import { BsGpuCard } from 'react-icons/bs';
 import { FiShoppingCart } from 'react-icons/fi';
 import { useAppDispatch } from '../../app/hooks';
 import { addToCart } from '../../features/cart/cartSlice';
-import type { CpuBadge, CpuProduct } from '../../data/cpuProducts';
+import type { GpuBadge, GpuProduct } from '../../data/gpuProducts';
 import { formatTHB } from '../../lib/format';
 import { FavoriteButton } from '../ui/FavoriteButton';
 
 // This page's own badge wording ("สินค้าขายดี" etc.) differs from the shared
 // homepage Badge component's fixed labels, so it gets its own small badge here.
-const badgeStyle: Record<CpuBadge, string> = {
+const badgeStyle: Record<GpuBadge, string> = {
   แนะนำ: 'bg-ink text-white',
   สินค้าขายดี: 'bg-brand text-white',
   ใหม่: 'bg-amber-400 text-ink',
 };
 
-export function CategoryProductCard({ product }: { product: CpuProduct }) {
+export function GpuProductCard({ product }: { product: GpuProduct }) {
   const dispatch = useAppDispatch();
 
   const handleAddToCart = () => {
@@ -24,7 +24,7 @@ export function CategoryProductCard({ product }: { product: CpuProduct }) {
         name: product.name,
         slug: product.id,
         price: product.price,
-        category: 'cpu',
+        category: 'gpu',
       }),
     );
   };
@@ -40,16 +40,16 @@ export function CategoryProductCard({ product }: { product: CpuProduct }) {
             {product.badge}
           </span>
         )}
-        <BsCpu size={56} className="text-slate-300" aria-hidden="true" />
+        <BsGpuCard size={56} className="text-slate-300" aria-hidden="true" />
       </div>
 
       <div className="flex flex-1 flex-col gap-1.5 p-3">
         <h3 className="line-clamp-2 min-h-[2.5rem] text-sm font-medium text-ink">{product.name}</h3>
         <p className="text-xs text-slate-400">
-          {product.cores}C/{product.threads}T | {product.clock}
+          {product.vram} {product.memoryType} | {product.boostClock}
         </p>
         <p className="text-[11px] text-slate-400">
-          {product.socket} · {product.brand}
+          {product.series} · {product.brand}
         </p>
 
         <div className="mt-auto flex items-center justify-between gap-2 pt-1">

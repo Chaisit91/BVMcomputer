@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { FiChevronDown, FiChevronRight, FiGrid, FiList } from 'react-icons/fi';
-import { cpuSeriesOptions, type CpuFilterState, type CpuProduct } from '../../data/cpuProducts';
+import { gpuSeriesOptions, gpuVramOptions, type GpuFilterState } from '../../data/gpuProducts';
 
 export type CategoryView = 'grid' | 'list';
 export type CategorySort = 'popular' | 'price-asc' | 'price-desc';
@@ -96,7 +96,7 @@ function PriceRangeSlider({
   );
 }
 
-interface FilterSidebarProps {
+interface GpuFilterSidebarProps {
   title: string;
   count: number;
   sort: CategorySort;
@@ -104,12 +104,12 @@ interface FilterSidebarProps {
   view: CategoryView;
   onViewChange: (value: CategoryView) => void;
   priceCeiling: number;
-  filters: CpuFilterState;
-  onChange: (next: CpuFilterState) => void;
+  filters: GpuFilterState;
+  onChange: (next: GpuFilterState) => void;
   onClear: () => void;
 }
 
-export function FilterSidebar({
+export function GpuFilterSidebar({
   title,
   count,
   sort,
@@ -120,7 +120,7 @@ export function FilterSidebar({
   filters,
   onChange,
   onClear,
-}: FilterSidebarProps) {
+}: GpuFilterSidebarProps) {
   return (
     <aside className="flex w-full shrink-0 flex-col gap-4 lg:w-72">
       {/* Title + count + sort + view toggle */}
@@ -224,19 +224,19 @@ export function FilterSidebar({
 
         <CollapsibleSection title="Brand" defaultOpen>
           <Checkbox
+            label="NVIDIA"
+            checked={filters.brands.includes('NVIDIA')}
+            onChange={() => onChange({ ...filters, brands: toggle(filters.brands, 'NVIDIA') })}
+          />
+          <Checkbox
             label="AMD"
             checked={filters.brands.includes('AMD')}
             onChange={() => onChange({ ...filters, brands: toggle(filters.brands, 'AMD') })}
           />
-          <Checkbox
-            label="INTEL"
-            checked={filters.brands.includes('Intel')}
-            onChange={() => onChange({ ...filters, brands: toggle(filters.brands, 'Intel') })}
-          />
         </CollapsibleSection>
 
         <CollapsibleSection title="Series">
-          {cpuSeriesOptions.map((series) => (
+          {gpuSeriesOptions.map((series) => (
             <Checkbox
               key={series}
               label={series}
@@ -246,23 +246,23 @@ export function FilterSidebar({
           ))}
         </CollapsibleSection>
 
-        <CollapsibleSection title="Processor Number">
+        <CollapsibleSection title="รุ่นการ์ดจอ">
           <input
             type="text"
-            value={filters.processorSearch}
-            onChange={(e) => onChange({ ...filters, processorSearch: e.target.value })}
-            placeholder="เช่น 14700K"
+            value={filters.modelSearch}
+            onChange={(e) => onChange({ ...filters, modelSearch: e.target.value })}
+            placeholder="เช่น RTX 4070"
             className="w-full rounded-lg border border-slate-200 px-3 py-1.5 text-sm text-ink placeholder:text-slate-400 focus:outline-none"
           />
         </CollapsibleSection>
 
-        <CollapsibleSection title="Socket Type">
-          {(['AM4', 'AM5', 'LGA1700', 'LGA1200'] as CpuProduct['socket'][]).map((socket) => (
+        <CollapsibleSection title="หน่วยความจำ (VRAM)">
+          {gpuVramOptions.map((vram) => (
             <Checkbox
-              key={socket}
-              label={socket}
-              checked={filters.sockets.includes(socket)}
-              onChange={() => onChange({ ...filters, sockets: toggle(filters.sockets, socket) })}
+              key={vram}
+              label={vram}
+              checked={filters.vrams.includes(vram)}
+              onChange={() => onChange({ ...filters, vrams: toggle(filters.vrams, vram) })}
             />
           ))}
         </CollapsibleSection>

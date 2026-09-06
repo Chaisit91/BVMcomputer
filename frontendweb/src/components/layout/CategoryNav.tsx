@@ -57,7 +57,7 @@ const categoryMenuItems: CategoryMenuItem[] = [
   { id: 'pc-sets', label: 'คอมพิวเตอร์เซตโปรโมชั่น', href: '#category-pc-sets', icon: BsPcDisplay, hasSubmenu: true },
   { id: 'desktop-pc', label: 'คอมพิวเตอร์ตั้งโต๊ะ', href: '#category-desktop-pc', icon: BsDisplay, hasSubmenu: true },
   { id: 'cpu', label: 'ซีพียู', href: '#category-cpu', icon: BsCpu, hasSubmenu: true, to: '/category/cpu' },
-  { id: 'gpu', label: 'การ์ดจอ', href: '#category-gpu', icon: BsGpuCard, hasSubmenu: true },
+  { id: 'gpu', label: 'การ์ดจอ', href: '#category-gpu', icon: BsGpuCard, hasSubmenu: true, to: '/category/gpu' },
   { id: 'motherboard', label: 'เมนบอร์ด', href: '#category-motherboard', icon: BsMotherboard, hasSubmenu: true },
   { id: 'ram', label: 'แรม', href: '#category-ram', icon: BsMemory, hasSubmenu: true },
   { id: 'storage', label: 'ฮาร์ดดิสก์ และ เอสเอสดี', href: '#category-storage', icon: BsHdd, hasSubmenu: true },
