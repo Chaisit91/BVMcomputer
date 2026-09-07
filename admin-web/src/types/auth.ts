@@ -12,5 +12,7 @@ export interface LoginResponse {
     name: string
     email: string
     role: AdminRole
+    isTeamLead: boolean
+    avatarUrl: string | null
   }
 }

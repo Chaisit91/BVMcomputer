@@ -1,12 +1,27 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { FiClock, FiLock, FiSave, FiShield, FiSlash, FiUser } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Avatar } from '../../components/ui/Avatar'
 import { Toggle } from '../../components/ui/Toggle'
+import { formatDateTime } from '../../lib/formatDate'
+import { isOnline } from '../../lib/onlineStatus'
+import { parseUserAgent } from '../../lib/parseUserAgent'
 import { adminEditSchema, type AdminEditFormValues } from '../../schemas/admin.schema'
-import { forceLogoutAdmin, getAdminDetail, saveAdmin, updateAdminStatus } from '../../services/admin.service'
+import {
+  forceLogoutAdmin,
+  getAdminDetail,
+  saveAdmin,
+  updateAdminStatus,
+  uploadAdminAvatar,
+} from '../../services/admin.service'
+import { setUser } from '../../store/authSlice'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { adminRoleMeta, type AdminAccount, type AdminRole } from '../../types/admin'
+
+const MAX_AVATAR_BYTES = 5 * 1024 * 1024
 
 type LoadStatus = 'loading' | 'error' | 'not_found' | 'success'
 
@@ -25,9 +40,15 @@ function getInitials(firstName: string) {
 export function AdminEditPage() {
   const { adminId = '' } = useParams()
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const currentUser = useAppSelector((state) => state.auth.user)
   const [status, setStatus] = useState<LoadStatus>('loading')
   const [detail, setDetail] = useState<AdminAccount | null>(null)
   const [logoutNotice, setLogoutNotice] = useState(false)
+  const [avatarUploading, setAvatarUploading] = useState(false)
+  const [avatarError, setAvatarError] = useState('')
+  const [showAllLogins, setShowAllLogins] = useState(false)
+  const avatarInputRef = useRef<HTMLInputElement>(null)
 
   const {
     register,
@@ -58,6 +79,7 @@ export function AdminEditPage() {
           phone: result.phone,
           jobTitle: result.jobTitle,
           role: result.role,
+          isTeamLead: result.isTeamLead,
           active: result.status === 'active',
           password: '',
           confirmPassword: '',
@@ -74,9 +96,53 @@ export function AdminEditPage() {
   }, [adminId, reset])
 
   const active = watch('active')
+  const isTeamLead = watch('isTeamLead')
+  const isSuperAdminEditor = currentUser?.role === 'super_admin'
+  const isSelf = currentUser?.id === adminId
+  // Only super_admin can move someone across departments or grant super_admin.
+  const canEditRole = isSuperAdminEditor
+  // Status + team-lead flag: super_admin always, or a team lead managing
+  // their own department — matches what the backend actually accepts
+  // (src/modules/admin/admin.router.ts PUT /:id strips these otherwise).
+  const canEditStatusAndLead = isSuperAdminEditor || Boolean(currentUser?.isTeamLead)
+
+  // Redux's auth.user only refreshes on login/checkSession — editing your own
+  // account here otherwise leaves the Topbar showing stale name/avatar until
+  // next login, so push the change through manually when it's the same admin.
+  const syncSelfIfNeeded = (updated: {
+    id: string
+    firstName: string
+    lastName: string
+    email: string
+    role: AdminRole
+    isTeamLead: boolean
+    avatarUrl: string | null
+  }) => {
+    if (currentUser && currentUser.id === updated.id) {
+      dispatch(
+        setUser({
+          id: updated.id,
+          name: `${updated.firstName} ${updated.lastName}`,
+          email: updated.email,
+          role: updated.role,
+          isTeamLead: updated.isTeamLead,
+          avatarUrl: updated.avatarUrl,
+        }),
+      )
+    }
+  }
 
   const onSubmit = handleSubmit(async (values) => {
     await saveAdmin(adminId, values)
+    syncSelfIfNeeded({
+      id: adminId,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      role: values.role,
+      isTeamLead: values.isTeamLead,
+      avatarUrl: detail?.avatarUrl ?? null,
+    })
     navigate('/admins', { state: { toast: { type: 'success', message: 'บันทึกการเปลี่ยนแปลงสำเร็จ' } } })
   })
 
@@ -91,6 +157,34 @@ export function AdminEditPage() {
     if (!window.confirm(`ยืนยันการระงับบัญชีของ ${detail.firstName} ${detail.lastName}?`)) return
     await updateAdminStatus(adminId, 'inactive')
     navigate('/admins', { state: { toast: { type: 'success', message: 'ระงับบัญชีสำเร็จ' } } })
+  }
+
+  const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    event.target.value = '' // allow re-picking the same file later
+    if (!file) return
+
+    setAvatarError('')
+    if (!file.type.startsWith('image/')) {
+      setAvatarError('เลือกไฟล์รูปภาพเท่านั้น')
+      return
+    }
+    if (file.size > MAX_AVATAR_BYTES) {
+      setAvatarError('ไฟล์ต้องมีขนาดไม่เกิน 5MB')
+      return
+    }
+
+    setAvatarUploading(true)
+    try {
+      const updated = await uploadAdminAvatar(adminId, file)
+      setDetail(updated)
+      syncSelfIfNeeded(updated)
+    } catch (err) {
+      const serverMessage = axios.isAxiosError(err) ? (err.response?.data as { message?: string })?.message : undefined
+      setAvatarError(serverMessage ?? 'อัปโหลดรูปไม่สำเร็จ กรุณาลองใหม่')
+    } finally {
+      setAvatarUploading(false)
+    }
   }
 
   if (status === 'loading') {
@@ -132,16 +226,33 @@ export function AdminEditPage() {
             รูปโปรไฟล์
           </h2>
           <div className="flex items-center gap-4">
-            <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-rose-500 text-lg font-semibold text-white">
-              {getInitials(detail.firstName)}
-            </span>
+            <Avatar
+              key={detail.avatarUrl ?? 'none'}
+              url={detail.avatarUrl}
+              initials={getInitials(detail.firstName)}
+              size={64}
+              className="text-lg"
+            />
             <div>
               <p className="text-sm font-medium text-gray-800">
                 {detail.firstName} {detail.lastName}
               </p>
-              <button type="button" className="mt-1 text-sm font-medium text-rose-500 hover:underline">
-                เปลี่ยนรูป
+              <input
+                ref={avatarInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleAvatarChange}
+              />
+              <button
+                type="button"
+                disabled={avatarUploading}
+                onClick={() => avatarInputRef.current?.click()}
+                className="mt-1 text-sm font-medium text-rose-500 hover:underline disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {avatarUploading ? 'กำลังอัปโหลด...' : 'เปลี่ยนรูป'}
               </button>
+              {avatarError && <p className="mt-1 text-xs text-red-500">{avatarError}</p>}
             </div>
           </div>
         </div>
@@ -190,31 +301,46 @@ export function AdminEditPage() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">บทบาท</label>
-              <select className={inputClass} {...register('role')}>
-                {roleOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+              {canEditRole ? (
+                <select className={inputClass} {...register('role')}>
+                  {roleOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input type="text" disabled value={adminRoleMeta[detail.role].label} readOnly className={inputClass} />
+              )}
             </div>
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">สถานะบัญชี</label>
               <div className="flex items-center gap-3 py-2">
                 <span className={`h-2 w-2 rounded-full ${active ? 'bg-emerald-500' : 'bg-gray-400'}`} />
                 <span className="text-sm text-gray-700">{active ? 'ใช้งานอยู่ (Active)' : 'ปิดใช้งาน (Inactive)'}</span>
-                <Toggle checked={active} onChange={(value) => setValue('active', value)} />
+                {canEditStatusAndLead && <Toggle checked={active} onChange={(value) => setValue('active', value)} />}
               </div>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={handleForceLogout}
-            className="mt-3 flex items-center gap-1.5 rounded-xl border border-gray-200 px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50"
-          >
-            <FiSlash size={14} />
-            บังคับออกจากระบบทุกอุปกรณ์
-          </button>
+          {canEditRole && (
+            <div className="mt-4 flex items-center gap-3 rounded-xl bg-gray-50 px-3 py-2.5">
+              <Toggle checked={isTeamLead} onChange={(value) => setValue('isTeamLead', value)} />
+              <div>
+                <p className="text-sm font-medium text-gray-700">หัวหน้าแผนก</p>
+                <p className="text-xs text-gray-400">เห็นและแก้ไขบัญชีของทุกคนในแผนกเดียวกันได้ ไม่ใช่แค่บัญชีตัวเอง</p>
+              </div>
+            </div>
+          )}
+          {isSuperAdminEditor && (
+            <button
+              type="button"
+              onClick={handleForceLogout}
+              className="mt-3 flex items-center gap-1.5 rounded-xl border border-gray-200 px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50"
+            >
+              <FiSlash size={14} />
+              บังคับออกจากระบบทุกอุปกรณ์
+            </button>
+          )}
           {logoutNotice && <p className="mt-1.5 text-xs text-emerald-600">บังคับออกจากระบบเรียบร้อยแล้ว</p>}
         </div>
 
@@ -249,14 +375,17 @@ export function AdminEditPage() {
                   <FiLock size={12} className="text-gray-400" />
                   เข้าใช้งานล่าสุด
                 </label>
-                <input type="text" disabled value={detail.lastActiveAt} readOnly className={inputClass} />
+                <div className={`flex items-center gap-1.5 ${inputClass}`}>
+                  <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${isOnline(detail.lastActiveAt) ? 'bg-emerald-500' : 'bg-gray-300'}`} />
+                  {formatDateTime(detail.lastActiveAt)}
+                </div>
               </div>
               <div>
                 <label className="mb-1.5 flex items-center gap-1 text-sm font-medium text-gray-700">
                   <FiLock size={12} className="text-gray-400" />
                   วันที่สร้างบัญชี
                 </label>
-                <input type="text" disabled value={detail.createdAt} readOnly className={inputClass} />
+                <input type="text" disabled value={formatDateTime(detail.createdAt)} readOnly className={inputClass} />
               </div>
             </div>
             <div>
@@ -275,7 +404,7 @@ export function AdminEditPage() {
                   {detail.roleHistory.map((entry, index) => (
                     <li key={index} className="flex items-start gap-1.5 text-xs text-gray-600">
                       <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-gray-400" />
-                      {entry.date} - {entry.description}
+                      {formatDateTime(entry.date)} - {entry.description}
                     </li>
                   ))}
                 </ul>
@@ -284,19 +413,33 @@ export function AdminEditPage() {
             <div>
               <p className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-gray-700">
                 <FiClock size={13} className="text-gray-400" />
-                ประวัติการเข้าสู่ระบบ (ล่าสุด 3 รายการ)
+                ประวัติการเข้าสู่ระบบ
+                {detail.loginHistory.length > 0 && (
+                  <span className="font-normal text-gray-400">({detail.loginHistory.length} รายการ)</span>
+                )}
               </p>
               {detail.loginHistory.length === 0 ? (
                 <p className="rounded-xl bg-gray-50 px-3 py-2 text-xs text-gray-400">ยังไม่มีประวัติการเข้าสู่ระบบ</p>
               ) : (
-                <ul className="space-y-1 rounded-xl bg-gray-50 px-3 py-2">
-                  {detail.loginHistory.slice(0, 3).map((entry, index) => (
-                    <li key={index} className="flex items-start gap-1.5 text-xs text-gray-600">
-                      <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-gray-400" />
-                      {entry.date} - {entry.device}
-                    </li>
-                  ))}
-                </ul>
+                <>
+                  <ul className="space-y-1 rounded-xl bg-gray-50 px-3 py-2">
+                    {(showAllLogins ? detail.loginHistory : detail.loginHistory.slice(0, 3)).map((entry, index) => (
+                      <li key={index} className="flex items-start gap-1.5 text-xs text-gray-600">
+                        <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-gray-400" />
+                        {formatDateTime(entry.date)} - {parseUserAgent(entry.device)}
+                      </li>
+                    ))}
+                  </ul>
+                  {detail.loginHistory.length > 3 && (
+                    <button
+                      type="button"
+                      onClick={() => setShowAllLogins((value) => !value)}
+                      className="mt-1.5 text-xs font-medium text-rose-500 hover:underline"
+                    >
+                      {showAllLogins ? 'ย่อกลับ' : `ดูทั้งหมด (${detail.loginHistory.length} รายการ)`}
+                    </button>
+                  )}
+                </>
               )}
             </div>
           </div>
@@ -320,7 +463,7 @@ export function AdminEditPage() {
               ยกเลิก
             </button>
           </div>
-          {detail.role !== 'super_admin' && (
+          {canEditStatusAndLead && !isSelf && detail.role !== 'super_admin' && (
             <button
               type="button"
               onClick={handleSuspend}

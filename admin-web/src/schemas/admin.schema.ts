@@ -8,6 +8,7 @@ export const adminEditSchema = z
     phone: z.string(),
     jobTitle: z.string(),
     role: z.enum(['super_admin', 'inventory_manager', 'sales_staff', 'content_moderator']),
+    isTeamLead: z.boolean(),
     active: z.boolean(),
     password: z.string(),
     confirmPassword: z.string(),

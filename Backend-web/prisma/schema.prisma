@@ -536,7 +536,12 @@ model AdminAccount {
   phone        String
   passwordHash String
   jobTitle     String             @default("")
+  avatarUrl    String?
   role         AdminRole
+  // Grants edit rights over every other account that shares this admin's own
+  // role (their department) — plain staff can only ever edit themselves.
+  // super_admin already has full access regardless of this flag.
+  isTeamLead   Boolean            @default(false)
   status       AdminAccountStatus @default(active)
   lastActiveAt DateTime?
   createdAt    DateTime           @default(now())

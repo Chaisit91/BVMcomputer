@@ -16,3 +16,20 @@ export function requireRole(...roles: string[]) {
     next()
   }
 }
+
+// Lets an admin operate on their own account (self-service profile edit) even
+// when their role wouldn't otherwise pass requireRole — used for :id routes
+// where "it's me" should be allowed alongside "I'm one of these roles".
+export function requireSelfOrRole(...roles: string[]) {
+  return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      res.status(401).json({ message: 'Unauthorized' })
+      return
+    }
+    if (req.user.id === req.params.id || req.user.role === 'super_admin' || roles.includes(req.user.role)) {
+      next()
+      return
+    }
+    res.status(403).json({ message: 'Forbidden' })
+  }
+}

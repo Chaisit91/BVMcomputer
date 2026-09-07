@@ -28,7 +28,7 @@ export function Toast({ toast, onDismiss }: ToastProps) {
   return (
     <div
       role="status"
-      className={`fixed right-6 top-6 z-50 flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-4 py-3 shadow-xl transition-all duration-300 ${
+      className={`fixed right-6 top-20 z-50 flex items-center gap-3 rounded-xl border border-gray-100 bg-white px-4 py-3 shadow-xl transition-all duration-300 ${
         visible ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0'
       }`}
     >

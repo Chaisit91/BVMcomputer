@@ -18,7 +18,8 @@ function shape(row: any) {
 }
 
 export const adminRepository = {
-  findMany: async () => (await prisma.adminAccount.findMany({ include })).map(shape),
+  findMany: async (role?: string) =>
+    (await prisma.adminAccount.findMany({ where: role ? { role: role as any } : undefined, include })).map(shape),
   findById: async (id: string) => shape(await prisma.adminAccount.findUnique({ where: { id }, include })),
   // plain lookup for auth only — no need to resolve createdBy/history there
   findByEmail: (email: string) => prisma.adminAccount.findUnique({ where: { email } }),

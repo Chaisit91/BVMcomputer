@@ -1,20 +1,15 @@
 import { api } from '../lib/api'
 import type { AdminCreateFormValues, AdminEditFormValues } from '../schemas/admin.schema'
-import type { AdminAccount, AdminStatus, AdminSummary } from '../types/admin'
+import type { AdminAccount, AdminStatus } from '../types/admin'
 
 export function getAdmins(): Promise<AdminAccount[]> {
   return api.get<AdminAccount[]>('/admins').then((res) => res.data)
 }
 
-// No dedicated summary endpoint — the list is small, so derive it client-side
-// instead of adding a backend route for a value that's trivial to compute.
-export async function getAdminSummary(): Promise<AdminSummary> {
-  const admins = await getAdmins()
-  return {
-    totalCount: admins.length,
-    activeCount: admins.filter((admin) => admin.status === 'active').length,
-    inactiveCount: admins.filter((admin) => admin.status === 'inactive').length,
-  }
+// Own-department roster — what non-super_admin roles see instead of the full
+// admin list (backend scopes it server-side to the caller's own role).
+export function getTeam(): Promise<AdminAccount[]> {
+  return api.get<AdminAccount[]>('/admins/team').then((res) => res.data)
 }
 
 export function getAdminDetail(id: string): Promise<AdminAccount | null> {
@@ -44,4 +39,10 @@ export function updateAdminStatus(id: string, status: AdminStatus): Promise<void
 
 export function forceLogoutAdmin(id: string): Promise<void> {
   return api.post(`/admins/${id}/force-logout`).then(() => undefined)
+}
+
+export function uploadAdminAvatar(id: string, file: File): Promise<AdminAccount> {
+  const formData = new FormData()
+  formData.append('avatar', file)
+  return api.post<AdminAccount>(`/admins/${id}/avatar`, formData).then((res) => res.data)
 }

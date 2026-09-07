@@ -15,6 +15,12 @@ const alwaysAllowedPrefixes = ['/dashboard']
 export function canAccess(role: AdminRole | undefined, pathname: string): boolean {
   if (!role) return false
   if (role === 'super_admin') return true
+  // Creating new admin accounts stays super_admin only; viewing/editing within
+  // /admins is otherwise open to everyone — the page itself scopes what a
+  // non-super_admin sees (their own department) and the backend enforces who
+  // they can actually edit.
+  if (pathname === '/admins/new') return false
+  if (pathname.startsWith('/admins')) return true
   if (alwaysAllowedPrefixes.some((prefix) => pathname.startsWith(prefix))) return true
   return (sectionPrefixes[role] ?? []).some((prefix) => pathname.startsWith(prefix))
 }

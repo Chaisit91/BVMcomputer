@@ -18,7 +18,9 @@ export interface AdminAccount {
   email: string
   phone: string
   jobTitle: string
+  avatarUrl: string | null
   role: AdminRole
+  isTeamLead: boolean
   status: AdminStatus
   lastActiveAt: string
   createdAt: string

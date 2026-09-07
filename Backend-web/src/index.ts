@@ -49,7 +49,6 @@ app.use(cookieParser())
 const inventory = [authMiddleware, requireRole('inventory_manager')] as const
 const sales = [authMiddleware, requireRole('sales_staff')] as const
 const content = [authMiddleware, requireRole('content_moderator')] as const
-const admin = [authMiddleware, requireRole('super_admin')] as const
 
 app.use('/api/cpus', ...inventory, cpuRouter)
 app.use('/api/gpus', ...inventory, gpuRouter)
@@ -65,7 +64,9 @@ app.use('/api/custom-builds', ...inventory, customBuildRouter)
 app.use('/api/customers', ...sales, customerRouter)
 app.use('/api/orders', ...sales, orderRouter)
 app.use('/api/banners', ...content, bannerRouter)
-app.use('/api/admins', ...admin, adminRouter)
+// adminRouter guards itself per-route (list/create/delete are super_admin
+// only; view/edit is self-or-team-lead-or-super_admin) — see admin.router.ts.
+app.use('/api/admins', adminRouter)
 app.use('/api/auth', authRouter)
 
 app.use(errorMiddleware)

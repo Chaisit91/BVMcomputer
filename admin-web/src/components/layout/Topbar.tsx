@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { FiBell, FiChevronDown, FiLogOut, FiMenu, FiMonitor, FiUser, FiX } from 'react-icons/fi'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Avatar } from '../ui/Avatar'
 import { canAccess } from '../../lib/permissions'
 import { logout } from '../../services/auth.service'
 import { clearUser } from '../../store/authSlice'
@@ -38,7 +39,10 @@ export function Topbar() {
 
   const showInventoryNav = canAccess(user?.role, '/inventory')
   const showManageNav = managePaths.some((path) => canAccess(user?.role, path))
-  const showAdminsNav = user?.role === 'super_admin'
+  // super_admin manages every account; every other role gets a "my team" link
+  // scoped to their own department instead of the full admin-management page.
+  const showAdminsNav = Boolean(user)
+  const adminsNavLabel = user?.role === 'super_admin' ? 'ผู้ดูแลระบบ' : 'ทีมของฉัน'
   const roleLabel = user?.role ? adminRoleMeta[user.role].label : 'ผู้ดูแลระบบ'
 
   useEffect(() => {
@@ -138,7 +142,7 @@ export function Topbar() {
                 onClick={handleNavigate}
                 className={`hover:text-gray-900 ${isAdminsActive ? 'text-rose-500' : ''}`}
               >
-                ผู้ดูแลระบบ
+                {adminsNavLabel}
               </Link>
             )}
           </nav>
@@ -164,9 +168,12 @@ export function Topbar() {
               onClick={() => toggleMenu('user')}
               className="flex items-center gap-2 rounded-xl py-1 pl-1 pr-2 hover:bg-gray-50"
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-rose-500 text-sm font-semibold text-white">
-                {getInitials(user?.name ?? 'แอดมิน')}
-              </span>
+              <Avatar
+                key={user?.avatarUrl ?? 'none'}
+                url={user?.avatarUrl}
+                initials={getInitials(user?.name ?? 'แอดมิน')}
+                size={36}
+              />
               <span className="hidden text-right sm:block">
                 <span className="block text-sm font-medium text-gray-800">{user?.name ?? 'แอดมิน'}</span>
                 <span className="block text-xs text-gray-400">{roleLabel}</span>
@@ -180,9 +187,12 @@ export function Topbar() {
             {openMenu === 'user' && (
               <div className="absolute right-0 top-full mt-2 w-64 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl">
                 <div className="flex items-center gap-3 border-b border-gray-100 px-4 py-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-rose-500 text-sm font-semibold text-white">
-                    {getInitials(user?.name ?? 'แอดมิน')}
-                  </span>
+                  <Avatar
+                    key={user?.avatarUrl ?? 'none'}
+                    url={user?.avatarUrl}
+                    initials={getInitials(user?.name ?? 'แอดมิน')}
+                    size={40}
+                  />
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold text-gray-800">{user?.name ?? 'แอดมิน'}</p>
                     <p className="truncate text-xs text-gray-400">{user?.email ?? 'ผู้ดูแลระบบ'}</p>
@@ -253,7 +263,7 @@ export function Topbar() {
               onClick={handleNavigate}
               className={`block rounded-lg px-3 py-2 text-sm font-medium ${isAdminsActive ? 'text-rose-500' : 'text-gray-700'}`}
             >
-              ผู้ดูแลระบบ
+              {adminsNavLabel}
             </Link>
           )}
         </div>

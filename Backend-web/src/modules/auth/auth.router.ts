@@ -20,8 +20,23 @@ function setSessionCookie(res: Response, token: string, remember: boolean) {
   })
 }
 
-function toAuthUser(admin: { id: string; firstName: string; lastName: string; email: string; role: string }) {
-  return { id: admin.id, name: `${admin.firstName} ${admin.lastName}`, email: admin.email, role: admin.role }
+function toAuthUser(admin: {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  role: string
+  isTeamLead: boolean
+  avatarUrl: string | null
+}) {
+  return {
+    id: admin.id,
+    name: `${admin.firstName} ${admin.lastName}`,
+    email: admin.email,
+    role: admin.role,
+    isTeamLead: admin.isTeamLead,
+    avatarUrl: admin.avatarUrl,
+  }
 }
 
 authRouter.post('/login', async (req, res) => {

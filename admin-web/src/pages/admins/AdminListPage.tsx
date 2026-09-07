@@ -1,8 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { FiEdit2, FiPlus, FiRefreshCw, FiSlash } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
+import { Avatar } from '../../components/ui/Avatar'
 import { StatChip } from '../../components/ui/SummaryCard'
-import { getAdminSummary, getAdmins, updateAdminStatus } from '../../services/admin.service'
+import { formatDateTime } from '../../lib/formatDate'
+import { isOnline } from '../../lib/onlineStatus'
+import { getAdmins, getTeam, updateAdminStatus } from '../../services/admin.service'
+import { useAppSelector } from '../../store/hooks'
 import { adminRoleMeta, type AdminAccount, type AdminRole, type AdminStatus, type AdminSummary } from '../../types/admin'
 
 type LoadStatus = 'loading' | 'error' | 'success'
@@ -23,8 +27,11 @@ function getInitials(firstName: string) {
 }
 
 export function AdminListPage() {
+  const currentUser = useAppSelector((state) => state.auth.user)
+  const isSuperAdmin = currentUser?.role === 'super_admin'
+  const canManageTeam = isSuperAdmin || Boolean(currentUser?.isTeamLead)
+
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<AdminSummary | null>(null)
   const [admins, setAdmins] = useState<AdminAccount[]>([])
   const [search, setSearch] = useState('')
   const [roleFilter, setRoleFilter] = useState<'all' | AdminRole>('all')
@@ -33,11 +40,10 @@ export function AdminListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getAdminSummary(), getAdmins()])
-      .then(([summaryResult, adminsResult]) => {
+    ;(isSuperAdmin ? getAdmins() : getTeam())
+      .then((result) => {
         if (!cancelled) {
-          setSummary(summaryResult)
-          setAdmins(adminsResult)
+          setAdmins(result)
           setStatus('success')
         }
       })
@@ -48,7 +54,16 @@ export function AdminListPage() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [isSuperAdmin])
+
+  const summary: AdminSummary = useMemo(
+    () => ({
+      totalCount: admins.length,
+      activeCount: admins.filter((admin) => admin.status === 'active').length,
+      inactiveCount: admins.filter((admin) => admin.status === 'inactive').length,
+    }),
+    [admins],
+  )
 
   const handleSuspend = async (admin: AdminAccount) => {
     const nextStatus: AdminStatus = admin.status === 'inactive' ? 'active' : 'inactive'
@@ -60,6 +75,8 @@ export function AdminListPage() {
     await updateAdminStatus(admin.id, nextStatus)
     setAdmins((prev) => prev.map((item) => (item.id === admin.id ? { ...item, status: nextStatus } : item)))
   }
+
+  const canEdit = (admin: AdminAccount) => canManageTeam || admin.id === currentUser?.id
 
   const clearFilters = () => {
     setSearch('')
@@ -84,7 +101,7 @@ export function AdminListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่
@@ -96,16 +113,24 @@ export function AdminListPage() {
     <main className="mx-auto max-w-7xl space-y-6 px-6 py-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="text-xl font-bold text-gray-900">บัญชีผู้ดูแล (Admin Accounts)</h1>
-          <p className="text-sm text-gray-400">จัดการบัญชีผู้ดูแลระบบทั้งหมดและสิทธิ์การเข้าใช้งานภายในระบบ BVMcomputer</p>
+          <h1 className="text-xl font-bold text-gray-900">
+            {isSuperAdmin ? 'บัญชีผู้ดูแล (Admin Accounts)' : 'ทีมของฉัน (My Team)'}
+          </h1>
+          <p className="text-sm text-gray-400">
+            {isSuperAdmin
+              ? 'จัดการบัญชีผู้ดูแลระบบทั้งหมดและสิทธิ์การเข้าใช้งานภายในระบบ BVMcomputer'
+              : `รายชื่อผู้ดูแลในแผนก${currentUser ? adminRoleMeta[currentUser.role].label : ''} — แก้ไขข้อมูลได้เฉพาะบัญชีของตัวเอง`}
+          </p>
         </div>
-        <Link
-          to="/admins/new"
-          className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600"
-        >
-          <FiPlus size={16} />
-          เพิ่มผู้ดูแลใหม่
-        </Link>
+        {isSuperAdmin && (
+          <Link
+            to="/admins/new"
+            className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600"
+          >
+            <FiPlus size={16} />
+            เพิ่มผู้ดูแลใหม่
+          </Link>
+        )}
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -123,17 +148,19 @@ export function AdminListPage() {
             placeholder="ค้นหาด้วยชื่อ หรือ อีเมล..."
             className="min-w-[240px] flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-rose-400 focus:ring-2 focus:ring-rose-100"
           />
-          <select
-            value={roleFilter}
-            onChange={(event) => setRoleFilter(event.target.value as 'all' | AdminRole)}
-            className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-700 outline-none focus:border-rose-400"
-          >
-            {roleFilterOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                บทบาท: {option.label}
-              </option>
-            ))}
-          </select>
+          {isSuperAdmin && (
+            <select
+              value={roleFilter}
+              onChange={(event) => setRoleFilter(event.target.value as 'all' | AdminRole)}
+              className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-700 outline-none focus:border-rose-400"
+            >
+              {roleFilterOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  บทบาท: {option.label}
+                </option>
+              ))}
+            </select>
+          )}
           <select
             value={statusFilter}
             onChange={(event) => setStatusFilter(event.target.value as 'all' | AdminStatus)}
@@ -177,18 +204,29 @@ export function AdminListPage() {
                     <td className="py-3 pr-4 text-gray-500">{index + 1}</td>
                     <td className="py-3 pr-4">
                       <div className="flex items-center gap-2.5">
-                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-rose-500 text-xs font-semibold text-white">
-                          {getInitials(admin.firstName)}
-                        </span>
-                        <Link to={`/admins/${admin.id}/edit`} className="font-medium text-gray-800 hover:text-rose-500">
-                          {admin.firstName} {admin.lastName}
-                        </Link>
+                        <Avatar
+                          key={admin.avatarUrl ?? 'none'}
+                          url={admin.avatarUrl}
+                          initials={getInitials(admin.firstName)}
+                          size={36}
+                          className="text-xs"
+                        />
+                        {canEdit(admin) ? (
+                          <Link to={`/admins/${admin.id}/edit`} className="font-medium text-gray-800 hover:text-rose-500">
+                            {admin.firstName} {admin.lastName}
+                          </Link>
+                        ) : (
+                          <span className="font-medium text-gray-800">
+                            {admin.firstName} {admin.lastName}
+                          </span>
+                        )}
                       </div>
                     </td>
                     <td className="py-3 pr-4 text-gray-600">{admin.email}</td>
                     <td className="py-3 pr-4">
                       <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${adminRoleMeta[admin.role].badgeClass}`}>
                         {adminRoleMeta[admin.role].label}
+                        {admin.isTeamLead && ' · หัวหน้าแผนก'}
                       </span>
                     </td>
                     <td className="py-3 pr-4">
@@ -197,17 +235,24 @@ export function AdminListPage() {
                         {admin.status === 'active' ? 'Active' : 'Inactive'}
                       </span>
                     </td>
-                    <td className="py-3 pr-4 text-gray-600">{admin.lastActiveAt}</td>
+                    <td className="py-3 pr-4">
+                      <span className="flex items-center gap-1.5 text-gray-600">
+                        <span className={`h-1.5 w-1.5 rounded-full ${isOnline(admin.lastActiveAt) ? 'bg-emerald-500' : 'bg-gray-300'}`} />
+                        {formatDateTime(admin.lastActiveAt)}
+                      </span>
+                    </td>
                     <td className="py-3 pr-4">
                       <div className="flex items-center gap-2">
-                        <Link
-                          to={`/admins/${admin.id}/edit`}
-                          className="rounded-lg border border-gray-200 p-1.5 text-gray-400 hover:bg-gray-50 hover:text-gray-600"
-                          aria-label="แก้ไข"
-                        >
-                          <FiEdit2 size={16} />
-                        </Link>
-                        {admin.role !== 'super_admin' && (
+                        {canEdit(admin) && (
+                          <Link
+                            to={`/admins/${admin.id}/edit`}
+                            className="rounded-lg border border-gray-200 p-1.5 text-gray-400 hover:bg-gray-50 hover:text-gray-600"
+                            aria-label="แก้ไข"
+                          >
+                            <FiEdit2 size={16} />
+                          </Link>
+                        )}
+                        {canManageTeam && admin.role !== 'super_admin' && (
                           <button
                             type="button"
                             onClick={() => handleSuspend(admin)}
