@@ -61,7 +61,7 @@ const categoryMenuItems: CategoryMenuItem[] = [
   { id: 'motherboard', label: 'เมนบอร์ด', href: '#category-motherboard', icon: BsMotherboard, hasSubmenu: true, to: '/category/motherboard' },
   { id: 'ram', label: 'แรม', href: '#category-ram', icon: BsMemory, hasSubmenu: true, to: '/category/ram' },
   { id: 'storage', label: 'ฮาร์ดดิสก์ และ เอสเอสดี', href: '#category-storage', icon: BsHdd, hasSubmenu: true, to: '/category/storage' },
-  { id: 'psu', label: 'พาวเวอร์ซัพพลาย', href: '#category-psu', icon: BsPlug, hasSubmenu: true },
+  { id: 'psu', label: 'พาวเวอร์ซัพพลาย', href: '#category-psu', icon: BsPlug, hasSubmenu: true, to: '/category/psu' },
   { id: 'case', label: 'เคส', href: '#category-case', icon: PiComputerTower, hasSubmenu: true },
   { id: 'cooling', label: 'ชุดระบายความร้อน', href: '#category-cooling', icon: BsSnow2, hasSubmenu: true },
 ];
