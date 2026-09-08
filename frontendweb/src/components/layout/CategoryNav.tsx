@@ -58,7 +58,7 @@ const categoryMenuItems: CategoryMenuItem[] = [
   { id: 'desktop-pc', label: 'คอมพิวเตอร์ตั้งโต๊ะ', href: '#category-desktop-pc', icon: BsDisplay, hasSubmenu: true },
   { id: 'cpu', label: 'ซีพียู', href: '#category-cpu', icon: BsCpu, hasSubmenu: true, to: '/category/cpu' },
   { id: 'gpu', label: 'การ์ดจอ', href: '#category-gpu', icon: BsGpuCard, hasSubmenu: true, to: '/category/gpu' },
-  { id: 'motherboard', label: 'เมนบอร์ด', href: '#category-motherboard', icon: BsMotherboard, hasSubmenu: true },
+  { id: 'motherboard', label: 'เมนบอร์ด', href: '#category-motherboard', icon: BsMotherboard, hasSubmenu: true, to: '/category/motherboard' },
   { id: 'ram', label: 'แรม', href: '#category-ram', icon: BsMemory, hasSubmenu: true },
   { id: 'storage', label: 'ฮาร์ดดิสก์ และ เอสเอสดี', href: '#category-storage', icon: BsHdd, hasSubmenu: true },
   { id: 'psu', label: 'พาวเวอร์ซัพพลาย', href: '#category-psu', icon: BsPlug, hasSubmenu: true },
