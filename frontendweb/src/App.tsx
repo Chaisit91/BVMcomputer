@@ -6,6 +6,8 @@ import { HomePage } from './pages/HomePage';
 import { CpuCategoryPage } from './pages/CpuCategoryPage';
 import { GpuCategoryPage } from './pages/GpuCategoryPage';
 import { MotherboardCategoryPage } from './pages/MotherboardCategoryPage';
+import { RamCategoryPage } from './pages/RamCategoryPage';
+import { StorageCategoryPage } from './pages/StorageCategoryPage';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
             <Route path="/category/cpu" element={<CpuCategoryPage />} />
             <Route path="/category/gpu" element={<GpuCategoryPage />} />
             <Route path="/category/motherboard" element={<MotherboardCategoryPage />} />
+            <Route path="/category/ram" element={<RamCategoryPage />} />
+            <Route path="/category/storage" element={<StorageCategoryPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
