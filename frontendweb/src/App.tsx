@@ -9,6 +9,7 @@ import { MotherboardCategoryPage } from './pages/MotherboardCategoryPage';
 import { RamCategoryPage } from './pages/RamCategoryPage';
 import { StorageCategoryPage } from './pages/StorageCategoryPage';
 import { PsuCategoryPage } from './pages/PsuCategoryPage';
+import { CaseCategoryPage } from './pages/CaseCategoryPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/category/ram" element={<RamCategoryPage />} />
             <Route path="/category/storage" element={<StorageCategoryPage />} />
             <Route path="/category/psu" element={<PsuCategoryPage />} />
+            <Route path="/category/case" element={<CaseCategoryPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
