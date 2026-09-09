@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { StorageFormFields } from '../../../components/inventory/storage/StorageFormFields'
+import { toEditableStatus } from '../../../lib/productStatus'
 import { storageFormSchema, type StorageFormValues } from '../../../schemas/storage.schema'
 import { deleteStorage, getStorageDetail, saveStorage } from '../../../services/storage.service'
 import type { ExtraSpec, Storage } from '../../../types/storage'
@@ -50,7 +51,7 @@ export function StorageEditPage({ readOnly = false }: { readOnly?: boolean }) {
           promoEnabled: result.promoEnabled,
           promoPrice: result.promoPrice,
           stock: result.stock,
-          status: result.status,
+          status: toEditableStatus(result.status),
           specs: result.specs,
           description: result.description,
         })

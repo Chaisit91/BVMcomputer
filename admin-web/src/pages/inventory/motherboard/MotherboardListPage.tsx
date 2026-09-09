@@ -3,8 +3,8 @@ import { FiBox, FiCheckCircle, FiEdit2, FiPlus, FiSlash, FiTrash2, FiX } from 'r
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
-import { deleteMotherboard, getMotherboardSummary, getMotherboards } from '../../../services/motherboard.service'
-import type { Motherboard, MotherboardSummary } from '../../../types/motherboard'
+import { deleteMotherboard, getMotherboards } from '../../../services/motherboard.service'
+import type { Motherboard } from '../../../types/motherboard'
 
 type LoadStatus = 'loading' | 'error' | 'success'
 
@@ -108,7 +108,6 @@ function FilterGroup({
 
 export function MotherboardListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<MotherboardSummary | null>(null)
   const [motherboards, setMotherboards] = useState<Motherboard[]>([])
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<'newest' | 'price_asc' | 'price_desc' | 'stock_desc'>('newest')
@@ -130,10 +129,9 @@ export function MotherboardListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getMotherboardSummary(), getMotherboards()])
-      .then(([summaryResult, mbResult]) => {
+    getMotherboards()
+      .then((mbResult) => {
         if (!cancelled) {
-          setSummary(summaryResult)
           setMotherboards(mbResult)
           setStatus('success')
         }
@@ -146,6 +144,16 @@ export function MotherboardListPage() {
       cancelled = true
     }
   }, [])
+
+  const summary = useMemo(
+    () => ({
+      totalModels: motherboards.length,
+      totalStock: motherboards.reduce((sum, mb) => sum + mb.stock, 0),
+      lowStock: motherboards.filter((mb) => mb.stock > 0 && mb.stock <= LOW_STOCK_THRESHOLD).length,
+      outOfStock: motherboards.filter((mb) => mb.stock === 0).length,
+    }),
+    [motherboards],
+  )
 
   const addFilter = (key: string) => {
     setAddedFilterKeys((prev) => [...prev, key])
@@ -267,7 +275,7 @@ export function MotherboardListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่

@@ -30,8 +30,12 @@ function split(body: Record<string, unknown>) {
 async function shape(row: any) {
   const { promoSet, ...own } = row
   const components: Record<string, string> = {}
+  // Raw slot -> productId, alongside the resolved-name `components` above —
+  // the edit form needs the actual id to preselect each ProductPicker dropdown.
+  const componentIds: Record<string, string> = {}
   for (const p of promoSet.parts) {
     components[p.slot] = await getProductName(p.productId)
+    componentIds[p.slot] = p.productId
   }
   return {
     ...own,
@@ -40,6 +44,7 @@ async function shape(row: any) {
     notes: promoSet.notes,
     status: deriveDisplayStatus(own.status, own.stock),
     components,
+    componentIds,
     extraParts: promoSet.extraParts.map((e: any) => ({ id: e.id, name: e.name, value: e.value })),
     highlights: promoSet.highlights.map((h: any) => h.text),
     videoLinks: promoSet.videoLinks.map((v: any) => v.url),

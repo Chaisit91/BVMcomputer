@@ -5,16 +5,20 @@ import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { GpuFormFields } from '../../../components/inventory/gpu/GpuFormFields'
 import { Badge } from '../../../components/ui/Badge'
+import { toEditableStatus } from '../../../lib/productStatus'
 import { gpuFormSchema, type GpuFormValues } from '../../../schemas/gpu.schema'
 import { deleteGpu, getGpuDetail, saveGpu } from '../../../services/gpu.service'
 import type { Gpu, GpuStatus } from '../../../types/gpu'
 
 type LoadStatus = 'loading' | 'error' | 'not_found' | 'success'
 
-const statusBadge: Record<GpuStatus, { label: string; variant: 'success' | 'warning' | 'danger' }> = {
-  available: { label: 'พร้อมจำหน่าย', variant: 'success' },
+const statusBadge: Record<GpuStatus, { label: string; variant: 'success' | 'warning' | 'danger' | 'neutral' }> = {
+  active: { label: 'พร้อมจำหน่าย', variant: 'success' },
+  inactive: { label: 'ปิดการขาย', variant: 'neutral' },
   preorder: { label: 'ของหมดสั่งจอง', variant: 'warning' },
   discontinued: { label: 'เลิกจำหน่าย', variant: 'danger' },
+  low_stock: { label: 'ใกล้หมด', variant: 'warning' },
+  out_of_stock: { label: 'สินค้าหมด', variant: 'danger' },
 }
 
 export function GpuEditPage({ readOnly = false }: { readOnly?: boolean }) {
@@ -51,9 +55,9 @@ export function GpuEditPage({ readOnly = false }: { readOnly?: boolean }) {
           model: result.model,
           chipsetModel: result.chipsetModel,
           memorySize: result.memorySize,
-          price: result.price,
+          sellingPrice: result.sellingPrice,
           stock: result.stock,
-          status: result.status,
+          status: toEditableStatus(result.status),
           specs: result.specs,
           description: result.description,
         })

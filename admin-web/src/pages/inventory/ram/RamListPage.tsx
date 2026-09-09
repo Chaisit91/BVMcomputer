@@ -3,8 +3,8 @@ import { FiBox, FiCheckCircle, FiCpu, FiEdit2, FiPlus, FiTrash2, FiX } from 'rea
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
-import { deleteRam, getRamSummary, getRams } from '../../../services/ram.service'
-import type { Ram, RamSummary } from '../../../types/ram'
+import { deleteRam, getRams } from '../../../services/ram.service'
+import type { Ram } from '../../../types/ram'
 
 type LoadStatus = 'loading' | 'error' | 'success'
 
@@ -89,7 +89,6 @@ function FilterGroup({
 
 export function RamListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<RamSummary | null>(null)
   const [rams, setRams] = useState<Ram[]>([])
   const [search, setSearch] = useState('')
 
@@ -105,10 +104,9 @@ export function RamListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getRamSummary(), getRams()])
-      .then(([summaryResult, ramsResult]) => {
+    getRams()
+      .then((ramsResult) => {
         if (!cancelled) {
-          setSummary(summaryResult)
           setRams(ramsResult)
           setStatus('success')
         }
@@ -121,6 +119,17 @@ export function RamListPage() {
       cancelled = true
     }
   }, [])
+
+  const summary = useMemo(() => {
+    const total = rams.length
+    const activeLike = rams.filter((item) => item.status === 'active' || item.status === 'low_stock' || item.status === 'out_of_stock').length
+    return {
+      totalModels: total,
+      activeRatePercent: total === 0 ? 0 : Math.round((activeLike / total) * 1000) / 10,
+      totalStock: rams.reduce((sum, item) => sum + item.stock, 0),
+      totalBrands: new Set(rams.map((item) => item.brand)).size,
+    }
+  }, [rams])
 
   const addFilter = (key: string) => {
     setAddedFilterKeys((prev) => [...prev, key])
@@ -207,7 +216,7 @@ export function RamListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่

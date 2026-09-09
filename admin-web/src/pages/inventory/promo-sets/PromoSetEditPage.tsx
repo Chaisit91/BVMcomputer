@@ -5,36 +5,44 @@ import { FiPlus, FiSave, FiTrash2, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ExtraPartsEditor } from '../../../components/inventory/ExtraPartsEditor'
 import { Badge } from '../../../components/ui/Badge'
-import { promoSetEditSchema, type PromoSetEditFormValues } from '../../../schemas/promoSet.schema'
+import { ProductPicker } from '../../../components/ui/ProductPicker'
+import { Toggle } from '../../../components/ui/Toggle'
+import { formatDateTime } from '../../../lib/formatDate'
+import { promoSetFormSchema, type PromoSetFormValues } from '../../../schemas/promoSet.schema'
 import { deletePromoSet, getPromoSetDetail, savePromoSet } from '../../../services/promoSet.service'
-import type { PromoSet, PromoSetComponents, PromoSetExtraPart, PromoSetStatus } from '../../../types/promoSet'
+import { COMPONENT_SLOTS, COMPONENT_SLOT_LABELS, COMPONENT_SLOT_TO_API_CATEGORY } from '../../../types/componentSlots'
+import type { PromoSet, PromoSetExtraPart, PromoSetStatus } from '../../../types/promoSet'
 
 type LoadStatus = 'loading' | 'error' | 'not_found' | 'success'
 
 const inputClass =
   'w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100 disabled:cursor-default disabled:text-gray-500'
 
-const componentFields: { key: keyof PromoSetComponents; label: string }[] = [
-  { key: 'cpu', label: 'ซีพียู (CPU)' },
-  { key: 'motherboard', label: 'เมนบอร์ด (Motherboard)' },
-  { key: 'gpu', label: 'การ์ดจอ (Graphic Card)' },
-  { key: 'ram', label: 'หน่วยความจำ (RAM)' },
-  { key: 'storage', label: 'อุปกรณ์จัดเก็บข้อมูล (Storage)' },
-  { key: 'psu', label: 'แหล่งจ่ายไฟ (Power Supply)' },
-  { key: 'case', label: 'เคส (Case)' },
-  { key: 'cooling', label: 'อุปกรณ์ระบายความร้อน (Cooling)' },
-]
-
+// low_stock/out_of_stock are derived server-side from stock count, not
+// selectable directly — see Backend-web/src/lib/stockStatus.ts.
 const statusOptions: { value: PromoSetStatus; label: string }[] = [
-  { value: 'selling', label: 'กำลังขาย' },
-  { value: 'out_of_stock', label: 'หมดสต็อก' },
-  { value: 'closed', label: 'ปิดการขาย' },
+  { value: 'active', label: 'กำลังขาย' },
+  { value: 'inactive', label: 'ปิดการขาย' },
+  { value: 'preorder', label: 'พรีออเดอร์' },
+  { value: 'discontinued', label: 'เลิกขาย' },
 ]
 
-const statusBadgeVariant: Record<PromoSetStatus, 'success' | 'warning' | 'danger'> = {
-  selling: 'success',
-  out_of_stock: 'warning',
-  closed: 'danger',
+const statusDisplayLabels: Record<PromoSetStatus, string> = {
+  active: 'กำลังขาย',
+  inactive: 'ปิดการขาย',
+  preorder: 'พรีออเดอร์',
+  discontinued: 'เลิกขาย',
+  low_stock: 'สต็อกน้อย',
+  out_of_stock: 'หมดสต็อก',
+}
+
+const statusBadgeVariant: Record<PromoSetStatus, 'success' | 'warning' | 'danger' | 'info' | 'neutral'> = {
+  active: 'success',
+  inactive: 'neutral',
+  preorder: 'info',
+  low_stock: 'warning',
+  out_of_stock: 'danger',
+  discontinued: 'neutral',
 }
 
 export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
@@ -52,10 +60,11 @@ export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
     register,
     handleSubmit,
     watch,
+    setValue,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<PromoSetEditFormValues>({
-    resolver: zodResolver(promoSetEditSchema),
+  } = useForm<PromoSetFormValues>({
+    resolver: zodResolver(promoSetFormSchema),
   })
 
   useEffect(() => {
@@ -75,11 +84,14 @@ export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
         reset({
           name: result.name,
           code: result.code,
+          specSummary: result.specSummary,
           status: result.status,
           regularPrice: result.regularPrice,
+          promoEnabled: result.promoEnabled,
           promoPrice: result.promoPrice,
           stock: result.stock,
-          components: result.components,
+          publishImmediately: result.publishImmediately,
+          components: result.componentIds,
           description: result.description,
           notes: result.notes,
         })
@@ -95,9 +107,11 @@ export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
   }, [setId, reset])
 
   const regularPrice = watch('regularPrice') || 0
+  const promoEnabled = watch('promoEnabled')
   const promoPrice = watch('promoPrice') || 0
+  const publishImmediately = watch('publishImmediately')
   const stock = watch('stock') || 0
-  const discountAmount = Math.max(regularPrice - promoPrice, 0)
+  const discountAmount = promoEnabled ? Math.max(regularPrice - promoPrice, 0) : 0
   const discountPercent = regularPrice > 0 ? (discountAmount / regularPrice) * 100 : 0
 
   const addHighlight = () => {
@@ -114,7 +128,7 @@ export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
     setVideoInput('')
   }
 
-  const onSubmit = async (values: PromoSetEditFormValues) => {
+  const onSubmit = async (values: PromoSetFormValues) => {
     await savePromoSet(setId, { ...values, highlights, videoLinks, extraParts })
     navigate('/inventory/promo-sets')
   }
@@ -156,9 +170,7 @@ export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex items-center gap-3">
             <h1 className="text-xl font-bold text-gray-900">{readOnly ? 'ดูเซ็ตโปรโมชั่น' : 'แก้ไขเซ็ตโปรโมชั่น'}</h1>
-            <Badge variant={statusBadgeVariant[detail.status]}>
-              {statusOptions.find((option) => option.value === detail.status)?.label}
-            </Badge>
+            <Badge variant={statusBadgeVariant[detail.status]}>{statusDisplayLabels[detail.status]}</Badge>
           </div>
           <div className="flex items-center gap-3">
             <button
@@ -198,14 +210,9 @@ export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
                     <input type="text" disabled={readOnly} className={inputClass} {...register('code')} />
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700">สถานะ *</label>
-                    <select disabled={readOnly} className={inputClass} {...register('status')}>
-                      {statusOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">สเปคย่อ *</label>
+                    <input type="text" disabled={readOnly} className={inputClass} {...register('specSummary')} />
+                    {errors.specSummary && <p className="mt-1 text-xs text-red-500">{errors.specSummary.message}</p>}
                   </div>
                 </div>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
@@ -219,27 +226,71 @@ export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
                     />
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700">ราคาโปรโมชั่น (฿) *</label>
-                    <input type="number" disabled={readOnly} className={inputClass} {...register('promoPrice', { valueAsNumber: true })} />
-                    {errors.promoPrice && <p className="mt-1 text-xs text-red-500">{errors.promoPrice.message}</p>}
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">จำนวนคงเหลือ *</label>
+                    <input
+                      type="number"
+                      disabled={readOnly}
+                      className={inputClass}
+                      {...register('stock', { valueAsNumber: true })}
+                    />
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700">จำนวนคงเหลือ *</label>
-                    <input type="number" disabled={readOnly} className={inputClass} {...register('stock', { valueAsNumber: true })} />
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">สถานะ</label>
+                    {detail.status === 'low_stock' || detail.status === 'out_of_stock' ? (
+                      <input type="text" disabled className={inputClass} value={statusDisplayLabels[detail.status]} readOnly />
+                    ) : (
+                      <select disabled={readOnly} className={inputClass} {...register('status')}>
+                        {statusOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    )}
                   </div>
+                </div>
+                <Toggle
+                  checked={publishImmediately}
+                  onChange={(value) => setValue('publishImmediately', value)}
+                  label="เปิดใช้งาน"
+                />
+                <div>
+                  <Toggle
+                    checked={promoEnabled}
+                    onChange={(value) => setValue('promoEnabled', value)}
+                    label="เปิดใช้ราคาโปรโมชั่น"
+                  />
+                  {promoEnabled && (
+                    <div className="mt-3 max-w-xs">
+                      <label className="mb-1.5 block text-sm font-medium text-gray-700">ราคาโปรโมชั่น (฿) *</label>
+                      <input
+                        type="number"
+                        disabled={readOnly}
+                        className={inputClass}
+                        {...register('promoPrice', { valueAsNumber: true })}
+                      />
+                      {errors.promoPrice && <p className="mt-1 text-xs text-red-500">{errors.promoPrice.message}</p>}
+                    </div>
+                  )}
                 </div>
               </div>
             </section>
 
             <section className="rounded-2xl border border-gray-100 bg-white p-5">
-              <h2 className="mb-4 text-sm font-semibold text-gray-800">รายละเอียดสเปคอุปกรณ์</h2>
+              <h2 className="mb-4 text-sm font-semibold text-gray-800">ส่วนประกอบ (เลือกจากสินค้าจริงในคลัง)</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {componentFields.map((field) => (
-                  <div key={field.key}>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700">{field.label} *</label>
-                    <input type="text" disabled={readOnly} className={inputClass} {...register(`components.${field.key}`)} />
-                    {errors.components?.[field.key] && (
-                      <p className="mt-1 text-xs text-red-500">{errors.components[field.key]?.message}</p>
+                {COMPONENT_SLOTS.map((slot) => (
+                  <div key={slot}>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">{COMPONENT_SLOT_LABELS[slot]}</label>
+                    <ProductPicker
+                      category={COMPONENT_SLOT_TO_API_CATEGORY[slot]}
+                      value={watch(`components.${slot}`)}
+                      onChange={(productId) => setValue(`components.${slot}`, productId)}
+                      disabled={readOnly}
+                      className={inputClass}
+                    />
+                    {errors.components?.[slot] && (
+                      <p className="mt-1 text-xs text-red-500">{errors.components[slot]?.message}</p>
                     )}
                   </div>
                 ))}
@@ -377,8 +428,10 @@ export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
                   <span className="text-gray-400 line-through">฿{regularPrice.toLocaleString()}</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-500">ราคาโปรโมชั่น</span>
-                  <span className="text-xl font-bold text-rose-500">฿{promoPrice.toLocaleString()}</span>
+                  <span className="text-gray-500">ราคาขายจริง</span>
+                  <span className="text-xl font-bold text-rose-500">
+                    ฿{(promoEnabled ? promoPrice : regularPrice).toLocaleString()}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-50 pt-2">
                   <span className="text-gray-500">ส่วนลด</span>
@@ -389,6 +442,10 @@ export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
                 <div className="flex items-center justify-between">
                   <span className="text-gray-500">คงเหลือสินค้า</span>
                   <span className="font-medium text-gray-800">{stock} เครื่อง</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-500">อัพเดทล่าสุด</span>
+                  <span className="font-medium text-gray-800">{formatDateTime(detail.updatedAt)}</span>
                 </div>
               </div>
               {!readOnly && (

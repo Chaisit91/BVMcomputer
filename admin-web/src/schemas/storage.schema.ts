@@ -21,7 +21,7 @@ export const storageFormSchema = z
     promoEnabled: z.boolean(),
     promoPrice: z.number().min(0, 'ราคาต้องไม่ติดลบ'),
     stock: z.number().min(0, 'จำนวนต้องไม่ติดลบ'),
-    status: z.enum(['active', 'inactive']),
+    status: z.enum(['active', 'inactive', 'preorder', 'discontinued']),
     specs: specsSchema,
     description: z.string(),
   })

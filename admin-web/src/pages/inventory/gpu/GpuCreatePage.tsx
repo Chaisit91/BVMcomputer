@@ -22,9 +22,9 @@ export function GpuCreatePage() {
       model: '',
       chipsetModel: '',
       memorySize: '',
-      price: 0,
+      sellingPrice: 0,
       stock: 0,
-      status: 'available',
+      status: 'active',
       specs: {
         baseClock: '',
         memoryClock: '',

@@ -1,5 +1,7 @@
 export type DesktopPcCategory = 'desktop' | 'mini_pc' | 'all_in_one' | 'ai_workstation' | 'ai_enterprise'
-export type DesktopPcStatus = 'selling' | 'low_stock' | 'out_of_stock' | 'discontinued'
+// Matches backend ProductStatus (active/inactive/preorder/discontinued,
+// stored) plus low_stock/out_of_stock (derived server-side from stock count).
+export type DesktopPcStatus = 'active' | 'inactive' | 'preorder' | 'discontinued' | 'low_stock' | 'out_of_stock'
 
 export interface DesktopPcSpecs {
   cpu: string
@@ -26,6 +28,10 @@ export interface DesktopPc {
   description: string
   highlights: string[]
   specs: DesktopPcSpecs
+  // slot -> real Product id, e.g. { cpu: 'ck1...' } — resolves each
+  // ProductPicker's current selection on the edit form. `specs` above only
+  // has the resolved display name.
+  componentIds: Record<'cpu' | 'gpu' | 'motherboard' | 'ram' | 'storage' | 'psu' | 'case' | 'cooling', string>
   updatedAt: string
 }
 

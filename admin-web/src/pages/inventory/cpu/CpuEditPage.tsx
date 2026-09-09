@@ -4,11 +4,23 @@ import { useForm } from 'react-hook-form'
 import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { CpuFormFields } from '../../../components/inventory/cpu/CpuFormFields'
+import { Badge } from '../../../components/ui/Badge'
+import { toPromoEnabled } from '../../../lib/promoPrice'
+import { toEditableStatus } from '../../../lib/productStatus'
 import { cpuFormSchema, type CpuFormValues } from '../../../schemas/cpu.schema'
 import { deleteCpu, getCpuDetail, saveCpu } from '../../../services/cpu.service'
-import type { Cpu, CpuBenchmark } from '../../../types/cpu'
+import type { Cpu, CpuBenchmark, CpuStatus } from '../../../types/cpu'
 
 type LoadStatus = 'loading' | 'error' | 'not_found' | 'success'
+
+const statusBadge: Record<CpuStatus, { label: string; variant: 'success' | 'warning' | 'danger' | 'neutral' }> = {
+  active: { label: 'พร้อมจำหน่าย', variant: 'success' },
+  inactive: { label: 'ปิดการขาย', variant: 'neutral' },
+  preorder: { label: 'ของหมดสั่งจอง', variant: 'warning' },
+  discontinued: { label: 'เลิกจำหน่าย', variant: 'danger' },
+  low_stock: { label: 'ใกล้หมด', variant: 'warning' },
+  out_of_stock: { label: 'สินค้าหมด', variant: 'danger' },
+}
 
 export function CpuEditPage({ readOnly = false }: { readOnly?: boolean }) {
   const { cpuId = '' } = useParams()
@@ -47,21 +59,25 @@ export function CpuEditPage({ readOnly = false }: { readOnly?: boolean }) {
           name: result.name,
           brand: result.brand,
           series: result.series,
+          processorLine: result.processorLine,
           processorNumber: result.processorNumber,
           socket: result.socket,
-          coresThreads: result.coresThreads,
-          baseFrequency: result.baseFrequency,
-          maxTurboFrequency: result.maxTurboFrequency,
-          l2Cache: result.l2Cache,
-          l3Cache: result.l3Cache,
+          cores: result.cores,
+          threads: result.threads,
+          baseFrequencyGhz: result.baseFrequencyGhz,
+          maxTurboFrequencyGhz: result.maxTurboFrequencyGhz,
+          l2CacheMb: result.l2CacheMb,
+          l3CacheMb: result.l3CacheMb,
           graphics: result.graphics,
-          tdp: result.tdp,
-          maxTdp: result.maxTdp,
-          warranty: result.warranty,
+          tdpWatts: result.tdpWatts,
+          maxTdpWatts: result.maxTdpWatts,
+          warrantyMonths: result.warrantyMonths,
           sellingPrice: result.sellingPrice,
-          costPrice: result.costPrice,
-          discount: result.discount,
+          costPrice: result.costPrice ?? 0,
+          promoEnabled: toPromoEnabled(result.promoPrice),
+          promoPrice: result.promoPrice ?? 0,
           stock: result.stock,
+          status: toEditableStatus(result.status),
           publishImmediately: result.publishImmediately,
           description: result.description,
         })
@@ -119,7 +135,10 @@ export function CpuEditPage({ readOnly = false }: { readOnly?: boolean }) {
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="text-xl font-bold text-gray-900">{pageTitle}</h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-xl font-bold text-gray-900">{pageTitle}</h1>
+              <Badge variant={statusBadge[detail.status].variant}>{statusBadge[detail.status].label}</Badge>
+            </div>
             <p className="text-sm text-gray-400">{detail.sku}</p>
           </div>
           <div className="flex items-center gap-3">

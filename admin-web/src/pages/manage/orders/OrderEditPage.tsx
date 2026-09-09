@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiCheck, FiCreditCard, FiDownload, FiEye, FiImage, FiShoppingBag, FiTrash2, FiUser } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { formatDateTime } from '../../../lib/formatDate'
 import { orderFormSchema, type OrderFormValues } from '../../../schemas/order.schema'
 import { getOrderDetail, saveOrder } from '../../../services/order.service'
 import { orderStatusMeta, paymentStatusMeta, type Order, type OrderLineItem, type OrderStatus, type PaymentStatus } from '../../../types/order'
@@ -72,7 +73,7 @@ export function OrderEditPage() {
           subdistrict: result.subdistrict,
           paymentMethod: result.paymentMethod,
           paymentStatus: result.paymentStatus,
-          status: result.status,
+          orderStatus: result.orderStatus,
           trackingNumber: result.trackingNumber,
           shippingNote: result.shippingNote,
         })
@@ -236,14 +237,14 @@ export function OrderEditPage() {
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">
                       สถานะคำสั่งซื้อ <span className="text-rose-500">*</span>
                     </label>
-                    <select className={inputClass} {...register('status')}>
+                    <select className={inputClass} {...register('orderStatus')}>
                       {orderStatusOptions.map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
                         </option>
                       ))}
                     </select>
-                    {errors.status && <p className="mt-1 text-xs text-red-500">{errors.status.message}</p>}
+                    {errors.orderStatus && <p className="mt-1 text-xs text-red-500">{errors.orderStatus.message}</p>}
                   </div>
                 </div>
                 <div>
@@ -267,7 +268,7 @@ export function OrderEditPage() {
                         <span className="text-sm font-medium text-gray-600">สลิปการโอนเงิน</span>
                         <span className="text-xs">{detail.paymentSlipFilename}</span>
                       </div>
-                      <p className="mt-1.5 text-xs text-gray-400">อัปโหลดเมื่อ {detail.paymentSlipUploadedAt}</p>
+                      <p className="mt-1.5 text-xs text-gray-400">อัปโหลดเมื่อ {formatDateTime(detail.paymentSlipUploadedAt)}</p>
                       <div className="mt-3 grid grid-cols-3 gap-2">
                         <button
                           type="button"

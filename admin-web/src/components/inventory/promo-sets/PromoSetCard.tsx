@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom'
 import { Badge } from '../../ui/Badge'
 import type { PromoSet, PromoSetStatus } from '../../../types/promoSet'
 
-const statusMap: Record<PromoSetStatus, { label: string; variant: 'success' | 'warning' | 'danger' }> = {
-  selling: { label: 'กำลังขาย', variant: 'success' },
-  out_of_stock: { label: 'หมดสต็อก', variant: 'warning' },
-  closed: { label: 'ปิดการขาย', variant: 'danger' },
+const statusMap: Record<PromoSetStatus, { label: string; variant: 'success' | 'warning' | 'danger' | 'info' | 'neutral' }> = {
+  active: { label: 'กำลังขาย', variant: 'success' },
+  inactive: { label: 'ปิดการขาย', variant: 'neutral' },
+  preorder: { label: 'พรีออเดอร์', variant: 'info' },
+  low_stock: { label: 'สต็อกน้อย', variant: 'warning' },
+  out_of_stock: { label: 'หมดสต็อก', variant: 'danger' },
+  discontinued: { label: 'เลิกขาย', variant: 'neutral' },
 }
 
 export function PromoSetCard({ set }: { set: PromoSet }) {

@@ -23,6 +23,7 @@ export function CoolingCreatePage() {
     resolver: zodResolver(coolingFormSchema),
     defaultValues: {
       sku: '',
+      displayCode: '',
       name: '',
       brand: '',
       sellingPrice: 0,

@@ -8,10 +8,13 @@ export interface Banner {
   targetLink: string
   startDate: string
   endDate: string
+  active: boolean
+  // Derived from active + endDate (see lib/bannerStatus.ts) — not a stored field.
   status: BannerStatus
   previewTone: string
-  imageFilename: string
-  imageDimensions: string
+  imageUrl: string
+  imageWidth: number | null
+  imageHeight: number | null
   imageFormat: string
 }
 

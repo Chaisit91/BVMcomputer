@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { StatChip } from '../../../components/ui/SummaryCard'
 import { Toggle } from '../../../components/ui/Toggle'
-import { deleteBanner, getBannerSummary, getBanners, updateBannerActive } from '../../../services/banner.service'
+import { deriveBannerStatus } from '../../../lib/bannerStatus'
+import { deleteBanner, getBanners, updateBannerActive } from '../../../services/banner.service'
 import type { Banner, BannerStatus, BannerSummary, BannerType } from '../../../types/banner'
 
 type LoadStatus = 'loading' | 'error' | 'success'
@@ -38,7 +39,6 @@ function formatDisplayDate(isoDate: string) {
 
 export function BannerListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<BannerSummary | null>(null)
   const [banners, setBanners] = useState<Banner[]>([])
   const [search, setSearch] = useState('')
   const [typeFilter, setTypeFilter] = useState<TypeFilter>('all')
@@ -47,11 +47,10 @@ export function BannerListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getBannerSummary(), getBanners()])
-      .then(([summaryResult, bannersResult]) => {
+    getBanners()
+      .then((result) => {
         if (!cancelled) {
-          setSummary(summaryResult)
-          setBanners(bannersResult)
+          setBanners(result)
           setStatus('success')
         }
       })
@@ -64,12 +63,24 @@ export function BannerListPage() {
     }
   }, [])
 
+  const summary: BannerSummary = useMemo(
+    () => ({
+      totalCount: banners.length,
+      activeCount: banners.filter((b) => b.status === 'active').length,
+      inactiveCount: banners.filter((b) => b.status === 'inactive').length,
+      expiredCount: banners.filter((b) => b.status === 'expired').length,
+    }),
+    [banners],
+  )
+
   const toggleActive = async (banner: Banner) => {
     if (banner.status === 'expired') return
-    const nextActive = banner.status !== 'active'
+    const nextActive = !banner.active
     await updateBannerActive(banner.id, nextActive)
     setBanners((prev) =>
-      prev.map((item) => (item.id === banner.id ? { ...item, status: nextActive ? 'active' : 'inactive' } : item)),
+      prev.map((item) =>
+        item.id === banner.id ? { ...item, active: nextActive, status: deriveBannerStatus(nextActive, item.endDate) } : item,
+      ),
     )
   }
 
@@ -96,7 +107,7 @@ export function BannerListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่
@@ -187,7 +198,11 @@ export function BannerListPage() {
                   <tr key={banner.id} className="whitespace-nowrap">
                     <td className="py-3 pr-4 text-gray-500">{index + 1}</td>
                     <td className="py-3 pr-4">
-                      <div className={`h-10 w-16 rounded-lg ${banner.previewTone}`} />
+                      {banner.imageUrl ? (
+                        <img src={banner.imageUrl} alt={banner.name} className="h-10 w-16 rounded-lg object-cover" />
+                      ) : (
+                        <div className={`h-10 w-16 rounded-lg ${banner.previewTone}`} />
+                      )}
                     </td>
                     <td className="py-3 pr-4 font-medium text-gray-800">{banner.name}</td>
                     <td className="py-3 pr-4 text-gray-600">{typeLabels[banner.type]}</td>

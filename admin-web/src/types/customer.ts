@@ -1,3 +1,5 @@
+import type { OrderStatus } from './order'
+
 export type CustomerStatus = 'active' | 'inactive' | 'suspended'
 
 export interface OrderItem {
@@ -11,7 +13,7 @@ export interface CustomerOrder {
   orderCode: string
   orderedAt: string
   totalAmount: number
-  status: string
+  status: OrderStatus
   items: OrderItem[]
 }
 

@@ -10,7 +10,12 @@ const inputClass =
 
 const brandOptions = ['AMD', 'Intel'] as const
 const socketOptions = ['AM4', 'AM5', 'sTR5', 'LGA 1700', 'LGA 1851']
-const warrantyOptions = ['1 Year', '2 Years', '3 Years', '5 Years']
+const statusOptions: { value: CpuFormValues['status']; label: string }[] = [
+  { value: 'active', label: 'พร้อมจำหน่าย' },
+  { value: 'inactive', label: 'ปิดการขาย' },
+  { value: 'preorder', label: 'ของหมดสั่งจอง' },
+  { value: 'discontinued', label: 'เลิกจำหน่าย' },
+]
 
 interface CpuFormFieldsProps {
   mode: 'create' | 'edit'
@@ -39,12 +44,15 @@ export function CpuFormFields({
 }: CpuFormFieldsProps) {
   const stock = watch('stock') || 0
   const publishImmediately = watch('publishImmediately')
+  const promoEnabled = watch('promoEnabled')
+  const sellingPrice = watch('sellingPrice') || 0
+  const promoPrice = watch('promoPrice') || 0
 
   const addBenchmark = () => {
-    onBenchmarksChange([...benchmarks, { id: crypto.randomUUID(), name: '', score: '', unit: '' }])
+    onBenchmarksChange([...benchmarks, { id: crypto.randomUUID(), name: '', score: 0, unit: '' }])
   }
 
-  const updateBenchmark = (id: string, field: keyof CpuBenchmark, value: string) => {
+  const updateBenchmark = (id: string, field: keyof CpuBenchmark, value: string | number) => {
     onBenchmarksChange(benchmarks.map((item) => (item.id === id ? { ...item, [field]: value } : item)))
   }
 
@@ -89,11 +97,28 @@ export function CpuFormFields({
                 <input type="number" disabled={readOnly} className={inputClass} {...register('costPrice', { valueAsNumber: true })} />
               </div>
             </div>
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">ส่วนลด (Discount)</label>
-              <input type="number" disabled={readOnly} className={inputClass} {...register('discount', { valueAsNumber: true })} />
-              {errors.discount && <p className="mt-1 text-xs text-red-500">{errors.discount.message}</p>}
+            <div className="flex items-center justify-between border-t border-gray-50 pt-4">
+              <div>
+                <p className="text-sm font-medium text-gray-700">เปิดใช้ราคาโปรโมชัน</p>
+                <p className="text-xs text-gray-400">กำหนดราคาพิเศษชั่วคราวแทนราคาขายปกติ</p>
+              </div>
+              <Toggle checked={promoEnabled} onChange={(value) => !readOnly && setValue('promoEnabled', value)} />
             </div>
+            {promoEnabled && (
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">ราคาโปรโมชัน (Promo Price)</label>
+                <input
+                  type="number"
+                  disabled={readOnly}
+                  className={inputClass}
+                  {...register('promoPrice', { valueAsNumber: true })}
+                />
+                {errors.promoPrice && <p className="mt-1 text-xs text-red-500">{errors.promoPrice.message}</p>}
+                {promoPrice > 0 && promoPrice < sellingPrice && (
+                  <p className="mt-1 text-xs text-emerald-600">ส่วนลด ฿{(sellingPrice - promoPrice).toLocaleString()}</p>
+                )}
+              </div>
+            )}
 
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium text-gray-700">
@@ -125,6 +150,17 @@ export function CpuFormFields({
                   </button>
                 )}
               </div>
+            </div>
+
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">สถานะ (Status)</label>
+              <select disabled={readOnly} className={inputClass} {...register('status')}>
+                {statusOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="flex items-center justify-between border-t border-gray-50 pt-4">
@@ -164,6 +200,17 @@ export function CpuFormFields({
               {errors.series && <p className="mt-1 text-xs text-red-500">{errors.series.message}</p>}
             </div>
             <div>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">รุ่นสายผลิตภัณฑ์ (Processor Line)</label>
+              <input
+                type="text"
+                disabled={readOnly}
+                placeholder="เช่น Ryzen 7, Core i7"
+                className={inputClass}
+                {...register('processorLine')}
+              />
+              {errors.processorLine && <p className="mt-1 text-xs text-red-500">{errors.processorLine.message}</p>}
+            </div>
+            <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">รหัสประมวลผล (Processor Number)</label>
               <input
                 type="text"
@@ -187,38 +234,44 @@ export function CpuFormFields({
               </select>
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">จำนวนคอร์/เธรด (Cores/Threads)</label>
-              <input
-                type="text"
-                disabled={readOnly}
-                placeholder="เช่น 8 Cores / 16 Threads"
-                className={inputClass}
-                {...register('coresThreads')}
-              />
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">จำนวนคอร์ (Cores)</label>
+              <input type="number" disabled={readOnly} className={inputClass} {...register('cores', { valueAsNumber: true })} />
+              {errors.cores && <p className="mt-1 text-xs text-red-500">{errors.cores.message}</p>}
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">ความถี่พื้นฐาน (Base Frequency)</label>
-              <input type="text" disabled={readOnly} placeholder="เช่น 4.2 GHz" className={inputClass} {...register('baseFrequency')} />
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">จำนวนเธรด (Threads)</label>
+              <input type="number" disabled={readOnly} className={inputClass} {...register('threads', { valueAsNumber: true })} />
+              {errors.threads && <p className="mt-1 text-xs text-red-500">{errors.threads.message}</p>}
+            </div>
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">ความถี่พื้นฐาน (Base Frequency, GHz)</label>
+              <input
+                type="number"
+                step="0.01"
+                disabled={readOnly}
+                className={inputClass}
+                {...register('baseFrequencyGhz', { valueAsNumber: true })}
+              />
             </div>
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">
-                ความถี่เทอร์โบสูงสุด (Max Turbo Frequency)
+                ความถี่เทอร์โบสูงสุด (Max Turbo Frequency, GHz)
               </label>
               <input
-                type="text"
+                type="number"
+                step="0.01"
                 disabled={readOnly}
-                placeholder="เช่น 5.0 GHz"
                 className={inputClass}
-                {...register('maxTurboFrequency')}
+                {...register('maxTurboFrequencyGhz', { valueAsNumber: true })}
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">แคช L2 (L2 Cache)</label>
-              <input type="text" disabled={readOnly} placeholder="เช่น 8 MB" className={inputClass} {...register('l2Cache')} />
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">แคช L2 (MB)</label>
+              <input type="number" disabled={readOnly} className={inputClass} {...register('l2CacheMb', { valueAsNumber: true })} />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">แคช L3 (L3 Cache)</label>
-              <input type="text" disabled={readOnly} placeholder="เช่น 96 MB" className={inputClass} {...register('l3Cache')} />
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">แคช L3 (MB)</label>
+              <input type="number" disabled={readOnly} className={inputClass} {...register('l3CacheMb', { valueAsNumber: true })} />
             </div>
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">โมเดลกราฟิกในตัว (Graphics Models)</label>
@@ -231,22 +284,21 @@ export function CpuFormFields({
               />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">อัตราการปล่อยความร้อน (Default TDP)</label>
-              <input type="text" disabled={readOnly} placeholder="เช่น 120W" className={inputClass} {...register('tdp')} />
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">อัตราการปล่อยความร้อน (Default TDP, W)</label>
+              <input type="number" disabled={readOnly} className={inputClass} {...register('tdpWatts', { valueAsNumber: true })} />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">TDP สูงสุด (Max TDP)</label>
-              <input type="text" disabled={readOnly} placeholder="เช่น 162W" className={inputClass} {...register('maxTdp')} />
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">TDP สูงสุด (Max TDP, W)</label>
+              <input type="number" disabled={readOnly} className={inputClass} {...register('maxTdpWatts', { valueAsNumber: true })} />
             </div>
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">การรับประกัน (Warranty)</label>
-              <select disabled={readOnly} className={inputClass} {...register('warranty')}>
-                {warrantyOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">ระยะประกัน (เดือน)</label>
+              <input
+                type="number"
+                disabled={readOnly}
+                className={inputClass}
+                {...register('warrantyMonths', { valueAsNumber: true })}
+              />
             </div>
           </div>
         </section>
@@ -269,10 +321,10 @@ export function CpuFormFields({
                   className="flex-1 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-rose-400 disabled:cursor-default disabled:text-gray-500"
                 />
                 <input
-                  type="text"
+                  type="number"
                   disabled={readOnly}
                   value={item.score}
-                  onChange={(event) => updateBenchmark(item.id, 'score', event.target.value)}
+                  onChange={(event) => updateBenchmark(item.id, 'score', Number(event.target.value))}
                   placeholder="คะแนน"
                   className="w-24 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-rose-400 disabled:cursor-default disabled:text-gray-500"
                 />

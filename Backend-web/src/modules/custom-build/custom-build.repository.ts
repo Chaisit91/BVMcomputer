@@ -4,13 +4,17 @@ import { getProductName } from '../../lib/productLookup'
 async function shape(row: any) {
   const { components, ...own } = row
   const shapedComponents: Record<string, string> = {}
+  // Raw slot -> productId, alongside the resolved-name `components` above —
+  // the edit form needs the actual id to preselect each ProductPicker dropdown.
+  const componentIds: Record<string, string> = {}
   const prices: Record<string, number> = {}
   for (const c of components) {
     shapedComponents[c.slot] = await getProductName(c.productId)
+    componentIds[c.slot] = c.productId
     prices[c.slot] = Number(c.price)
   }
   const total = Object.values(prices).reduce((sum, price) => sum + price, 0)
-  return { ...own, components: shapedComponents, prices, total }
+  return { ...own, components: shapedComponents, componentIds, prices, total }
 }
 
 export const customBuildRepository = {

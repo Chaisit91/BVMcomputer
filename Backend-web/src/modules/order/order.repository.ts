@@ -14,9 +14,20 @@ export const orderRepository = {
       include: { items: true },
     })
   },
-  update: (id: string, data: any) => {
+  update: async (id: string, data: any) => {
     const { items, ...rest } = data
-    return prisma.order.update({ where: { id }, data: rest, include: { items: true } })
+    if (items) assertValidOrderItems(items)
+
+    await prisma.order.update({ where: { id }, data: rest })
+
+    if (items) {
+      await prisma.orderLineItem.deleteMany({ where: { orderId: id } })
+      if (items.length) {
+        await prisma.orderLineItem.createMany({ data: items.map((item: any) => ({ ...item, orderId: id })) })
+      }
+    }
+
+    return prisma.order.findUnique({ where: { id }, include: { items: true } })
   },
   remove: (id: string) => prisma.order.delete({ where: { id } }),
 }

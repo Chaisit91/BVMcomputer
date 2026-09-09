@@ -3,8 +3,17 @@ import { FiAlertTriangle, FiBox, FiEdit2, FiEye, FiMail, FiPlus, FiShield, FiTra
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
-import { deleteCpu, getCpuSummary, getCpus } from '../../../services/cpu.service'
-import type { Cpu, CpuSummary } from '../../../types/cpu'
+import { deleteCpu, getCpus } from '../../../services/cpu.service'
+import type { Cpu, CpuStatus } from '../../../types/cpu'
+
+const statusMap: Record<CpuStatus, { label: string; variant: 'success' | 'warning' | 'danger' | 'neutral' }> = {
+  active: { label: 'พร้อมจำหน่าย', variant: 'success' },
+  inactive: { label: 'ปิดการขาย', variant: 'neutral' },
+  preorder: { label: 'ของหมดสั่งจอง', variant: 'warning' },
+  discontinued: { label: 'เลิกจำหน่าย', variant: 'danger' },
+  low_stock: { label: 'ใกล้หมด', variant: 'warning' },
+  out_of_stock: { label: 'สินค้าหมด', variant: 'danger' },
+}
 
 type LoadStatus = 'loading' | 'error' | 'success'
 type SortOption = 'newest' | 'price_asc' | 'price_desc' | 'stock_desc'
@@ -26,19 +35,25 @@ interface ExtraFilterDef {
   getValue: (cpu: Cpu) => string
 }
 
+// Backend stores these as real numeric columns (cores/threads, *Ghz, *Mb,
+// *Watts) — combine into a display string only here, never stored as such.
+function formatCoresThreads(cpu: Cpu) {
+  return `${cpu.cores} Cores / ${cpu.threads} Threads`
+}
+
 // each entry mirrors a field from the product spec form — options are derived from real data, not hardcoded
 const extraFilterDefs: ExtraFilterDef[] = [
   { key: 'stockStatus', title: 'สถานะสต็อก', getValue: (cpu) => getStockStatusLabel(cpu.stock) },
   { key: 'processorNumber', title: 'รหัสประมวลผล (Processor Number)', getValue: (cpu) => cpu.processorNumber },
-  { key: 'coresThreads', title: 'จำนวนคอร์/เธรด (Cores/Threads)', getValue: (cpu) => cpu.coresThreads },
-  { key: 'baseFrequency', title: 'ความถี่พื้นฐาน (Base Frequency)', getValue: (cpu) => cpu.baseFrequency },
-  { key: 'maxTurboFrequency', title: 'ความถี่เทอร์โบสูงสุด (Max Turbo Frequency)', getValue: (cpu) => cpu.maxTurboFrequency },
-  { key: 'l2Cache', title: 'แคช L2 (L2 Cache)', getValue: (cpu) => cpu.l2Cache },
-  { key: 'l3Cache', title: 'แคช L3 (L3 Cache)', getValue: (cpu) => cpu.l3Cache },
+  { key: 'coresThreads', title: 'จำนวนคอร์/เธรด (Cores/Threads)', getValue: formatCoresThreads },
+  { key: 'baseFrequency', title: 'ความถี่พื้นฐาน (Base Frequency)', getValue: (cpu) => `${cpu.baseFrequencyGhz} GHz` },
+  { key: 'maxTurboFrequency', title: 'ความถี่เทอร์โบสูงสุด (Max Turbo Frequency)', getValue: (cpu) => `${cpu.maxTurboFrequencyGhz} GHz` },
+  { key: 'l2Cache', title: 'แคช L2 (L2 Cache)', getValue: (cpu) => `${cpu.l2CacheMb} MB` },
+  { key: 'l3Cache', title: 'แคช L3 (L3 Cache)', getValue: (cpu) => `${cpu.l3CacheMb} MB` },
   { key: 'graphics', title: 'โมเดลกราฟิกในตัว (Graphics Models)', getValue: (cpu) => cpu.graphics },
-  { key: 'tdp', title: 'อัตราการปล่อยความร้อน (Default TDP)', getValue: (cpu) => cpu.tdp },
-  { key: 'maxTdp', title: 'TDP สูงสุด (Max TDP)', getValue: (cpu) => cpu.maxTdp },
-  { key: 'warranty', title: 'การรับประกัน (Warranty)', getValue: (cpu) => cpu.warranty },
+  { key: 'tdp', title: 'อัตราการปล่อยความร้อน (Default TDP)', getValue: (cpu) => `${cpu.tdpWatts}W` },
+  { key: 'maxTdp', title: 'TDP สูงสุด (Max TDP)', getValue: (cpu) => `${cpu.maxTdpWatts}W` },
+  { key: 'warranty', title: 'การรับประกัน (Warranty)', getValue: (cpu) => `${cpu.warrantyMonths} เดือน` },
 ]
 
 function useToggleSet(initial: string[] = []) {
@@ -97,7 +112,6 @@ function FilterGroup({
 
 export function CpuListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<CpuSummary | null>(null)
   const [cpus, setCpus] = useState<Cpu[]>([])
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortOption>('newest')
@@ -114,11 +128,10 @@ export function CpuListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getCpuSummary(), getCpus()])
-      .then(([summaryResult, cpusResult]) => {
+    getCpus()
+      .then((result) => {
         if (!cancelled) {
-          setSummary(summaryResult)
-          setCpus(cpusResult)
+          setCpus(result)
           setStatus('success')
         }
       })
@@ -130,6 +143,18 @@ export function CpuListPage() {
       cancelled = true
     }
   }, [])
+
+  // No backend /summary endpoint — same client-side-derived pattern as
+  // AdminListPage, using the same ≤20 "low stock" threshold the table below shows.
+  const summary = useMemo(
+    () => ({
+      total: cpus.length,
+      totalStock: cpus.reduce((sum, cpu) => sum + cpu.stock, 0),
+      lowStock: cpus.filter((cpu) => cpu.stock > 0 && cpu.stock <= 20).length,
+      outOfStock: cpus.filter((cpu) => cpu.stock === 0).length,
+    }),
+    [cpus],
+  )
 
   const addFilter = (key: string) => {
     setAddedFilterKeys((prev) => [...prev, key])
@@ -213,7 +238,7 @@ export function CpuListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่
@@ -399,9 +424,7 @@ export function CpuListPage() {
                         )}
                       </td>
                       <td className="py-3 pr-4">
-                        <Badge variant={cpu.publishImmediately ? 'success' : 'neutral'}>
-                          {cpu.publishImmediately ? 'Active' : 'Inactive'}
-                        </Badge>
+                        <Badge variant={statusMap[cpu.status].variant}>{statusMap[cpu.status].label}</Badge>
                       </td>
                       <td className="py-3 pr-4">
                         <div className="flex items-center gap-2">

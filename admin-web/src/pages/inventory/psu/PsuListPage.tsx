@@ -3,8 +3,8 @@ import { FiAlertTriangle, FiBox, FiEdit2, FiPlus, FiShield, FiTrash2, FiX, FiXCi
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
-import { deletePsu, getPsuSummary, getPsus } from '../../../services/psu.service'
-import type { Psu, PsuSummary } from '../../../types/psu'
+import { deletePsu, getPsus } from '../../../services/psu.service'
+import type { Psu } from '../../../types/psu'
 
 type LoadStatus = 'loading' | 'error' | 'success'
 
@@ -89,7 +89,6 @@ function FilterGroup({
 
 export function PsuListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<PsuSummary | null>(null)
   const [items, setItems] = useState<Psu[]>([])
   const [search, setSearch] = useState('')
 
@@ -106,10 +105,9 @@ export function PsuListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getPsuSummary(), getPsus()])
-      .then(([summaryResult, itemsResult]) => {
+    getPsus()
+      .then((itemsResult) => {
         if (!cancelled) {
-          setSummary(summaryResult)
           setItems(itemsResult)
           setStatus('success')
         }
@@ -122,6 +120,16 @@ export function PsuListPage() {
       cancelled = true
     }
   }, [])
+
+  const summary = useMemo(
+    () => ({
+      totalModels: items.length,
+      totalStock: items.reduce((sum, item) => sum + item.stock, 0),
+      lowStockCount: items.filter((item) => item.status === 'low_stock').length,
+      outOfStockCount: items.filter((item) => item.status === 'out_of_stock').length,
+    }),
+    [items],
+  )
 
   const addFilter = (key: string) => {
     setAddedFilterKeys((prev) => [...prev, key])
@@ -219,7 +227,7 @@ export function PsuListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่

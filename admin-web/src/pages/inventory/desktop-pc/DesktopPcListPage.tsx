@@ -3,8 +3,8 @@ import { FiAlertCircle, FiCheckCircle, FiList, FiPackage, FiPlus } from 'react-i
 import { Link } from 'react-router-dom'
 import { DesktopPcCard } from '../../../components/inventory/desktop-pc/DesktopPcCard'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
-import { getDesktopPcSummary, getDesktopPcs } from '../../../services/desktopPc.service'
-import type { DesktopPc, DesktopPcCategory, DesktopPcStatus, DesktopPcSummary } from '../../../types/desktopPc'
+import { getDesktopPcs } from '../../../services/desktopPc.service'
+import type { DesktopPc, DesktopPcCategory, DesktopPcStatus } from '../../../types/desktopPc'
 
 type LoadStatus = 'loading' | 'error' | 'success'
 
@@ -19,7 +19,9 @@ const categoryTabs: { value: DesktopPcCategory | 'all'; label: string }[] = [
 
 const statusOptions: { value: DesktopPcStatus | 'all'; label: string }[] = [
   { value: 'all', label: 'ทั้งหมด' },
-  { value: 'selling', label: 'กำลังขาย' },
+  { value: 'active', label: 'กำลังขาย' },
+  { value: 'inactive', label: 'ปิดการขาย' },
+  { value: 'preorder', label: 'พรีออเดอร์' },
   { value: 'low_stock', label: 'สต็อกน้อย' },
   { value: 'out_of_stock', label: 'หมดสต็อก' },
   { value: 'discontinued', label: 'เลิกขาย' },
@@ -27,7 +29,6 @@ const statusOptions: { value: DesktopPcStatus | 'all'; label: string }[] = [
 
 export function DesktopPcListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<DesktopPcSummary | null>(null)
   const [products, setProducts] = useState<DesktopPc[]>([])
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<DesktopPcStatus | 'all'>('all')
@@ -36,11 +37,10 @@ export function DesktopPcListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getDesktopPcSummary(), getDesktopPcs()])
-      .then(([summaryResult, productsResult]) => {
+    getDesktopPcs()
+      .then((result) => {
         if (!cancelled) {
-          setSummary(summaryResult)
-          setProducts(productsResult)
+          setProducts(result)
           setStatus('success')
         }
       })
@@ -52,6 +52,16 @@ export function DesktopPcListPage() {
       cancelled = true
     }
   }, [])
+
+  const summary = useMemo(
+    () => ({
+      total: products.length,
+      selling: products.filter((p) => p.status === 'active').length,
+      lowStock: products.filter((p) => p.status === 'low_stock').length,
+      discontinued: products.filter((p) => p.status === 'discontinued').length,
+    }),
+    [products],
+  )
 
   const visibleProducts = useMemo(() => {
     const query = search.trim().toLowerCase()
@@ -70,7 +80,7 @@ export function DesktopPcListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่

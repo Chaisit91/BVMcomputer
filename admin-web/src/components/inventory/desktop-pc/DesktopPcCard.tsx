@@ -11,8 +11,10 @@ const categoryMap: Record<DesktopPcCategory, { label: string; variant: 'success'
   ai_enterprise: { label: 'คอมพิวเตอร์ AI สำหรับองค์กร', variant: 'warning' },
 }
 
-const statusMap: Record<DesktopPcStatus, { label: string; variant: 'success' | 'warning' | 'danger' | 'neutral' }> = {
-  selling: { label: 'กำลังขาย', variant: 'success' },
+const statusMap: Record<DesktopPcStatus, { label: string; variant: 'success' | 'warning' | 'danger' | 'info' | 'neutral' }> = {
+  active: { label: 'กำลังขาย', variant: 'success' },
+  inactive: { label: 'ปิดการขาย', variant: 'neutral' },
+  preorder: { label: 'พรีออเดอร์', variant: 'info' },
   low_stock: { label: 'สต็อกน้อย', variant: 'warning' },
   out_of_stock: { label: 'หมดสต็อก', variant: 'danger' },
   discontinued: { label: 'เลิกขาย', variant: 'neutral' },

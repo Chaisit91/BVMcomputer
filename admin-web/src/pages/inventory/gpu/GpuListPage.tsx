@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { FiEdit2, FiPlus, FiTrash2, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
-import { deleteGpu, getGpuSummary, getGpus } from '../../../services/gpu.service'
-import type { Gpu, GpuStatus, GpuSummary } from '../../../types/gpu'
+import { deleteGpu, getGpus } from '../../../services/gpu.service'
+import type { Gpu, GpuStatus } from '../../../types/gpu'
 
 type LoadStatus = 'loading' | 'error' | 'success'
 
@@ -22,10 +22,13 @@ const memorySizeFacet = ['24GB', '16GB', '12GB', '8GB']
 const powerRequirementFacet = ['850W', '750W', '650W', '550W']
 const pcieInterfaceFacet = ['PCIe 4.0 x16', 'PCIe 3.0 x16']
 
-const statusMap: Record<GpuStatus, { label: string; variant: 'success' | 'warning' | 'danger' }> = {
-  available: { label: 'พร้อมจำหน่าย', variant: 'success' },
+const statusMap: Record<GpuStatus, { label: string; variant: 'success' | 'warning' | 'danger' | 'neutral' }> = {
+  active: { label: 'พร้อมจำหน่าย', variant: 'success' },
+  inactive: { label: 'ปิดการขาย', variant: 'neutral' },
   preorder: { label: 'ของหมดสั่งจอง', variant: 'warning' },
   discontinued: { label: 'เลิกจำหน่าย', variant: 'danger' },
+  low_stock: { label: 'ใกล้หมด', variant: 'warning' },
+  out_of_stock: { label: 'สินค้าหมด', variant: 'danger' },
 }
 
 interface ExtraFilterDef {
@@ -101,7 +104,6 @@ function FilterGroup({
 
 export function GpuListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<GpuSummary | null>(null)
   const [gpus, setGpus] = useState<Gpu[]>([])
   const [search, setSearch] = useState('')
 
@@ -119,10 +121,9 @@ export function GpuListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getGpuSummary(), getGpus()])
-      .then(([summaryResult, gpusResult]) => {
+    getGpus()
+      .then((gpusResult) => {
         if (!cancelled) {
-          setSummary(summaryResult)
           setGpus(gpusResult)
           setStatus('success')
         }
@@ -135,6 +136,8 @@ export function GpuListPage() {
       cancelled = true
     }
   }, [])
+
+  const total = gpus.length
 
   const addFilter = (key: string) => {
     setAddedFilterKeys((prev) => [...prev, key])
@@ -238,7 +241,7 @@ export function GpuListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่
@@ -252,7 +255,7 @@ export function GpuListPage() {
         <div className="flex items-center gap-3">
           <h1 className="text-xl font-bold text-gray-900">การ์ดจอทั้งหมดในคลัง</h1>
           <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-semibold text-rose-500">
-            {summary.total} รายการ
+            {total} รายการ
           </span>
         </div>
         <div className="flex flex-wrap items-center gap-3">
@@ -401,7 +404,7 @@ export function GpuListPage() {
                       <td className="py-3 pr-4 text-gray-600">{gpu.brand}</td>
                       <td className="py-3 pr-4 text-gray-600">{gpu.chipsetModel}</td>
                       <td className="whitespace-nowrap py-3 pr-4 font-medium text-gray-800">
-                        {gpu.price.toLocaleString()} ฿
+                        {gpu.sellingPrice.toLocaleString()} ฿
                       </td>
                       <td className="whitespace-nowrap py-3 pr-4">
                         <span className={`flex items-center gap-1.5 ${gpu.stock > 0 ? 'text-gray-600' : 'text-rose-500'}`}>
@@ -439,7 +442,7 @@ export function GpuListPage() {
           )}
 
           <p className="mt-4 text-xs text-gray-400">
-            แสดงสินค้า 1-{visibleGpus.length} จากทั้งหมด {summary.total} รายการ
+            แสดงสินค้า 1-{visibleGpus.length} จากทั้งหมด {total} รายการ
           </p>
         </div>
       </div>

@@ -44,7 +44,6 @@ export function MotherboardEditPage({ readOnly = false }: { readOnly?: boolean }
           brand: result.brand,
           sellingPrice: result.sellingPrice,
           costPrice: result.costPrice,
-          discount: result.discount,
           stock: result.stock,
           publishImmediately: result.publishImmediately,
           specs: result.specs,

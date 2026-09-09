@@ -3,8 +3,8 @@ import { FiCheckCircle, FiClipboard, FiClock, FiPlus, FiXCircle } from 'react-ic
 import { Link } from 'react-router-dom'
 import { CustomBuildTable } from '../../../components/inventory/custom-build/CustomBuildTable'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
-import { getCustomBuildOrders, getCustomBuildSummary } from '../../../services/customBuild.service'
-import type { BuildStatus, CustomBuildOrder, CustomBuildSummary } from '../../../types/customBuild'
+import { getCustomBuilds } from '../../../services/customBuild.service'
+import type { BuildStatus, CustomBuild } from '../../../types/customBuild'
 
 type LoadStatus = 'loading' | 'error' | 'success'
 
@@ -18,19 +18,17 @@ const statusOptions: { value: BuildStatus | 'all'; label: string }[] = [
 
 export function CustomBuildPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<CustomBuildSummary | null>(null)
-  const [orders, setOrders] = useState<CustomBuildOrder[]>([])
+  const [builds, setBuilds] = useState<CustomBuild[]>([])
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<BuildStatus | 'all'>('all')
 
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getCustomBuildSummary(), getCustomBuildOrders()])
-      .then(([summaryResult, ordersResult]) => {
+    getCustomBuilds()
+      .then((result) => {
         if (!cancelled) {
-          setSummary(summaryResult)
-          setOrders(ordersResult)
+          setBuilds(result)
           setStatus('success')
         }
       })
@@ -43,16 +41,28 @@ export function CustomBuildPage() {
     }
   }, [])
 
-  const filteredOrders = useMemo(() => {
+  // No backend /summary endpoint exists — derive counts client-side from the
+  // fetched list, same pattern as DesktopPcListPage.
+  const summary = useMemo(
+    () => ({
+      total: builds.length,
+      pending: builds.filter((b) => b.status === 'pending').length,
+      done: builds.filter((b) => b.status === 'done').length,
+      cancelled: builds.filter((b) => b.status === 'cancelled').length,
+    }),
+    [builds],
+  )
+
+  const filteredBuilds = useMemo(() => {
     const query = search.trim().toLowerCase()
 
-    return orders.filter((order) => {
-      const matchesStatus = statusFilter === 'all' || order.status === statusFilter
+    return builds.filter((build) => {
+      const matchesStatus = statusFilter === 'all' || build.status === statusFilter
       const matchesSearch =
-        query === '' || order.customer.toLowerCase().includes(query) || order.orderNo.toLowerCase().includes(query)
+        query === '' || build.customer.toLowerCase().includes(query) || build.orderNo.toLowerCase().includes(query)
       return matchesStatus && matchesSearch
     })
-  }, [orders, search, statusFilter])
+  }, [builds, search, statusFilter])
 
   if (status === 'loading') {
     return (
@@ -60,7 +70,7 @@ export function CustomBuildPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่
@@ -113,10 +123,10 @@ export function CustomBuildPage() {
           </select>
         </div>
 
-        <CustomBuildTable orders={filteredOrders} />
+        <CustomBuildTable builds={filteredBuilds} />
 
         <p className="mt-4 text-xs text-gray-400">
-          แสดง {filteredOrders.length} จาก {orders.length} รายการ
+          แสดง {filteredBuilds.length} จาก {builds.length} รายการ
         </p>
       </div>
     </main>

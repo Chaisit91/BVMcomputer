@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form'
 import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { PsuFormFields } from '../../../components/inventory/psu/PsuFormFields'
+import { formatDateTime } from '../../../lib/formatDate'
+import { toEditableStatus } from '../../../lib/productStatus'
 import { psuFormSchema, type PsuFormValues } from '../../../schemas/psu.schema'
 import { deletePsu, getPsuDetail, savePsu } from '../../../services/psu.service'
 import { useAppSelector } from '../../../store/hooks'
@@ -46,13 +48,14 @@ export function PsuEditPage({ readOnly = false }: { readOnly?: boolean }) {
         setExtraSpecs(result.extraSpecs)
         reset({
           sku: result.sku,
+          displayCode: result.displayCode,
           name: result.name,
           brand: result.brand,
           sellingPrice: result.sellingPrice,
           promoEnabled: result.promoEnabled,
           promoPrice: result.promoPrice,
           stock: result.stock,
-          status: result.status,
+          status: toEditableStatus(result.status),
           specs: result.specs,
           description: result.description,
         })
@@ -162,7 +165,7 @@ export function PsuEditPage({ readOnly = false }: { readOnly?: boolean }) {
         {!readOnly && (
           <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-6">
             <p className="text-xs text-gray-400">
-              แก้ไขล่าสุดโดย {currentUser?.name ?? 'แอดมิน'} • อัปเดตเมื่อ {detail.updatedAt}
+              แก้ไขล่าสุดโดย {currentUser?.name ?? 'แอดมิน'} • อัปเดตเมื่อ {formatDateTime(detail.updatedAt)}
             </p>
             <div className="flex items-center gap-3">
               <button

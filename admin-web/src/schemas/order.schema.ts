@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const paidOnlyStatuses = ['paid', 'preparing', 'shipping', 'completed']
+const fulfillmentRequiresPayment = ['preparing', 'shipping', 'completed']
 
 export const orderFormSchema = z
   .object({
@@ -12,14 +12,14 @@ export const orderFormSchema = z
     district: z.string().min(1, 'กรุณากรอกอำเภอ/เขต'),
     subdistrict: z.string().min(1, 'กรุณากรอกตำบล/แขวง'),
     paymentMethod: z.string().min(1, 'กรุณาเลือกช่องทางการชำระเงิน'),
-    paymentStatus: z.enum(['paid', 'unpaid']),
-    status: z.enum(['pending_payment', 'paid', 'preparing', 'shipping', 'completed', 'cancelled']),
+    paymentStatus: z.enum(['pending', 'paid', 'failed', 'refunded']),
+    orderStatus: z.enum(['pending', 'preparing', 'shipping', 'completed', 'cancelled']),
     trackingNumber: z.string(),
     shippingNote: z.string(),
   })
-  .refine((data) => data.paymentStatus === 'paid' || !paidOnlyStatuses.includes(data.status), {
+  .refine((data) => data.paymentStatus === 'paid' || !fulfillmentRequiresPayment.includes(data.orderStatus), {
     message: 'ตั้งสถานะนี้ไม่ได้เนื่องจากลูกค้ายังไม่ได้ชำระเงิน',
-    path: ['status'],
+    path: ['orderStatus'],
   })
 
 export type OrderFormValues = z.infer<typeof orderFormSchema>

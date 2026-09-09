@@ -23,6 +23,7 @@ export function PsuCreatePage() {
     resolver: zodResolver(psuFormSchema),
     defaultValues: {
       sku: '',
+      displayCode: '',
       name: '',
       brand: '',
       sellingPrice: 0,

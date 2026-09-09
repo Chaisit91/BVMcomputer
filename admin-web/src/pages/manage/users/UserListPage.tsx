@@ -3,7 +3,8 @@ import { FiDownload, FiPlus, FiUserCheck, FiUserMinus, FiUserX, FiUsers } from '
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
-import { getCustomers, getCustomerSummary, updateCustomerStatus } from '../../../services/customer.service'
+import { formatDateTime } from '../../../lib/formatDate'
+import { getCustomers, updateCustomerStatus } from '../../../services/customer.service'
 import type { Customer, CustomerStatus, CustomerSummary } from '../../../types/customer'
 
 type LoadStatus = 'loading' | 'error' | 'success'
@@ -29,7 +30,6 @@ function getInitials(name: string) {
 
 export function UserListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<CustomerSummary | null>(null)
   const [customers, setCustomers] = useState<Customer[]>([])
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<'all' | CustomerStatus>('all')
@@ -37,11 +37,10 @@ export function UserListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getCustomerSummary(), getCustomers()])
-      .then(([summaryResult, customersResult]) => {
+    getCustomers()
+      .then((result) => {
         if (!cancelled) {
-          setSummary(summaryResult)
-          setCustomers(customersResult)
+          setCustomers(result)
           setStatus('success')
         }
       })
@@ -53,6 +52,16 @@ export function UserListPage() {
       cancelled = true
     }
   }, [])
+
+  const summary: CustomerSummary = useMemo(
+    () => ({
+      totalUsers: customers.length,
+      activeCount: customers.filter((customer) => customer.status === 'active').length,
+      inactiveCount: customers.filter((customer) => customer.status === 'inactive').length,
+      suspendedCount: customers.filter((customer) => customer.status === 'suspended').length,
+    }),
+    [customers],
+  )
 
   const toggleSuspend = async (customer: Customer) => {
     const nextStatus: CustomerStatus = customer.status === 'suspended' ? 'active' : 'suspended'
@@ -81,7 +90,7 @@ export function UserListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่
@@ -182,8 +191,8 @@ export function UserListPage() {
                     <td className="py-3 pr-4 text-gray-600">{customer.username}</td>
                     <td className="py-3 pr-4 text-gray-600">{customer.email}</td>
                     <td className="py-3 pr-4 text-gray-600">{customer.phone}</td>
-                    <td className="py-3 pr-4 text-gray-600">{customer.registeredAt}</td>
-                    <td className="py-3 pr-4 text-gray-600">{customer.lastActiveAt}</td>
+                    <td className="py-3 pr-4 text-gray-600">{formatDateTime(customer.registeredAt)}</td>
+                    <td className="py-3 pr-4 text-gray-600">{formatDateTime(customer.lastActiveAt)}</td>
                     <td className="py-3 pr-4">
                       <Badge variant={getStatusBadge(customer.status).variant}>{getStatusBadge(customer.status).label}</Badge>
                     </td>

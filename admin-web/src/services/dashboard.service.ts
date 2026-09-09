@@ -1,3 +1,5 @@
+import { api } from '../lib/api'
+import { getOrders } from './order.service'
 import type {
   CategoryStat,
   DashboardData,
@@ -9,99 +11,178 @@ import type {
   TopProduct,
 } from '../types/dashboard'
 
-// ponytail: mock data stands in for the real endpoints until the backend ships;
-// each function's return shape is the intended API contract — swap the body
-// for an `api.get(...)` call later, callers don't change.
-function mockDelay<T>(value: T, ms = 400): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(value), ms))
+// ponytail: aggregated client-side from the existing list endpoints instead of
+// building dedicated backend analytics routes — this app has no historical
+// stats table, so period-over-period `change` numbers have no real baseline
+// and are reported as 0 rather than fabricated. Fetching every order/product
+// list on every dashboard load doesn't scale past a small catalog/order
+// volume; upgrade to real backend aggregation (and a stats-snapshot table for
+// genuine trend/change numbers) if that becomes the bottleneck.
+
+interface RawCatalogItem {
+  id: string
+  name: string
+  stock: number
+  status: string
 }
 
-export function getStats(): Promise<StatCardData[]> {
-  return mockDelay([
-    { id: 'products', label: 'สินค้าทั้งหมด', value: '3,847 รายการ', change: 2.4, changeLabel: 'จากเดือนที่แล้ว', icon: 'box' },
-    { id: 'sales', label: 'ยอดขายวันนี้', value: '128,450', change: 12.8, changeLabel: 'จากเมื่อวาน', icon: 'wallet' },
-    { id: 'orders', label: 'คำสั่งซื้อใหม่', value: '24 รายการ', change: 8.3, changeLabel: 'จากเมื่อวาน', icon: 'cart' },
-    { id: 'lowstock', label: 'สินค้าใกล้หมด', value: '18 รายการ', change: -4.2, changeLabel: 'จากสัปดาห์ที่แล้ว', icon: 'alert' },
-  ])
+const CATEGORY_DEFS: { id: string; apiPath: string; name: string; icon: CategoryStat['icon'] }[] = [
+  { id: 'cpu', apiPath: 'cpus', name: 'ซีพียู (CPU)', icon: 'cpu' },
+  { id: 'gpu', apiPath: 'gpus', name: 'การ์ดจอ (GPU)', icon: 'gpu' },
+  { id: 'mb', apiPath: 'motherboards', name: 'เมนบอร์ด (Motherboard)', icon: 'motherboard' },
+  { id: 'ram', apiPath: 'rams', name: 'แรม (RAM)', icon: 'ram' },
+  { id: 'storage', apiPath: 'storages', name: 'ฮาร์ดดิสก์/เอสเอสดี', icon: 'storage' },
+  { id: 'psu', apiPath: 'psus', name: 'พาวเวอร์ซัพพลาย', icon: 'psu' },
+  { id: 'case', apiPath: 'cases', name: 'เคส (Case)', icon: 'case' },
+  { id: 'cooling', apiPath: 'coolings', name: 'ชุดระบายความร้อน', icon: 'cooling' },
+]
+
+function fetchCategory(apiPath: string): Promise<RawCatalogItem[]> {
+  return api.get<RawCatalogItem[]>(`/${apiPath}`).then((res) => res.data)
 }
 
-export function getCategories(): Promise<CategoryStat[]> {
-  return mockDelay([
-    { id: 'cpu', name: 'ซีพียู (CPU)', count: 245, percent: 96.4, icon: 'cpu' },
-    { id: 'gpu', name: 'การ์ดจอ (GPU)', count: 561, percent: 89.2, icon: 'gpu' },
-    { id: 'mb', name: 'เมนบอร์ด (Motherboard)', count: 288, percent: 91.5, icon: 'motherboard' },
-    { id: 'ram', name: 'แรม (RAM)', count: 198, percent: 96.7, icon: 'ram' },
-    { id: 'storage', name: 'ฮาร์ดดิสก์/เอสเอสดี', count: 312, percent: 93.4, icon: 'storage' },
-    { id: 'psu', name: 'พาวเวอร์ซัพพลาย', count: 156, percent: 88.7, icon: 'psu' },
-    { id: 'case', name: 'เคส (Case)', count: 178, percent: 92.9, icon: 'case' },
-    { id: 'cooling', name: 'ชุดระบายความร้อน', count: 134, percent: 95.0, icon: 'cooling' },
-  ])
+function isLowStock(status: string) {
+  return status === 'low_stock' || status === 'out_of_stock'
 }
 
-export function getMiniStats(): Promise<MiniStat[]> {
-  return mockDelay([
-    { id: 'prebuilt', name: 'คอมพิวเตอร์ครบชุด', count: 45, unit: 'ชุด', icon: 'package' },
-    { id: 'aipc', name: 'AI PC', count: 12, unit: 'เครื่อง', icon: 'cpu' },
-  ])
+async function loadAllCatalogItems() {
+  const lists = await Promise.all(CATEGORY_DEFS.map((c) => fetchCategory(c.apiPath)))
+  return CATEGORY_DEFS.map((def, i) => ({ def, items: lists[i] }))
 }
 
-export function getWeeklyTrend(): Promise<SalesTrendPoint[]> {
-  return mockDelay([
-    { label: 'ส', value: 62 },
-    { label: 'อา', value: 58 },
-    { label: 'จ', value: 70 },
-    { label: 'อ', value: 88 },
-    { label: 'พ', value: 95 },
-    { label: 'พฤ', value: 80 },
-    { label: 'ศ', value: 100 },
-  ])
+export async function getStats(): Promise<StatCardData[]> {
+  const [catalog, orders] = await Promise.all([loadAllCatalogItems(), getOrders()])
+  const totalProducts = catalog.reduce((sum, c) => sum + c.items.length, 0)
+  const lowStockCount = catalog.reduce((sum, c) => sum + c.items.filter((i) => isLowStock(i.status)).length, 0)
+
+  const todayStr = new Date().toDateString()
+  const todaysOrders = orders.filter((o) => new Date(o.orderedAt).toDateString() === todayStr)
+  const todaysSales = todaysOrders.reduce(
+    (sum, o) => sum + o.items.reduce((s, item) => s + item.quantity * item.unitPrice, 0),
+    0,
+  )
+
+  return [
+    { id: 'products', label: 'สินค้าทั้งหมด', value: `${totalProducts.toLocaleString()} รายการ`, change: 0, changeLabel: 'ไม่มีข้อมูลเปรียบเทียบ', icon: 'box' },
+    { id: 'sales', label: 'ยอดขายวันนี้', value: todaysSales.toLocaleString(), change: 0, changeLabel: 'ไม่มีข้อมูลเปรียบเทียบ', icon: 'wallet' },
+    { id: 'orders', label: 'คำสั่งซื้อวันนี้', value: `${todaysOrders.length} รายการ`, change: 0, changeLabel: 'ไม่มีข้อมูลเปรียบเทียบ', icon: 'cart' },
+    { id: 'lowstock', label: 'สินค้าใกล้หมด', value: `${lowStockCount} รายการ`, change: 0, changeLabel: 'ไม่มีข้อมูลเปรียบเทียบ', icon: 'alert' },
+  ]
 }
 
-export function getRecentOrders(): Promise<RecentOrder[]> {
-  return mockDelay([
-    { id: '1', code: 'ORD-7729', customer: 'สมชาย ใจดี', item: 'Intel i5-13400F + RTX 4060 Set', total: 28900, status: 'success', date: '24 ต.ค. 14:20' },
-    { id: '2', code: 'ORD-7728', customer: 'วิภาวรรณ สุขใจ', item: 'ASUS ROG B760-F Motherboard', total: 7890, status: 'shipping', date: '24 ต.ค. 13:45' },
-    { id: '3', code: 'ORD-7727', customer: 'อนันต์ ธนพันธ์', item: 'RAM Kingston Fury 32GB', total: 4250, status: 'success', date: '24 ต.ค. 11:50' },
-    { id: '4', code: 'ORD-7726', customer: 'เกริกไกร ชัยพงษ์', item: 'Crucial T500 SSD 2TB', total: 6400, status: 'pending', date: '24 ต.ค. 10:15' },
-    { id: '5', code: 'ORD-7725', customer: 'พลอย แข่งขัน', item: 'GIGABYTE RTX 4070 Ti SUPER', total: 31900, status: 'success', date: '24 ต.ค. 09:00' },
-  ])
+export async function getCategories(): Promise<CategoryStat[]> {
+  const catalog = await loadAllCatalogItems()
+  return catalog.map(({ def, items }) => ({
+    id: def.id,
+    name: def.name,
+    count: items.length,
+    // Share of this category's stock that's healthy (not low/out of stock) —
+    // the mock's "percent" had no defined meaning, this one is real.
+    percent: items.length === 0 ? 100 : Math.round((items.filter((i) => !isLowStock(i.status)).length / items.length) * 1000) / 10,
+    icon: def.icon,
+  }))
 }
 
-export function getLowStock(): Promise<LowStockItem[]> {
-  return mockDelay([
-    { id: '1', name: 'ASUS PRIME H610M-E D4', remaining: 3, urgent: true },
-    { id: '2', name: 'MSI MAG B760M MORTAR', remaining: 5, urgent: true },
-    { id: '3', name: 'AMD Ryzen 5 7600X', remaining: 4, urgent: true },
-    { id: '4', name: 'Kingston NV2 2TB NVMe', remaining: 6, urgent: false },
-    { id: '5', name: 'Corsair RM750e 750W', remaining: 5, urgent: true },
-  ])
+export async function getMiniStats(): Promise<MiniStat[]> {
+  const desktopPcs = await api.get<{ category: string }[]>('/desktop-pcs').then((res) => res.data)
+  const aiCount = desktopPcs.filter((d) => d.category === 'ai_workstation' || d.category === 'ai_enterprise').length
+  return [
+    { id: 'prebuilt', name: 'คอมพิวเตอร์ครบชุด', count: desktopPcs.length, unit: 'ชุด', icon: 'package' },
+    { id: 'aipc', name: 'AI PC', count: aiCount, unit: 'เครื่อง', icon: 'cpu' },
+  ]
 }
 
-export function getMonthlyTrend(): Promise<SalesTrendPoint[]> {
-  return mockDelay([
-    { label: 'ม.ค.', value: 55 },
-    { label: 'ก.พ.', value: 48 },
-    { label: 'มี.ค.', value: 60 },
-    { label: 'เม.ย.', value: 52 },
-    { label: 'พ.ค.', value: 70 },
-    { label: 'มิ.ย.', value: 78 },
-    { label: 'ก.ค.', value: 82 },
-    { label: 'ส.ค.', value: 75 },
-    { label: 'ก.ย.', value: 88 },
-    { label: 'ต.ค.', value: 95 },
-    { label: 'พ.ย.', value: 100 },
-    { label: 'ธ.ค.', value: 90 },
-  ])
+const THAI_WEEKDAYS = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส']
+const THAI_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']
+
+function orderTotal(order: Awaited<ReturnType<typeof getOrders>>[number]) {
+  return order.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0)
 }
 
-export function getTopProducts(): Promise<TopProduct[]> {
-  return mockDelay([
-    { id: '1', rank: 1, name: 'NVIDIA GeForce RTX 4070 Ti SUPER', category: 'การ์ดจอ', sold: 48, revenue: 1296000, stockStatus: 'in_stock' },
-    { id: '2', rank: 2, name: 'AMD Ryzen 7 7800X3D', category: 'ซีพียู', sold: 42, revenue: 546000, stockStatus: 'in_stock' },
-    { id: '3', rank: 3, name: 'CORSAIR VENGEANCE DDR5 32GB', category: 'แรม', sold: 38, revenue: 190000, stockStatus: 'in_stock' },
-    { id: '4', rank: 4, name: 'Samsung 990 PRO 2TB NVMe', category: 'HDD/SSD', sold: 35, revenue: 280000, stockStatus: 'low_stock' },
-    { id: '5', rank: 5, name: 'CORSAIR iCUE H150i ROG ELITE', category: 'ชุดระบายความร้อน', sold: 30, revenue: 179700, stockStatus: 'in_stock' },
-  ])
+export async function getWeeklyTrend(): Promise<SalesTrendPoint[]> {
+  const orders = await getOrders()
+  const now = new Date()
+  const days: SalesTrendPoint[] = []
+  for (let i = 6; i >= 0; i--) {
+    const day = new Date(now)
+    day.setDate(now.getDate() - i)
+    const dayStr = day.toDateString()
+    const value = orders.filter((o) => new Date(o.orderedAt).toDateString() === dayStr).reduce((sum, o) => sum + orderTotal(o), 0)
+    days.push({ label: THAI_WEEKDAYS[day.getDay()], value })
+  }
+  return days
+}
+
+export async function getMonthlyTrend(): Promise<SalesTrendPoint[]> {
+  const orders = await getOrders()
+  const now = new Date()
+  const months: SalesTrendPoint[] = []
+  for (let i = 11; i >= 0; i--) {
+    const month = new Date(now.getFullYear(), now.getMonth() - i, 1)
+    const value = orders
+      .filter((o) => {
+        const d = new Date(o.orderedAt)
+        return d.getFullYear() === month.getFullYear() && d.getMonth() === month.getMonth()
+      })
+      .reduce((sum, o) => sum + orderTotal(o), 0)
+    months.push({ label: THAI_MONTHS[month.getMonth()], value })
+  }
+  return months
+}
+
+export async function getRecentOrders(): Promise<RecentOrder[]> {
+  const orders = await getOrders()
+  return [...orders]
+    .sort((a, b) => new Date(b.orderedAt).getTime() - new Date(a.orderedAt).getTime())
+    .slice(0, 5)
+    .map((o) => ({
+      id: o.id,
+      code: o.orderCode,
+      customer: o.customerName,
+      item: o.items[0] ? o.items[0].name + (o.items.length > 1 ? ` และอีก ${o.items.length - 1} รายการ` : '') : '-',
+      total: orderTotal(o),
+      status: o.orderStatus === 'completed' ? 'success' : o.orderStatus === 'shipping' ? 'shipping' : 'pending',
+      date: new Date(o.orderedAt).toLocaleString('th-TH', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
+    }))
+}
+
+export async function getLowStock(): Promise<LowStockItem[]> {
+  const catalog = await loadAllCatalogItems()
+  const all = catalog.flatMap((c) => c.items)
+  return all
+    .filter((item) => isLowStock(item.status))
+    .sort((a, b) => a.stock - b.stock)
+    .slice(0, 10)
+    .map((item) => ({ id: item.id, name: item.name, remaining: item.stock, urgent: item.stock <= 3 }))
+}
+
+export async function getTopProducts(): Promise<TopProduct[]> {
+  const [orders, catalog] = await Promise.all([getOrders(), loadAllCatalogItems()])
+  const stockByName = new Map(catalog.flatMap((c) => c.items).map((item) => [item.name, item.status]))
+
+  const totals = new Map<string, { name: string; category: string; sold: number; revenue: number }>()
+  for (const order of orders) {
+    for (const item of order.items) {
+      const key = `${item.name}::${item.category}`
+      const current = totals.get(key) ?? { name: item.name, category: item.category, sold: 0, revenue: 0 }
+      current.sold += item.quantity
+      current.revenue += item.quantity * item.unitPrice
+      totals.set(key, current)
+    }
+  }
+
+  return [...totals.values()]
+    .sort((a, b) => b.revenue - a.revenue)
+    .slice(0, 5)
+    .map((entry, index) => ({
+      id: String(index + 1),
+      rank: index + 1,
+      name: entry.name,
+      category: entry.category,
+      sold: entry.sold,
+      revenue: entry.revenue,
+      stockStatus: isLowStock(stockByName.get(entry.name) ?? 'active') ? 'low_stock' : 'in_stock',
+    }))
 }
 
 export async function getDashboardData(): Promise<DashboardData> {

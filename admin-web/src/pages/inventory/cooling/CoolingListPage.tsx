@@ -3,8 +3,8 @@ import { FiAlertTriangle, FiBox, FiCheckCircle, FiEdit2, FiPlus, FiTrash2, FiWin
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
-import { deleteCooling, getCoolers, getCoolingSummary } from '../../../services/cooling.service'
-import type { Cooling, CoolingSummary } from '../../../types/cooling'
+import { deleteCooling, getCoolers } from '../../../services/cooling.service'
+import type { Cooling } from '../../../types/cooling'
 
 type LoadStatus = 'loading' | 'error' | 'success'
 
@@ -87,7 +87,6 @@ function FilterGroup({
 
 export function CoolingListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<CoolingSummary | null>(null)
   const [items, setItems] = useState<Cooling[]>([])
   const [search, setSearch] = useState('')
 
@@ -102,10 +101,9 @@ export function CoolingListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getCoolingSummary(), getCoolers()])
-      .then(([summaryResult, itemsResult]) => {
+    getCoolers()
+      .then((itemsResult) => {
         if (!cancelled) {
-          setSummary(summaryResult)
           setItems(itemsResult)
           setStatus('success')
         }
@@ -118,6 +116,17 @@ export function CoolingListPage() {
       cancelled = true
     }
   }, [])
+
+  const summary = useMemo(() => {
+    const total = items.length
+    const activeLike = items.filter((item) => item.status === 'active' || item.status === 'low_stock' || item.status === 'out_of_stock').length
+    return {
+      totalModels: total,
+      activeRatePercent: total === 0 ? 0 : Math.round((activeLike / total) * 1000) / 10,
+      lowStockCount: items.filter((item) => item.status === 'low_stock').length,
+      outOfStockCount: items.filter((item) => item.status === 'out_of_stock').length,
+    }
+  }, [items])
 
   const addFilter = (key: string) => {
     setAddedFilterKeys((prev) => [...prev, key])
@@ -194,7 +203,7 @@ export function CoolingListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่

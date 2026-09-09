@@ -16,6 +16,8 @@ const warrantyOptions = ['1 Year', '2 Years', '3 Years']
 const statusOptions: { value: CaseFormValues['status']; label: string }[] = [
   { value: 'active', label: 'พร้อมจำหน่ายปกติ (Active)' },
   { value: 'inactive', label: 'ปิดการขาย (Inactive)' },
+  { value: 'preorder', label: 'ของหมดสั่งจอง (Preorder)' },
+  { value: 'discontinued', label: 'เลิกจำหน่าย (Discontinued)' },
 ]
 
 interface CaseFormFieldsProps {
@@ -125,6 +127,11 @@ export function CaseFormFields({
                 <p className="mt-1 text-xs text-gray-400">รหัสสินค้าถูกกำหนดโดยระบบ ไม่สามารถแก้ไขได้</p>
               </div>
             )}
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">รหัสแสดงผล (Display Code)</label>
+              <input type="text" disabled={readOnly} placeholder="เช่น CS-001" className={inputClass} {...register('displayCode')} />
+              {errors.displayCode && <p className="mt-1 text-xs text-red-500">{errors.displayCode.message}</p>}
+            </div>
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">ราคาปกติ (Selling Price)</label>
               <input type="number" disabled={readOnly} className={inputClass} {...register('sellingPrice', { valueAsNumber: true })} />

@@ -3,8 +3,8 @@ import { FiAlertTriangle, FiBox, FiEdit2, FiPackage, FiPlus, FiTrash2, FiX, FiXC
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
-import { deleteStorage, getStorageSummary, getStorages } from '../../../services/storage.service'
-import type { Storage, StorageSummary } from '../../../types/storage'
+import { deleteStorage, getStorages } from '../../../services/storage.service'
+import type { Storage } from '../../../types/storage'
 
 type LoadStatus = 'loading' | 'error' | 'success'
 
@@ -88,7 +88,6 @@ function FilterGroup({
 
 export function StorageListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<StorageSummary | null>(null)
   const [items, setItems] = useState<Storage[]>([])
   const [search, setSearch] = useState('')
 
@@ -104,10 +103,9 @@ export function StorageListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getStorageSummary(), getStorages()])
-      .then(([summaryResult, itemsResult]) => {
+    getStorages()
+      .then((itemsResult) => {
         if (!cancelled) {
-          setSummary(summaryResult)
           setItems(itemsResult)
           setStatus('success')
         }
@@ -120,6 +118,16 @@ export function StorageListPage() {
       cancelled = true
     }
   }, [])
+
+  const summary = useMemo(
+    () => ({
+      totalModels: items.length,
+      totalStock: items.reduce((sum, item) => sum + item.stock, 0),
+      lowStockCount: items.filter((item) => item.status === 'low_stock').length,
+      outOfStockCount: items.filter((item) => item.status === 'out_of_stock').length,
+    }),
+    [items],
+  )
 
   const addFilter = (key: string) => {
     setAddedFilterKeys((prev) => [...prev, key])
@@ -206,7 +214,7 @@ export function StorageListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่

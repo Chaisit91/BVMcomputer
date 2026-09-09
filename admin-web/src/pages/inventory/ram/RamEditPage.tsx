@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { RamFormFields } from '../../../components/inventory/ram/RamFormFields'
+import { toEditableStatus } from '../../../lib/productStatus'
 import { ramFormSchema, type RamFormValues } from '../../../schemas/ram.schema'
 import { deleteRam, getRamDetail, saveRam } from '../../../services/ram.service'
 import type { ExtraSpec, Ram } from '../../../types/ram'
@@ -51,7 +52,7 @@ export function RamEditPage({ readOnly = false }: { readOnly?: boolean }) {
           promoEnabled: result.promoEnabled,
           promoPrice: result.promoPrice,
           stock: result.stock,
-          status: result.status,
+          status: toEditableStatus(result.status),
           specs: result.specs,
           description: result.description,
         })

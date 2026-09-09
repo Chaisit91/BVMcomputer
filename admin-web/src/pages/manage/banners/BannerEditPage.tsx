@@ -53,7 +53,7 @@ export function BannerEditPage() {
           targetLink: result.targetLink,
           startDate: result.startDate,
           endDate: result.endDate,
-          active: result.status === 'active',
+          active: result.active,
         })
         setStatus('success')
       })
@@ -166,14 +166,20 @@ export function BannerEditPage() {
                 <FiImage className="text-rose-500" />
                 รูปภาพแบนเนอร์ (Banner Image)
               </h2>
-              <div className={`relative flex h-56 items-center justify-center overflow-hidden rounded-2xl ${detail.previewTone}`}>
-                <span className="rounded-lg bg-black/60 px-4 py-2 text-sm font-semibold text-white">{detail.name}</span>
-              </div>
+              {detail.imageUrl ? (
+                <img
+                  src={detail.imageUrl}
+                  alt={detail.name}
+                  className="h-56 w-full rounded-2xl object-cover"
+                />
+              ) : (
+                <div className={`relative flex h-56 items-center justify-center overflow-hidden rounded-2xl ${detail.previewTone}`}>
+                  <span className="rounded-lg bg-black/60 px-4 py-2 text-sm font-semibold text-white">{detail.name}</span>
+                </div>
+              )}
               <p className="mt-2 text-xs text-gray-500">
-                ชื่อไฟล์: <span className="font-medium text-gray-700">{detail.imageFilename}</span>
-              </p>
-              <p className="text-xs text-gray-500">
-                ขนาด: {detail.imageDimensions} | รูปแบบ: {detail.imageFormat}
+                ขนาด: {detail.imageWidth && detail.imageHeight ? `${detail.imageWidth} x ${detail.imageHeight} px` : '-'} | รูปแบบ:{' '}
+                {detail.imageFormat || '-'}
               </p>
               <div className="mt-3 grid grid-cols-2 gap-2">
                 <button

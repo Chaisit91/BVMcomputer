@@ -16,6 +16,8 @@ const warrantyOptions = ['2 Years', '3 Years', '5 Years', 'Limited Lifetime']
 const statusOptions: { value: StorageFormValues['status']; label: string }[] = [
   { value: 'active', label: 'พร้อมจำหน่ายปกติ (Active)' },
   { value: 'inactive', label: 'ปิดการขาย (Inactive)' },
+  { value: 'preorder', label: 'ของหมดสั่งจอง (Preorder)' },
+  { value: 'discontinued', label: 'เลิกจำหน่าย (Discontinued)' },
 ]
 
 interface StorageFormFieldsProps {

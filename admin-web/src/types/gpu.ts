@@ -1,4 +1,8 @@
-export type GpuStatus = 'available' | 'preorder' | 'discontinued'
+// 'available' never existed on the backend (ProductStatus is
+// active|inactive|preorder|discontinued, plus low_stock|out_of_stock derived
+// at read time from stock — see Backend-web/src/lib/stockStatus.ts) — widened
+// to the real 6-value set, 'available' usages replaced with 'active'.
+export type GpuStatus = 'active' | 'inactive' | 'preorder' | 'discontinued' | 'low_stock' | 'out_of_stock'
 
 export interface GpuSpecs {
   baseClock: string
@@ -25,7 +29,7 @@ export interface Gpu {
   model: string
   chipsetModel: string
   memorySize: string
-  price: number
+  sellingPrice: number
   stock: number
   status: GpuStatus
   specs: GpuSpecs

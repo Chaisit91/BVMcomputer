@@ -4,27 +4,17 @@ import { useForm } from 'react-hook-form'
 import { FiPlus, FiSave, FiTrash2, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
+import { ProductPicker } from '../../../components/ui/ProductPicker'
+import { formatDateTime } from '../../../lib/formatDate'
 import { desktopPcFormSchema, type DesktopPcFormValues } from '../../../schemas/desktopPc.schema'
 import { deleteDesktopPc, getDesktopPcDetail, saveDesktopPc } from '../../../services/desktopPc.service'
-import type { DesktopPc, DesktopPcCategory, DesktopPcSpecs, DesktopPcStatus } from '../../../types/desktopPc'
+import { COMPONENT_SLOTS, COMPONENT_SLOT_LABELS, COMPONENT_SLOT_TO_API_CATEGORY } from '../../../types/componentSlots'
+import type { DesktopPc, DesktopPcCategory, DesktopPcStatus } from '../../../types/desktopPc'
 
 type LoadStatus = 'loading' | 'error' | 'not_found' | 'success'
 
 const inputClass =
   'w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-100 disabled:cursor-default disabled:text-gray-500'
-
-const specFields: { key: keyof DesktopPcSpecs; label: string }[] = [
-  { key: 'cpu', label: 'CPU' },
-  { key: 'gpu', label: 'GPU' },
-  { key: 'mainboard', label: 'Mainboard' },
-  { key: 'ram', label: 'RAM' },
-  { key: 'storage', label: 'Storage' },
-  { key: 'psu', label: 'PSU' },
-  { key: 'case', label: 'Case' },
-  { key: 'cooling', label: 'Cooling' },
-  { key: 'os', label: 'OS' },
-  { key: 'warranty', label: 'Warranty' },
-]
 
 const categoryOptions: { value: DesktopPcCategory; label: string }[] = [
   { value: 'desktop', label: 'เดสก์ท็อป พีซี' },
@@ -34,12 +24,23 @@ const categoryOptions: { value: DesktopPcCategory; label: string }[] = [
   { value: 'ai_enterprise', label: 'คอมพิวเตอร์ AI สำหรับองค์กร' },
 ]
 
+// low_stock/out_of_stock are derived server-side from stock count, not
+// selectable directly — see Backend-web/src/lib/stockStatus.ts.
 const statusOptions: { value: DesktopPcStatus; label: string }[] = [
-  { value: 'selling', label: 'กำลังขาย' },
-  { value: 'low_stock', label: 'สต็อกน้อย' },
-  { value: 'out_of_stock', label: 'หมดสต็อก' },
+  { value: 'active', label: 'กำลังขาย' },
+  { value: 'inactive', label: 'ปิดการขาย' },
+  { value: 'preorder', label: 'พรีออเดอร์' },
   { value: 'discontinued', label: 'เลิกขาย' },
 ]
+
+const statusDisplayLabels: Record<DesktopPcStatus, string> = {
+  active: 'กำลังขาย',
+  inactive: 'ปิดการขาย',
+  preorder: 'พรีออเดอร์',
+  discontinued: 'เลิกขาย',
+  low_stock: 'สต็อกน้อย',
+  out_of_stock: 'หมดสต็อก',
+}
 
 const categoryBadgeVariant: Record<DesktopPcCategory, 'success' | 'info' | 'danger' | 'warning' | 'neutral'> = {
   desktop: 'success',
@@ -61,6 +62,7 @@ export function DesktopPcEditPage({ readOnly = false }: { readOnly?: boolean }) 
     register,
     handleSubmit,
     watch,
+    setValue,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<DesktopPcFormValues>({
@@ -82,12 +84,15 @@ export function DesktopPcEditPage({ readOnly = false }: { readOnly?: boolean }) 
         reset({
           name: result.name,
           sku: result.sku,
+          specSummary: result.specSummary,
           category: result.category,
           status: result.status,
           price: result.price,
           stock: result.stock,
           description: result.description,
-          specs: result.specs,
+          os: result.specs.os,
+          warranty: result.specs.warranty,
+          components: result.componentIds,
         })
         setStatus('success')
       })
@@ -193,6 +198,11 @@ export function DesktopPcEditPage({ readOnly = false }: { readOnly?: boolean }) 
                   <input type="text" disabled={readOnly} className={inputClass} {...register('name')} />
                   {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
                 </div>
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-gray-700">สเปกโดยย่อ</label>
+                  <input type="text" disabled={readOnly} className={inputClass} {...register('specSummary')} />
+                  {errors.specSummary && <p className="mt-1 text-xs text-red-500">{errors.specSummary.message}</p>}
+                </div>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">SKU</label>
@@ -231,13 +241,17 @@ export function DesktopPcEditPage({ readOnly = false }: { readOnly?: boolean }) 
                   </div>
                   <div>
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">สถานะ</label>
-                    <select disabled={readOnly} className={inputClass} {...register('status')}>
-                      {statusOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
-                    </select>
+                    {detail.status === 'low_stock' || detail.status === 'out_of_stock' ? (
+                      <input type="text" disabled className={inputClass} value={statusDisplayLabels[detail.status]} readOnly />
+                    ) : (
+                      <select disabled={readOnly} className={inputClass} {...register('status')}>
+                        {statusOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
+                    )}
                   </div>
                 </div>
               </div>
@@ -296,22 +310,33 @@ export function DesktopPcEditPage({ readOnly = false }: { readOnly?: boolean }) 
             </section>
 
             <section className="rounded-2xl border border-gray-100 bg-white p-5">
-              <h2 className="mb-4 text-sm font-semibold text-gray-800">ข้อมูลทางเทคนิค (Specifications)</h2>
+              <h2 className="mb-4 text-sm font-semibold text-gray-800">ส่วนประกอบ (เลือกจากสินค้าจริงในคลัง)</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {specFields.map((field) => (
-                  <div key={field.key}>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700">{field.label}</label>
-                    <input
-                      type="text"
+                {COMPONENT_SLOTS.map((slot) => (
+                  <div key={slot}>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">{COMPONENT_SLOT_LABELS[slot]}</label>
+                    <ProductPicker
+                      category={COMPONENT_SLOT_TO_API_CATEGORY[slot]}
+                      value={watch(`components.${slot}`)}
+                      onChange={(productId) => setValue(`components.${slot}`, productId)}
                       disabled={readOnly}
                       className={inputClass}
-                      {...register(`specs.${field.key}`)}
                     />
-                    {errors.specs?.[field.key] && (
-                      <p className="mt-1 text-xs text-red-500">{errors.specs[field.key]?.message}</p>
+                    {errors.components?.[slot] && (
+                      <p className="mt-1 text-xs text-red-500">{errors.components[slot]?.message}</p>
                     )}
                   </div>
                 ))}
+              </div>
+              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-gray-700">OS</label>
+                  <input type="text" disabled={readOnly} className={inputClass} {...register('os')} />
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-gray-700">การรับประกัน</label>
+                  <input type="text" disabled={readOnly} className={inputClass} {...register('warranty')} />
+                </div>
               </div>
             </section>
           </div>
@@ -358,7 +383,7 @@ export function DesktopPcEditPage({ readOnly = false }: { readOnly?: boolean }) 
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-gray-500">อัพเดทล่าสุด</span>
-                  <span className="font-medium text-gray-800">{detail.updatedAt}</span>
+                  <span className="font-medium text-gray-800">{formatDateTime(detail.updatedAt)}</span>
                 </div>
               </div>
 

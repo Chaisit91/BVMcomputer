@@ -1,4 +1,7 @@
-export type CoolingPublishStatus = 'active' | 'inactive'
+// Widened to the backend's real ProductStatus set (active|inactive|preorder|
+// discontinued) plus the two read-only derived labels (low_stock|out_of_stock)
+// computed from stock at read time — see Backend-web/src/lib/stockStatus.ts.
+export type CoolingPublishStatus = 'active' | 'inactive' | 'preorder' | 'discontinued' | 'low_stock' | 'out_of_stock'
 
 export interface CoolingSpecs {
   coolingType: string

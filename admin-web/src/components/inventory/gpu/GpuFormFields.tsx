@@ -20,7 +20,8 @@ const memorySizeOptions = ['24GB', '16GB', '12GB', '8GB']
 const memoryInterfaceOptions = ['384-bit', '256-bit', '192-bit', '128-bit']
 const powerRequirementOptions = ['850W', '750W', '650W', '550W']
 const statusOptions: { value: GpuFormValues['status']; label: string }[] = [
-  { value: 'available', label: 'พร้อมจำหน่าย' },
+  { value: 'active', label: 'พร้อมจำหน่าย' },
+  { value: 'inactive', label: 'ปิดการขาย' },
   { value: 'preorder', label: 'ของหมดสั่งจอง' },
   { value: 'discontinued', label: 'เลิกจำหน่าย' },
 ]
@@ -59,7 +60,7 @@ export function GpuFormFields({ readOnly = false, register, errors, showSku = tr
             )}
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">ราคา (Price ฿)</label>
-              <input type="number" disabled={readOnly} className={inputClass} {...register('price', { valueAsNumber: true })} />
+              <input type="number" disabled={readOnly} className={inputClass} {...register('sellingPrice', { valueAsNumber: true })} />
             </div>
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">จำนวนคงเหลือ (Stock)</label>

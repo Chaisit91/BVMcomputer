@@ -3,8 +3,8 @@ import { FiBox, FiCheckCircle, FiEdit2, FiHardDrive, FiLayers, FiPlus, FiTrash2,
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
-import { deleteCase, getCaseSummary, getCases } from '../../../services/case.service'
-import type { Case, CaseSummary } from '../../../types/case'
+import { deleteCase, getCases } from '../../../services/case.service'
+import type { Case } from '../../../types/case'
 
 type LoadStatus = 'loading' | 'error' | 'success'
 
@@ -88,7 +88,6 @@ function FilterGroup({
 
 export function CaseListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<CaseSummary | null>(null)
   const [items, setItems] = useState<Case[]>([])
   const [search, setSearch] = useState('')
 
@@ -104,10 +103,9 @@ export function CaseListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getCaseSummary(), getCases()])
-      .then(([summaryResult, itemsResult]) => {
+    getCases()
+      .then((itemsResult) => {
         if (!cancelled) {
-          setSummary(summaryResult)
           setItems(itemsResult)
           setStatus('success')
         }
@@ -120,6 +118,17 @@ export function CaseListPage() {
       cancelled = true
     }
   }, [])
+
+  const summary = useMemo(() => {
+    const total = items.length
+    const activeLike = items.filter((item) => item.status === 'active' || item.status === 'low_stock' || item.status === 'out_of_stock').length
+    return {
+      totalModels: total,
+      activeRatePercent: total === 0 ? 0 : Math.round((activeLike / total) * 1000) / 10,
+      totalStock: items.reduce((sum, item) => sum + item.stock, 0),
+      lowStockCount: items.filter((item) => item.status === 'low_stock').length,
+    }
+  }, [items])
 
   const addFilter = (key: string) => {
     setAddedFilterKeys((prev) => [...prev, key])
@@ -207,7 +216,7 @@ export function CaseListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่

@@ -67,12 +67,6 @@ export function MotherboardFormFields({ mode, readOnly = false, register, errors
               <label className="mb-1.5 block text-sm font-medium text-gray-700">ราคาทุน (Cost Price)</label>
               <input type="number" disabled={readOnly} className={inputClass} {...register('costPrice', { valueAsNumber: true })} />
             </div>
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">ส่วนลด (Discount)</label>
-              <input type="number" disabled={readOnly} className={inputClass} {...register('discount', { valueAsNumber: true })} />
-              {errors.discount && <p className="mt-1 text-xs text-red-500">{errors.discount.message}</p>}
-            </div>
-
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium text-gray-700">
                 {mode === 'create' ? 'จำนวนเริ่มต้นในคลัง' : 'จำนวนคงเหลือในคลัง'}

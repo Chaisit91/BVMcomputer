@@ -23,6 +23,7 @@ export function CaseCreatePage() {
     resolver: zodResolver(caseFormSchema),
     defaultValues: {
       sku: '',
+      displayCode: '',
       name: '',
       brand: '',
       sellingPrice: 0,

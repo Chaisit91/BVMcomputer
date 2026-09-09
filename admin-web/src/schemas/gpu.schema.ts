@@ -24,9 +24,9 @@ export const gpuFormSchema = z.object({
   model: z.string().min(1, 'กรุณาเลือก GPU Model'),
   chipsetModel: z.string().min(1, 'กรุณากรอกรุ่นชิปเซ็ต'),
   memorySize: z.string().min(1, 'กรุณาเลือกขนาดหน่วยความจำ'),
-  price: z.number().min(0, 'ราคาต้องไม่ติดลบ'),
+  sellingPrice: z.number().min(0, 'ราคาต้องไม่ติดลบ'),
   stock: z.number().min(0, 'จำนวนต้องไม่ติดลบ'),
-  status: z.enum(['available', 'preorder', 'discontinued']),
+  status: z.enum(['active', 'inactive', 'preorder', 'discontinued']),
   specs: specsSchema,
   description: z.string(),
 })

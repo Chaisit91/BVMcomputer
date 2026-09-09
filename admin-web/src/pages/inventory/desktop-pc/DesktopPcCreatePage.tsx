@@ -3,25 +3,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiPlus, FiSave, FiX } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import { ProductPicker } from '../../../components/ui/ProductPicker'
 import { desktopPcFormSchema, type DesktopPcFormValues } from '../../../schemas/desktopPc.schema'
 import { createDesktopPc } from '../../../services/desktopPc.service'
-import type { DesktopPcCategory, DesktopPcSpecs } from '../../../types/desktopPc'
+import { COMPONENT_SLOTS, COMPONENT_SLOT_LABELS, COMPONENT_SLOT_TO_API_CATEGORY } from '../../../types/componentSlots'
+import type { DesktopPcCategory } from '../../../types/desktopPc'
 
 const inputClass =
   'w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-rose-400 focus:ring-2 focus:ring-rose-100'
-
-const specFields: { key: keyof DesktopPcSpecs; label: string }[] = [
-  { key: 'cpu', label: 'CPU' },
-  { key: 'gpu', label: 'GPU' },
-  { key: 'mainboard', label: 'Mainboard' },
-  { key: 'ram', label: 'RAM' },
-  { key: 'storage', label: 'Storage' },
-  { key: 'psu', label: 'PSU' },
-  { key: 'case', label: 'Case' },
-  { key: 'cooling', label: 'Cooling' },
-  { key: 'os', label: 'OS' },
-  { key: 'warranty', label: 'Warranty' },
-]
 
 const categoryOptions: { value: DesktopPcCategory; label: string }[] = [
   { value: 'desktop', label: 'เดสก์ท็อป พีซี' },
@@ -39,28 +28,31 @@ export function DesktopPcCreatePage() {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<DesktopPcFormValues>({
     resolver: zodResolver(desktopPcFormSchema),
     defaultValues: {
       name: '',
       sku: '',
+      specSummary: '',
       category: 'desktop',
-      status: 'selling',
+      status: 'active',
       price: 0,
       stock: 0,
       description: '',
-      specs: {
+      os: '',
+      warranty: '',
+      components: {
         cpu: '',
         gpu: '',
-        mainboard: '',
+        motherboard: '',
         ram: '',
         storage: '',
         psu: '',
         case: '',
         cooling: '',
-        os: '',
-        warranty: '',
       },
     },
   })
@@ -117,6 +109,16 @@ export function DesktopPcCreatePage() {
                     {...register('name')}
                   />
                   {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-gray-700">สเปกโดยย่อ *</label>
+                  <input
+                    type="text"
+                    placeholder="เช่น Intel i7-14700K + RTX 5070 Ti"
+                    className={inputClass}
+                    {...register('specSummary')}
+                  />
+                  {errors.specSummary && <p className="mt-1 text-xs text-red-500">{errors.specSummary.message}</p>}
                 </div>
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-gray-700">หมวดหมู่ *</label>
@@ -194,17 +196,32 @@ export function DesktopPcCreatePage() {
             </section>
 
             <section className="rounded-2xl border border-gray-100 bg-white p-5">
-              <h2 className="mb-4 text-sm font-semibold text-gray-800">ข้อมูลทางเทคนิค (Specifications)</h2>
+              <h2 className="mb-4 text-sm font-semibold text-gray-800">ส่วนประกอบ (เลือกจากสินค้าจริงในคลัง)</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {specFields.map((field) => (
-                  <div key={field.key}>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700">{field.label}</label>
-                    <input type="text" className={inputClass} {...register(`specs.${field.key}`)} />
-                    {errors.specs?.[field.key] && (
-                      <p className="mt-1 text-xs text-red-500">{errors.specs[field.key]?.message}</p>
+                {COMPONENT_SLOTS.map((slot) => (
+                  <div key={slot}>
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">{COMPONENT_SLOT_LABELS[slot]}</label>
+                    <ProductPicker
+                      category={COMPONENT_SLOT_TO_API_CATEGORY[slot]}
+                      value={watch(`components.${slot}`)}
+                      onChange={(productId) => setValue(`components.${slot}`, productId)}
+                      className={inputClass}
+                    />
+                    {errors.components?.[slot] && (
+                      <p className="mt-1 text-xs text-red-500">{errors.components[slot]?.message}</p>
                     )}
                   </div>
                 ))}
+              </div>
+              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-gray-700">OS</label>
+                  <input type="text" className={inputClass} {...register('os')} />
+                </div>
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-gray-700">การรับประกัน</label>
+                  <input type="text" className={inputClass} {...register('warranty')} />
+                </div>
               </div>
             </section>
           </div>
@@ -223,11 +240,12 @@ export function DesktopPcCreatePage() {
               <h2 className="mb-4 text-sm font-semibold text-gray-800">สถานะสินค้า</h2>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">สถานะ</label>
               <select className={inputClass} {...register('status')}>
-                <option value="selling">กำลังขาย</option>
-                <option value="low_stock">สต็อกน้อย</option>
-                <option value="out_of_stock">หมดสต็อก</option>
+                <option value="active">กำลังขาย</option>
+                <option value="inactive">ปิดการขาย</option>
+                <option value="preorder">พรีออเดอร์</option>
                 <option value="discontinued">เลิกขาย</option>
               </select>
+              <p className="mt-1.5 text-xs text-gray-400">สต็อกน้อย/หมดสต็อก คำนวณอัตโนมัติจากจำนวนสต็อก ไม่ต้องตั้งเอง</p>
             </section>
           </div>
         </div>

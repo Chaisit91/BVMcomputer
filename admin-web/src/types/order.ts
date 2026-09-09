@@ -1,5 +1,5 @@
-export type PaymentStatus = 'paid' | 'unpaid'
-export type OrderStatus = 'pending_payment' | 'paid' | 'preparing' | 'shipping' | 'completed' | 'cancelled'
+export type PaymentStatus = 'pending' | 'paid' | 'failed' | 'refunded'
+export type OrderStatus = 'pending' | 'preparing' | 'shipping' | 'completed' | 'cancelled'
 
 export interface OrderLineItem {
   name: string
@@ -21,7 +21,7 @@ export interface Order {
   subdistrict: string
   paymentMethod: string
   paymentStatus: PaymentStatus
-  status: OrderStatus
+  orderStatus: OrderStatus
   trackingNumber: string
   shippingNote: string
   paymentSlipFilename: string
@@ -30,19 +30,19 @@ export interface Order {
 }
 
 export interface OrderSummary {
-  pendingPaymentCount: number
-  paidCount: number
+  pendingCount: number
   preparingCount: number
   shippingCount: number
   completedCount: number
   cancelledCount: number
+  unpaidCount: number
 }
 
 type BadgeVariant = 'success' | 'warning' | 'danger' | 'info' | 'purple'
 
+// Fulfillment state only — payment state lives in paymentStatusMeta below.
 export const orderStatusMeta: Record<OrderStatus, { label: string; variant: BadgeVariant; dot: string }> = {
-  pending_payment: { label: 'รอชำระเงิน', variant: 'warning', dot: 'bg-amber-500' },
-  paid: { label: 'ชำระเงินแล้ว', variant: 'info', dot: 'bg-blue-500' },
+  pending: { label: 'รอดำเนินการ', variant: 'warning', dot: 'bg-amber-500' },
   preparing: { label: 'กำลังเตรียมสินค้า', variant: 'warning', dot: 'bg-orange-500' },
   shipping: { label: 'กำลังจัดส่ง', variant: 'purple', dot: 'bg-purple-500' },
   completed: { label: 'จัดส่งสำเร็จ', variant: 'success', dot: 'bg-emerald-500' },
@@ -50,6 +50,8 @@ export const orderStatusMeta: Record<OrderStatus, { label: string; variant: Badg
 }
 
 export const paymentStatusMeta: Record<PaymentStatus, { label: string; variant: BadgeVariant }> = {
+  pending: { label: 'รอชำระเงิน', variant: 'warning' },
   paid: { label: 'ชำระแล้ว', variant: 'success' },
-  unpaid: { label: 'รอชำระ', variant: 'warning' },
+  failed: { label: 'ชำระเงินไม่สำเร็จ', variant: 'danger' },
+  refunded: { label: 'คืนเงินแล้ว', variant: 'info' },
 }

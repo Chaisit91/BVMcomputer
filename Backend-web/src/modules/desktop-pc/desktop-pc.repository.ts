@@ -44,8 +44,13 @@ function split(body: Record<string, unknown>) {
 async function shape(row: any) {
   const { desktopPc, components, ...own } = row
   const specs: Record<string, string> = { os: desktopPc.os, warranty: desktopPc.warranty }
+  // Raw slot -> productId, alongside the resolved-name `specs` above — the
+  // edit form needs the actual id to preselect each ProductPicker dropdown,
+  // `specs` only ever had the display name.
+  const componentIds: Record<string, string> = {}
   for (const c of components) {
     specs[SLOT_TO_SPEC_KEY[c.slot]] = await getProductName(c.productId)
+    componentIds[c.slot] = c.productId
   }
   return {
     ...own,
@@ -53,6 +58,7 @@ async function shape(row: any) {
     status: deriveDisplayStatus(own.status, own.stock),
     specSummary: desktopPc.specSummary,
     specs,
+    componentIds,
     highlights: row.highlights.map((h: any) => h.text),
   }
 }

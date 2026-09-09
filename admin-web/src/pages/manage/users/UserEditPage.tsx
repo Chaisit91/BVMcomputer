@@ -4,9 +4,11 @@ import { useForm } from 'react-hook-form'
 import { FiPackage, FiSettings, FiUser, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
+import { formatDateTime } from '../../../lib/formatDate'
 import { customerFormSchema, type CustomerFormValues } from '../../../schemas/customer.schema'
 import { getCustomerDetail, saveCustomer } from '../../../services/customer.service'
 import type { Customer, CustomerOrder } from '../../../types/customer'
+import { orderStatusMeta } from '../../../types/order'
 
 type LoadStatus = 'loading' | 'error' | 'not_found' | 'success'
 
@@ -23,12 +25,6 @@ function getInitials(name: string) {
   const parts = name.trim().split(/\s+/)
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase()
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
-}
-
-function getOrderStatusVariant(label: string): 'success' | 'warning' | 'neutral' {
-  if (label === 'จัดส่งสำเร็จแล้ว') return 'success'
-  if (label === 'กำลังเตรียมสินค้า') return 'warning'
-  return 'neutral'
 }
 
 function getItemsSummary(items: CustomerOrder['items']) {
@@ -199,11 +195,11 @@ export function UserEditPage() {
                 </div>
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-gray-700">วันที่สมัครสมาชิก</label>
-                  <input type="text" disabled className={inputClass} value={detail.registeredAt} readOnly />
+                  <input type="text" disabled className={inputClass} value={formatDateTime(detail.registeredAt)} readOnly />
                 </div>
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-gray-700">เข้าใช้งานล่าสุด</label>
-                  <input type="text" disabled className={inputClass} value={detail.lastActiveAt} readOnly />
+                  <input type="text" disabled className={inputClass} value={formatDateTime(detail.lastActiveAt)} readOnly />
                 </div>
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-gray-700">
@@ -255,11 +251,11 @@ export function UserEditPage() {
                   {detail.recentOrders.map((order) => (
                     <tr key={order.id} className="whitespace-nowrap">
                       <td className="py-3 pr-4 font-medium text-rose-500">{order.orderCode}</td>
-                      <td className="py-3 pr-4 text-gray-600">{order.orderedAt}</td>
+                      <td className="py-3 pr-4 text-gray-600">{formatDateTime(order.orderedAt)}</td>
                       <td className="max-w-xs truncate py-3 pr-4 text-gray-600">{getItemsSummary(order.items)}</td>
                       <td className="py-3 pr-4 font-medium text-gray-800">{order.totalAmount.toLocaleString()}</td>
                       <td className="py-3 pr-4">
-                        <Badge variant={getOrderStatusVariant(order.status)}>{order.status}</Badge>
+                        <Badge variant={orderStatusMeta[order.status].variant}>{orderStatusMeta[order.status].label}</Badge>
                       </td>
                       <td className="py-3 pr-4">
                         <button
@@ -305,7 +301,7 @@ export function UserEditPage() {
             <div className="mb-4 flex items-start justify-between">
               <div>
                 <h2 className="text-base font-semibold text-gray-900">{selectedOrder.orderCode}</h2>
-                <p className="text-xs text-gray-400">{selectedOrder.orderedAt}</p>
+                <p className="text-xs text-gray-400">{formatDateTime(selectedOrder.orderedAt)}</p>
               </div>
               <button
                 type="button"
@@ -318,7 +314,7 @@ export function UserEditPage() {
             </div>
 
             <div className="mb-4">
-              <Badge variant={getOrderStatusVariant(selectedOrder.status)}>{selectedOrder.status}</Badge>
+              <Badge variant={orderStatusMeta[selectedOrder.status].variant}>{orderStatusMeta[selectedOrder.status].label}</Badge>
             </div>
 
             <div className="overflow-hidden rounded-xl border border-gray-100">

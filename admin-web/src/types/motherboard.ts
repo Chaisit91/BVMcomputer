@@ -1,5 +1,3 @@
-export type MotherboardStatus = 'available' | 'low_stock' | 'out_of_stock'
-
 export interface MotherboardSpecs {
   cpuSupport: string
   socket: string
@@ -27,7 +25,6 @@ export interface Motherboard {
   brand: string
   sellingPrice: number
   costPrice: number
-  discount: number
   stock: number
   publishImmediately: boolean
   specs: MotherboardSpecs

@@ -20,6 +20,8 @@ const yesNoOptions = ['มี', 'ไม่มี']
 const statusOptions: { value: RamFormValues['status']; label: string }[] = [
   { value: 'active', label: 'พร้อมจำหน่ายปกติ (Active)' },
   { value: 'inactive', label: 'ปิดการขาย (Inactive)' },
+  { value: 'preorder', label: 'ของหมดสั่งจอง (Preorder)' },
+  { value: 'discontinued', label: 'เลิกจำหน่าย (Discontinued)' },
 ]
 
 interface RamFormFieldsProps {

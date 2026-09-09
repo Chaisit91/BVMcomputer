@@ -3,17 +3,20 @@ import { FiAlertCircle, FiCheckCircle, FiFlag, FiPackage, FiPlus } from 'react-i
 import { Link } from 'react-router-dom'
 import { PromoSetCard } from '../../../components/inventory/promo-sets/PromoSetCard'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
-import { getPromoSetSummary, getPromoSets } from '../../../services/promoSet.service'
-import type { PromoSet, PromoSetStatus, PromoSetSummary } from '../../../types/promoSet'
+import { getPromoSets } from '../../../services/promoSet.service'
+import type { PromoSet, PromoSetStatus } from '../../../types/promoSet'
 
 type LoadStatus = 'loading' | 'error' | 'success'
 type SortOption = 'newest' | 'price_asc' | 'price_desc' | 'stock_desc'
 
 const statusOptions: { value: PromoSetStatus | 'all'; label: string }[] = [
   { value: 'all', label: 'ทั้งหมด' },
-  { value: 'selling', label: 'กำลังขาย' },
+  { value: 'active', label: 'กำลังขาย' },
+  { value: 'inactive', label: 'ปิดการขาย' },
+  { value: 'preorder', label: 'พรีออเดอร์' },
+  { value: 'low_stock', label: 'สต็อกน้อย' },
   { value: 'out_of_stock', label: 'หมดสต็อก' },
-  { value: 'closed', label: 'ปิดการขาย' },
+  { value: 'discontinued', label: 'เลิกขาย' },
 ]
 
 const sortOptions: { value: SortOption; label: string }[] = [
@@ -25,7 +28,6 @@ const sortOptions: { value: SortOption; label: string }[] = [
 
 export function PromoSetListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<PromoSetSummary | null>(null)
   const [sets, setSets] = useState<PromoSet[]>([])
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<PromoSetStatus | 'all'>('all')
@@ -34,11 +36,10 @@ export function PromoSetListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getPromoSetSummary(), getPromoSets()])
-      .then(([summaryResult, setsResult]) => {
+    getPromoSets()
+      .then((result) => {
         if (!cancelled) {
-          setSummary(summaryResult)
-          setSets(setsResult)
+          setSets(result)
           setStatus('success')
         }
       })
@@ -50,6 +51,18 @@ export function PromoSetListPage() {
       cancelled = true
     }
   }, [])
+
+  // No backend /summary endpoint exists — derive counts client-side from the
+  // fetched list, same pattern as DesktopPcListPage.
+  const summary = useMemo(
+    () => ({
+      total: sets.length,
+      selling: sets.filter((s) => s.status === 'active').length,
+      lowStock: sets.filter((s) => s.status === 'low_stock').length,
+      discontinued: sets.filter((s) => s.status === 'discontinued').length,
+    }),
+    [sets],
+  )
 
   const visibleSets = useMemo(() => {
     const query = search.trim().toLowerCase()
@@ -73,7 +86,7 @@ export function PromoSetListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่
@@ -100,8 +113,8 @@ export function PromoSetListPage() {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <SummaryCard label="เซ็ตทั้งหมด" value={`${summary.total} เซ็ต`} icon={<FiPackage />} tone="rose" />
         <SummaryCard label="กำลังขาย" value={`${summary.selling} เซ็ต`} icon={<FiCheckCircle />} tone="emerald" />
-        <SummaryCard label="หมดสต็อก" value={`${summary.outOfStock} เซ็ต`} icon={<FiAlertCircle />} tone="amber" />
-        <SummaryCard label="ปิดการขาย" value={`${summary.closed} เซ็ต`} icon={<FiFlag />} tone="gray" />
+        <SummaryCard label="สต็อกน้อย" value={`${summary.lowStock} เซ็ต`} icon={<FiAlertCircle />} tone="amber" />
+        <SummaryCard label="เลิกขาย" value={`${summary.discontinued} เซ็ต`} icon={<FiFlag />} tone="gray" />
       </div>
 
       <div className="rounded-2xl border border-gray-100 bg-white p-5">

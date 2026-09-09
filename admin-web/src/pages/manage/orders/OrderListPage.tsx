@@ -3,7 +3,8 @@ import { FiDownload, FiEdit2 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { StatChip } from '../../../components/ui/SummaryCard'
-import { getOrders, getOrderSummary, getOrderTotal } from '../../../services/order.service'
+import { formatDateTime } from '../../../lib/formatDate'
+import { getOrders, getOrderTotal } from '../../../services/order.service'
 import { orderStatusMeta, paymentStatusMeta, type Order, type OrderStatus, type OrderSummary } from '../../../types/order'
 
 type LoadStatus = 'loading' | 'error' | 'success'
@@ -15,7 +16,6 @@ const statusFilterOptions: { value: 'all' | OrderStatus; label: string }[] = [
 
 export function OrderListPage() {
   const [status, setStatus] = useState<LoadStatus>('loading')
-  const [summary, setSummary] = useState<OrderSummary | null>(null)
   const [orders, setOrders] = useState<Order[]>([])
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<'all' | OrderStatus>('all')
@@ -23,11 +23,10 @@ export function OrderListPage() {
   useEffect(() => {
     let cancelled = false
 
-    Promise.all([getOrderSummary(), getOrders()])
-      .then(([summaryResult, ordersResult]) => {
+    getOrders()
+      .then((result) => {
         if (!cancelled) {
-          setSummary(summaryResult)
-          setOrders(ordersResult)
+          setOrders(result)
           setStatus('success')
         }
       })
@@ -40,12 +39,24 @@ export function OrderListPage() {
     }
   }, [])
 
+  const summary: OrderSummary = useMemo(
+    () => ({
+      pendingCount: orders.filter((order) => order.orderStatus === 'pending').length,
+      preparingCount: orders.filter((order) => order.orderStatus === 'preparing').length,
+      shippingCount: orders.filter((order) => order.orderStatus === 'shipping').length,
+      completedCount: orders.filter((order) => order.orderStatus === 'completed').length,
+      cancelledCount: orders.filter((order) => order.orderStatus === 'cancelled').length,
+      unpaidCount: orders.filter((order) => order.paymentStatus === 'pending').length,
+    }),
+    [orders],
+  )
+
   const visibleOrders = useMemo(() => {
     const query = search.trim().toLowerCase()
     return orders.filter((order) => {
       const matchesSearch =
         query === '' || order.orderCode.toLowerCase().includes(query) || order.customerName.toLowerCase().includes(query)
-      const matchesStatus = statusFilter === 'all' || order.status === statusFilter
+      const matchesStatus = statusFilter === 'all' || order.orderStatus === statusFilter
       return matchesSearch && matchesStatus
     })
   }, [orders, search, statusFilter])
@@ -56,7 +67,7 @@ export function OrderListPage() {
     )
   }
 
-  if (status === 'error' || !summary) {
+  if (status === 'error') {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-rose-500">
         โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่
@@ -81,8 +92,8 @@ export function OrderListPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
-        <StatChip dotColor={orderStatusMeta.pending_payment.dot} label={orderStatusMeta.pending_payment.label} value={String(summary.pendingPaymentCount)} />
-        <StatChip dotColor={orderStatusMeta.paid.dot} label={orderStatusMeta.paid.label} value={String(summary.paidCount)} />
+        <StatChip dotColor="bg-amber-500" label="รอชำระเงิน" value={String(summary.unpaidCount)} />
+        <StatChip dotColor={orderStatusMeta.pending.dot} label={orderStatusMeta.pending.label} value={String(summary.pendingCount)} />
         <StatChip dotColor={orderStatusMeta.preparing.dot} label={orderStatusMeta.preparing.label} value={String(summary.preparingCount)} />
         <StatChip dotColor={orderStatusMeta.shipping.dot} label={orderStatusMeta.shipping.label} value={String(summary.shippingCount)} />
         <StatChip dotColor={orderStatusMeta.completed.dot} label={orderStatusMeta.completed.label} value={summary.completedCount.toLocaleString()} />
@@ -137,7 +148,7 @@ export function OrderListPage() {
                 {visibleOrders.map((order) => (
                   <tr key={order.id} className="whitespace-nowrap">
                     <td className="py-3 pr-4 font-medium text-rose-500">{order.orderCode}</td>
-                    <td className="py-3 pr-4 text-gray-600">{order.orderedAt}</td>
+                    <td className="py-3 pr-4 text-gray-600">{formatDateTime(order.orderedAt)}</td>
                     <td className="py-3 pr-4 text-gray-800">{order.customerName}</td>
                     <td className="py-3 pr-4 text-gray-600">{order.items.length}</td>
                     <td className="py-3 pr-4 font-medium text-gray-800">{getOrderTotal(order).toLocaleString()}</td>
@@ -148,7 +159,9 @@ export function OrderListPage() {
                       </Badge>
                     </td>
                     <td className="py-3 pr-4">
-                      <Badge variant={orderStatusMeta[order.status].variant}>{orderStatusMeta[order.status].label}</Badge>
+                      <Badge variant={orderStatusMeta[order.orderStatus].variant}>
+                        {orderStatusMeta[order.orderStatus].label}
+                      </Badge>
                     </td>
                     <td className="py-3 pr-4 text-gray-500">{order.trackingNumber || '-'}</td>
                     <td className="py-3 pr-4">

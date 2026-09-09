@@ -23,7 +23,6 @@ export function MotherboardCreatePage() {
       brand: '',
       sellingPrice: 0,
       costPrice: 0,
-      discount: 0,
       stock: 0,
       publishImmediately: true,
       specs: {

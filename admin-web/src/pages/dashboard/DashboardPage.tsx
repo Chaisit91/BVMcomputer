@@ -54,10 +54,12 @@ export function DashboardPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold text-gray-900">สวัสดี, แอดมิน</h1>
-          <p className="text-sm text-gray-400">ภาพรวมข้อมูลประจำวันที่ 24 ตุลาคม 2566</p>
+          <p className="text-sm text-gray-400">
+            ภาพรวมข้อมูลประจำวันที่ {new Date().toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' })}
+          </p>
         </div>
         <span className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm text-gray-600">
-          24 ต.ค. 2023 - จันทร์
+          {new Date().toLocaleDateString('th-TH', { day: 'numeric', month: 'short', year: 'numeric', weekday: 'long' })}
         </span>
       </div>
 
@@ -84,7 +86,10 @@ export function DashboardPage() {
 
         <section className="rounded-2xl border border-gray-100 bg-white p-5">
           <h2 className="mb-1 text-sm font-semibold text-gray-800">วิเคราะห์ยอดขาย 7 วันล่าสุด</h2>
-          <p className="mb-4 text-xs text-gray-400">ยอดขายเฉลี่ยต่อวัน ~85,000</p>
+          <p className="mb-4 text-xs text-gray-400">
+            ยอดขายเฉลี่ยต่อวัน ~
+            {Math.round(data.weeklyTrend.reduce((sum, p) => sum + p.value, 0) / data.weeklyTrend.length).toLocaleString()}
+          </p>
           <MiniBarChart data={data.weeklyTrend} />
         </section>
       </div>
@@ -129,15 +134,30 @@ export function DashboardPage() {
         <div className="mt-4 flex flex-wrap gap-8 border-t border-gray-50 pt-4 text-sm">
           <div>
             <p className="text-xs text-gray-400">ยอดขายรวมทั้งหมด</p>
-            <p className="font-semibold text-gray-800">11,970,000</p>
+            <p className="font-semibold text-gray-800">
+              {data.monthlyTrend.reduce((sum, p) => sum + p.value, 0).toLocaleString()}
+            </p>
           </div>
           <div>
             <p className="text-xs text-gray-400">เดือนที่ขายดีที่สุด</p>
-            <p className="font-semibold text-gray-800">ตุลาคม</p>
+            <p className="font-semibold text-gray-800">
+              {data.monthlyTrend.reduce((best, p) => (p.value > best.value ? p : best), data.monthlyTrend[0])?.label ?? '-'}
+            </p>
           </div>
           <div>
             <p className="text-xs text-gray-400">เปลี่ยนแปลงจากเดือนก่อน</p>
-            <p className="font-semibold text-emerald-500">+18.3%</p>
+            {(() => {
+              const last = data.monthlyTrend.at(-1)?.value ?? 0
+              const prev = data.monthlyTrend.at(-2)?.value ?? 0
+              if (prev === 0) return <p className="font-semibold text-gray-400">ไม่มีข้อมูลเปรียบเทียบ</p>
+              const change = ((last - prev) / prev) * 100
+              return (
+                <p className={`font-semibold ${change >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
+                  {change >= 0 ? '+' : ''}
+                  {change.toFixed(1)}%
+                </p>
+              )
+            })()}
           </div>
         </div>
       </section>
