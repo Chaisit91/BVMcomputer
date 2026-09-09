@@ -11,6 +11,7 @@ import {
   BsMouse2,
   BsPcDisplay,
   BsPlug,
+  BsSnow2,
 } from 'react-icons/bs';
 import type { IconType } from 'react-icons';
 import type { CategoryIconKey } from '../../types';
@@ -23,6 +24,7 @@ export const categoryIcons: Record<CategoryIconKey, IconType> = {
   storage: BsHdd,
   psu: BsPlug,
   case: BsPcDisplay,
+  cooling: BsSnow2,
   keyboard: BsKeyboard,
   mouse: BsMouse2,
   headset: BsHeadphones,

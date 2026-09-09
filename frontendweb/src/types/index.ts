@@ -6,6 +6,7 @@ export type CategoryIconKey =
   | 'storage'
   | 'psu'
   | 'case'
+  | 'cooling'
   | 'keyboard'
   | 'mouse'
   | 'headset'
