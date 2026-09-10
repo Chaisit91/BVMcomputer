@@ -12,6 +12,7 @@ import { PsuCategoryPage } from './pages/PsuCategoryPage';
 import { CaseCategoryPage } from './pages/CaseCategoryPage';
 import { CoolingCategoryPage } from './pages/CoolingCategoryPage';
 import { DesktopPcCategoryPage } from './pages/DesktopPcCategoryPage';
+import { PcSetCategoryPage } from './pages/PcSetCategoryPage';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="/category/case" element={<CaseCategoryPage />} />
             <Route path="/category/cooling" element={<CoolingCategoryPage />} />
             <Route path="/category/desktop-pc" element={<DesktopPcCategoryPage />} />
+            <Route path="/category/pc-sets" element={<PcSetCategoryPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -54,7 +54,7 @@ interface CategoryMenuItem {
 // that aren't product categories. All rows share one icon color (set below).
 const categoryMenuItems: CategoryMenuItem[] = [
   { id: 'build', label: 'จัดสเปคคอม', href: '#build', icon: BsTools, hasSubmenu: false, disabled: true },
-  { id: 'pc-sets', label: 'คอมพิวเตอร์เซตโปรโมชั่น', href: '#category-pc-sets', icon: BsPcDisplay, hasSubmenu: true },
+  { id: 'pc-sets', label: 'คอมพิวเตอร์เซตโปรโมชั่น', href: '#category-pc-sets', icon: BsPcDisplay, hasSubmenu: true, to: '/category/pc-sets' },
   { id: 'desktop-pc', label: 'คอมพิวเตอร์ตั้งโต๊ะ', href: '#category-desktop-pc', icon: BsDisplay, hasSubmenu: true, to: '/category/desktop-pc' },
   { id: 'cpu', label: 'ซีพียู', href: '#category-cpu', icon: BsCpu, hasSubmenu: true, to: '/category/cpu' },
   { id: 'gpu', label: 'การ์ดจอ', href: '#category-gpu', icon: BsGpuCard, hasSubmenu: true, to: '/category/gpu' },
