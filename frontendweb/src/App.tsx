@@ -11,6 +11,7 @@ import { StorageCategoryPage } from './pages/StorageCategoryPage';
 import { PsuCategoryPage } from './pages/PsuCategoryPage';
 import { CaseCategoryPage } from './pages/CaseCategoryPage';
 import { CoolingCategoryPage } from './pages/CoolingCategoryPage';
+import { DesktopPcCategoryPage } from './pages/DesktopPcCategoryPage';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route path="/category/psu" element={<PsuCategoryPage />} />
             <Route path="/category/case" element={<CaseCategoryPage />} />
             <Route path="/category/cooling" element={<CoolingCategoryPage />} />
+            <Route path="/category/desktop-pc" element={<DesktopPcCategoryPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

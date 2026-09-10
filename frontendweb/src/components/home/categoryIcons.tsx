@@ -13,11 +13,13 @@ import {
   BsPlug,
   BsSnow2,
 } from 'react-icons/bs';
+import { PiComputerTower } from 'react-icons/pi';
 import type { IconType } from 'react-icons';
 import type { CategoryIconKey } from '../../types';
 
 export const categoryIcons: Record<CategoryIconKey, IconType> = {
   cpu: BsCpu,
+  desktop: PiComputerTower,
   motherboard: BsMotherboard,
   gpu: BsGpuCard,
   ram: BsMemory,
