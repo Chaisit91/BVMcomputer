@@ -29,7 +29,7 @@ interface NavLink {
 
 const navLinks: NavLink[] = [
   { id: 'home', label: 'หน้าแรก', href: '#top', to: '/' },
-  { id: 'build', label: 'จัดสเปกคอม', href: '#build', disabled: true },
+  { id: 'build', label: 'จัดสเปกคอม', href: '#build', to: '/build' },
   { id: 'articles', label: 'บทความ', href: '#articles' },
   { id: 'track-order', label: 'ติดตามคำสั่งซื้อ', href: '#track-order' },
   { id: 'help', label: 'ช่วยเหลือ', href: '#help' },
@@ -53,7 +53,7 @@ interface CategoryMenuItem {
 // from the general category catalog, so it can carry entries like "จัดสเปคคอม"
 // that aren't product categories. All rows share one icon color (set below).
 const categoryMenuItems: CategoryMenuItem[] = [
-  { id: 'build', label: 'จัดสเปคคอม', href: '#build', icon: BsTools, hasSubmenu: false, disabled: true },
+  { id: 'build', label: 'จัดสเปคคอม', href: '#build', icon: BsTools, hasSubmenu: false, to: '/build' },
   { id: 'pc-sets', label: 'คอมพิวเตอร์เซตโปรโมชั่น', href: '#category-pc-sets', icon: BsPcDisplay, hasSubmenu: true, to: '/category/pc-sets' },
   { id: 'desktop-pc', label: 'คอมพิวเตอร์ตั้งโต๊ะ', href: '#category-desktop-pc', icon: BsDisplay, hasSubmenu: true, to: '/category/desktop-pc' },
   { id: 'cpu', label: 'ซีพียู', href: '#category-cpu', icon: BsCpu, hasSubmenu: true, to: '/category/cpu' },

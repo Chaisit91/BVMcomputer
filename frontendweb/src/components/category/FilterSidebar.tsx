@@ -122,7 +122,7 @@ export function FilterSidebar({
   onClear,
 }: FilterSidebarProps) {
   return (
-    <aside className="flex w-full shrink-0 flex-col gap-4 lg:w-72">
+    <aside className="flex w-full shrink-0 flex-col gap-4 lg:sticky lg:top-4 lg:w-72">
       {/* Title + count + sort + view toggle */}
       <div className="rounded-xl border border-slate-200 bg-white p-4">
         <div className="flex items-center justify-between">
