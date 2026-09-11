@@ -1,5 +1,7 @@
+import type { MouseEvent } from 'react';
 import { BsMotherboard } from 'react-icons/bs';
 import { FiShoppingCart } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
 import { addToCart } from '../../features/cart/cartSlice';
 import type { MotherboardBadge, MotherboardProduct } from '../../data/motherboardProducts';
@@ -17,7 +19,9 @@ const badgeStyle: Record<MotherboardBadge, string> = {
 export function MotherboardProductCard({ product }: { product: MotherboardProduct }) {
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     dispatch(
       addToCart({
         id: product.id,
@@ -30,7 +34,10 @@ export function MotherboardProductCard({ product }: { product: MotherboardProduc
   };
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-card">
+    <Link
+      to={`/product/motherboard/${product.id}`}
+      className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-card"
+    >
       <div className="relative flex aspect-square items-center justify-center bg-slate-50 p-3">
         <FavoriteButton label={`เพิ่ม ${product.name} ในรายการโปรด`} />
         {product.badge && (
@@ -68,6 +75,6 @@ export function MotherboardProductCard({ product }: { product: MotherboardProduc
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

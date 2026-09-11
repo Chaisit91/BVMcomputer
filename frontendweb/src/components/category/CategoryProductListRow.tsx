@@ -1,5 +1,7 @@
+import type { MouseEvent } from 'react';
 import { BsCpu, BsMotherboard } from 'react-icons/bs';
 import { FiShoppingCart, FiZap } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
 import { addToCart } from '../../features/cart/cartSlice';
 import type { CpuBadge, CpuProduct } from '../../data/cpuProducts';
@@ -17,14 +19,19 @@ const badgeStyle: Record<CpuBadge, string> = {
 export function CategoryProductListRow({ product }: { product: CpuProduct }) {
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     dispatch(
       addToCart({ id: product.id, name: product.name, slug: product.id, price: product.price, category: 'cpu' }),
     );
   };
 
   return (
-    <div className="relative flex min-h-[132px] items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-card">
+    <Link
+      to={`/product/cpu/${product.id}`}
+      className="relative flex min-h-[132px] items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-card"
+    >
       <FavoriteButton label={`เพิ่ม ${product.name} ในรายการโปรด`} />
 
       <div className="relative flex h-28 w-28 shrink-0 items-center justify-center rounded-lg bg-slate-50 p-2">
@@ -68,6 +75,6 @@ export function CategoryProductListRow({ product }: { product: CpuProduct }) {
           <FiShoppingCart size={15} aria-hidden="true" />
         </button>
       </div>
-    </div>
+    </Link>
   );
 }

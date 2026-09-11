@@ -1,5 +1,7 @@
+import type { MouseEvent } from 'react';
 import { BsMemory } from 'react-icons/bs';
 import { FiShoppingCart } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
 import { addToCart } from '../../features/cart/cartSlice';
 import type { RamBadge, RamProduct } from '../../data/ramProducts';
@@ -17,7 +19,9 @@ const badgeStyle: Record<RamBadge, string> = {
 export function RamProductCard({ product }: { product: RamProduct }) {
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     dispatch(
       addToCart({
         id: product.id,
@@ -30,7 +34,10 @@ export function RamProductCard({ product }: { product: RamProduct }) {
   };
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-card">
+    <Link
+      to={`/product/ram/${product.id}`}
+      className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-card"
+    >
       <div className="relative flex aspect-square items-center justify-center bg-slate-50 p-3">
         <FavoriteButton label={`เพิ่ม ${product.name} ในรายการโปรด`} />
         {product.badge && (
@@ -66,6 +73,6 @@ export function RamProductCard({ product }: { product: RamProduct }) {
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

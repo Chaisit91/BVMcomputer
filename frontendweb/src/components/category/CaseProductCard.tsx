@@ -1,5 +1,7 @@
+import type { MouseEvent } from 'react';
 import { PiComputerTower } from 'react-icons/pi';
 import { FiShoppingCart } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
 import { addToCart } from '../../features/cart/cartSlice';
 import type { CaseBadge, CaseProduct } from '../../data/caseProducts';
@@ -17,7 +19,9 @@ const badgeStyle: Record<CaseBadge, string> = {
 export function CaseProductCard({ product }: { product: CaseProduct }) {
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     dispatch(
       addToCart({
         id: product.id,
@@ -30,7 +34,10 @@ export function CaseProductCard({ product }: { product: CaseProduct }) {
   };
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-card">
+    <Link
+      to={`/product/case/${product.id}`}
+      className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-card"
+    >
       <div className="relative flex aspect-square items-center justify-center bg-slate-50 p-3">
         <FavoriteButton label={`เพิ่ม ${product.name} ในรายการโปรด`} />
         {product.badge && (
@@ -68,6 +75,6 @@ export function CaseProductCard({ product }: { product: CaseProduct }) {
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

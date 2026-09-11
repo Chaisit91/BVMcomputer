@@ -14,6 +14,7 @@ import { CoolingCategoryPage } from './pages/CoolingCategoryPage';
 import { DesktopPcCategoryPage } from './pages/DesktopPcCategoryPage';
 import { PcSetCategoryPage } from './pages/PcSetCategoryPage';
 import { BuildCategoryPage } from './pages/BuildCategoryPage';
+import { ProductDetailPage } from './pages/ProductDetailPage';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/category/desktop-pc" element={<DesktopPcCategoryPage />} />
             <Route path="/category/pc-sets" element={<PcSetCategoryPage />} />
             <Route path="/build" element={<BuildCategoryPage />} />
+            <Route path="/product/:category/:id" element={<ProductDetailPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

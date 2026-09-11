@@ -33,6 +33,10 @@ export interface Product {
   badge?: ProductBadge;
   rating?: number;
   reviewCount?: number;
+  /** Optional extras — populated where the source data has them (e.g. the product detail page), used by the cart drawer. */
+  brand?: string;
+  skuCode?: string;
+  imageUrl?: string;
 }
 
 export interface PromoBanner {

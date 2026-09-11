@@ -1,6 +1,8 @@
+import type { MouseEvent } from 'react';
 import { BsCpu, BsGpuCard, BsMemory } from 'react-icons/bs';
 import { FiShoppingCart } from 'react-icons/fi';
 import { PiComputerTower } from 'react-icons/pi';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
 import { addToCart } from '../../features/cart/cartSlice';
 import type { DesktopPcBadge, DesktopPcProduct } from '../../data/desktopPcProducts';
@@ -18,7 +20,9 @@ const badgeStyle: Record<DesktopPcBadge, string> = {
 export function DesktopPcProductListRow({ product }: { product: DesktopPcProduct }) {
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     dispatch(
       addToCart({
         id: product.id,
@@ -31,7 +35,10 @@ export function DesktopPcProductListRow({ product }: { product: DesktopPcProduct
   };
 
   return (
-    <div className="relative flex min-h-[132px] items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-card">
+    <Link
+      to={`/product/desktop-pc/${product.id}`}
+      className="relative flex min-h-[132px] items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-card"
+    >
       <FavoriteButton label={`เพิ่ม ${product.name} ในรายการโปรด`} />
 
       <div className="relative flex h-28 w-28 shrink-0 items-center justify-center rounded-lg bg-slate-50 p-2">
@@ -75,6 +82,6 @@ export function DesktopPcProductListRow({ product }: { product: DesktopPcProduct
           <FiShoppingCart size={15} aria-hidden="true" />
         </button>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -1,5 +1,7 @@
+import type { MouseEvent } from 'react';
 import { BsDeviceSsd } from 'react-icons/bs';
 import { FiShoppingCart } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
 import { addToCart } from '../../features/cart/cartSlice';
 import type { StorageBadge, StorageProduct } from '../../data/storageProducts';
@@ -17,7 +19,9 @@ const badgeStyle: Record<StorageBadge, string> = {
 export function StorageProductCard({ product }: { product: StorageProduct }) {
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     dispatch(
       addToCart({
         id: product.id,
@@ -30,7 +34,10 @@ export function StorageProductCard({ product }: { product: StorageProduct }) {
   };
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-card">
+    <Link
+      to={`/product/storage/${product.id}`}
+      className="flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-card"
+    >
       <div className="relative flex aspect-square items-center justify-center bg-slate-50 p-3">
         <FavoriteButton label={`เพิ่ม ${product.name} ในรายการโปรด`} />
         {product.badge && (
@@ -68,6 +75,6 @@ export function StorageProductCard({ product }: { product: StorageProduct }) {
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
