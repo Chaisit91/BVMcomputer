@@ -37,6 +37,8 @@ export interface Product {
   brand?: string;
   skuCode?: string;
   imageUrl?: string;
+  /** Short "key spec" line (e.g. "CORE i7 · 3.4GHz · 20C 28T") for the cart/checkout item list. */
+  shortSpec?: string;
 }
 
 export interface PromoBanner {

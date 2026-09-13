@@ -230,12 +230,13 @@ export function CartDrawer() {
             </div>
 
             <div className="mt-3 flex flex-col gap-2">
-              <button
-                type="button"
+              <Link
+                to="/checkout"
+                onClick={() => dispatch(closeCart())}
                 className="flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
               >
                 ดำเนินการสั่งซื้อ →
-              </button>
+              </Link>
               <Link
                 to="/cart"
                 onClick={() => dispatch(closeCart())}

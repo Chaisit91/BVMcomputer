@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import type { IconType } from 'react-icons';
 import {
   BsCpu,
@@ -70,6 +70,7 @@ const tabs: { id: TabId; label: string }[] = [
 
 export function ProductDetailPage() {
   const { category, id } = useParams<{ category: string; id: string }>();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<TabId>('specs');
@@ -103,9 +104,15 @@ export function ProductDetailPage() {
           brand: product.brand,
           skuCode: product.skuCode,
           imageUrl: product.imageUrl,
+          shortSpec: product.tags.slice(-3).join(' · '),
         }),
       );
     }
+  };
+
+  const handleBuyNow = () => {
+    handleAddToCart();
+    navigate('/checkout');
   };
 
   return (
@@ -250,7 +257,7 @@ export function ProductDetailPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={handleAddToCart}
+                  onClick={handleBuyNow}
                   className="flex flex-1 items-center justify-center gap-2 rounded-full bg-brand py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
                 >
                   <PiLightningFill size={18} aria-hidden="true" />

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiChevronRight, FiMinus, FiPlus, FiShoppingCart, FiTag, FiTrash2 } from 'react-icons/fi';
 import { Container } from '../components/ui/Container';
 import { serviceBadges } from '../data/serviceBadges';
@@ -20,6 +20,7 @@ const VAT_RATE = 0.07;
 
 export function CartPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const items = useAppSelector(selectCartItems);
 
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set(items.map((item) => item.product.id)));
@@ -316,6 +317,7 @@ export function CartPage() {
                 <button
                   type="button"
                   disabled={selectedItems.length === 0}
+                  onClick={() => navigate('/checkout')}
                   className="mt-4 flex h-12 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   ดำเนินการสั่งซื้อ →
