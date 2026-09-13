@@ -15,6 +15,7 @@ import { DesktopPcCategoryPage } from './pages/DesktopPcCategoryPage';
 import { PcSetCategoryPage } from './pages/PcSetCategoryPage';
 import { BuildCategoryPage } from './pages/BuildCategoryPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
+import { CartPage } from './pages/CartPage';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route path="/category/pc-sets" element={<PcSetCategoryPage />} />
             <Route path="/build" element={<BuildCategoryPage />} />
             <Route path="/product/:category/:id" element={<ProductDetailPage />} />
+            <Route path="/cart" element={<CartPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

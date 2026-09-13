@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { FiMinus, FiPlus, FiShoppingCart, FiTrash2, FiX } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { addToCart, clearCart, removeFromCart, setQuantity } from '../../features/cart/cartSlice';
 import { closeCart } from '../../features/cart/cartUiSlice';
@@ -235,13 +236,13 @@ export function CartDrawer() {
               >
                 ดำเนินการสั่งซื้อ →
               </button>
-              <button
-                type="button"
+              <Link
+                to="/cart"
                 onClick={() => dispatch(closeCart())}
                 className="flex h-10 w-full items-center justify-center rounded-full border border-brand text-sm font-semibold text-brand transition-colors hover:bg-brand/5"
               >
                 ดูตะกร้าสินค้าทั้งหมด
-              </button>
+              </Link>
             </div>
           </div>
         )}

@@ -1,20 +1,5 @@
-import type { IconType } from 'react-icons';
-import { BsArrowRepeat, BsFileEarmarkCheck, BsStopwatch, BsTruck } from 'react-icons/bs';
 import { Container } from '../ui/Container';
-
-interface ServiceBadge {
-  id: string;
-  icon: IconType;
-  title: string;
-  subtitle: string;
-}
-
-const serviceBadges: ServiceBadge[] = [
-  { id: 'shipping', icon: BsTruck, title: 'ส่งฟรีทั่วไทย', subtitle: 'เมื่อซื้อครบ 5,000 ขึ้นไป' },
-  { id: 'return', icon: BsArrowRepeat, title: 'เปลี่ยนคืนสินค้าง่าย', subtitle: 'เปลี่ยนใหม่ภายใน 7 วัน' },
-  { id: 'service', icon: BsStopwatch, title: 'รวดเร็วในการให้บริการ', subtitle: 'ตอบด่วน ตอบไว' },
-  { id: 'payment', icon: BsFileEarmarkCheck, title: 'ชำระเงินปลอดภัย', subtitle: 'ด้วยระบบออนไลน์' },
-];
+import { serviceBadges } from '../../data/serviceBadges';
 
 /** Four standalone service-badge cards — used at the bottom of the homepage and category pages alike. */
 export function ServiceBadges() {
