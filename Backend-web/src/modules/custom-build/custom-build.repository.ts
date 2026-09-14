@@ -67,4 +67,9 @@ export const customBuildRepository = {
   },
 
   remove: (id: string) => prisma.customBuild.delete({ where: { id } }),
+
+  setAiPreviewImage: async (id: string, imageUrl: string) => {
+    await prisma.customBuild.update({ where: { id }, data: { aiPreviewImageUrl: imageUrl } })
+    return customBuildRepository.findById(id)
+  },
 }

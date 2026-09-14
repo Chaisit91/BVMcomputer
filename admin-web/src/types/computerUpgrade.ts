@@ -7,6 +7,10 @@ export interface ComputerUpgradeItem {
   slot: ComponentSlot
   oldItemDescription: string
   oldItemPhotoUrl: string | null
+  // Customer's stated intent from their own submission (once the storefront
+  // exists) — "I want this slot upgraded" — separate from newProductId,
+  // which is the admin's/AI's actual catalog resolution of that request.
+  customerWantsUpgrade: boolean
   newProductId: string | null
   newProductName: string | null
   newProductSku: string | null

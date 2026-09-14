@@ -40,6 +40,9 @@ export interface CustomBuild {
   prices: CustomBuildPrices
   total: number
   notes: string
+  // Rendered by the teammate's AI service from the chosen components — null
+  // until that's wired up or an admin manually attaches one to review.
+  aiPreviewImageUrl: string | null
   createdAt: string
   updatedAt: string
 }

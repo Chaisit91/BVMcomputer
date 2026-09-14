@@ -8,4 +8,5 @@ export const customBuildService = {
   create: (data: unknown) => customBuildRepository.create(data),
   update: (id: string, data: unknown) => customBuildRepository.update(id, data),
   remove: (id: string) => customBuildRepository.remove(id),
+  setAiPreviewImage: (id: string, imageUrl: string) => customBuildRepository.setAiPreviewImage(id, imageUrl),
 }

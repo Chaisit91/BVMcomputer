@@ -33,7 +33,14 @@ function shape(row: any) {
 // Item fields the main "save" form is allowed to touch — oldItemPhotoUrl and
 // the verified* fields are managed by their own dedicated endpoints
 // (photo upload, verify) so a routine edit can never silently wipe them.
-const EDITABLE_ITEM_FIELDS = ['slot', 'oldItemDescription', 'newProductId', 'newProductPrice', 'aiRecommendation']
+const EDITABLE_ITEM_FIELDS = [
+  'slot',
+  'oldItemDescription',
+  'customerWantsUpgrade',
+  'newProductId',
+  'newProductPrice',
+  'aiRecommendation',
+]
 
 function pickEditableItemFields(item: Record<string, unknown>): any {
   const picked: Record<string, unknown> = {}

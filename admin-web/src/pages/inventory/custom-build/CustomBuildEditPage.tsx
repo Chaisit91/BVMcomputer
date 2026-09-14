@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
 import { useForm } from 'react-hook-form'
-import { FiSave, FiX } from 'react-icons/fi'
+import { FiImage, FiSave, FiUpload, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { ProductPicker } from '../../../components/ui/ProductPicker'
 import { customBuildEditSchema, type CustomBuildEditFormValues } from '../../../schemas/customBuild.schema'
-import { getCustomBuildDetail, saveCustomBuild } from '../../../services/customBuild.service'
+import { getCustomBuildDetail, saveCustomBuild, uploadAiPreviewImage } from '../../../services/customBuild.service'
 import { COMPONENT_SLOTS, COMPONENT_SLOT_LABELS, COMPONENT_SLOT_TO_API_CATEGORY } from '../../../types/componentSlots'
 import type { BuildStatus, CustomBuild } from '../../../types/customBuild'
 
@@ -31,6 +32,9 @@ export function CustomBuildEditPage({ readOnly = false }: { readOnly?: boolean }
   const navigate = useNavigate()
   const [status, setStatus] = useState<LoadStatus>('loading')
   const [detail, setDetail] = useState<CustomBuild | null>(null)
+  const [uploadingImage, setUploadingImage] = useState(false)
+  const [uploadError, setUploadError] = useState('')
+  const imageInputRef = useRef<HTMLInputElement>(null)
 
   const {
     register,
@@ -79,6 +83,35 @@ export function CustomBuildEditPage({ readOnly = false }: { readOnly?: boolean }
   const onSubmit = async (values: CustomBuildEditFormValues) => {
     await saveCustomBuild(orderId, values)
     navigate('/inventory/custom-build')
+  }
+
+  const MAX_IMAGE_BYTES = 5 * 1024 * 1024
+
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+    if (!file) return
+
+    setUploadError('')
+    if (!file.type.startsWith('image/')) {
+      setUploadError('เลือกไฟล์รูปภาพเท่านั้น')
+      return
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      setUploadError('ไฟล์ต้องมีขนาดไม่เกิน 5MB')
+      return
+    }
+
+    setUploadingImage(true)
+    try {
+      const updated = await uploadAiPreviewImage(orderId, file)
+      setDetail(updated)
+    } catch (err) {
+      const serverMessage = axios.isAxiosError(err) ? (err.response?.data as { message?: string })?.message : undefined
+      setUploadError(serverMessage ?? 'อัปโหลดรูปไม่สำเร็จ กรุณาลองใหม่')
+    } finally {
+      setUploadingImage(false)
+    }
   }
 
   if (status === 'loading') {
@@ -179,6 +212,7 @@ export function CustomBuildEditPage({ readOnly = false }: { readOnly?: boolean }
                     onChange={(productId) => setValue(`components.${slot}`, productId)}
                     disabled={readOnly}
                     className={inputClass}
+                    selectedLabel={detail.components[slot]}
                   />
                   {errors.components?.[slot] && (
                     <p className="mt-1 text-xs text-red-500">{errors.components[slot]?.message}</p>
@@ -218,6 +252,44 @@ export function CustomBuildEditPage({ readOnly = false }: { readOnly?: boolean }
             </div>
           </section>
         </div>
+
+        <section className="mt-6 rounded-2xl border border-gray-100 bg-white p-5">
+          <h2 className="mb-1 flex items-center gap-2 text-sm font-semibold text-gray-800">
+            <FiImage className="text-gray-400" />
+            รูปตัวอย่างจาก AI
+          </h2>
+          <p className="mb-4 text-xs text-gray-400">
+            รูปที่ AI สร้างประกอบจากสเปกที่เลือก — ใช้ตรวจดูว่ารูปที่ได้ตรงกับที่ลูกค้าเลือกและดูดีไหม
+          </p>
+          {uploadError && <p className="mb-3 text-xs text-red-500">{uploadError}</p>}
+          <div className="flex flex-wrap items-start gap-4">
+            {detail.aiPreviewImageUrl ? (
+              <img
+                src={detail.aiPreviewImageUrl}
+                alt={`รูปตัวอย่าง AI ของ ${detail.customer}`}
+                className="h-48 w-48 rounded-xl border border-gray-100 object-cover"
+              />
+            ) : (
+              <div className="flex h-48 w-48 items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-center text-xs text-gray-400">
+                ยังไม่มีรูปตัวอย่างจาก AI
+              </div>
+            )}
+            {!readOnly && (
+              <div>
+                <input ref={imageInputRef} type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+                <button
+                  type="button"
+                  disabled={uploadingImage}
+                  onClick={() => imageInputRef.current?.click()}
+                  className="flex items-center gap-1.5 rounded-xl border border-gray-200 px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-60"
+                >
+                  <FiUpload size={14} />
+                  {uploadingImage ? 'กำลังอัปโหลด...' : detail.aiPreviewImageUrl ? 'เปลี่ยนรูป' : 'แนบรูปตัวอย่าง'}
+                </button>
+              </div>
+            )}
+          </div>
+        </section>
       </form>
     </main>
   )

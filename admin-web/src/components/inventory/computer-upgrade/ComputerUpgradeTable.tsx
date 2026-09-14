@@ -1,7 +1,8 @@
-import { FiEdit2, FiEye } from 'react-icons/fi'
+import { FiArrowRight, FiEdit2, FiEye } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../ui/Badge'
 import { formatDateTime } from '../../../lib/formatDate'
+import { COMPONENT_SLOT_LABELS } from '../../../types/componentSlots'
 import { computerUpgradeStatusMeta, type ComputerUpgrade } from '../../../types/computerUpgrade'
 
 const badgeVariantMap: Record<string, 'success' | 'warning' | 'info' | 'neutral'> = {
@@ -11,7 +12,7 @@ const badgeVariantMap: Record<string, 'success' | 'warning' | 'info' | 'neutral'
   'bg-gray-100 text-gray-500': 'neutral',
 }
 
-const columns = ['ลำดับ', 'ชื่อลูกค้า', 'วันที่บันทึก', 'จำนวนชิ้นที่อัพเกรด', 'ตรวจสอบแล้ว', 'สถานะ', 'การจัดการ']
+const columns = ['ลำดับ', 'ชื่อลูกค้า', 'วันที่บันทึก', 'ของเดิม → ของใหม่', 'ตรวจสอบแล้ว', 'สถานะ', 'การจัดการ']
 
 export function ComputerUpgradeTable({ upgrades }: { upgrades: ComputerUpgrade[] }) {
   if (upgrades.length === 0) {
@@ -39,7 +40,28 @@ export function ComputerUpgradeTable({ upgrades }: { upgrades: ComputerUpgrade[]
                 <td className="py-3 pr-4 text-gray-500">{index + 1}</td>
                 <td className="py-3 pr-4 font-medium text-gray-800">{upgrade.customerName}</td>
                 <td className="py-3 pr-4 text-gray-400">{formatDateTime(upgrade.createdAt)}</td>
-                <td className="py-3 pr-4 text-gray-600">{upgrade.items.length} ชิ้น</td>
+                <td className="whitespace-normal py-3 pr-4">
+                  {upgrade.items.length === 0 ? (
+                    <span className="text-xs text-gray-400">ยังไม่มีรายการ</span>
+                  ) : (
+                    <ul className="min-w-[260px] space-y-1">
+                      {upgrade.items.map((item) => (
+                        <li key={item.id} className="flex items-center gap-1.5 text-xs">
+                          <span className="w-16 shrink-0 font-medium text-gray-500">
+                            {COMPONENT_SLOT_LABELS[item.slot]}
+                          </span>
+                          <span className="min-w-0 flex-1 truncate text-gray-600">
+                            {item.oldItemDescription || 'ไม่ทราบของเดิม'}
+                          </span>
+                          <FiArrowRight className="shrink-0 text-gray-300" size={11} />
+                          <span className="min-w-0 flex-1 truncate font-medium text-gray-800">
+                            {item.newProductName ?? 'ยังไม่เลือก'}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </td>
                 <td className="py-3 pr-4 text-gray-600">
                   {verifiedCount} / {upgrade.items.length}
                 </td>

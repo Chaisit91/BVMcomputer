@@ -491,8 +491,13 @@ model CustomBuild {
   customerNameSnapshot String
   status               BuildStatus @default(pending)
   notes                String      @default("")
-  createdAt            DateTime    @default(now())
-  updatedAt            DateTime    @updatedAt
+  // Rendered by the teammate's AI service from the chosen components — this
+  // model only stores/displays it (same pattern as ComputerUpgradeItem's
+  // aiRecommendation), so admin can review whether the generated image
+  // actually looks right for what the customer picked.
+  aiPreviewImageUrl String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
 
   components CustomBuildComponent[]
 
@@ -527,6 +532,9 @@ model ComputerUpgrade {
   // Keeps the name even if there's no linked account (guest) or the
   // customer's profile name later changes — same snapshot rationale as Order.
   customerNameSnapshot String
+  // No customer login exists yet — this is how admin follows up on a
+  // self-submitted request when there's no linked Customer account.
+  customerPhone        String                @default("")
   status               ComputerUpgradeStatus @default(pending_review)
   notes                String                @default("")
   createdAt            DateTime              @default(now())
@@ -547,6 +555,10 @@ model ComputerUpgradeItem {
   // so it's free text + an optional photo, not a ProductPicker selection.
   oldItemDescription String  @default("")
   oldItemPhotoUrl    String?
+  // Customer's stated intent from the (future) public submission form — "I
+  // want this slot upgraded" — separate from newProductId, which is the
+  // admin's/AI's actual catalog resolution of that request, set later.
+  customerWantsUpgrade Boolean @default(false)
 
   // What they're upgrading to — a real catalog Product, same as every other
   // component-slot bundle (Desktop PC / Promo Set / Custom Build).

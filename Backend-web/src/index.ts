@@ -9,6 +9,7 @@ import { adminRouter } from './modules/admin/admin.router'
 import { authRouter } from './modules/auth/auth.router'
 import { bannerRouter } from './modules/banner/banner.router'
 import { caseRouter } from './modules/case/case.router'
+import { computerUpgradePublicRouter } from './modules/computer-upgrade/computer-upgrade-public.router'
 import { computerUpgradeRouter } from './modules/computer-upgrade/computer-upgrade.router'
 import { coolingRouter } from './modules/cooling/cooling.router'
 import { customBuildRouter } from './modules/custom-build/custom-build.router'
@@ -63,6 +64,10 @@ app.use('/api/desktop-pcs', ...inventory, desktopPcRouter)
 app.use('/api/promo-sets', ...inventory, promoSetRouter)
 app.use('/api/custom-builds', ...inventory, customBuildRouter)
 app.use('/api/computer-upgrades', ...inventory, computerUpgradeRouter)
+// No auth — the storefront (not built yet) will POST here directly once it
+// exists. Add its dev/prod origin to CORS_ORIGIN in .env when that happens,
+// same as admin-web's origins are listed there today.
+app.use('/api/public/computer-upgrades', computerUpgradePublicRouter)
 app.use('/api/customers', ...sales, customerRouter)
 app.use('/api/orders', ...sales, orderRouter)
 app.use('/api/banners', ...content, bannerRouter)

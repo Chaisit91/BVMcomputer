@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
-import { FiCheckCircle, FiSave, FiTrash2, FiUpload, FiX } from 'react-icons/fi'
+import { FiArrowRight, FiCheckCircle, FiMonitor, FiRefreshCw, FiSave, FiTrash2, FiUpload, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ProductPicker } from '../../../components/ui/ProductPicker'
 import { formatDateTime } from '../../../lib/formatDate'
@@ -220,15 +220,64 @@ export function ComputerUpgradeEditPage({ readOnly = false }: { readOnly?: boole
         </section>
 
         <section className="mt-6 rounded-2xl border border-gray-100 bg-white p-5">
+          <h2 className="mb-1 flex items-center gap-2 text-sm font-semibold text-gray-800">
+            <FiMonitor className="text-gray-400" />
+            สรุปสเปกทั้งเครื่องหลังอัพเกรด
+          </h2>
+          <p className="mb-4 text-xs text-gray-400">
+            รวมของเดิมที่ไม่เปลี่ยน + ของใหม่ที่อัพเกรดแล้ว เป็นสเปกจริงของเครื่องทั้งชุด — ใช้ส่งให้ AI ตรวจความเข้ากันได้ทั้งเครื่อง
+          </p>
+          <div className="grid grid-cols-1 gap-x-6 gap-y-2 rounded-xl bg-gray-50 p-4 sm:grid-cols-2">
+            {COMPONENT_SLOTS.map((slot, index) => {
+              const isUpgrading = Boolean(items?.[index]?.newProductId)
+              const existing = detail.items.find((item) => item.slot === slot)
+              const effectiveItem = isUpgrading
+                ? (existing?.newProductName ?? 'กำลังเลือกสินค้าใหม่...')
+                : items?.[index]?.oldItemDescription || 'ไม่ทราบของเดิม'
+              return (
+                <div key={slot} className="flex items-center gap-2 text-sm">
+                  <span className="w-20 shrink-0 font-medium text-gray-500">{COMPONENT_SLOT_LABELS[slot]}</span>
+                  <span className={`min-w-0 flex-1 truncate ${isUpgrading ? 'font-medium text-rose-600' : 'text-gray-700'}`}>
+                    {effectiveItem}
+                  </span>
+                  {isUpgrading && (
+                    <span className="flex shrink-0 items-center gap-1 rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-medium text-rose-600">
+                      <FiRefreshCw size={10} />
+                      ของใหม่
+                    </span>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </section>
+
+        <section className="mt-6 rounded-2xl border border-gray-100 bg-white p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">รายการชิ้นส่วนที่อัพเกรด</h2>
           {uploadError && <p className="mb-3 text-xs text-red-500">{uploadError}</p>}
           <div className="space-y-4">
             {COMPONENT_SLOTS.map((slot, index) => {
               const existing = detail.items.find((item) => item.slot === slot)
+              const isUpgrading = Boolean(items?.[index]?.newProductId)
               return (
-                <div key={slot} className="rounded-xl border border-gray-100 p-4">
+                <div
+                  key={slot}
+                  className={`rounded-xl border p-4 ${isUpgrading ? 'border-rose-200 bg-rose-50/40' : 'border-gray-100'}`}
+                >
                   <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-                    <p className="text-sm font-semibold text-gray-800">{COMPONENT_SLOT_LABELS[slot]}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm font-semibold text-gray-800">{COMPONENT_SLOT_LABELS[slot]}</p>
+                      {isUpgrading ? (
+                        <span className="flex items-center gap-1 rounded-full bg-rose-100 px-2 py-0.5 text-[11px] font-medium text-rose-600">
+                          <FiRefreshCw size={10} />
+                          กำลังอัพเกรดชิ้นนี้
+                        </span>
+                      ) : (
+                        <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-500">
+                          ไม่มีการเปลี่ยนแปลง
+                        </span>
+                      )}
+                    </div>
                     {existing?.verifiedByAdmin ? (
                       <span className="flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-600">
                         <FiCheckCircle size={12} />
@@ -246,6 +295,20 @@ export function ComputerUpgradeEditPage({ readOnly = false }: { readOnly?: boole
                           {verifyingSlot === slot ? 'กำลังยืนยัน...' : 'ยืนยันว่าตรวจสอบแล้ว'}
                         </button>
                       )
+                    )}
+                  </div>
+
+                  <div className="mb-3 flex flex-wrap items-center gap-1.5 text-sm">
+                    <span className="text-gray-600">
+                      {items?.[index]?.oldItemDescription || <span className="italic text-gray-400">ยังไม่ระบุของเดิม</span>}
+                    </span>
+                    {isUpgrading && (
+                      <>
+                        <FiArrowRight className="text-gray-300" size={13} />
+                        <span className="font-medium text-rose-600">
+                          {existing?.newProductName ?? 'กำลังเลือกสินค้าใหม่...'}
+                        </span>
+                      </>
                     )}
                   </div>
 
@@ -308,6 +371,7 @@ export function ComputerUpgradeEditPage({ readOnly = false }: { readOnly?: boole
                         onChange={(productId) => setValue(`items.${index}.newProductId`, productId)}
                         disabled={readOnly}
                         className={inputClass}
+                        selectedLabel={existing?.newProductName ?? undefined}
                       />
                     </div>
                     <div>

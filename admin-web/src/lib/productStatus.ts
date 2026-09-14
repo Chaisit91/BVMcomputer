@@ -3,8 +3,9 @@
 // Backend-web/src/lib/stockStatus.ts's deriveDisplayStatus). A form can only
 // ever submit one of the 4 real ProductStatus values, so when populating an
 // edit form from a fetched row, map either derived label back to "active".
-const DERIVED_STATUSES = new Set(['low_stock', 'out_of_stock'])
+type DerivedStatus = 'low_stock' | 'out_of_stock'
+const DERIVED_STATUSES = new Set<string>(['low_stock', 'out_of_stock'] satisfies DerivedStatus[])
 
-export function toEditableStatus<T extends string>(status: T): T {
-  return (DERIVED_STATUSES.has(status) ? 'active' : status) as T
+export function toEditableStatus<T extends string>(status: T): Exclude<T, DerivedStatus> {
+  return (DERIVED_STATUSES.has(status) ? 'active' : status) as Exclude<T, DerivedStatus>
 }

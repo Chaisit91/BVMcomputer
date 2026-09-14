@@ -13,6 +13,7 @@ const statusMap: Record<BuildStatus, { label: string; variant: 'success' | 'warn
 
 const columns = [
   'ลำดับ',
+  'รูป AI',
   'เลขออเดอร์',
   'ชื่อลูกค้า',
   'วันที่บันทึก',
@@ -50,6 +51,15 @@ export function CustomBuildTable({ builds }: { builds: CustomBuild[] }) {
           {builds.map((build, index) => (
             <tr key={build.id} className="whitespace-nowrap">
               <td className="py-3 pr-4 text-gray-500">{index + 1}</td>
+              <td className="py-3 pr-4">
+                {build.aiPreviewImageUrl ? (
+                  <img src={build.aiPreviewImageUrl} alt={`รูปตัวอย่าง AI ของ ${build.customer}`} className="h-10 w-10 rounded-lg object-cover" />
+                ) : (
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-50 text-[10px] text-gray-300">
+                    ไม่มี
+                  </div>
+                )}
+              </td>
               <td className="py-3 pr-4 font-medium text-gray-800">{build.orderNo}</td>
               <td className="py-3 pr-4 text-gray-600">{build.customer}</td>
               <td className="py-3 pr-4 text-gray-400">{formatDateTime(build.createdAt)}</td>

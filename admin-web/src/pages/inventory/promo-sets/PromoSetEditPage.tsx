@@ -288,6 +288,7 @@ export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
                       onChange={(productId) => setValue(`components.${slot}`, productId)}
                       disabled={readOnly}
                       className={inputClass}
+                      selectedLabel={detail.components[slot]}
                     />
                     {errors.components?.[slot] && (
                       <p className="mt-1 text-xs text-red-500">{errors.components[slot]?.message}</p>
