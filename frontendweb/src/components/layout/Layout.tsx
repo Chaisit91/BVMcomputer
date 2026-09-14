@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { Header } from './Header';
 import { CategoryNav } from './CategoryNav';
+import { StickyHeader } from './StickyHeader';
 import { Footer } from './Footer';
 import { CartDrawer } from '../cart/CartDrawer';
 
@@ -8,6 +9,8 @@ import { CartDrawer } from '../cart/CartDrawer';
 export function Layout() {
   return (
     <div id="top" className="flex min-h-screen flex-col bg-white">
+      <StickyHeader />
+
       <Header />
       <CategoryNav />
 

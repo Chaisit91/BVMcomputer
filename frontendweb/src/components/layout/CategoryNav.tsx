@@ -1,21 +1,7 @@
-import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import type { IconType } from 'react-icons';
-import {
-  BsCpu,
-  BsDisplay,
-  BsGpuCard,
-  BsHdd,
-  BsMemory,
-  BsMotherboard,
-  BsPcDisplay,
-  BsPlug,
-  BsSnow2,
-  BsTools,
-} from 'react-icons/bs';
 import { FiChevronRight, FiGrid } from 'react-icons/fi';
-import { PiComputerTower } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import { Container } from '../ui/Container';
+import { CategoryMenuDropdown } from './CategoryMenuDropdown';
 
 interface NavLink {
   id: string;
@@ -35,91 +21,19 @@ const navLinks: NavLink[] = [
   { id: 'help', label: 'ช่วยเหลือ', href: '#help' },
 ];
 
-interface CategoryMenuItem {
-  id: string;
-  label: string;
-  href: string;
-  icon: IconType;
-  /** Per-row icon size override — defaults to 18 when omitted. */
-  iconSize?: number;
-  hasSubmenu: boolean;
-  /** Real route, when this category has an actual listing page built. */
-  to?: string;
-  /** TODO(build-page): no destination yet — clicking does nothing until it's built. */
-  disabled?: boolean;
-}
-
-// A curated, hand-ordered menu for the "หมวดหมู่สินค้า" dropdown — distinct
-// from the general category catalog, so it can carry entries like "จัดสเปคคอม"
-// that aren't product categories. All rows share one icon color (set below).
-const categoryMenuItems: CategoryMenuItem[] = [
-  { id: 'build', label: 'จัดสเปคคอม', href: '#build', icon: BsTools, hasSubmenu: false, to: '/build' },
-  { id: 'pc-sets', label: 'คอมพิวเตอร์เซตโปรโมชั่น', href: '#category-pc-sets', icon: BsPcDisplay, hasSubmenu: true, to: '/category/pc-sets' },
-  { id: 'desktop-pc', label: 'คอมพิวเตอร์ตั้งโต๊ะ', href: '#category-desktop-pc', icon: BsDisplay, hasSubmenu: true, to: '/category/desktop-pc' },
-  { id: 'cpu', label: 'ซีพียู', href: '#category-cpu', icon: BsCpu, hasSubmenu: true, to: '/category/cpu' },
-  { id: 'gpu', label: 'การ์ดจอ', href: '#category-gpu', icon: BsGpuCard, hasSubmenu: true, to: '/category/gpu' },
-  { id: 'motherboard', label: 'เมนบอร์ด', href: '#category-motherboard', icon: BsMotherboard, hasSubmenu: true, to: '/category/motherboard' },
-  { id: 'ram', label: 'แรม', href: '#category-ram', icon: BsMemory, hasSubmenu: true, to: '/category/ram' },
-  { id: 'storage', label: 'ฮาร์ดดิสก์ และ เอสเอสดี', href: '#category-storage', icon: BsHdd, hasSubmenu: true, to: '/category/storage' },
-  { id: 'psu', label: 'พาวเวอร์ซัพพลาย', href: '#category-psu', icon: BsPlug, hasSubmenu: true, to: '/category/psu' },
-  { id: 'case', label: 'เคส', href: '#category-case', icon: PiComputerTower, hasSubmenu: true, to: '/category/case' },
-  { id: 'cooling', label: 'ชุดระบายความร้อน', href: '#category-cooling', icon: BsSnow2, hasSubmenu: true, to: '/category/cooling' },
-];
-
-const menuItemClassName =
-  'flex cursor-pointer select-none items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-sm text-ink outline-none hover:bg-slate-50 focus:bg-slate-50';
-
 export function CategoryNav() {
   return (
     <div className="border-b border-slate-100 bg-white">
       <Container className="flex h-12 items-center justify-between gap-6">
-        <DropdownMenu.Root modal={false}>
-          <DropdownMenu.Trigger asChild>
+        <CategoryMenuDropdown
+          trigger={
             <button className="flex items-center gap-2 rounded-lg bg-[#f6f9fc] px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100">
               <FiGrid size={20} className="text-ink" aria-hidden="true" />
               หมวดหมู่สินค้า
               <FiChevronRight size={14} className="text-slate-400" aria-hidden="true" />
             </button>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Portal>
-            <DropdownMenu.Content
-              align="start"
-              sideOffset={8}
-              className="z-50 flex max-h-[420px] w-80 flex-col overflow-y-auto rounded-xl border border-slate-200 bg-white p-2 shadow-card"
-            >
-              {categoryMenuItems.map((item) => {
-                const content = (
-                  <>
-                    <span className="flex min-w-0 items-center gap-3">
-                      <item.icon size={item.iconSize ?? 18} className="shrink-0 text-[#2B3445]" aria-hidden="true" />
-                      <span className="truncate">{item.label}</span>
-                    </span>
-                    {item.hasSubmenu && (
-                      <FiChevronRight size={14} className="shrink-0 text-slate-300" aria-hidden="true" />
-                    )}
-                  </>
-                );
-                return (
-                  <DropdownMenu.Item key={item.id} asChild>
-                    {item.to ? (
-                      <Link to={item.to} className={menuItemClassName}>
-                        {content}
-                      </Link>
-                    ) : (
-                      <a
-                        href={item.href}
-                        onClick={item.disabled ? (e) => e.preventDefault() : undefined}
-                        className={menuItemClassName}
-                      >
-                        {content}
-                      </a>
-                    )}
-                  </DropdownMenu.Item>
-                );
-              })}
-            </DropdownMenu.Content>
-          </DropdownMenu.Portal>
-        </DropdownMenu.Root>
+          }
+        />
 
         <nav className="hidden items-center gap-6 text-sm font-medium text-ink md:flex">
           {navLinks.map((link) =>
