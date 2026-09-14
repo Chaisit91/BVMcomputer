@@ -9,6 +9,7 @@ import { adminRouter } from './modules/admin/admin.router'
 import { authRouter } from './modules/auth/auth.router'
 import { bannerRouter } from './modules/banner/banner.router'
 import { caseRouter } from './modules/case/case.router'
+import { computerUpgradeRouter } from './modules/computer-upgrade/computer-upgrade.router'
 import { coolingRouter } from './modules/cooling/cooling.router'
 import { customBuildRouter } from './modules/custom-build/custom-build.router'
 import { customerRouter } from './modules/customer/customer.router'
@@ -61,6 +62,7 @@ app.use('/api/coolings', ...inventory, coolingRouter)
 app.use('/api/desktop-pcs', ...inventory, desktopPcRouter)
 app.use('/api/promo-sets', ...inventory, promoSetRouter)
 app.use('/api/custom-builds', ...inventory, customBuildRouter)
+app.use('/api/computer-upgrades', ...inventory, computerUpgradeRouter)
 app.use('/api/customers', ...sales, customerRouter)
 app.use('/api/orders', ...sales, orderRouter)
 app.use('/api/banners', ...content, bannerRouter)

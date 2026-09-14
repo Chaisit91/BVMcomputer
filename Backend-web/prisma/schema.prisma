@@ -83,6 +83,13 @@ enum BuildStatus {
   cancelled
 }
 
+enum ComputerUpgradeStatus {
+  pending_review
+  in_progress
+  completed
+  cancelled
+}
+
 enum CustomerStatus {
   active
   inactive
@@ -161,10 +168,11 @@ model Product {
   desktopPc DesktopPc?
   promoSet  PromoSet?
 
-  desktopPcSlots   DesktopPcComponent[]
-  promoSetSlots    PromoSetComponent[]
-  customBuildSlots CustomBuildComponent[]
-  orderLineItems   OrderLineItem[]
+  desktopPcSlots       DesktopPcComponent[]
+  promoSetSlots        PromoSetComponent[]
+  customBuildSlots     CustomBuildComponent[]
+  computerUpgradeSlots ComputerUpgradeItem[]
+  orderLineItems       OrderLineItem[]
 
   @@index([category])
   @@index([status])
@@ -414,8 +422,9 @@ model Customer {
   shippingAddress String         @default("")
   note            String         @default("")
 
-  orders       Order[]
-  customBuilds CustomBuild[]
+  orders           Order[]
+  customBuilds     CustomBuild[]
+  computerUpgrades ComputerUpgrade[]
 }
 
 // customerName/Phone/shippingAddress stay on Order (not just via the Customer
@@ -504,6 +513,65 @@ model CustomBuildComponent {
   @@index([productId])
 }
 
+// A customer's request to upgrade a PC they already own (not build a new
+// one) — separate from CustomBuild because the source data is fundamentally
+// different: the "old" side is whatever the customer says/shows it is (free
+// text + a photo, not a catalog Product), while the "new" side is a real
+// catalog Product like every other bundle here. Admin can create a blank one
+// from scratch (no items yet) so the storefront submission flow isn't a hard
+// dependency — see ComputerUpgradeItem's admin verification fields below.
+model ComputerUpgrade {
+  id                   String                @id @default(cuid())
+  customer             Customer?             @relation(fields: [customerId], references: [id])
+  customerId           String?
+  // Keeps the name even if there's no linked account (guest) or the
+  // customer's profile name later changes — same snapshot rationale as Order.
+  customerNameSnapshot String
+  status               ComputerUpgradeStatus @default(pending_review)
+  notes                String                @default("")
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+
+  items ComputerUpgradeItem[]
+
+  @@index([customerId])
+}
+
+model ComputerUpgradeItem {
+  id        String          @id @default(cuid())
+  upgrade   ComputerUpgrade @relation(fields: [upgradeId], references: [id], onDelete: Cascade)
+  upgradeId String
+  slot      PartCategory
+
+  // What the customer says they currently have — never a catalog Product,
+  // so it's free text + an optional photo, not a ProductPicker selection.
+  oldItemDescription String  @default("")
+  oldItemPhotoUrl    String?
+
+  // What they're upgrading to — a real catalog Product, same as every other
+  // component-slot bundle (Desktop PC / Promo Set / Custom Build).
+  newProduct   Product? @relation(fields: [newProductId], references: [id])
+  newProductId String?
+  // Snapshot at quote time — same rationale as CustomBuildComponent.price,
+  // the catalog price can move later without changing what was quoted.
+  newProductPrice Decimal? @db.Decimal(10, 2)
+
+  // Filled in by the teammate's AI service — this model only stores/displays
+  // it, generation happens elsewhere.
+  aiRecommendation String?
+
+  // Audit trail separate from "data exists": an admin explicitly confirming
+  // the old-item description/photo matches reality, not just that a customer
+  // (or another admin) typed something into the field.
+  verifiedByAdmin Boolean       @default(false)
+  verifiedAt      DateTime?
+  verifiedBy      AdminAccount? @relation(fields: [verifiedById], references: [id])
+  verifiedById    String?
+
+  @@unique([upgradeId, slot])
+  @@index([newProductId])
+}
+
 // ---------- Marketing ----------
 
 // "expired" is derived at read time from endDate, not stored, so it can
@@ -559,6 +627,8 @@ model AdminAccount {
 
   roleHistory  AdminRoleHistory[]
   loginHistory AdminLoginHistory[]
+
+  verifiedUpgradeItems ComputerUpgradeItem[]
 }
 
 model AdminRoleHistory {

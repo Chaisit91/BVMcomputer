@@ -10,6 +10,7 @@ import {
   FiImage,
   FiLayers,
   FiMonitor,
+  FiRefreshCw,
   FiSliders,
   FiWind,
   FiZap,
@@ -25,6 +26,7 @@ interface InventoryMenuItem {
 
 const items: InventoryMenuItem[] = [
   { id: 'build', name: 'จัดสเปคคอม', description: 'จัดสเปคอุปกรณ์ครบชุด', icon: <FiSliders />, path: '/inventory/custom-build' },
+  { id: 'upgrade', name: 'อัพเกรดคอมพิวเตอร์', description: 'ตรวจสอบเครื่องเดิมและอัพเกรดของลูกค้า', icon: <FiRefreshCw />, path: '/inventory/computer-upgrade' },
   { id: 'promo', name: 'คอมพิวเตอร์เซ็ตโปรโมชั่น', description: 'โปรโมชั่นแบบคอมพร้อมใช้', icon: <FiGift />, path: '/inventory/promo-sets' },
   { id: 'desktop', name: 'คอมพิวเตอร์ตั้งโต๊ะ', description: 'จัดการสเปคคอมตั้งโต๊ะ', icon: <FiMonitor />, path: '/inventory/desktop-pc' },
   { id: 'cpu', name: 'ซีพียู', description: 'โปรเซสเซอร์ Intel และ AMD', icon: <FiCpu />, path: '/inventory/cpu' },

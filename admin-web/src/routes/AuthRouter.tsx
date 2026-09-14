@@ -8,6 +8,9 @@ import { AdminListPage } from '../pages/admins/AdminListPage'
 import { CaseCreatePage } from '../pages/inventory/case/CaseCreatePage'
 import { CaseEditPage } from '../pages/inventory/case/CaseEditPage'
 import { CaseListPage } from '../pages/inventory/case/CaseListPage'
+import { ComputerUpgradeCreatePage } from '../pages/inventory/computer-upgrade/ComputerUpgradeCreatePage'
+import { ComputerUpgradeEditPage } from '../pages/inventory/computer-upgrade/ComputerUpgradeEditPage'
+import { ComputerUpgradeListPage } from '../pages/inventory/computer-upgrade/ComputerUpgradeListPage'
 import { CoolingCreatePage } from '../pages/inventory/cooling/CoolingCreatePage'
 import { CoolingEditPage } from '../pages/inventory/cooling/CoolingEditPage'
 import { CoolingListPage } from '../pages/inventory/cooling/CoolingListPage'
@@ -56,6 +59,10 @@ export function AuthRouter() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/inventory/computer-upgrade" element={<ComputerUpgradeListPage />} />
+          <Route path="/inventory/computer-upgrade/new" element={<ComputerUpgradeCreatePage />} />
+          <Route path="/inventory/computer-upgrade/:upgradeId" element={<ComputerUpgradeEditPage readOnly />} />
+          <Route path="/inventory/computer-upgrade/:upgradeId/edit" element={<ComputerUpgradeEditPage />} />
           <Route path="/inventory/custom-build" element={<CustomBuildPage />} />
           <Route path="/inventory/custom-build/new" element={<CustomBuildCreatePage />} />
           <Route path="/inventory/custom-build/:orderId" element={<CustomBuildEditPage readOnly />} />
