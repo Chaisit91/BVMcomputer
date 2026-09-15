@@ -1,4 +1,5 @@
 import { api } from '../lib/api'
+import { USE_MOCK_DATA } from '../lib/mockMode'
 import { getOrders } from './order.service'
 import type {
   CategoryStat,
@@ -45,7 +46,35 @@ function isLowStock(status: string) {
   return status === 'low_stock' || status === 'out_of_stock'
 }
 
+// This hits `/${apiPath}` directly rather than going through each category's
+// own service.ts (same reason as ProductPicker: those services' USE_MOCK_DATA
+// branches aren't visible from here) — so it needs its own mock data, sized
+// similarly to what each category's real mock service returns.
+const MOCK_CATALOG_SIZES: Record<string, { count: number; lowStock: number }> = {
+  cpus: { count: 10, lowStock: 1 },
+  gpus: { count: 8, lowStock: 1 },
+  motherboards: { count: 10, lowStock: 1 },
+  rams: { count: 8, lowStock: 1 },
+  storages: { count: 8, lowStock: 1 },
+  psus: { count: 10, lowStock: 1 },
+  cases: { count: 10, lowStock: 1 },
+  coolings: { count: 10, lowStock: 1 },
+}
+
+function mockCategoryItems(apiPath: string): RawCatalogItem[] {
+  const { count, lowStock } = MOCK_CATALOG_SIZES[apiPath] ?? { count: 8, lowStock: 1 }
+  return Array.from({ length: count }, (_, i) => ({
+    id: `mock-${apiPath}-${i + 1}`,
+    name: `ตัวอย่างสินค้า ${apiPath} #${i + 1}`,
+    stock: i < lowStock ? 2 : 20,
+    status: i < lowStock ? 'low_stock' : 'active',
+  }))
+}
+
 async function loadAllCatalogItems() {
+  if (USE_MOCK_DATA) {
+    return CATEGORY_DEFS.map((def) => ({ def, items: mockCategoryItems(def.apiPath) }))
+  }
   const lists = await Promise.all(CATEGORY_DEFS.map((c) => fetchCategory(c.apiPath)))
   return CATEGORY_DEFS.map((def, i) => ({ def, items: lists[i] }))
 }
@@ -84,7 +113,9 @@ export async function getCategories(): Promise<CategoryStat[]> {
 }
 
 export async function getMiniStats(): Promise<MiniStat[]> {
-  const desktopPcs = await api.get<{ category: string }[]>('/desktop-pcs').then((res) => res.data)
+  const desktopPcs = USE_MOCK_DATA
+    ? [{ category: 'desktop' }, { category: 'mini_pc' }, { category: 'all_in_one' }, { category: 'ai_workstation' }, { category: 'ai_enterprise' }, { category: 'desktop' }]
+    : await api.get<{ category: string }[]>('/desktop-pcs').then((res) => res.data)
   const aiCount = desktopPcs.filter((d) => d.category === 'ai_workstation' || d.category === 'ai_enterprise').length
   return [
     { id: 'prebuilt', name: 'คอมพิวเตอร์ครบชุด', count: desktopPcs.length, unit: 'ชุด', icon: 'package' },
