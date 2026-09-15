@@ -9,6 +9,7 @@ import json
 import os
 import re
 import threading
+import time
 import webbrowser
 from functools import lru_cache
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -43,11 +44,16 @@ from build_visualizer import (
 )
 from upgrade_recommender import recommend_upgrades
 from supabase_catalog import load_supabase_catalog
+from backend_catalog import load_backend_catalog
 
 
 def load_runtime_catalog() -> tuple[dict[str, list[dict[str, str]]], str]:
     """Prefer Supabase when configured and retain an offline CSV fallback."""
 
+    backend_url = os.getenv("AI_BACKEND_URL", "").strip()
+    if backend_url:
+        # Connected mode must never silently serve a different CSV database.
+        return load_backend_catalog(backend_url, os.getenv("AI_CATALOG_TOKEN", "")), "backend-postgres"
     project_url = os.getenv("SUPABASE_URL", "").strip()
     publishable_key = os.getenv("SUPABASE_PUBLISHABLE_KEY", "").strip()
     required = os.getenv("BUILDCORES_SUPABASE_REQUIRED") == "1"
@@ -80,6 +86,8 @@ BY_ID = {
 
 def attach_database_image_urls() -> None:
     """Attach optional PostgreSQL image URLs to the in-memory CSV catalog."""
+    if CATALOG_SOURCE != "csv":
+        return
     if not os.getenv("PGPASSWORD") and os.getenv("BUILDCORES_LOAD_DB_IMAGES") != "1":
         print("Product images: PostgreSQL loading is disabled")
         return
@@ -258,6 +266,47 @@ def cached_upgrade_recommendation(
     )
 
 
+CATALOG_LOCK = threading.RLock()
+CATALOG_CHECKED_AT = time.monotonic()
+
+
+def refresh_catalog_if_needed():
+    """Caller holds CATALOG_LOCK throughout the request, including cached reads."""
+    global CATALOG_CHECKED_AT
+    if CATALOG_SOURCE != "backend-postgres" or time.monotonic() - CATALOG_CHECKED_AT < 10:
+        return
+    updated = load_backend_catalog(os.environ["AI_BACKEND_URL"], os.environ["AI_CATALOG_TOKEN"])
+    if updated != CATALOG:
+        CATALOG.clear()
+        CATALOG.update(updated)
+        BY_ID.clear()
+        BY_ID.update({kind: {row['opendb_id']: row for row in rows} for kind, rows in updated.items()})
+        BOARDS_BY_SOCKET.clear()
+        COOLERS_BY_SOCKET.clear()
+        for board in CATALOG['motherboard']:
+            BOARDS_BY_SOCKET.setdefault(socket_key(board.get('socket')), []).append(board)
+        for cooler in CATALOG['cooler']:
+            for socket in effective_cooler_sockets(cooler):
+                COOLERS_BY_SOCKET.setdefault(socket, []).append(cooler)
+        for function in (compatible_ids, cached_recommendation, cached_upgrade_recommendation, cached_build_image):
+            function.cache_clear()
+    CATALOG_CHECKED_AT = time.monotonic()
+
+
+def catalog_request(function):
+    def wrapped(self):
+        if not self.require_api_auth():
+            return
+        with CATALOG_LOCK:
+            try:
+                refresh_catalog_if_needed()
+            except Exception:
+                self.send_json(503, {'error': 'Backend catalog unavailable; please retry'})
+                return
+            return function(self)
+    return wrapped
+
+
 class CompatibilityHandler(BaseHTTPRequestHandler):
     server_version = "BuildCoresCompatibility/1.0"
     api_token: str | None = None
@@ -314,6 +363,7 @@ class CompatibilityHandler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
         self.end_headers()
 
+    @catalog_request
     def do_POST(self) -> None:  # noqa: N802 - BaseHTTPRequestHandler API
         try:
             if not self.require_api_auth():
@@ -369,6 +419,7 @@ class CompatibilityHandler(BaseHTTPRequestHandler):
         except (json.JSONDecodeError, TypeError, ValueError) as error:
             self.send_json(400, {"error": str(error)})
 
+    @catalog_request
     def do_GET(self) -> None:  # noqa: N802 - BaseHTTPRequestHandler API
         parsed = urlparse(self.path)
         params = {key: values[-1] for key, values in parse_qs(parsed.query).items()}
@@ -432,7 +483,7 @@ class CompatibilityHandler(BaseHTTPRequestHandler):
             "offset": offset,
             "has_more": offset + len(items) < len(rows),
             "items": items,
-        }, cache_seconds=300)
+        }, cache_seconds=0 if CATALOG_SOURCE == "backend-postgres" else 300)
 
     def handle_recommend(self, params: dict[str, str]) -> None:
         if not params.get("cpu"):
@@ -457,7 +508,7 @@ def main() -> None:
         parser.error(
             "BUILDCORES_API_TOKEN must contain at least 32 characters when --host is remote"
         )
-    CompatibilityHandler.api_token = api_token if remote else None
+    CompatibilityHandler.api_token = api_token or None
     server = ThreadingHTTPServer((args.host, args.port), CompatibilityHandler)
     browser_host = "127.0.0.1" if args.host in {"0.0.0.0", "::"} else args.host
     browser_url = f"http://{browser_host}:{server.server_port}/"

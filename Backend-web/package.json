@@ -8,6 +8,9 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "seed": "ts-node prisma/seed.ts",
+    "catalog:preview": "node scripts/import-clean-catalog.cjs",
+    "catalog:import": "node scripts/import-clean-catalog.cjs --apply",
+    "dev:connected": "node scripts/run-system.cjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "prisma": {

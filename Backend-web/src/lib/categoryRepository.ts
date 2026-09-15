@@ -1,5 +1,6 @@
 import { prisma } from './prisma'
 import { deriveDisplayStatus } from './stockStatus'
+import { presentSpecs, publicationFields } from './catalogPresentation'
 import { assertValidProductPricing } from '../schemas/product.schema'
 import type { CatalogCategory, PartCategory, Prisma } from '../../generated/prisma'
 
@@ -91,7 +92,7 @@ function shape(row: any, subtypeAccessor?: string) {
     ...own,
     ...(subtype ?? {}),
     status: deriveDisplayStatus(own.status, own.stock),
-    specs: Object.fromEntries(specValues.map((v: any) => [v.field.key, v.value])),
+    specs: presentSpecs(own.category, Object.fromEntries(specValues.map((v: any) => [v.field.key, v.value]))),
     extraSpecs: extraSpecs.map((e: any) => ({ id: e.id, name: e.name, detail: e.detail })),
     videoLinks: videoLinks.map((v: any) => v.url),
   }
@@ -134,7 +135,7 @@ export function createCategoryRepository({
 
     create: async (data: any) => {
       const { specs, extraSpecs, videoLinks, ...body } = data
-      const { product, subtype } = splitBody(body, subtypeFields)
+      const { product, subtype } = splitBody(publicationFields(body), subtypeFields)
       assertValidProductPricing(product)
 
       const created = await prisma.$transaction(async (tx) => {
@@ -156,7 +157,7 @@ export function createCategoryRepository({
 
     update: async (id: string, data: any) => {
       const { specs, extraSpecs, videoLinks, ...body } = data
-      const { product, subtype } = splitBody(body, subtypeFields)
+      const { product, subtype } = splitBody(publicationFields(body), subtypeFields)
       assertValidProductPricing(product)
 
       await prisma.$transaction(async (tx) => {

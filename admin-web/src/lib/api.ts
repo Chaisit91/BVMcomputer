@@ -5,7 +5,8 @@ interface RetryableConfig extends InternalAxiosRequestConfig {
 }
 
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: import.meta.env.DEV ? '/api' : (import.meta.env.VITE_API_URL || '/api'),
+  timeout: 15000,
   withCredentials: true,
 })
 

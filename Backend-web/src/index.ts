@@ -6,6 +6,7 @@ import { authMiddleware } from './middleware/authMiddleware'
 import { errorMiddleware } from './middleware/errorMiddleware'
 import { requireRole } from './middleware/roleMiddleware'
 import { aiRouter } from './modules/ai/ai.router'
+import { catalogRouter } from './modules/ai/catalog.router'
 import { adminRouter } from './modules/admin/admin.router'
 import { authRouter } from './modules/auth/auth.router'
 import { bannerRouter } from './modules/banner/banner.router'
@@ -44,6 +45,7 @@ app.use(
 )
 app.use(express.json())
 app.use(cookieParser())
+app.use('/api/internal/ai', catalogRouter)
 
 // Single source of truth for who can touch what — mirrors
 // admin-web/src/lib/permissions.ts's sectionPrefixes exactly, so the two
