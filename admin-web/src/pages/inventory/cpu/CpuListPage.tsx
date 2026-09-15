@@ -5,6 +5,7 @@ import { Badge } from '../../../components/ui/Badge'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteCpu, getCpus } from '../../../services/cpu.service'
 import type { Cpu, CpuStatus } from '../../../types/cpu'
+import { cpuFacetOptions, cpuFacetValue, LEGACY_CPU_SERIES, matchesCpuFacet } from '../../../lib/cpuFilters'
 
 const statusMap: Record<CpuStatus, { label: string; variant: 'success' | 'warning' | 'danger' | 'neutral' }> = {
   active: { label: 'พร้อมจำหน่าย', variant: 'success' },
@@ -18,10 +19,6 @@ const statusMap: Record<CpuStatus, { label: string; variant: 'success' | 'warnin
 type LoadStatus = 'loading' | 'error' | 'success'
 type SortOption = 'newest' | 'price_asc' | 'price_desc' | 'stock_desc'
 
-const brandFacet = ['AMD', 'Intel']
-const seriesFacet = ['12th Gen', '14th Gen', 'CORE ULTRA', '5000 Series', '7000 Series', '7000 WX-Series', '8000 Series', '9000 Series']
-const processorFacet = ['CORE i3', 'CORE i5', 'CORE i7', 'Ryzen 5', 'Ryzen 7', 'Ryzen 9', 'RYZEN THREADRIPPER', 'ULTRA 5', 'ULTRA 7']
-const socketFacet = ['AM4', 'AM5', 'sTR5', 'LGA 1700', 'LGA 1851']
 
 function getStockStatusLabel(stock: number) {
   if (stock === 0) return 'สินค้าหมด'
@@ -124,6 +121,10 @@ export function CpuListPage() {
   const [addedFilterKeys, setAddedFilterKeys] = useState<string[]>([])
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
+  const brandFacet = useMemo(() => cpuFacetOptions(cpus, 'brand'), [cpus])
+  const seriesFacet = [...LEGACY_CPU_SERIES]
+  const processorFacet = useMemo(() => cpuFacetOptions(cpus, 'processorLine'), [cpus])
+  const socketFacet = useMemo(() => cpuFacetOptions(cpus, 'socket'), [cpus])
 
   useEffect(() => {
     let cancelled = false
@@ -157,8 +158,9 @@ export function CpuListPage() {
   )
 
   const addFilter = (key: string) => {
-    setAddedFilterKeys((prev) => [...prev, key])
+    setAddedFilterKeys((prev) => prev.includes(key) ? prev : [...prev, key])
     setAddedSelections((prev) => ({ ...prev, [key]: new Set() }))
+    setShowAddMenu(false)
   }
 
   const removeFilter = (key: string) => {
@@ -180,6 +182,7 @@ export function CpuListPage() {
   }
 
   const clearAllFilters = () => {
+    setSearch('')
     brands.clear()
     series.clear()
     processors.clear()
@@ -212,10 +215,10 @@ export function CpuListPage() {
     const filtered = cpus.filter((cpu) => {
       const matchesSearch =
         query === '' || cpu.name.toLowerCase().includes(query) || cpu.sku.toLowerCase().includes(query)
-      const matchesBrand = brands.selected.size === 0 || brands.selected.has(cpu.brand)
-      const matchesSeries = series.selected.size === 0 || series.selected.has(cpu.series)
-      const matchesProcessor = processors.selected.size === 0 || processors.selected.has(cpu.processorLine)
-      const matchesSocket = sockets.selected.size === 0 || sockets.selected.has(cpu.socket)
+      const matchesBrand = matchesCpuFacet(cpu, 'brand', brands.selected)
+      const matchesSeries = matchesCpuFacet(cpu, 'series', series.selected)
+      const matchesProcessor = matchesCpuFacet(cpu, 'processorLine', processors.selected)
+      const matchesSocket = matchesCpuFacet(cpu, 'socket', sockets.selected)
       const matchesAdded = addedFilterKeys.every((key) => {
         const def = extraFilterDefs.find((item) => item.key === key)
         const selected = addedSelections[key] ?? new Set<string>()
@@ -408,7 +411,7 @@ export function CpuListPage() {
                       <td className="py-3 pr-4">
                         <Badge variant={cpu.brand === 'AMD' ? 'danger' : 'info'}>{cpu.brand}</Badge>
                       </td>
-                      <td className="py-3 pr-4 text-gray-500">{cpu.series}</td>
+                      <td className="py-3 pr-4 text-gray-500">{cpuFacetValue(cpu, 'series')}</td>
                       <td className="py-3 pr-4 font-medium text-gray-800">฿{cpu.sellingPrice.toLocaleString()}</td>
                       <td className="py-3 pr-4">
                         {cpu.stock === 0 ? (
