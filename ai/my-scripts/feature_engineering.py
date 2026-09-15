@@ -2,6 +2,7 @@ import csv
 import json
 import sys
 from pathlib import Path
+from project_paths import DATA_DIR
 
 
 # ============================================================
@@ -10,8 +11,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-INPUT_DIR = ROOT / "data" / "processed" / "normalized"
-OUTPUT_DIR = ROOT / "data" / "processed" / "features"
+INPUT_DIR = DATA_DIR / "processed" / "normalized"
+OUTPUT_DIR = DATA_DIR / "processed" / "features"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

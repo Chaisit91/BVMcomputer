@@ -1,5 +1,6 @@
 import csv
 from pathlib import Path
+from project_paths import DATA_DIR as AI_DATA_DIR
 
 
 # ============================================================
@@ -9,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-DATA_DIR = ROOT / "data" / "processed"
+DATA_DIR = AI_DATA_DIR / "processed"
 
 CSV_FILES = [
     "cpu.csv",

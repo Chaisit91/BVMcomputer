@@ -1,5 +1,6 @@
 import csv
 from pathlib import Path
+from project_paths import DATA_DIR
 
 
 # ============================================================
@@ -8,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-FEATURE_DIR = ROOT / "data" / "processed" / "features"
+FEATURE_DIR = DATA_DIR / "processed" / "features"
 
 
 FILES = {

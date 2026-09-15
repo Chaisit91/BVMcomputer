@@ -1,6 +1,7 @@
 import csv
 import pickle
 from pathlib import Path
+from project_paths import DATA_DIR, MODEL_DIR
 
 import pandas as pd
 
@@ -20,9 +21,7 @@ from sklearn.metrics import (
 
 ROOT = Path(__file__).resolve().parent.parent
 
-VALIDATION_DIR = ROOT / "data" / "processed" / "validated"
-MODEL_DIR = ROOT / "models"
-
+VALIDATION_DIR = DATA_DIR / "processed" / "validated"
 RANDOM_STATE = 42
 
 

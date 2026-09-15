@@ -7,3 +7,16 @@ export class ValidationError extends Error {
     this.name = 'ValidationError'
   }
 }
+
+// The compatibility engine runs as a separate local service. Keep its
+// availability failures distinct from application errors so callers receive a
+// useful 503 instead of a misleading internal-server-error response.
+export class AiServiceError extends Error {
+  constructor(
+    message: string,
+    public readonly statusCode = 503,
+  ) {
+    super(message)
+    this.name = 'AiServiceError'
+  }
+}

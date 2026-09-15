@@ -1,6 +1,7 @@
 import csv
 import re
 from pathlib import Path
+from project_paths import DATA_DIR
 
 
 # ============================================================
@@ -9,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-INPUT_DIR = ROOT / "data" / "processed"
+INPUT_DIR = DATA_DIR / "processed"
 OUTPUT_DIR = INPUT_DIR / "normalized"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)

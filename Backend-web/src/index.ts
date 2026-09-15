@@ -5,6 +5,7 @@ import express from 'express'
 import { authMiddleware } from './middleware/authMiddleware'
 import { errorMiddleware } from './middleware/errorMiddleware'
 import { requireRole } from './middleware/roleMiddleware'
+import { aiRouter } from './modules/ai/ai.router'
 import { adminRouter } from './modules/admin/admin.router'
 import { authRouter } from './modules/auth/auth.router'
 import { bannerRouter } from './modules/banner/banner.router'
@@ -64,6 +65,9 @@ app.use('/api/desktop-pcs', ...inventory, desktopPcRouter)
 app.use('/api/promo-sets', ...inventory, promoSetRouter)
 app.use('/api/custom-builds', ...inventory, customBuildRouter)
 app.use('/api/computer-upgrades', ...inventory, computerUpgradeRouter)
+// The browser only talks to Backend-web; this router safely forwards allowed
+// compatibility requests to ai/my-scripts/compatibility_api.py.
+app.use('/api/ai', ...inventory, aiRouter)
 // No auth — the storefront (not built yet) will POST here directly once it
 // exists. Add its dev/prod origin to CORS_ORIGIN in .env when that happens,
 // same as admin-web's origins are listed there today.

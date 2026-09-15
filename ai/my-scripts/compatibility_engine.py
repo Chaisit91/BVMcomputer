@@ -19,11 +19,12 @@ import math
 import re
 import sys
 from pathlib import Path
+from project_paths import DATA_DIR
 from typing import Any, Callable
 
 
 ROOT = Path(__file__).resolve().parent.parent
-FEATURE_DIR = ROOT / "data" / "processed" / "web_catalog"
+FEATURE_DIR = DATA_DIR / "processed" / "web_catalog"
 PART_FILES = {
     "cpu": "cpu.csv",
     "motherboard": "motherboard.csv",

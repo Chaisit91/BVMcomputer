@@ -1,10 +1,11 @@
 import csv
 from pathlib import Path
+from project_paths import DATA_DIR
 from collections import Counter
 
 
 ROOT = Path(__file__).resolve().parent.parent
-DATASET = ROOT / "data" / "processed"
+DATASET = DATA_DIR / "processed"
 
 
 FILES = {

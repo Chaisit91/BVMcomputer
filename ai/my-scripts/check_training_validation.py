@@ -14,11 +14,12 @@ import sys
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
+from project_paths import DATA_DIR
 
 
 ROOT = Path(__file__).resolve().parent.parent
-TRAINING_DIR = ROOT / "data" / "processed" / "training"
-VALIDATION_DIR = ROOT / "data" / "processed" / "validated"
+TRAINING_DIR = DATA_DIR / "processed" / "training"
+VALIDATION_DIR = DATA_DIR / "processed" / "validated"
 LABEL_COLUMN = "label"
 VALID_LABELS = frozenset({"0", "1"})
 NULL_VALUES = frozenset({"", "none", "null", "nan"})

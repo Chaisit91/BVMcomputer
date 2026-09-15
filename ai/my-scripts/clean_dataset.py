@@ -1,10 +1,11 @@
 import csv
 from pathlib import Path
+from project_paths import DATA_DIR, DATASET_DIR
 
 
 ROOT = Path(__file__).resolve().parent.parent
-DATASET = ROOT / "dataset"
-CLEANED_DATASET = ROOT / "data" / "processed"
+DATASET = DATASET_DIR
+CLEANED_DATASET = DATA_DIR / "processed"
 
 FILES = {
     "CPU": "cpu.csv",

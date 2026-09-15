@@ -26,7 +26,10 @@ We have a few near-term goals for this project to improve data quality and incre
 
 ## Repository Structure
 
-- `/open-db/` - Contains component data organized by category (CPU, GPU, RAM, etc.)
+- `../database/open-db/` - Component data organized by category (CPU, GPU, RAM, etc.)
+- `../database/data/` - Processed, training, validation, and web-catalog data
+- `../database/dataset/` - Flattened CSV exports
+- `../database/models/` - Trained model artifacts
 - `/schemas/` - JSON schemas that define the structure and validation rules for each component type
 - `/docs/` - Documentation for contributors
 - `/.github/workflows/` - Workflows to validate schemas and sync with our internal API
@@ -35,10 +38,10 @@ We have a few near-term goals for this project to improve data quality and incre
 
 ### Accessing Component Data
 
-All component data is stored in the `/open-db/` directory, organized by component category. Each component is stored as a separate JSON file with a UUID v4 filename.
+All component data is stored in `../database/open-db/`, organized by component category. Each component is stored as a separate JSON file with a UUID v4 filename.
 
 ```
-/open-db/
+../database/open-db/
   /CPU/
     e0230286-0549-4da9-8115-9d1fbdcc2979.json
     ...

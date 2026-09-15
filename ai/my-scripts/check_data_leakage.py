@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from project_paths import DATA_DIR
 
 # ============================================================
 # PATH
@@ -8,10 +9,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-VALIDATION_DIR = ROOT / "data" / "processed" / "validated"
-TRAINING_DIR = ROOT / "data" / "processed" / "training"
+VALIDATION_DIR = DATA_DIR / "processed" / "validated"
+TRAINING_DIR = DATA_DIR / "processed" / "training"
 
-OUTPUT_DIR = ROOT / "data" / "processed" / "leakage_check"
+OUTPUT_DIR = DATA_DIR / "processed" / "leakage_check"
 
 OUTPUT_DIR.mkdir(
     parents=True,

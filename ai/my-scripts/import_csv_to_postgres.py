@@ -18,6 +18,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
+from project_paths import DATA_DIR
 from typing import Any, Callable
 
 import psycopg2
@@ -27,7 +28,7 @@ from psycopg2.extras import Json
 
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_DATA_DIR = ROOT / "data" / "processed"
+DEFAULT_DATA_DIR = DATA_DIR / "processed"
 VALID_SCHEMA = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 
 

@@ -2,6 +2,7 @@ import csv
 import random
 import sys
 from pathlib import Path
+from project_paths import DATA_DIR
 
 from dataset_compatibility_rules import required_with_optional_constraint
 
@@ -17,8 +18,8 @@ for stream in (sys.stdout, sys.stderr):
 
 ROOT = Path(__file__).resolve().parent.parent
 
-FEATURE_DIR = ROOT / "data" / "processed" / "features"
-OUTPUT_DIR = ROOT / "data" / "processed" / "training"
+FEATURE_DIR = DATA_DIR / "processed" / "features"
+OUTPUT_DIR = DATA_DIR / "processed" / "training"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

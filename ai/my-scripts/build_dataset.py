@@ -1,11 +1,12 @@
 import json
 import csv
 from pathlib import Path
+from project_paths import OPEN_DB_DIR, DATASET_DIR
 
 # ตำแหน่งโปรเจกต์
 ROOT = Path(__file__).resolve().parent.parent
-OPEN_DB = ROOT / "open-db"
-DATASET = ROOT / "dataset"
+OPEN_DB = OPEN_DB_DIR
+DATASET = DATASET_DIR
 
 # หมวดข้อมูลที่เราต้องการ
 CATEGORIES = {

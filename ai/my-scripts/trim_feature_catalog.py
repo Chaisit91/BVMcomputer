@@ -7,6 +7,7 @@ import csv
 import os
 import tempfile
 from pathlib import Path
+from project_paths import DATA_DIR, DATASET_DIR
 
 from compatibility_engine import (
     cooler_socket_key,
@@ -18,9 +19,9 @@ from compatibility_engine import (
 
 
 ROOT = Path(__file__).resolve().parent.parent
-SOURCE_DIR = ROOT / "dataset"
-FEATURE_DIR = ROOT / "data" / "processed" / "features"
-WEB_CATALOG_DIR = ROOT / "data" / "processed" / "web_catalog"
+SOURCE_DIR = DATASET_DIR
+FEATURE_DIR = DATA_DIR / "processed" / "features"
+WEB_CATALOG_DIR = DATA_DIR / "processed" / "web_catalog"
 CATALOG_FILES = (
     "cpu.csv",
     "motherboard.csv",

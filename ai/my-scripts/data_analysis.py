@@ -1,5 +1,6 @@
 import csv
 from pathlib import Path
+from project_paths import DATA_DIR
 from collections import Counter
 
 
@@ -13,13 +14,13 @@ ROOT = Path(__file__).resolve().parent.parent
 # SOURCE DATA
 # ------------------------------------------------------------
 # Component CSV อยู่ใน normalized
-INPUT_DIR = ROOT / "data" / "processed" / "normalized"
+INPUT_DIR = DATA_DIR / "processed" / "normalized"
 
 # Validation report อยู่ใน validated
-VALIDATED_DIR = ROOT / "data" / "processed" / "validated"
+VALIDATED_DIR = DATA_DIR / "processed" / "validated"
 
 # Analysis output
-OUTPUT_DIR = ROOT / "data" / "processed" / "analysis"
+OUTPUT_DIR = DATA_DIR / "processed" / "analysis"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

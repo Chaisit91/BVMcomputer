@@ -4,6 +4,7 @@ import re
 import sys
 import pandas as pd
 from pathlib import Path
+from project_paths import DATA_DIR
 
 from dataset_compatibility_rules import required_with_optional_constraint
 
@@ -19,9 +20,9 @@ for stream in (sys.stdout, sys.stderr):
 
 ROOT = Path(__file__).resolve().parent.parent
 
-FEATURE_DIR = ROOT / "data" / "processed" / "features"
-TRAINING_DIR = ROOT / "data" / "processed" / "training"
-VALIDATED_DIR = ROOT / "data" / "processed" / "validated"
+FEATURE_DIR = DATA_DIR / "processed" / "features"
+TRAINING_DIR = DATA_DIR / "processed" / "training"
+VALIDATED_DIR = DATA_DIR / "processed" / "validated"
 
 VALIDATED_DIR.mkdir(
     parents=True,

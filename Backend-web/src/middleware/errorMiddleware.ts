@@ -1,11 +1,16 @@
 import type { NextFunction, Request, Response } from 'express'
-import { ValidationError } from '../lib/errors'
+import { AiServiceError, ValidationError } from '../lib/errors'
 
 // Express 5 auto-forwards rejected promises from route handlers here,
 // so no separate asyncHandler wrapper is needed on routes.
 export function errorMiddleware(err: unknown, _req: Request, res: Response, _next: NextFunction) {
   if (err instanceof ValidationError) {
     res.status(400).json({ message: err.message })
+    return
+  }
+
+  if (err instanceof AiServiceError) {
+    res.status(err.statusCode).json({ message: err.message })
     return
   }
 

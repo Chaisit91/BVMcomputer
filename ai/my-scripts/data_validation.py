@@ -1,5 +1,6 @@
 import csv
 from pathlib import Path
+from project_paths import DATA_DIR
 from collections import Counter
 
 
@@ -9,8 +10,8 @@ from collections import Counter
 
 ROOT = Path(__file__).resolve().parent.parent
 
-INPUT_DIR = ROOT / "data" / "processed" / "normalized"
-OUTPUT_DIR = ROOT / "data" / "processed" / "validated"
+INPUT_DIR = DATA_DIR / "processed" / "normalized"
+OUTPUT_DIR = DATA_DIR / "processed" / "validated"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

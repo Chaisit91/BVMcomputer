@@ -2,6 +2,7 @@ import csv
 import pickle
 import sys
 from pathlib import Path
+from project_paths import DATA_DIR, MODEL_DIR
 
 import pandas as pd
 
@@ -32,9 +33,7 @@ for stream in (sys.stdout, sys.stderr):
 
 ROOT = Path(__file__).resolve().parent.parent
 
-TRAINING_DIR = ROOT / "data" / "processed" / "training"
-MODEL_DIR = ROOT / "models"
-
+TRAINING_DIR = DATA_DIR / "processed" / "training"
 MODEL_DIR.mkdir(
     parents=True,
     exist_ok=True

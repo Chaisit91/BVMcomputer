@@ -1,5 +1,6 @@
 import csv
 from pathlib import Path
+from project_paths import DATA_DIR as AI_DATA_DIR
 from collections import Counter
 
 
@@ -9,7 +10,7 @@ from collections import Counter
 
 ROOT = Path(__file__).resolve().parent.parent
 
-DATA_DIR = ROOT / "data" / "processed" / "normalized"
+DATA_DIR = AI_DATA_DIR / "processed" / "normalized"
 
 FILES = {
     "CPU": "cpu.csv",
