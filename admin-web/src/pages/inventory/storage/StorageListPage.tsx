@@ -3,6 +3,7 @@ import { FiAlertTriangle, FiBox, FiEdit2, FiPackage, FiPlus, FiTrash2, FiX, FiXC
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { capacityGroup, storageFamily } from '../../../lib/catalogGroups'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteStorage, getStorages } from '../../../services/storage.service'
 import type { Storage } from '../../../types/storage'
@@ -96,8 +97,8 @@ export function StorageListPage() {
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
   const brandFacet = useMemo(() => facetValues(items, (item) => item.brand), [items])
-  const typeFacet = useMemo(() => facetValues(items, (item) => item.specs.type), [items])
-  const capacityFacet = useMemo(() => facetValues(items, (item) => item.specs.capacity), [items])
+  const typeFacet = useMemo(() => facetValues(items, (item) => storageFamily(item.specs.type)), [items])
+  const capacityFacet = useMemo(() => facetValues(items, (item) => capacityGroup(item.specs.capacity)), [items])
   const interfaceFacet = useMemo(() => facetValues(items, (item) => item.specs.interface), [items])
 
   useEffect(() => {
@@ -186,8 +187,8 @@ export function StorageListPage() {
       const matchesSearch =
         query === '' || item.name.toLowerCase().includes(query) || item.sku.toLowerCase().includes(query)
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(item.brand)
-      const matchesType = types.selected.size === 0 || types.selected.has(item.specs.type)
-      const matchesCapacity = capacities.selected.size === 0 || capacities.selected.has(item.specs.capacity)
+      const matchesType = types.selected.size === 0 || types.selected.has(storageFamily(item.specs.type))
+      const matchesCapacity = capacities.selected.size === 0 || capacities.selected.has(capacityGroup(item.specs.capacity))
       const matchesInterface = interfaces.selected.size === 0 || interfaces.selected.has(item.specs.interface)
       const matchesAdded = addedFilterKeys.every((key) => {
         const def = extraFilterDefs.find((d) => d.key === key)

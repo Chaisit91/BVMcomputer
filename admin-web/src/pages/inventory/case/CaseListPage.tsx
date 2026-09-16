@@ -3,6 +3,7 @@ import { FiBox, FiCheckCircle, FiEdit2, FiHardDrive, FiLayers, FiPlus, FiTrash2,
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { caseSizeFamily } from '../../../lib/catalogGroups'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteCase, getCases } from '../../../services/case.service'
 import type { Case } from '../../../types/case'
@@ -97,7 +98,7 @@ export function CaseListPage() {
   const [showAddMenu, setShowAddMenu] = useState(false)
   const brandFacet = useMemo(() => facetValues(items, (item) => item.brand), [items])
   const mbSupportFacet = useMemo(() => facetValues(items, (item) => item.specs.mbSupport), [items])
-  const caseTypeFacet = useMemo(() => facetValues(items, (item) => item.specs.caseType), [items])
+  const caseTypeFacet = useMemo(() => facetValues(items, (item) => caseSizeFamily(item.specs.caseType)), [items])
   const sidePanelFacet = useMemo(() => facetValues(items, (item) => item.specs.sidePanel), [items])
 
   useEffect(() => {
@@ -189,7 +190,7 @@ export function CaseListPage() {
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(item.brand)
       const matchesMbSupport =
         mbSupports.selected.size === 0 || Array.from(mbSupports.selected).some((value) => item.specs.mbSupport.includes(value))
-      const matchesCaseType = caseTypes.selected.size === 0 || caseTypes.selected.has(item.specs.caseType)
+      const matchesCaseType = caseTypes.selected.size === 0 || caseTypes.selected.has(caseSizeFamily(item.specs.caseType))
       const matchesSidePanel = sidePanels.selected.size === 0 || sidePanels.selected.has(item.specs.sidePanel)
       const matchesAdded = addedFilterKeys.every((key) => {
         const def = extraFilterDefs.find((d) => d.key === key)

@@ -3,6 +3,7 @@ import { FiAlertTriangle, FiBox, FiEdit2, FiPlus, FiShield, FiTrash2, FiX, FiXCi
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { psuPowerGroup } from '../../../lib/catalogGroups'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deletePsu, getPsus } from '../../../services/psu.service'
 import type { Psu } from '../../../types/psu'
@@ -97,7 +98,7 @@ export function PsuListPage() {
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
   const brandFacet = useMemo(() => facetValues(items, (item) => item.brand), [items])
-  const continuousPowerFacet = useMemo(() => facetValues(items, (item) => item.specs.continuousPower), [items])
+  const continuousPowerFacet = useMemo(() => facetValues(items, (item) => psuPowerGroup(item.specs.continuousPower)), [items])
   const certificationFacet = useMemo(() => facetValues(items, (item) => item.specs.certification), [items])
   const modularityFacet = useMemo(() => facetValues(items, (item) => item.specs.modularity), [items])
   const formFactorFacet = useMemo(() => facetValues(items, (item) => item.specs.formFactor), [items])
@@ -189,7 +190,7 @@ export function PsuListPage() {
       const matchesSearch =
         query === '' || item.name.toLowerCase().includes(query) || item.sku.toLowerCase().includes(query)
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(item.brand)
-      const matchesPower = continuousPowers.selected.size === 0 || continuousPowers.selected.has(item.specs.continuousPower)
+      const matchesPower = continuousPowers.selected.size === 0 || continuousPowers.selected.has(psuPowerGroup(item.specs.continuousPower))
       const matchesCertification = certifications.selected.size === 0 || certifications.selected.has(item.specs.certification)
       const matchesModularity = modularities.selected.size === 0 || modularities.selected.has(item.specs.modularity)
       const matchesFormFactor = formFactors.selected.size === 0 || formFactors.selected.has(item.specs.formFactor)

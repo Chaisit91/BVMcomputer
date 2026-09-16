@@ -3,6 +3,7 @@ import { FiAlertTriangle, FiBox, FiCheckCircle, FiEdit2, FiPlus, FiTrash2, FiWin
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { coolingFamily } from '../../../lib/catalogGroups'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteCooling, getCoolers } from '../../../services/cooling.service'
 import type { Cooling } from '../../../types/cooling'
@@ -95,7 +96,7 @@ export function CoolingListPage() {
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
   const brandFacet = useMemo(() => facetValues(items, (item) => item.brand), [items])
-  const coolingTypeFacet = useMemo(() => facetValues(items, (item) => item.specs.coolingType), [items])
+  const coolingTypeFacet = useMemo(() => facetValues(items, (item) => coolingFamily(item.specs.coolingType)), [items])
   const socketFacet = useMemo(() => facetValues(items, (item) => item.specs.socketSupport), [items])
 
   useEffect(() => {
@@ -184,7 +185,7 @@ export function CoolingListPage() {
       const matchesSearch =
         query === '' || item.name.toLowerCase().includes(query) || item.sku.toLowerCase().includes(query)
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(item.brand)
-      const matchesType = coolingTypes.selected.size === 0 || coolingTypes.selected.has(item.specs.coolingType)
+      const matchesType = coolingTypes.selected.size === 0 || coolingTypes.selected.has(coolingFamily(item.specs.coolingType))
       const matchesSocket =
         sockets.selected.size === 0 || Array.from(sockets.selected).some((value) => item.specs.socketSupport.includes(value))
       const matchesAdded = addedFilterKeys.every((key) => {
@@ -250,7 +251,7 @@ export function CoolingListPage() {
           </div>
           <FilterGroup title="แบรนด์ (Brand)" options={brandFacet} selected={brands.selected} onToggle={brands.toggle} />
           <FilterGroup title="ประเภท (Cooling Type)" options={coolingTypeFacet} selected={coolingTypes.selected} onToggle={coolingTypes.toggle} />
-          <FilterGroup title="ช็อกเก็ต (Socket)" options={socketFacet} selected={sockets.selected} onToggle={sockets.toggle} />
+          
 
           {addedFilterKeys.map((key) => {
             const def = extraFilterDefs.find((item) => item.key === key)

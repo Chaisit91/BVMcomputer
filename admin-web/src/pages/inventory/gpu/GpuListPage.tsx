@@ -3,6 +3,7 @@ import { FiEdit2, FiPlus, FiTrash2, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { gpuFamily, gpuGeneration } from '../../../lib/catalogGroups'
 import { deleteGpu, getGpus } from '../../../services/gpu.service'
 import type { Gpu, GpuStatus } from '../../../types/gpu'
 
@@ -104,8 +105,8 @@ export function GpuListPage() {
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
   const brandFacet = useMemo(() => facetValues(gpus, (gpu) => gpu.brand), [gpus])
-  const seriesFacet = useMemo(() => facetValues(gpus, (gpu) => gpu.series), [gpus])
-  const modelFacet = useMemo(() => facetValues(gpus, (gpu) => gpu.model), [gpus])
+  const seriesFacet = useMemo(() => facetValues(gpus, (gpu) => gpuFamily(gpu.name, gpu.series, gpu.model)), [gpus])
+  const modelFacet = useMemo(() => facetValues(gpus, (gpu) => gpuGeneration(gpu.name, gpu.series, gpu.model)), [gpus])
   const memorySizeFacet = useMemo(() => facetValues(gpus, (gpu) => gpu.memorySize), [gpus])
   const powerRequirementFacet = useMemo(() => facetValues(gpus, (gpu) => gpu.specs.powerRequirement), [gpus])
   const pcieInterfaceFacet = useMemo(() => facetValues(gpus, (gpu) => gpu.specs.pcieInterface), [gpus])
@@ -190,8 +191,8 @@ export function GpuListPage() {
       const matchesSearch =
         query === '' || gpu.name.toLowerCase().includes(query) || gpu.sku.toLowerCase().includes(query)
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(gpu.brand)
-      const matchesSeries = series.selected.size === 0 || series.selected.has(gpu.series)
-      const matchesModel = models.selected.size === 0 || models.selected.has(gpu.model)
+      const matchesSeries = series.selected.size === 0 || series.selected.has(gpuFamily(gpu.name, gpu.series, gpu.model))
+      const matchesModel = models.selected.size === 0 || models.selected.has(gpuGeneration(gpu.name, gpu.series, gpu.model))
       const matchesMemory = memorySizes.selected.size === 0 || memorySizes.selected.has(gpu.memorySize)
       const matchesPower =
         powerRequirements.selected.size === 0 || powerRequirements.selected.has(gpu.specs.powerRequirement)
@@ -277,8 +278,8 @@ export function GpuListPage() {
             </button>
           </div>
           <FilterGroup title="แบรนด์ (Brand)" options={brandFacet} selected={brands.selected} onToggle={brands.toggle} />
-          <FilterGroup title="GPU Series" options={seriesFacet} selected={series.selected} onToggle={series.toggle} />
-          <FilterGroup title="GPU Model" options={modelFacet} selected={models.selected} onToggle={models.toggle} />
+          <FilterGroup title="ตระกูล GPU" options={seriesFacet} selected={series.selected} onToggle={series.toggle} />
+          <FilterGroup title="เจเนอเรชัน" options={modelFacet} selected={models.selected} onToggle={models.toggle} />
           <FilterGroup
             title="Memory Size"
             options={memorySizeFacet}

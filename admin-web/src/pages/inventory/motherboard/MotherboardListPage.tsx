@@ -3,6 +3,7 @@ import { FiBox, FiCheckCircle, FiEdit2, FiPlus, FiSlash, FiTrash2, FiX } from 'r
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { motherboardPlatform } from '../../../lib/catalogGroups'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteMotherboard, getMotherboards } from '../../../services/motherboard.service'
 import type { Motherboard } from '../../../types/motherboard'
@@ -110,7 +111,10 @@ export function MotherboardListPage() {
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
   const brandFacet = useMemo(() => facetValues(motherboards, (item) => item.brand), [motherboards])
-  const cpuSupportFacet = useMemo(() => facetValues(motherboards, (item) => item.specs.cpuSupport), [motherboards])
+  const cpuSupportFacet = useMemo(
+    () => facetValues(motherboards, (item) => motherboardPlatform(item.specs.cpuSupport, item.specs.socket)),
+    [motherboards],
+  )
   const socketFacet = useMemo(() => facetValues(motherboards, (item) => item.specs.socket), [motherboards])
   const chipsetFacet = useMemo(() => facetValues(motherboards, (item) => item.specs.chipset), [motherboards])
   const mainboardSupportFacet = useMemo(() => facetValues(motherboards, (item) => item.specs.mainboardSupport), [motherboards])
@@ -210,7 +214,8 @@ export function MotherboardListPage() {
       const matchesSearch =
         query === '' || mb.name.toLowerCase().includes(query) || mb.sku.toLowerCase().includes(query)
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(mb.brand)
-      const matchesCpu = cpuSupports.selected.size === 0 || cpuSupports.selected.has(mb.specs.cpuSupport)
+      const matchesCpu =
+        cpuSupports.selected.size === 0 || cpuSupports.selected.has(motherboardPlatform(mb.specs.cpuSupport, mb.specs.socket))
       const matchesSocket = sockets.selected.size === 0 || sockets.selected.has(mb.specs.socket)
       const matchesChipset = chipsets.selected.size === 0 || chipsets.selected.has(mb.specs.chipset)
       const matchesSupport =
@@ -325,7 +330,7 @@ export function MotherboardListPage() {
             </button>
           </div>
           <FilterGroup title="แบรนด์ (Brand)" options={brandFacet} selected={brands.selected} onToggle={brands.toggle} />
-          <FilterGroup title="CPU Support" options={cpuSupportFacet} selected={cpuSupports.selected} onToggle={cpuSupports.toggle} />
+          <FilterGroup title="แพลตฟอร์ม CPU" options={cpuSupportFacet} selected={cpuSupports.selected} onToggle={cpuSupports.toggle} />
           <FilterGroup title="ซ็อกเก็ต (CPU Socket)" options={socketFacet} selected={sockets.selected} onToggle={sockets.toggle} />
           <FilterGroup title="ชิปเซ็ต (Chipset)" options={chipsetFacet} selected={chipsets.selected} onToggle={chipsets.toggle} />
           <FilterGroup

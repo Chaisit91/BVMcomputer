@@ -3,6 +3,7 @@ import { FiBox, FiCheckCircle, FiCpu, FiEdit2, FiPlus, FiTrash2, FiX } from 'rea
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { capacityGroup } from '../../../lib/catalogGroups'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteRam, getRams } from '../../../services/ram.service'
 import type { Ram } from '../../../types/ram'
@@ -97,7 +98,7 @@ export function RamListPage() {
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
   const brandFacet = useMemo(() => facetValues(rams, (ram) => ram.brand), [rams])
-  const capacityFacet = useMemo(() => facetValues(rams, (ram) => ram.specs.capacity), [rams])
+  const capacityFacet = useMemo(() => facetValues(rams, (ram) => capacityGroup(ram.specs.capacity)), [rams])
   const speedFacet = useMemo(() => facetValues(rams, (ram) => ram.specs.speed), [rams])
   const typeFacet = useMemo(() => facetValues(rams, (ram) => ram.specs.memoryType), [rams])
 
@@ -188,7 +189,7 @@ export function RamListPage() {
       const matchesSearch =
         query === '' || ram.name.toLowerCase().includes(query) || ram.sku.toLowerCase().includes(query)
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(ram.brand)
-      const matchesCapacity = capacities.selected.size === 0 || capacities.selected.has(ram.specs.capacity)
+      const matchesCapacity = capacities.selected.size === 0 || capacities.selected.has(capacityGroup(ram.specs.capacity))
       const matchesSpeed = speeds.selected.size === 0 || speeds.selected.has(ram.specs.speed)
       const matchesType = types.selected.size === 0 || types.selected.has(ram.specs.memoryType)
       const matchesAdded = addedFilterKeys.every((key) => {
