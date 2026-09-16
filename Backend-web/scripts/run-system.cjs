@@ -61,7 +61,7 @@ async function main() {
     ...clientEnv, AI_BACKEND_URL: origin, AI_CATALOG_TOKEN: catalogToken, BUILDCORES_API_TOKEN: serviceToken,
   })
   start(process.execPath, [path.join(root, 'admin-web/node_modules/vite/bin/vite.js'), '--host', 'localhost', '--port', '5173', '--strictPort'], path.join(root, 'admin-web'), {
-    ...clientEnv, VITE_API_URL: '/api', BACKEND_PROXY_TARGET: origin, VITE_USE_MOCK_DATA: 'false',
+    ...clientEnv, VITE_API_URL: '/api', BACKEND_PROXY_TARGET: origin,
   })
   console.log('Admin: http://localhost:5173 | Backend: ' + origin + ' | AI: private port ' + aiPort)
   console.log('Supabase drafts are visible in Admin. Publish reviewed products to make them available to AI.')

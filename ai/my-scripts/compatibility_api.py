@@ -7,7 +7,6 @@ import gzip
 import hmac
 import json
 import os
-import re
 import threading
 import time
 import webbrowser
@@ -43,35 +42,16 @@ from build_visualizer import (
     selected_image_parts,
 )
 from upgrade_recommender import recommend_upgrades
-from supabase_catalog import load_supabase_catalog
 from backend_catalog import load_backend_catalog
 
 
 def load_runtime_catalog() -> tuple[dict[str, list[dict[str, str]]], str]:
-    """Prefer Supabase when configured and retain an offline CSV fallback."""
+    """Use Backend-web in connected mode, or curated CSVs for offline tests."""
 
     backend_url = os.getenv("AI_BACKEND_URL", "").strip()
     if backend_url:
         # Connected mode must never silently serve a different CSV database.
         return load_backend_catalog(backend_url, os.getenv("AI_CATALOG_TOKEN", "")), "backend-postgres"
-    project_url = os.getenv("SUPABASE_URL", "").strip()
-    publishable_key = os.getenv("SUPABASE_PUBLISHABLE_KEY", "").strip()
-    required = os.getenv("BUILDCORES_SUPABASE_REQUIRED") == "1"
-    if project_url and publishable_key:
-        try:
-            catalog = load_supabase_catalog(project_url, publishable_key)
-            print("Product catalog: loaded clean data from Supabase")
-            return catalog, "supabase"
-        except Exception as error:
-            if required:
-                raise RuntimeError(f"Supabase catalog unavailable: {error}") from error
-            print(f"Product catalog: Supabase unavailable ({error}); using local CSV")
-    elif required:
-        raise RuntimeError(
-            "SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY are required when "
-            "BUILDCORES_SUPABASE_REQUIRED=1"
-        )
-
     # The curated CSV writer orders rows by completeness, coverage and recency.
     # Preserve that order so forward-checking tries the safest paths first.
     return load_catalog(), "csv"
@@ -82,56 +62,6 @@ BY_ID = {
     part_type: {row.get("opendb_id", ""): row for row in rows}
     for part_type, rows in CATALOG.items()
 }
-
-
-def attach_database_image_urls() -> None:
-    """Attach optional PostgreSQL image URLs to the in-memory CSV catalog."""
-    if CATALOG_SOURCE != "csv":
-        return
-    if not os.getenv("PGPASSWORD") and os.getenv("BUILDCORES_LOAD_DB_IMAGES") != "1":
-        print("Product images: PostgreSQL loading is disabled")
-        return
-    try:
-        import psycopg2
-        from psycopg2 import sql
-    except ImportError:
-        print("Product images: psycopg2 is unavailable; image generation is disabled")
-        return
-
-    schema = os.getenv("PGSCHEMA", "buildcores_clean")
-    if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", schema):
-        print("Product images: invalid PGSCHEMA; image generation is disabled")
-        return
-    table_by_type = {"case": "pc_case", "cooler": "cpu_cooler"}
-    connection = None
-    try:
-        connection = psycopg2.connect(
-            host=os.getenv("PGHOST", "localhost"),
-            port=int(os.getenv("PGPORT", "5432")),
-            dbname=os.getenv("PGDATABASE", "buildcores_db"),
-            user=os.getenv("PGUSER", "postgres"),
-            password=os.getenv("PGPASSWORD") or None,
-            connect_timeout=3,
-        )
-        with connection, connection.cursor() as cursor:
-            for part_type in PART_FILES:
-                table = table_by_type.get(part_type, part_type)
-                cursor.execute(sql.SQL(
-                    "SELECT opendb_id::text, image_url FROM {}.{} WHERE image_url IS NOT NULL"
-                ).format(sql.Identifier(schema), sql.Identifier(table)))
-                for opendb_id, image_url in cursor.fetchall():
-                    if opendb_id in BY_ID[part_type]:
-                        BY_ID[part_type][opendb_id]["image_url"] = image_url
-        image_count = sum(bool(row.get("image_url")) for rows in CATALOG.values() for row in rows)
-        print(f"Product images: loaded {image_count:,} URLs from PostgreSQL")
-    except Exception as error:
-        print(f"Product images: PostgreSQL unavailable ({error})")
-    finally:
-        if connection is not None:
-            connection.close()
-
-
-attach_database_image_urls()
 
 
 @lru_cache(maxsize=8)

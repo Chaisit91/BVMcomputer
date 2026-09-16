@@ -2,15 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { FiAlertTriangle, FiBox, FiCheckCircle, FiEdit2, FiPlus, FiTrash2, FiWind, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
+import { facetValues } from '../../../lib/catalogFilters'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteCooling, getCoolers } from '../../../services/cooling.service'
 import type { Cooling } from '../../../types/cooling'
 
 type LoadStatus = 'loading' | 'error' | 'success'
-
-const brandFacet = ['ASUS', 'COOLER MASTER', 'CORSAIR', 'DEEPCOOL', 'GIGABYTE', 'ID-COOLING', 'LIAN LI', 'NOCTUA', 'THERMALRIGHT']
-const coolingTypeFacet = ['Air Cooler', 'AIO Liquid 120mm', 'AIO Liquid 240mm', 'AIO Liquid 280mm', 'AIO Liquid 360mm']
-const socketFacet = ['LGA 1700', 'LGA 1200', 'AM5', 'AM4']
 
 function getStockStatus(stock: number): { label: string; variant: 'success' | 'warning' | 'danger' } {
   if (stock === 0) return { label: 'สินค้าหมด', variant: 'danger' }
@@ -97,6 +94,9 @@ export function CoolingListPage() {
   const [addedFilterKeys, setAddedFilterKeys] = useState<string[]>([])
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
+  const brandFacet = useMemo(() => facetValues(items, (item) => item.brand), [items])
+  const coolingTypeFacet = useMemo(() => facetValues(items, (item) => item.specs.coolingType), [items])
+  const socketFacet = useMemo(() => facetValues(items, (item) => item.specs.socketSupport), [items])
 
   useEffect(() => {
     let cancelled = false

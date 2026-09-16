@@ -2,16 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { FiBox, FiCheckCircle, FiCpu, FiEdit2, FiPlus, FiTrash2, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
+import { facetValues } from '../../../lib/catalogFilters'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteRam, getRams } from '../../../services/ram.service'
 import type { Ram } from '../../../types/ram'
 
 type LoadStatus = 'loading' | 'error' | 'success'
-
-const brandFacet = ['ADATA', 'APACER', 'CORSAIR', 'HIKSEMI', 'KINGSTON', 'LEXAR', 'KINGBANK', 'COLORFIRE']
-const capacityFacet = ['16GB (8GBx2)', '32GB (16GBx2)', '16GB (16GBx1)', '8GB (8GBx1)']
-const speedFacet = ['3200MHz', '5600MHz', '6000MHz', '6400MHz']
-const typeFacet = ['DDR5', 'DDR4']
 
 function getStockStatus(stock: number): { label: string; variant: 'success' | 'warning' | 'danger' } {
   if (stock === 0) return { label: 'สินค้าหมด', variant: 'danger' }
@@ -100,6 +96,10 @@ export function RamListPage() {
   const [addedFilterKeys, setAddedFilterKeys] = useState<string[]>([])
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
+  const brandFacet = useMemo(() => facetValues(rams, (ram) => ram.brand), [rams])
+  const capacityFacet = useMemo(() => facetValues(rams, (ram) => ram.specs.capacity), [rams])
+  const speedFacet = useMemo(() => facetValues(rams, (ram) => ram.specs.speed), [rams])
+  const typeFacet = useMemo(() => facetValues(rams, (ram) => ram.specs.memoryType), [rams])
 
   useEffect(() => {
     let cancelled = false

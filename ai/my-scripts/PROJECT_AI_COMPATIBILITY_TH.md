@@ -14,7 +14,6 @@
 ฟีเจอร์ที่เพิ่มจากระบบ compatibility เดิมมีดังนี้:
 
 1. เพิ่มคอลัมน์ `image_url` ชนิด `TEXT` ในตารางสินค้าทั้ง 8 หมวด เพื่อเก็บ URL รูปสินค้า
-2. เพิ่ม `seed_selected_product_images.py` สำหรับบันทึกรูปอ้างอิงของชุดสเปกตัวอย่างลง PostgreSQL โดยผูกกับ `opendb_id` และชื่อสินค้าที่ตรงกัน
 3. เพิ่มช่องพิมพ์ค้นหาใน dropdown ทั้ง 8 หมวด เรียก `/search?q=...` หลังหยุดพิมพ์ 250 ms และยังกรองเฉพาะสินค้าที่เข้ากันได้กับอุปกรณ์ซึ่งเลือกไว้แล้ว
 4. เพิ่มปุ่มสร้างภาพจำลองหลังเลือกอุปกรณ์ครบ 8 หมวดและผ่านกฎ compatibility
 5. เปลี่ยนระบบสร้างภาพไปใช้ MaxPlus Images API ที่ endpoint `https://api.maxplus-ai.cc/gpt-image/v1/images/generations` ด้วยโมเดลเริ่มต้น `gpt-image-2`
@@ -23,7 +22,6 @@
 8. เพิ่มการป้องกัน SSRF โดยรับเฉพาะ public HTTPS image URL ปฏิเสธ localhost/เครือข่ายภายใน ตรวจชนิดไฟล์ จำกัดไฟล์ 15 MB และย่อรูปไม่เกิน `1024×1024`
 9. ป้องกันเว็บภายนอกเรียก `POST /assemble` ด้วยการตรวจ `Origin` เทียบกับ `Host` เพื่อลดความเสี่ยงจากการสร้างค่าใช้จ่ายโดยไม่ได้รับอนุญาต
 10. จัดการกรณี browser ยกเลิก connection (`WinError 10053`) โดยไม่แสดง traceback ยาว และปรับข้อความ error จาก MaxPlus ให้แสดง HTTP status, error type และ request ID เมื่อมี
-11. เพิ่ม `run_compatibility_web.bat` ให้ตรวจ dependency ถามรหัส PostgreSQL และ `MAXPLUS_API_KEY` แบบไม่แสดงตัวอักษร แล้วเปิด server กับ browser อัตโนมัติ
 12. เพิ่มภาพหมุน 360° แบบ turntable โดยให้ MaxPlus สร้างภาพรอบเครื่องทุกมุมตามองศาที่เว้นระยะเท่ากัน และให้ผู้ใช้ลากเมาส์/นิ้ว ใช้ปุ่มลูกศร หรือเปิดหมุนอัตโนมัติบนหน้าเว็บ โดยไม่พึ่ง Image-to-3D API ภายนอก
 
 ข้อควรทราบ: ภาพหมุนนี้เป็นชุดภาพ 2D จาก Generative AI ไม่ใช่โมเดล 3D จึงไม่รับประกันตำแหน่ง รูปร่าง รายละเอียดของ SKU หรือความต่อเนื่องระหว่างมุมได้ถูกต้อง 100% แม้ระบบจะส่งรูปและ manifest ครบทุกชิ้น
@@ -437,7 +435,7 @@ POST /assemble
 
 1. รับเฉพาะ `opendb_id` ของอุปกรณ์ที่ผู้ใช้เลือก
 2. ตรวจซ้ำว่ามีครบ 8 หมวดและเป็นสินค้าใน catalog จริง
-3. ดึง `image_url` ของสินค้าแต่ละชิ้นจาก PostgreSQL
+3. รับ `image_url` ของสินค้าแต่ละชิ้นจาก Backend catalog API
 4. ยกเลิกการสร้างภาพทันทีถ้าขาดรูปแม้แต่ชิ้นเดียว
 5. ดาวน์โหลดและย่อรูปแต่ละรูปให้ไม่เกิน `1024×1024` โดยรักษาอัตราส่วนและไม่ขยายรูปเล็ก
 6. เตรียม reference images ไม่เกิน 5 ไฟล์ตามข้อจำกัดของ MaxPlus: Case, Motherboard, CPU Cooler และ GPU เป็นรูปเดี่ยว ส่วน CPU, RAM, PSU และ Storage รวมเป็น contact sheet 2×2
@@ -485,7 +483,7 @@ $env:MAXPLUS_TURNTABLE_VIEWS = "8" # เลือกได้ตั้งแต�
 - ใช้ `offset` และ `has_more` สำหรับ pagination
 - โหลดเฉพาะ dropdown ที่ผู้ใช้เปิด
 - ไม่โหลดใหม่ถ้า dependency ที่มีผลต่อการกรองยังไม่เปลี่ยน
-- PostgreSQL importer เตรียม index สำหรับ socket, memory type, wattage, form factor และ clearance
+- Backend/Supabase เป็นแหล่งข้อมูลจริงเพียงจุดเดียว ส่วน AI cache catalog เพื่อลด request
 
 ผลทดสอบ local หลังแบ่งหน้า:
 
@@ -498,20 +496,9 @@ $env:MAXPLUS_TURNTABLE_VIEWS = "8" # เลือกได้ตั้งแต�
 
 ---
 
-## 11. PostgreSQL และโครงสร้างฐานข้อมูล
+## 11. แหล่งข้อมูลใช้งานจริง
 
-`import_csv_to_postgres.py` แยกข้อมูลเป็น:
-
-- `categories`
-- `brands`
-- `products`
-- ตาราง specification ของอุปกรณ์ทั้ง 8 หมวด
-- `product_catalog` view สำหรับดูข้อมูลรวม
-- `image_url` ชนิด `TEXT` ในตารางสินค้าทั้ง 8 หมวด
-
-ข้อมูลต้นฉบับทุก field ยังถูกเก็บใน `raw_data` ชนิด JSONB เพื่อป้องกันการสูญเสียข้อมูล แม้บาง field จะยังไม่ได้แยกเป็นคอลัมน์
-
-การแยกตารางช่วยลดข้อมูลซ้ำ ทำ query ตามหมวดได้ง่าย และเพิ่ม index เฉพาะ field ที่ใช้ค้นหา/กรองบ่อยได้
+Backend จัดการ schema และเชื่อม Supabase ผ่าน Prisma ส่วน AI อ่านเฉพาะ catalog API ภายในของ Backend จึงไม่มีรหัสฐานข้อมูลหรือ Supabase key อยู่ใน AI และข้อมูลที่ Admin แก้ไขจะเป็นชุดเดียวกับที่ AI ใช้
 
 ---
 
@@ -536,11 +523,10 @@ python my-scripts/test_compatibility_engine.py
 จากนั้นเปิด API:
 
 ```powershell
-python -m pip install -r my-scripts/requirements-postgres.txt
+python -m pip install -r my-scripts/requirements-api.txt
 python my-scripts/compatibility_api.py --port 8000
 ```
 
-บน Windows สามารถดับเบิลคลิก `run_compatibility_web.bat` ที่โฟลเดอร์รากของโปรเจกต์ ระบบจะตรวจ dependency เปิด server และเปิด browser ให้อัตโนมัติ
 
 เปิด browser ที่:
 
@@ -567,12 +553,9 @@ http://127.0.0.1:8000/
 | `compatibility_api.py` | ให้บริการ HTTP API, index และ cache |
 | `compatibility_ui.html` | หน้าเลือกอุปกรณ์ ช่องค้นหา แสดงสถานะสี และตัวดูภาพหมุน 360° |
 | `build_visualizer.py` | ตรวจและย่อรูป สร้าง contact sheet เตรียม prompt รายมุม และเรียก MaxPlus Images API เพื่อสร้างชุดภาพ turntable |
-| `seed_selected_product_images.py` | บันทึก URL รูปสินค้าตัวอย่างลง PostgreSQL |
-| `run_compatibility_web.bat` | ตรวจ dependency รับรหัสแบบซ่อนค่า seed รูป เปิด API และ browser |
 | `test_compatibility_engine.py` | Regression tests ของกฎ compatibility |
 | `test_compatibility_api.py` | ทดสอบ HTTP API, cross-origin protection และ client disconnect |
 | `test_build_visualizer.py` | ทดสอบรูปอ้างอิง prompt ข้อจำกัด 5 รูป payload ของ MaxPlus และลำดับมุม turntable |
-| `import_csv_to_postgres.py` | สร้าง schema, tables, indexes และนำเข้าข้อมูล PostgreSQL |
 
 ---
 

@@ -2,17 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { FiAlertTriangle, FiBox, FiEdit2, FiPlus, FiShield, FiTrash2, FiX, FiXCircle } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
+import { facetValues } from '../../../lib/catalogFilters'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deletePsu, getPsus } from '../../../services/psu.service'
 import type { Psu } from '../../../types/psu'
 
 type LoadStatus = 'loading' | 'error' | 'success'
-
-const brandFacet = ['ASUS', 'CORSAIR', 'COOLER MASTER', 'FSP', 'GIGABYTE', 'MSI', 'THERMALTAKE', 'AEROCOOL']
-const continuousPowerFacet = ['550 Watt', '600 Watt', '650 Watt', '750 Watt', '850 Watt', '1000 Watt', '1200 Watt']
-const certificationFacet = ['80+ Bronze', '80+ Gold', '80+ Platinum', '80+ Titanium']
-const modularityFacet = ['Full Modular', 'Semi Modular', 'Non Modular']
-const formFactorFacet = ['ATX', 'SFX', 'SFX-L']
 
 function getStockStatus(stock: number): { label: string; variant: 'success' | 'warning' | 'danger' } {
   if (stock === 0) return { label: 'สินค้าหมด', variant: 'danger' }
@@ -101,6 +96,11 @@ export function PsuListPage() {
   const [addedFilterKeys, setAddedFilterKeys] = useState<string[]>([])
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
+  const brandFacet = useMemo(() => facetValues(items, (item) => item.brand), [items])
+  const continuousPowerFacet = useMemo(() => facetValues(items, (item) => item.specs.continuousPower), [items])
+  const certificationFacet = useMemo(() => facetValues(items, (item) => item.specs.certification), [items])
+  const modularityFacet = useMemo(() => facetValues(items, (item) => item.specs.modularity), [items])
+  const formFactorFacet = useMemo(() => facetValues(items, (item) => item.specs.formFactor), [items])
 
   useEffect(() => {
     let cancelled = false

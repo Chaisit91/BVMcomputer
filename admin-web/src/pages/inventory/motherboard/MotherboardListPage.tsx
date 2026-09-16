@@ -2,28 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { FiBox, FiCheckCircle, FiEdit2, FiPlus, FiSlash, FiTrash2, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
+import { facetValues } from '../../../lib/catalogFilters'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteMotherboard, getMotherboards } from '../../../services/motherboard.service'
 import type { Motherboard } from '../../../types/motherboard'
 
 type LoadStatus = 'loading' | 'error' | 'success'
-
-const brandFacet = ['ASROCK', 'ASUS', 'COLORFUL', 'GIGABYTE', 'MSI', 'COLORFIRE']
-const cpuSupportFacet = [
-  '12th Gen Intel Core', '13th Gen Intel Core', '14th Gen Intel Core', 'Intel Core Ultra',
-  'AMD Ryzen 3000 Series', 'AMD Ryzen 3000G Series', 'AMD Ryzen 4000 Series', 'AMD Ryzen 4000G Series',
-  'AMD Ryzen 5000 Series', 'AMD Ryzen 5000G Series', 'AMD Ryzen 7000 Series', 'AMD Ryzen 8000 Series', 'AMD Ryzen 9000 Series',
-]
-const socketFacet = ['AM4', 'AM5', 'LGA 1700', 'LGA 1851']
-const chipsetFacet = [
-  'Intel H610', 'AMD A520', 'Intel Z790', 'Intel B760', 'AMD B650', 'AMD X870',
-  'Intel Z890', 'Intel B860', 'AMD B850', 'Intel H810', 'AMD A620A', 'AMD B840',
-]
-const mainboardSupportFacet = ['ATX', 'Micro-ATX', 'Mini-ITX']
-const memorySlotsFacet = ['2x DIMM', '4x DIMM']
-const memoryTypeFacet = ['DDR5', 'DDR4']
-const maxMemoryFacet = ['64GB', '96GB', '128GB', '192GB', '256GB']
-const formFactorFacet = ['ATX', 'Mini-ITX', 'Micro-ATX']
 
 const LOW_STOCK_THRESHOLD = 5
 
@@ -125,6 +109,15 @@ export function MotherboardListPage() {
   const [addedFilterKeys, setAddedFilterKeys] = useState<string[]>([])
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
+  const brandFacet = useMemo(() => facetValues(motherboards, (item) => item.brand), [motherboards])
+  const cpuSupportFacet = useMemo(() => facetValues(motherboards, (item) => item.specs.cpuSupport), [motherboards])
+  const socketFacet = useMemo(() => facetValues(motherboards, (item) => item.specs.socket), [motherboards])
+  const chipsetFacet = useMemo(() => facetValues(motherboards, (item) => item.specs.chipset), [motherboards])
+  const mainboardSupportFacet = useMemo(() => facetValues(motherboards, (item) => item.specs.mainboardSupport), [motherboards])
+  const memorySlotsFacet = useMemo(() => facetValues(motherboards, (item) => item.specs.memorySlots), [motherboards])
+  const memoryTypeFacet = useMemo(() => facetValues(motherboards, (item) => item.specs.memoryType), [motherboards])
+  const maxMemoryFacet = useMemo(() => facetValues(motherboards, (item) => item.specs.maxMemory), [motherboards])
+  const formFactorFacet = useMemo(() => facetValues(motherboards, (item) => item.specs.formFactor), [motherboards])
 
   useEffect(() => {
     let cancelled = false

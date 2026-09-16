@@ -2,25 +2,11 @@ import { useEffect, useMemo, useState } from 'react'
 import { FiEdit2, FiPlus, FiTrash2, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
+import { facetValues } from '../../../lib/catalogFilters'
 import { deleteGpu, getGpus } from '../../../services/gpu.service'
 import type { Gpu, GpuStatus } from '../../../types/gpu'
 
 type LoadStatus = 'loading' | 'error' | 'success'
-
-const brandFacet = ['ASUS', 'GIGABYTE', 'MSI', 'SAPPHIRE', 'POWERCOLOR', 'GALAX', 'ZOTAC', 'EVGA', 'PALIT', 'INNO3D']
-const seriesFacet = [
-  'NVIDIA GeForce RTX 40 Series',
-  'NVIDIA GeForce RTX 30 Series',
-  'AMD Radeon RX 7000 Series',
-  'AMD Radeon RX 6000 Series',
-]
-const modelFacet = [
-  'RTX 4090', 'RTX 4080', 'RTX 4070 Ti Super', 'RTX 4070 Ti', 'RTX 4070', 'RTX 4060 Ti', 'RTX 4060', 'RTX 3060',
-  'RX 7900 XTX', 'RX 7900 XT', 'RX 7800 XT', 'RX 7600',
-]
-const memorySizeFacet = ['24GB', '16GB', '12GB', '8GB']
-const powerRequirementFacet = ['850W', '750W', '650W', '550W']
-const pcieInterfaceFacet = ['PCIe 4.0 x16', 'PCIe 3.0 x16']
 
 const statusMap: Record<GpuStatus, { label: string; variant: 'success' | 'warning' | 'danger' | 'neutral' }> = {
   active: { label: 'พร้อมจำหน่าย', variant: 'success' },
@@ -117,6 +103,12 @@ export function GpuListPage() {
   const [addedFilterKeys, setAddedFilterKeys] = useState<string[]>([])
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
+  const brandFacet = useMemo(() => facetValues(gpus, (gpu) => gpu.brand), [gpus])
+  const seriesFacet = useMemo(() => facetValues(gpus, (gpu) => gpu.series), [gpus])
+  const modelFacet = useMemo(() => facetValues(gpus, (gpu) => gpu.model), [gpus])
+  const memorySizeFacet = useMemo(() => facetValues(gpus, (gpu) => gpu.memorySize), [gpus])
+  const powerRequirementFacet = useMemo(() => facetValues(gpus, (gpu) => gpu.specs.powerRequirement), [gpus])
+  const pcieInterfaceFacet = useMemo(() => facetValues(gpus, (gpu) => gpu.specs.pcieInterface), [gpus])
 
   useEffect(() => {
     let cancelled = false

@@ -8,12 +8,11 @@ AI → Backend `/api/internal/ai/catalog` → ตาราง Product และ�
 
 จากโฟลเดอร์ BVMcomputer รัน `run_connected_system.bat` แล้วเปิด http://localhost:5173
 ใช้บัญชี Admin เดิม ระบบสร้าง token ระหว่าง Backend/AI ในหน่วยความจำทุกครั้ง
-ตัวรันรวมใช้พอร์ต AI 8100 เพื่อแยกจากเว็บ AI แบบ offline ที่ใช้พอร์ต 8000
+ตัวรันรวมใช้พอร์ต AI 8100
 ต้องมี dependencies ของ Backend/Admin, Prisma client ที่ generate แล้ว และ Python
 การปิดด้วย Ctrl+C จะหยุดบริการที่เริ่มจากคำสั่งนี้
 
 Backend อ่าน DATABASE_URL จาก `Backend-web/.env` ซึ่งชี้ Supabase
-ไฟล์ Admin `.env` มีเฉพาะ VITE_API_URL และ VITE_USE_MOCK_DATA=false
 ระหว่างพัฒนา Admin เรียก `/api` ผ่าน Vite proxy เพื่อให้คุกกี้ล็อกอินอยู่โดเมนเดียวกัน
 ตัวรันรวมตั้ง BACKEND_PROXY_TARGET ให้ตรงพอร์ต Backend โดยอัตโนมัติ
 ถ้ารัน Admin แยกและ Backend ไม่ได้ใช้ 8080 ให้ตั้ง BACKEND_PROXY_TARGET ใน environment ก่อนรัน Vite
@@ -42,7 +41,6 @@ AI ตรวจข้อมูลใหม่ทุก 10 วินาทีเ�
 สินค้าที่สเปกไม่ครบอาจถูกกรองออกจนกว่าจะเติมสเปกที่จำเป็น
 จำนวน catalog ไม่ถูกจำกัดไว้ที่ 50 ในระบบออนไลน์
 
-`ai/run_compatibility_web.bat` เป็น launcher แบบ offline เดิม;
 สำหรับข้อมูล Supabase ที่แก้จาก Admin ให้ใช้ `run_connected_system.bat`
 หากรันแยก ให้ตั้ง AI_BACKEND_URL และ AI_CATALOG_TOKEN ใน AI;
 ตั้ง AI_CATALOG_TOKEN เดียวกันใน Backend, และตั้ง AI_SERVICE_TOKEN ให้ตรง BUILDCORES_API_TOKEN

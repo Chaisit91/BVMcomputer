@@ -21,7 +21,7 @@
 - ส่ง dropdown แบบ compact JSON พร้อม gzip
 - หน้าเว็บโหลด dropdown ใหม่เฉพาะเมื่อ dependency ของหมวดนั้นเปลี่ยน
 - ตัดเฉพาะรายการ `incompatible`; รายการข้อมูลไม่ครบยังเลือกได้และจะแสดงสีเหลือง
-- PostgreSQL importer สร้าง composite indexes สำหรับ socket, memory type, wattage, form factor และ clearance
+- เมื่อรันระบบรวม AI โหลด catalog ผ่าน Backend และใช้ cache เพื่อลดจำนวน request
 
 ## ใช้งานผ่าน Command Line
 
@@ -46,22 +46,20 @@ python my-scripts/compatibility_engine.py `
 
 ## ใช้งานผ่าน HTTP API
 
-ติดตั้ง dependency สำหรับ PostgreSQL และการย่อรูป แล้วเริ่ม server:
+ติดตั้ง dependency สำหรับการย่อรูป แล้วเริ่ม server:
 
 ```powershell
-python -m pip install -r my-scripts/requirements-postgres.txt
+python -m pip install -r my-scripts/requirements-api.txt
 python my-scripts/compatibility_api.py --host 127.0.0.1 --port 8000
 ```
 
-ถ้าต้องการให้ API และระบบแนะนำอัปเกรดอ่าน clean catalog จาก Supabase ให้ตั้งเฉพาะ URL และ publishable key ซึ่งเปิดเผยใน client ได้ ห้ามใช้ secret/service-role key:
+ระบบใช้งานจริงให้เรียกผ่าน `run_connected_system.bat` ที่ราก repository ตัวรันจะกำหนด URL และ token ระหว่าง Backend/AI ให้เอง หากรัน AI แยก ให้กำหนดค่าต่อไปนี้โดยใช้ token เดียวกับ Backend:
 
 ```powershell
-$env:SUPABASE_URL = "https://<project-ref>.supabase.co"
-$env:SUPABASE_PUBLISHABLE_KEY = "sb_publishable_..."
-$env:BUILDCORES_SUPABASE_REQUIRED = "1" # ไม่บังคับ; ให้หยุด server ถ้า Supabase ใช้งานไม่ได้
+$env:AI_BACKEND_URL = "http://127.0.0.1:8080"
+$env:AI_CATALOG_TOKEN = "<token>"
 ```
 
-หากไม่ตั้งค่า ระบบจะใช้ `data/processed/web_catalog` ในเครื่อง และหากตั้ง Supabase แต่เชื่อมต่อไม่ได้ ระบบจะ fallback เป็น CSV เว้นแต่ตั้ง `BUILDCORES_SUPABASE_REQUIRED=1`
 
 เปิดหน้าเลือกอุปกรณ์ใน browser:
 
@@ -103,7 +101,7 @@ POST /assemble
 
 ค่า `goal` รองรับ `gaming`, `creator`, `general` ส่วน `target` ใช้ `auto` หรือชื่อหมวดอุปกรณ์ ระบบจัดอันดับรุ่นที่ feature score สูงขึ้นอย่างน้อย 5% แล้วใช้กฎ compatibility ตรวจผลกระทบ พร้อมคืน `required_changes` เพื่อบอกว่าต้องเปลี่ยนเมนบอร์ด, RAM, cooler, PSU หรือเคสตามหรือไม่ คะแนนที่เพิ่มเป็น heuristic ภายในหมวด ไม่ใช่ FPS/benchmark และยังไม่ใช้ budget เพราะ catalog ไม่มีราคา
 
-`POST /assemble` รับ JSON รูปแบบ `{"selection":{"cpu":"<id>", ...}}` หลังเลือกครบ 8 หมวด ระบบจะดึง `image_url` จาก PostgreSQL ย่อแต่ละรูปให้ไม่เกิน `1024×1024` โดยรักษาอัตราส่วน แล้วส่งข้อมูลสินค้าครบทุกชิ้นไปยัง MaxPlus Images API เนื่องจาก API รับรูปอ้างอิงได้สูงสุด 5 ไฟล์ ระบบจึงส่ง Case, Motherboard, CPU Cooler และ GPU เป็นรูปเดี่ยว และรวม CPU, RAM, PSU และ Storage เป็น contact sheet 2×2 ในไฟล์ที่ห้า ต้องตั้ง `MAXPLUS_API_KEY` (คีย์ `ccsk-...`) เฉพาะฝั่ง server และใช้ public HTTPS URL สำหรับรูปสินค้า ภาพที่ได้เป็นภาพจำลอง ไม่ใช่การรับรองรูปลักษณ์ของ SKU แบบ 100%
+`POST /assemble` รับ JSON รูปแบบ `{"selection":{"cpu":"<id>", ...}}` หลังเลือกครบ 8 หมวด ระบบใช้ `image_url` ที่ได้รับจาก Backend ย่อแต่ละรูปให้ไม่เกิน `1024×1024` โดยรักษาอัตราส่วน แล้วส่งข้อมูลสินค้าไปยัง MaxPlus Images API ต้องตั้ง `MAXPLUS_API_KEY` เฉพาะฝั่ง server และใช้ public HTTPS URL สำหรับรูปสินค้า ภาพที่ได้เป็นภาพจำลอง ไม่ใช่การรับรองรูปลักษณ์ของ SKU แบบ 100%
 
 ## ขอบเขตข้อมูลปัจจุบัน
 
@@ -128,6 +126,5 @@ python my-scripts/test_compatibility_engine.py
 - `data/processed/features` เก็บ feature ฉบับเต็มสำหรับสร้าง training และ validation
 - `data/processed/web_catalog` เก็บสินค้าใหม่สุดหมวดละ 50 รายการสำหรับหน้าเว็บ
 - สร้าง web catalog ใหม่ด้วย `python my-scripts/trim_feature_catalog.py --keep 50 --apply`
-- การเปิดเว็บแบบ local ไม่ต้องเชื่อม PostgreSQL; ตั้ง `PGPASSWORD` เมื่อต้องการโหลด `image_url`
 - หาก bind API ออกนอกเครื่อง ต้องตั้ง `BUILDCORES_API_TOKEN` อย่างน้อย 32 ตัวอักษร และส่ง `Authorization: Bearer <token>`
 - ตรวจ training/validation ก่อน train ด้วย `python my-scripts/check_training_validation.py`; คำสั่งคืน exit code ที่ไม่ใช่ศูนย์เมื่อพบ schema drift, label ผิดรูปแบบ, คู่ซ้ำ หรือ data leakage

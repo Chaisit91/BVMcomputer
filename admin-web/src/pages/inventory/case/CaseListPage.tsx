@@ -2,16 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { FiBox, FiCheckCircle, FiEdit2, FiHardDrive, FiLayers, FiPlus, FiTrash2, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
+import { facetValues } from '../../../lib/catalogFilters'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteCase, getCases } from '../../../services/case.service'
 import type { Case } from '../../../types/case'
 
 type LoadStatus = 'loading' | 'error' | 'success'
-
-const brandFacet = ['LIAN LI', 'NZXT', 'CORSAIR', 'MONTECH', 'HYTE', 'ASUS', 'DEEPCOOL', 'THERMALTAKE']
-const mbSupportFacet = ['ATX', 'E-ATX', 'Micro-ATX', 'Mini-ITX']
-const caseTypeFacet = ['Mid Tower', 'Full Tower', 'Mini Tower', 'Open Frame']
-const sidePanelFacet = ['Tempered Glass', 'Mesh Panel', 'Solid Panel']
 
 function getStockStatus(stock: number): { label: string; variant: 'success' | 'warning' | 'danger' } {
   if (stock === 0) return { label: 'สินค้าหมด', variant: 'danger' }
@@ -99,6 +95,10 @@ export function CaseListPage() {
   const [addedFilterKeys, setAddedFilterKeys] = useState<string[]>([])
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
+  const brandFacet = useMemo(() => facetValues(items, (item) => item.brand), [items])
+  const mbSupportFacet = useMemo(() => facetValues(items, (item) => item.specs.mbSupport), [items])
+  const caseTypeFacet = useMemo(() => facetValues(items, (item) => item.specs.caseType), [items])
+  const sidePanelFacet = useMemo(() => facetValues(items, (item) => item.specs.sidePanel), [items])
 
   useEffect(() => {
     let cancelled = false

@@ -2,16 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { FiAlertTriangle, FiBox, FiEdit2, FiPackage, FiPlus, FiTrash2, FiX, FiXCircle } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
+import { facetValues } from '../../../lib/catalogFilters'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteStorage, getStorages } from '../../../services/storage.service'
 import type { Storage } from '../../../types/storage'
 
 type LoadStatus = 'loading' | 'error' | 'success'
-
-const brandFacet = ['SAMSUNG', 'WD', 'SEAGATE', 'KINGSTON', 'CRUCIAL', 'SANDISK', 'TOSHIBA']
-const typeFacet = ['SSD M.2 NVMe', 'SSD SATA 2.5 inch', 'HDD Internal 3.5 inch', 'HDD Internal 2.5 inch']
-const capacityFacet = ['256 GB', '512 GB', '1 TB', '2 TB', '4 TB', '8 TB']
-const interfaceFacet = ['PCIe Gen 4.0 x4', 'PCIe Gen 3.0 x4', 'SATA III', 'PCIe Gen 5.0 x4']
 
 function getStockStatus(stock: number): { label: string; variant: 'success' | 'warning' | 'danger' } {
   if (stock === 0) return { label: 'สินค้าหมด', variant: 'danger' }
@@ -99,6 +95,10 @@ export function StorageListPage() {
   const [addedFilterKeys, setAddedFilterKeys] = useState<string[]>([])
   const [addedSelections, setAddedSelections] = useState<Record<string, Set<string>>>({})
   const [showAddMenu, setShowAddMenu] = useState(false)
+  const brandFacet = useMemo(() => facetValues(items, (item) => item.brand), [items])
+  const typeFacet = useMemo(() => facetValues(items, (item) => item.specs.type), [items])
+  const capacityFacet = useMemo(() => facetValues(items, (item) => item.specs.capacity), [items])
+  const interfaceFacet = useMemo(() => facetValues(items, (item) => item.specs.interface), [items])
 
   useEffect(() => {
     let cancelled = false
