@@ -63,7 +63,7 @@ const featureLinks: FeatureLink[] = [
 
 export function FeatureLinks() {
   return (
-    <section className="bg-slate-50 pb-8 pt-4">
+    <section className="bg-slate-50 pt-4">
       <Container>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {featureLinks.map((item) => (

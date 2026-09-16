@@ -4,10 +4,10 @@ import { fetchHomeData } from '../features/home/homeSlice';
 import { HeroBanner } from '../components/home/HeroBanner';
 import { FeatureLinks } from '../components/home/FeatureLinks';
 import { CategorySection } from '../components/home/CategorySection';
-import { PromoBanners } from '../components/home/PromoBanners';
+import { ChoosePathSection } from '../components/home/ChoosePathSection';
 import { ProductSection } from '../components/home/ProductSection';
 import { SpecialDealsSection } from '../components/home/SpecialDealsSection';
-import { CustomPcCta } from '../components/home/CustomPcCta';
+import { PcSetBudgetBanner } from '../components/home/PcSetBudgetBanner';
 import { ServiceBadges } from '../components/shared/ServiceBadges';
 
 export function HomePage() {
@@ -26,10 +26,10 @@ export function HomePage() {
       <HeroBanner />
       <FeatureLinks />
       <CategorySection />
-      <PromoBanners />
+      <ChoosePathSection />
       <ProductSection />
       <SpecialDealsSection />
-      <CustomPcCta />
+      <PcSetBudgetBanner />
       <ServiceBadges />
     </>
   );

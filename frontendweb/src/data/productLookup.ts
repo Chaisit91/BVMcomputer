@@ -115,7 +115,7 @@ function mockEngagement(id: string) {
   };
 }
 
-function skuFromId(id: string): string {
+export function skuFromId(id: string): string {
   return `SKU-${id.toUpperCase()}`;
 }
 

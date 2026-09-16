@@ -12,7 +12,7 @@ export function ProductSection() {
   const visibleProducts = products.slice(0, VISIBLE_COUNT);
 
   return (
-    <section id="popular" className="pb-10">
+    <section id="popular" className="bg-slate-50 pb-10">
       <Container>
         <SectionHeading eyebrow="POPULAR PC BUILDS & COMPONENTS" title="สินค้ายอดนิยม" viewAllHref="#products" />
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">

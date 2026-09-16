@@ -1,10 +1,16 @@
 import { Container } from '../ui/Container';
 import { serviceBadges } from '../../data/serviceBadges';
+import { cn } from '../../lib/cn';
+
+interface ServiceBadgesProps {
+  /** Section background — defaults to the usual light-gray; the homepage overrides it to white. */
+  bgClassName?: string;
+}
 
 /** Four standalone service-badge cards — used at the bottom of the homepage and category pages alike. */
-export function ServiceBadges() {
+export function ServiceBadges({ bgClassName = 'bg-slate-50' }: ServiceBadgesProps) {
   return (
-    <section className="bg-slate-50 py-10">
+    <section className={cn(bgClassName, 'py-10')}>
       <Container>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {serviceBadges.map((badge) => (

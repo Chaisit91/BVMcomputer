@@ -17,6 +17,7 @@ import { BuildCategoryPage } from './pages/BuildCategoryPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { CartPage } from './pages/CartPage';
 import { CheckoutPage } from './pages/CheckoutPage';
+import { UpgradePcPage } from './pages/UpgradePcPage';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             <Route path="/product/:category/:id" element={<ProductDetailPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/upgrade-pc" element={<UpgradePcPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

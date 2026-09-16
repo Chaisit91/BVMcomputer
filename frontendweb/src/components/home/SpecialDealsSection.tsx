@@ -16,7 +16,7 @@ export function SpecialDealsSection() {
   }, []);
 
   return (
-    <section id="special-deals" className="pb-10">
+    <section id="special-deals" className="bg-slate-50 pb-10">
       <Container>
         <div className="mb-5 flex items-center justify-between">
           <div className="flex items-center gap-2">

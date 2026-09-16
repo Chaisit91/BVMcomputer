@@ -29,7 +29,7 @@ const secondRow = secondaryCategories.slice(3);
 
 export function CategorySection() {
   return (
-    <section className="py-10">
+    <section className="bg-slate-50 py-10">
       <Container>
         <SectionHeading title="หมวดหมู่สินค้า" viewAllHref="#categories" />
 

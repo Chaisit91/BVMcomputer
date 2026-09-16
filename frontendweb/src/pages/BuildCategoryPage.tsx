@@ -136,6 +136,7 @@ export function BuildCategoryPage() {
             icon={BsCpu}
             selected={selectedCpu?.id === p.id}
             onSelect={() => handleSelectCpu(p)}
+            onRemove={() => setSelectedCpu(null)}
             item={{
               id: p.id,
               name: p.name,
@@ -153,6 +154,7 @@ export function BuildCategoryPage() {
             icon={BsMotherboard}
             selected={selectedMotherboard?.id === p.id}
             onSelect={() => setSelectedMotherboard(p)}
+            onRemove={() => setSelectedMotherboard(null)}
             item={{
               id: p.id,
               name: p.name,
@@ -170,6 +172,7 @@ export function BuildCategoryPage() {
             icon={BsGpuCard}
             selected={selectedGpu?.id === p.id}
             onSelect={() => setSelectedGpu(p)}
+            onRemove={() => setSelectedGpu(null)}
             item={{
               id: p.id,
               name: p.name,
@@ -187,6 +190,7 @@ export function BuildCategoryPage() {
             icon={BsMemory}
             selected={selectedRam?.id === p.id}
             onSelect={() => setSelectedRam(p)}
+            onRemove={() => setSelectedRam(null)}
             item={{
               id: p.id,
               name: p.name,
@@ -204,6 +208,7 @@ export function BuildCategoryPage() {
             icon={BsHdd}
             selected={selectedStorage?.id === p.id}
             onSelect={() => setSelectedStorage(p)}
+            onRemove={() => setSelectedStorage(null)}
             item={{
               id: p.id,
               name: p.name,
@@ -221,6 +226,7 @@ export function BuildCategoryPage() {
             icon={BsPlug}
             selected={selectedPsu?.id === p.id}
             onSelect={() => setSelectedPsu(p)}
+            onRemove={() => setSelectedPsu(null)}
             item={{
               id: p.id,
               name: p.name,
@@ -238,6 +244,7 @@ export function BuildCategoryPage() {
             icon={PiComputerTower}
             selected={selectedCase?.id === p.id}
             onSelect={() => setSelectedCase(p)}
+            onRemove={() => setSelectedCase(null)}
             item={{
               id: p.id,
               name: p.name,
@@ -255,6 +262,7 @@ export function BuildCategoryPage() {
             icon={BsSnow2}
             selected={selectedCooling?.id === p.id}
             onSelect={() => setSelectedCooling(p)}
+            onRemove={() => setSelectedCooling(null)}
             item={{
               id: p.id,
               name: p.name,
