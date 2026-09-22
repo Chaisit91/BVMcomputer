@@ -3,6 +3,7 @@ import authReducer from '../features/auth/authSlice';
 import cartReducer from '../features/cart/cartSlice';
 import cartUiReducer from '../features/cart/cartUiSlice';
 import homeReducer from '../features/home/homeSlice';
+import upgradeReducer from '../features/upgrade/upgradeSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     cart: cartReducer,
     cartUi: cartUiReducer,
     home: homeReducer,
+    upgrade: upgradeReducer,
   },
 });
 

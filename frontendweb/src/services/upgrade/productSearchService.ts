@@ -40,6 +40,14 @@ const catalogs: Record<UpgradeComponentKey, () => UpgradeProduct[]> = {
 };
 
 /**
+ * TODO(backend): swap for `GET /api/products?category=` (paginated) once the real catalog
+ * endpoint exists. Same return shape as the search below, so callers won't change.
+ */
+export async function listUpgradeProducts(component: UpgradeComponentKey): Promise<UpgradeProduct[]> {
+  return catalogs[component]();
+}
+
+/**
  * TODO(backend): swap this local filter for `GET /api/products/search?q=` once the
  * real product-search endpoint exists. The signature and return shape (a Promise of
  * UpgradeProduct[]) already match what that call would return, so callers won't change.

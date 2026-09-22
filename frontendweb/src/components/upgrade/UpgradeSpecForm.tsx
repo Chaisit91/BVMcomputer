@@ -1,9 +1,7 @@
-import { BsCheckCircleFill } from 'react-icons/bs';
 import { FiCpu } from 'react-icons/fi';
 import { PiSparkleFill } from 'react-icons/pi';
 import { categoryIcons } from '../home/categoryIcons';
 import { SpecSearchField } from './SpecSearchField';
-import { cn } from '../../lib/cn';
 import type { UpgradeComponentKey, UpgradeProduct, UpgradeSelection } from '../../types/upgrade';
 
 interface SpecFieldMeta {
@@ -45,9 +43,8 @@ interface UpgradeSpecFormProps {
   onUsageChange: (value: string) => void;
   games: string;
   onGamesChange: (value: string) => void;
-  aiStatus: 'idle' | 'loading' | 'ready';
-  aiMessage: string | null;
-  onAnalyze: () => void;
+  /** Continues to step 2 (choosing the replacement parts). */
+  onSelectParts: () => void;
 }
 
 export function UpgradeSpecForm({
@@ -60,9 +57,7 @@ export function UpgradeSpecForm({
   onUsageChange,
   games,
   onGamesChange,
-  aiStatus,
-  aiMessage,
-  onAnalyze,
+  onSelectParts,
 }: UpgradeSpecFormProps) {
   return (
     <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-card sm:p-6">
@@ -130,38 +125,16 @@ export function UpgradeSpecForm({
       <div className="mt-4 flex flex-col items-center gap-2 border-t border-slate-100 pt-4">
         <button
           type="button"
-          onClick={onAnalyze}
-          disabled={aiStatus === 'loading'}
-          className="flex h-11 w-full max-w-[345px] items-center justify-center gap-2 rounded-full bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-70"
+          onClick={onSelectParts}
+          className="flex h-11 w-full max-w-[345px] items-center justify-center gap-2 rounded-full bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
         >
-          {aiStatus === 'loading' ? (
-            <>
-              <FiCpu size={16} className="animate-spin" aria-hidden="true" />
-              กำลังวิเคราะห์...
-            </>
-          ) : (
-            <>
-              <PiSparkleFill size={16} aria-hidden="true" />
-              วิเคราะห์สเปคด้วย AI →
-            </>
-          )}
+          <PiSparkleFill size={16} aria-hidden="true" />
+          เลือกชิ้นส่วนอัปเกรด →
         </button>
         <p className="flex items-center gap-1 text-xs text-slate-400">
           <FiCpu size={12} aria-hidden="true" />
-          ข้อมูลของคุณจะถูกใช้เพื่อการวิเคราะห์เท่านั้น ไม่มีการบันทึกหรือเปิดเผย
+          ข้อมูลของคุณจะถูกใช้เพื่อเลือกชิ้นส่วนที่เหมาะสมเท่านั้น ไม่มีการบันทึกหรือเปิดเผย
         </p>
-
-        {aiMessage && (
-          <div
-            className={cn(
-              'mt-2 flex w-full max-w-[345px] items-center gap-2 rounded-lg border px-3.5 py-2.5 text-xs',
-              'border-amber-200 bg-amber-50 text-amber-700',
-            )}
-          >
-            <BsCheckCircleFill size={13} className="shrink-0" aria-hidden="true" />
-            {aiMessage}
-          </div>
-        )}
       </div>
     </div>
   );

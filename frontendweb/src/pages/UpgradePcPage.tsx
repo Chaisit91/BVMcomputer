@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
 import { Container } from '../components/ui/Container';
 import { UpgradeHeroBanner } from '../components/upgrade/UpgradeHeroBanner';
@@ -8,22 +8,26 @@ import { UpgradeSpecForm } from '../components/upgrade/UpgradeSpecForm';
 import { UpgradeSidebar } from '../components/upgrade/UpgradeSidebar';
 import { UpgradeArticles } from '../components/upgrade/UpgradeArticles';
 import { ServiceBadges } from '../components/shared/ServiceBadges';
-import { analyzeUpgradeSpec } from '../services/upgrade/aiService';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { setCurrentSpec } from '../features/upgrade/upgradeSlice';
 import type { UpgradeComponentKey, UpgradeProduct, UpgradeSelection } from '../types/upgrade';
 
 /**
- * Step 1 of the upgrade-advisor flow — steps 2-5 (AI analysis, part recommendations,
- * compatibility check, cart summary) aren't built yet; this page just collects the
- * current-spec input and calls the (mocked) AI service, per the current scope.
+ * Step 1 of the upgrade-advisor flow — collects the customer's current spec, then
+ * hands it to step 2 (choosing replacement parts) via the shared `upgrade` store slice.
+ * Steps 3-5 (AI analysis, compatibility check, cart summary) aren't built yet.
  */
 export function UpgradePcPage() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const stored = useAppSelector((state) => state.upgrade);
+
   const [currentStep] = useState(1);
-  const [selection, setSelection] = useState<UpgradeSelection>({});
-  const [budget, setBudget] = useState('');
-  const [usage, setUsage] = useState('');
-  const [games, setGames] = useState('');
-  const [aiStatus, setAiStatus] = useState<'idle' | 'loading' | 'ready'>('idle');
-  const [aiMessage, setAiMessage] = useState<string | null>(null);
+  // Seeded from the store so coming back from step 2 doesn't wipe what was typed.
+  const [selection, setSelection] = useState<UpgradeSelection>(stored.currentSpec);
+  const [budget, setBudget] = useState(stored.budget);
+  const [usage, setUsage] = useState(stored.usage);
+  const [games, setGames] = useState(stored.games);
 
   const handleSelectComponent = (key: UpgradeComponentKey, product: UpgradeProduct) => {
     setSelection((prev) => ({ ...prev, [key]: product }));
@@ -37,15 +41,9 @@ export function UpgradePcPage() {
     });
   };
 
-  // Placeholder for the real AI call — a teammate owns POST /api/upgrade/analyze.
-  // Swapping analyzeUpgradeSpec's implementation for a real fetch later needs no
-  // changes here, since the request/response shape is already fixed.
-  const handleAnalyzeWithAI = async () => {
-    setAiStatus('loading');
-    setAiMessage(null);
-    const response = await analyzeUpgradeSpec({ selected: selection, budget, usage, games });
-    setAiStatus('ready');
-    setAiMessage(response.message);
+  const handleSelectUpgradeParts = () => {
+    dispatch(setCurrentSpec({ currentSpec: selection, budget, usage, games }));
+    navigate('/upgrade-pc/select');
   };
 
   return (
@@ -74,9 +72,7 @@ export function UpgradePcPage() {
               onUsageChange={setUsage}
               games={games}
               onGamesChange={setGames}
-              aiStatus={aiStatus}
-              aiMessage={aiMessage}
-              onAnalyze={handleAnalyzeWithAI}
+              onSelectParts={handleSelectUpgradeParts}
             />
 
             <UpgradeSidebar />

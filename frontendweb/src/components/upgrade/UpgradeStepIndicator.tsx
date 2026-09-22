@@ -1,17 +1,18 @@
+import { FiCheck } from 'react-icons/fi';
 import { cn } from '../../lib/cn';
 
+// Exactly 4 steps — AI analysis and compatibility checking are one and the same step.
 const steps = [
-  { id: 1, title: 'กรอกสเปคปัจจุบัน', subtitle: 'ระบุสเปคคอมของคุณ' },
-  { id: 2, title: 'AI วิเคราะห์', subtitle: 'ประมวลผลและให้คำแนะนำ' },
-  { id: 3, title: 'เลือกชิ้นส่วนอัปเกรด', subtitle: 'ดูสินค้าแนะนำ' },
-  { id: 4, title: 'ตรวจสอบความเข้ากันได้', subtitle: 'เช็กปัญหาและคำแนะนำเพิ่มเติม' },
-  { id: 5, title: 'สรุปและเพิ่มลงตะกร้า', subtitle: 'พร้อมสั่งซื้อได้ทันที' },
+  { id: 1, title: 'กรอกสเปคคอมปัจจุบัน', subtitle: 'ระบุสเปคที่ใช้อยู่' },
+  { id: 2, title: 'เลือกชิ้นส่วนอัปเกรด', subtitle: 'เลือกสินค้าที่ต้องการ' },
+  { id: 3, title: 'AI วิเคราะห์', subtitle: 'ประมวลผลและให้คำแนะนำ' },
+  { id: 4, title: 'สรุปและเพิ่มลงตะกร้า', subtitle: 'พร้อมสั่งซื้อได้ทันที' },
 ];
 
 /**
  * Fixed-width columns (not content-width) so the connector lines and circles stay
  * evenly spaced regardless of each step's label length — same fix as the checkout
- * page's step indicator.
+ * page's step indicator. Completed steps show a ✓ and turn the line after them red.
  */
 export function UpgradeStepIndicator({ currentStep }: { currentStep: number }) {
   return (
@@ -28,13 +29,20 @@ export function UpgradeStepIndicator({ currentStep }: { currentStep: number }) {
                   isActive || isDone ? 'bg-brand text-white' : 'bg-slate-200 text-slate-500',
                 )}
               >
-                {step.id}
+                {isDone ? <FiCheck size={18} strokeWidth={3} aria-label="เสร็จสิ้น" /> : step.id}
               </span>
-              <span className={cn('text-[13px] font-semibold', isActive ? 'text-brand' : 'text-slate-400')}>{step.title}</span>
+              <span
+                className={cn('text-[13px] font-semibold', isActive ? 'text-brand' : isDone ? 'text-ink' : 'text-slate-400')}
+              >
+                {step.title}
+              </span>
               <span className="hidden text-[12px] leading-snug text-slate-400 sm:block">{step.subtitle}</span>
             </div>
             {index < steps.length - 1 && (
-              <span className="mt-[17px] h-0.5 w-6 shrink-0 rounded-full bg-slate-300 sm:w-10" aria-hidden="true" />
+              <span
+                className={cn('mt-[17px] h-0.5 w-6 shrink-0 rounded-full sm:w-10', isDone ? 'bg-brand' : 'bg-slate-300')}
+                aria-hidden="true"
+              />
             )}
           </div>
         );
