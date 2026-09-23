@@ -4,6 +4,12 @@ import { prisma } from '../../lib/prisma'
 
 // Server-to-server only. The browser uses the existing authenticated CRUD routes.
 export const catalogRouter = Router()
+
+export function catalogPublicationFilter() {
+  return process.env.AI_INCLUDE_DRAFT_CATALOG === 'true'
+    ? {}
+    : { status: 'active' as const, publishImmediately: true }
+}
 catalogRouter.use((req, res, next) => {
   const token = process.env.AI_CATALOG_TOKEN?.trim()
   if (!token || token.length < 32) {
@@ -22,7 +28,7 @@ catalogRouter.get('/catalog', async (_req, res) => {
   const items = await prisma.product.findMany({
     where: {
       category: { in: ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'case', 'psu', 'cooling'] },
-      status: 'active', publishImmediately: true,
+      ...catalogPublicationFilter(),
     },
     orderBy: { id: 'asc' },
     // Explicit selection excludes cost prices, customer data and credentials.

@@ -97,7 +97,6 @@ export function CoolingListPage() {
   const [showAddMenu, setShowAddMenu] = useState(false)
   const brandFacet = useMemo(() => facetValues(items, (item) => item.brand), [items])
   const coolingTypeFacet = useMemo(() => facetValues(items, (item) => coolingFamily(item.specs.coolingType)), [items])
-  const socketFacet = useMemo(() => facetValues(items, (item) => item.specs.socketSupport), [items])
 
   useEffect(() => {
     let cancelled = false

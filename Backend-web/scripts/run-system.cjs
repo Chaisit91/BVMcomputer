@@ -47,6 +47,9 @@ async function main() {
   start(process.execPath, ['-r', 'ts-node/register', 'src/index.ts'], backend, {
     ...config, PORT: String(port), CORS_ORIGIN: config.CORS_ORIGIN || 'http://localhost:5173',
     AI_SERVICE_URL: aiOrigin, AI_SERVICE_TOKEN: serviceToken, AI_CATALOG_TOKEN: catalogToken,
+    // Local connected mode can test compatibility with imported drafts. A
+    // normal/production Backend process still exposes active products only.
+    AI_INCLUDE_DRAFT_CATALOG: 'true',
   })
   let ready = false
   for (let i = 0; i < 60 && !stopping; i++) {

@@ -14,6 +14,7 @@ import {
   FiSliders,
   FiWind,
   FiZap,
+  FiActivity,
 } from 'react-icons/fi'
 
 interface InventoryMenuItem {
@@ -25,6 +26,7 @@ interface InventoryMenuItem {
 }
 
 const items: InventoryMenuItem[] = [
+  { id: 'ai-test', name: 'ทดสอบระบบ AI', description: 'ตรวจสถานะ ค้นหา และคำแนะนำจาก AI', icon: <FiActivity />, path: '/inventory/ai-test' },
   { id: 'build', name: 'จัดสเปคคอม', description: 'จัดสเปคอุปกรณ์ครบชุด', icon: <FiSliders />, path: '/inventory/custom-build' },
   { id: 'upgrade', name: 'อัพเกรดคอมพิวเตอร์', description: 'ตรวจสอบเครื่องเดิมและอัพเกรดของลูกค้า', icon: <FiRefreshCw />, path: '/inventory/computer-upgrade' },
   { id: 'promo', name: 'คอมพิวเตอร์เซ็ตโปรโมชั่น', description: 'โปรโมชั่นแบบคอมพร้อมใช้', icon: <FiGift />, path: '/inventory/promo-sets' },

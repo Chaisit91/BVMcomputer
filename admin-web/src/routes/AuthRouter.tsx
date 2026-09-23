@@ -51,6 +51,7 @@ import { UserCreatePage } from '../pages/manage/users/UserCreatePage'
 import { UserEditPage } from '../pages/manage/users/UserEditPage'
 import { UserListPage } from '../pages/manage/users/UserListPage'
 import { ProtectedRoute } from './ProtectedRoute'
+import { AiTestPage } from '../pages/ai-test/AiTestPage'
 
 export function AuthRouter() {
   return (
@@ -59,6 +60,7 @@ export function AuthRouter() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/inventory/ai-test" element={<AiTestPage />} />
           <Route path="/inventory/computer-upgrade" element={<ComputerUpgradeListPage />} />
           <Route path="/inventory/computer-upgrade/new" element={<ComputerUpgradeCreatePage />} />
           <Route path="/inventory/computer-upgrade/:upgradeId" element={<ComputerUpgradeEditPage readOnly />} />

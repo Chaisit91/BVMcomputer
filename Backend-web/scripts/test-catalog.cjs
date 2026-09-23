@@ -3,7 +3,7 @@ const assert = require('node:assert/strict')
 const { test } = require('node:test')
 const express = require('express')
 const { prisma } = require('../src/lib/prisma')
-const { catalogRouter } = require('../src/modules/ai/catalog.router')
+const { catalogRouter, catalogPublicationFilter } = require('../src/modules/ai/catalog.router')
 const { publicationFields, presentSpecs } = require('../src/lib/catalogPresentation')
 
 test('private catalog authorization and field whitelist', async () => {
@@ -50,6 +50,19 @@ test('existing admin publication controls activate imported drafts', () => {
   assert.deepEqual(publicationFields({ publishImmediately: true }), { status: 'active', publishImmediately: true })
   assert.deepEqual(publicationFields({ status: 'active', publishImmediately: false }), { status: 'active', publishImmediately: false })
   assert.deepEqual(publicationFields({ name: 'Edit only' }), { name: 'Edit only' })
+})
+
+test('draft catalog is opt-in and remains disabled by default', () => {
+  const original = process.env.AI_INCLUDE_DRAFT_CATALOG
+  try {
+    delete process.env.AI_INCLUDE_DRAFT_CATALOG
+    assert.deepEqual(catalogPublicationFilter(), { status: 'active', publishImmediately: true })
+    process.env.AI_INCLUDE_DRAFT_CATALOG = 'true'
+    assert.deepEqual(catalogPublicationFilter(), {})
+  } finally {
+    if (original === undefined) delete process.env.AI_INCLUDE_DRAFT_CATALOG
+    else process.env.AI_INCLUDE_DRAFT_CATALOG = original
+  }
 })
 
 test('editing an imported board retains its known PCIe slot count', () => {
