@@ -6,6 +6,7 @@ import { Container } from '../components/ui/Container';
 import { BuildHeroBanner } from '../components/build/BuildHeroBanner';
 import { BuildOptionCard } from '../components/build/BuildOptionCard';
 import { BuildSummarySidebar, type BuildSummaryRow } from '../components/build/BuildSummarySidebar';
+import { BuildCartPreviewModal, type BuildCartPreviewItem } from '../components/build/BuildCartPreviewModal';
 import { ServiceBadges } from '../components/shared/ServiceBadges';
 import { useAppDispatch } from '../app/hooks';
 import { addToCart } from '../features/cart/cartSlice';
@@ -19,7 +20,7 @@ import { psuProducts, type PsuProduct } from '../data/psuProducts';
 import { caseProducts, type CaseProduct } from '../data/caseProducts';
 import { coolingProducts, type CoolingProduct } from '../data/coolingProducts';
 
-type StepId = 'cpu' | 'motherboard' | 'gpu' | 'ram' | 'storage' | 'psu' | 'case' | 'cooling';
+export type StepId = 'cpu' | 'motherboard' | 'gpu' | 'ram' | 'storage' | 'psu' | 'case' | 'cooling';
 
 interface StepMeta {
   id: StepId;
@@ -42,6 +43,7 @@ const stepMeta: StepMeta[] = [
 export function BuildCategoryPage() {
   const dispatch = useAppDispatch();
   const [activeStep, setActiveStep] = useState<StepId>('cpu');
+  const [showCartPreview, setShowCartPreview] = useState(false);
 
   const [selectedCpu, setSelectedCpu] = useState<CpuProduct | null>(null);
   const [selectedMotherboard, setSelectedMotherboard] = useState<MotherboardProduct | null>(null);
@@ -96,7 +98,7 @@ export function BuildCategoryPage() {
     ).filter((value): value is StepId => Boolean(value)),
   );
 
-  const canCheckout = stepMeta.filter((step) => step.required).every((step) => filledSteps.has(step.id));
+  const hasSelection = filledSteps.size > 0;
 
   const summaryRows: BuildSummaryRow[] = [
     { id: 'cpu', label: 'ซีพียู', icon: BsCpu, required: true, selectedName: selectedCpu?.name ?? null, price: selectedCpu?.price ?? 0 },
@@ -109,22 +111,161 @@ export function BuildCategoryPage() {
     { id: 'cooling', label: 'ชุดระบายความร้อน', icon: BsSnow2, required: false, selectedName: selectedCooling?.name ?? null, price: selectedCooling?.price ?? 0 },
   ];
 
-  const handleAddAllToCart = () => {
-    const parts: { item: { id: string; name: string; price: number } | null; category: CategoryIconKey }[] = [
-      { item: selectedCpu, category: 'cpu' },
-      { item: selectedMotherboard, category: 'motherboard' },
-      { item: selectedGpu, category: 'gpu' },
-      { item: selectedRam, category: 'ram' },
-      { item: selectedStorage, category: 'storage' },
-      { item: selectedPsu, category: 'psu' },
-      { item: selectedCase, category: 'case' },
-      { item: selectedCooling, category: 'cooling' },
-    ];
-    parts.forEach(({ item, category }) => {
-      if (item) {
-        dispatch(addToCart({ id: item.id, name: item.name, slug: item.id, price: item.price, category }));
-      }
+  const handleReset = () => {
+    setSelectedCpu(null);
+    setSelectedMotherboard(null);
+    setSelectedGpu(null);
+    setSelectedRam(null);
+    setSelectedStorage(null);
+    setSelectedPsu(null);
+    setSelectedCase(null);
+    setSelectedCooling(null);
+  };
+
+  const cartPreviewItems: BuildCartPreviewItem[] = useMemo(() => {
+    const items: BuildCartPreviewItem[] = [];
+    if (selectedCpu) {
+      items.push({
+        categoryId: 'cpu',
+        categoryLabel: 'CPU',
+        productId: selectedCpu.id,
+        icon: BsCpu,
+        name: selectedCpu.name,
+        brand: selectedCpu.brand,
+        specLine: `${selectedCpu.cores}C/${selectedCpu.threads}T · ${selectedCpu.clock} · ${selectedCpu.socket}`,
+        image: selectedCpu.imageUrl,
+        unitPrice: selectedCpu.price,
+      });
+    }
+    if (selectedMotherboard) {
+      items.push({
+        categoryId: 'motherboard',
+        categoryLabel: 'Mainboard',
+        productId: selectedMotherboard.id,
+        icon: BsMotherboard,
+        name: selectedMotherboard.name,
+        brand: selectedMotherboard.brand,
+        specLine: `${selectedMotherboard.chipset} · ${selectedMotherboard.socket} · ${selectedMotherboard.formFactor}`,
+        image: selectedMotherboard.imageUrl,
+        unitPrice: selectedMotherboard.price,
+      });
+    }
+    if (selectedGpu) {
+      items.push({
+        categoryId: 'gpu',
+        categoryLabel: 'VGA',
+        productId: selectedGpu.id,
+        icon: BsGpuCard,
+        name: selectedGpu.name,
+        brand: selectedGpu.brand,
+        specLine: `${selectedGpu.memorySize} · ${selectedGpu.boostClock} · ${selectedGpu.model}`,
+        image: selectedGpu.imageUrl,
+        unitPrice: selectedGpu.price,
+      });
+    }
+    if (selectedRam) {
+      items.push({
+        categoryId: 'ram',
+        categoryLabel: 'RAM',
+        productId: selectedRam.id,
+        icon: BsMemory,
+        name: selectedRam.name,
+        brand: selectedRam.brand,
+        specLine: `${selectedRam.capacity} · ${selectedRam.memoryType} · ${selectedRam.speed}`,
+        image: selectedRam.imageUrl,
+        unitPrice: selectedRam.price,
+      });
+    }
+    if (selectedStorage) {
+      items.push({
+        categoryId: 'storage',
+        categoryLabel: 'SSD',
+        productId: selectedStorage.id,
+        icon: BsHdd,
+        name: selectedStorage.name,
+        brand: selectedStorage.brand,
+        specLine: `${selectedStorage.capacity} · ${selectedStorage.type} · ${selectedStorage.readSpeed}`,
+        image: selectedStorage.imageUrl,
+        unitPrice: selectedStorage.price,
+      });
+    }
+    if (selectedPsu) {
+      items.push({
+        categoryId: 'psu',
+        categoryLabel: 'Power Supply',
+        productId: selectedPsu.id,
+        icon: BsPlug,
+        name: selectedPsu.name,
+        brand: selectedPsu.brand,
+        specLine: `${selectedPsu.wattage} · ${selectedPsu.certification} · ${selectedPsu.modular}`,
+        image: selectedPsu.imageUrl,
+        unitPrice: selectedPsu.price,
+      });
+    }
+    if (selectedCase) {
+      items.push({
+        categoryId: 'case',
+        categoryLabel: 'Case',
+        productId: selectedCase.id,
+        icon: PiComputerTower,
+        name: selectedCase.name,
+        brand: selectedCase.brand,
+        specLine: `${selectedCase.formFactor} · ${selectedCase.sidePanel}`,
+        image: selectedCase.imageUrl,
+        unitPrice: selectedCase.price,
+      });
+    }
+    if (selectedCooling) {
+      items.push({
+        categoryId: 'cooling',
+        categoryLabel: 'CPU Cooler',
+        productId: selectedCooling.id,
+        icon: BsSnow2,
+        name: selectedCooling.name,
+        brand: selectedCooling.brand,
+        specLine: `${selectedCooling.type} · ${selectedCooling.fanSize} · ${selectedCooling.socket}`,
+        image: selectedCooling.imageUrl,
+        unitPrice: selectedCooling.price,
+      });
+    }
+    return items;
+  }, [
+    selectedCpu,
+    selectedMotherboard,
+    selectedGpu,
+    selectedRam,
+    selectedStorage,
+    selectedPsu,
+    selectedCase,
+    selectedCooling,
+  ]);
+
+  const handleConfirmCartPreview = () => {
+    const categoryMap: Record<StepId, CategoryIconKey> = {
+      cpu: 'cpu',
+      motherboard: 'motherboard',
+      gpu: 'gpu',
+      ram: 'ram',
+      storage: 'storage',
+      psu: 'psu',
+      case: 'case',
+      cooling: 'cooling',
+    };
+    cartPreviewItems.forEach((item) => {
+      dispatch(
+        addToCart({
+          id: item.productId,
+          name: item.name,
+          slug: item.productId,
+          price: item.unitPrice,
+          category: categoryMap[item.categoryId],
+          brand: item.brand,
+          imageUrl: item.image,
+          shortSpec: item.specLine,
+        }),
+      );
     });
+    setShowCartPreview(false);
   };
 
   const renderStepOptions = () => {
@@ -279,7 +420,6 @@ export function BuildCategoryPage() {
   };
 
   const currentIndex = stepMeta.findIndex((step) => step.id === activeStep);
-  const currentStep = stepMeta[currentIndex];
 
   const goToStep = (offset: number) => {
     const nextIndex = currentIndex + offset;
@@ -298,24 +438,21 @@ export function BuildCategoryPage() {
             <BuildSummarySidebar
               rows={summaryRows}
               totalPrice={totalPrice}
-              canCheckout={canCheckout}
+              hasSelection={hasSelection}
               onEditStep={(id) => setActiveStep(id as StepId)}
-              onAddAllToCart={handleAddAllToCart}
+              onAddAllToCart={() => setShowCartPreview(true)}
+              onReset={handleReset}
             />
 
             <div className="min-w-0 flex-1">
               <div>
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h2 className="flex items-center gap-2 text-base font-bold text-ink">
-                    <currentStep.icon size={18} className="text-brand" aria-hidden="true" />
-                    เลือก{currentStep.label}
-                  </h2>
-                  {(activeStep === 'motherboard' || activeStep === 'cooling') && selectedCpu && (
+                {(activeStep === 'motherboard' || activeStep === 'cooling') && selectedCpu && (
+                  <div className="mb-3 flex justify-end">
                     <span className="text-xs text-slate-400">กรองให้ตรง socket: {selectedCpu.socket}</span>
-                  )}
-                </div>
+                  </div>
+                )}
 
-                <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">{renderStepOptions()}</div>
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">{renderStepOptions()}</div>
 
                 <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-4">
                   <button
@@ -342,6 +479,14 @@ export function BuildCategoryPage() {
       </section>
 
       <ServiceBadges />
+
+      {showCartPreview && (
+        <BuildCartPreviewModal
+          items={cartPreviewItems}
+          onClose={() => setShowCartPreview(false)}
+          onConfirm={handleConfirmCartPreview}
+        />
+      )}
     </>
   );
 }

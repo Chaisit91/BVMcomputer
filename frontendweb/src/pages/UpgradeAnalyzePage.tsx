@@ -147,10 +147,17 @@ export function UpgradeAnalyzePage() {
               </div>
             ) : (
               <>
-                <div className="mt-5 grid grid-cols-1 items-start gap-5 lg:grid-cols-[300px_1fr_330px]">
-                  <AnalysisSpecCard currentSpec={currentSpec} upgrades={upgrades} />
+                {/* No items-start here on purpose: the columns differ in height, and stretching
+                    each grid cell to the row's full height gives the sticky panels below room to
+                    travel and release at the right time instead of unsticking early and jumping. */}
+                <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-[300px_1fr_330px]">
+                  <div>
+                    <AnalysisSpecCard currentSpec={currentSpec} upgrades={upgrades} />
+                  </div>
                   <CompatibilityScorePanel />
-                  <AiRecommendationPanel items={items} onViewAll={scrollToRecommended} onContinue={goToSummary} />
+                  <div>
+                    <AiRecommendationPanel items={items} onViewAll={scrollToRecommended} onContinue={goToSummary} />
+                  </div>
                 </div>
 
                 <RecommendedProductsSection />

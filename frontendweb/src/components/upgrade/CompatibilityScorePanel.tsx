@@ -26,8 +26,8 @@ export function CompatibilityScorePanel() {
   const offset = circumference * (1 - pct);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-card">
+    <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-card">
+      <div className="p-5">
         <div className="mb-4 flex items-center gap-2.5">
           <span className="h-5 w-1.5 rounded-full bg-brand" aria-hidden="true" />
           <h2 className="text-base font-bold text-ink">ผลการตรวจสอบความเข้ากันได้</h2>
@@ -103,18 +103,18 @@ export function CompatibilityScorePanel() {
             );
           })}
         </ul>
-      </div>
 
-      <div className="flex items-start gap-3 rounded-2xl border border-red-100 bg-red-50/60 p-4">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-brand shadow-sm">
-          <PiLightbulbFilamentFill size={18} aria-hidden="true" />
-        </span>
-        <div>
-          <p className="flex items-center gap-1.5 text-sm font-bold text-ink">
-            <FiTrendingUp size={14} className="text-brand" aria-hidden="true" />
-            AI Insight
-          </p>
-          <p className="mt-0.5 text-xs leading-relaxed text-slate-600">{mockAiInsight}</p>
+        <div className="mt-4 flex items-start gap-3 rounded-lg border border-red-100 bg-red-50/60 px-3 py-2.5">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-brand shadow-sm">
+            <PiLightbulbFilamentFill size={18} aria-hidden="true" />
+          </span>
+          <div>
+            <p className="flex items-center gap-1.5 text-sm font-bold text-ink">
+              <FiTrendingUp size={14} className="text-brand" aria-hidden="true" />
+              AI Insight
+            </p>
+            <p className="mt-0.5 text-xs leading-relaxed text-slate-600">{mockAiInsight}</p>
+          </div>
         </div>
       </div>
     </div>
