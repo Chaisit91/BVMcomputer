@@ -3,6 +3,7 @@ import { FiAlertTriangle, FiBox, FiCheckCircle, FiEdit2, FiPlus, FiTrash2, FiWin
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { matchesSearchText } from '../../../lib/textSearch'
 import { coolingFamily } from '../../../lib/catalogGroups'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteCooling, getCoolers } from '../../../services/cooling.service'
@@ -179,10 +180,8 @@ export function CoolingListPage() {
   }, [items])
 
   const visibleItems = useMemo(() => {
-    const query = search.trim().toLowerCase()
     return items.filter((item) => {
-      const matchesSearch =
-        query === '' || item.name.toLowerCase().includes(query) || item.sku.toLowerCase().includes(query)
+      const matchesSearch = matchesSearchText(search, item.name, item.sku)
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(item.brand)
       const matchesType = coolingTypes.selected.size === 0 || coolingTypes.selected.has(coolingFamily(item.specs.coolingType))
       const matchesSocket =

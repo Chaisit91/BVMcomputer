@@ -3,6 +3,7 @@ import { FiAlertCircle, FiCheckCircle, FiList, FiPackage, FiPlus } from 'react-i
 import { Link } from 'react-router-dom'
 import { DesktopPcCard } from '../../../components/inventory/desktop-pc/DesktopPcCard'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
+import { matchesSearchText } from '../../../lib/textSearch'
 import { getDesktopPcs } from '../../../services/desktopPc.service'
 import type { DesktopPc, DesktopPcCategory, DesktopPcStatus } from '../../../types/desktopPc'
 
@@ -64,12 +65,10 @@ export function DesktopPcListPage() {
   )
 
   const visibleProducts = useMemo(() => {
-    const query = search.trim().toLowerCase()
     return products.filter((product) => {
       const matchesCategory = categoryTab === 'all' || product.category === categoryTab
       const matchesStatus = statusFilter === 'all' || product.status === statusFilter
-      const matchesSearch =
-        query === '' || product.name.toLowerCase().includes(query) || product.sku.toLowerCase().includes(query)
+      const matchesSearch = matchesSearchText(search, product.name, product.sku)
       return matchesCategory && matchesStatus && matchesSearch
     })
   }, [products, search, statusFilter, categoryTab])

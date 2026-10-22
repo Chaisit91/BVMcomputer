@@ -3,6 +3,7 @@ import { FiAlertTriangle, FiBox, FiEdit2, FiPackage, FiPlus, FiTrash2, FiX, FiXC
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { matchesSearchText } from '../../../lib/textSearch'
 import { capacityGroup, storageFamily } from '../../../lib/catalogGroups'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteStorage, getStorages } from '../../../services/storage.service'
@@ -182,10 +183,8 @@ export function StorageListPage() {
   }, [items])
 
   const visibleItems = useMemo(() => {
-    const query = search.trim().toLowerCase()
     return items.filter((item) => {
-      const matchesSearch =
-        query === '' || item.name.toLowerCase().includes(query) || item.sku.toLowerCase().includes(query)
+      const matchesSearch = matchesSearchText(search, item.name, item.sku)
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(item.brand)
       const matchesType = types.selected.size === 0 || types.selected.has(storageFamily(item.specs.type))
       const matchesCapacity = capacities.selected.size === 0 || capacities.selected.has(capacityGroup(item.specs.capacity))

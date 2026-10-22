@@ -3,6 +3,7 @@ import { FiAlertCircle, FiCheckCircle, FiFlag, FiPackage, FiPlus } from 'react-i
 import { Link } from 'react-router-dom'
 import { PromoSetCard } from '../../../components/inventory/promo-sets/PromoSetCard'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
+import { matchesSearchText } from '../../../lib/textSearch'
 import { getPromoSets } from '../../../services/promoSet.service'
 import type { PromoSet, PromoSetStatus } from '../../../types/promoSet'
 
@@ -65,11 +66,9 @@ export function PromoSetListPage() {
   )
 
   const visibleSets = useMemo(() => {
-    const query = search.trim().toLowerCase()
     const filtered = sets.filter((set) => {
       const matchesStatus = statusFilter === 'all' || set.status === statusFilter
-      const matchesSearch =
-        query === '' || set.name.toLowerCase().includes(query) || set.code.toLowerCase().includes(query)
+      const matchesSearch = matchesSearchText(search, set.name, set.code)
       return matchesStatus && matchesSearch
     })
 

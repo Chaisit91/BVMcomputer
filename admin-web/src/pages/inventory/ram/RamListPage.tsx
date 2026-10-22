@@ -3,6 +3,7 @@ import { FiBox, FiCheckCircle, FiCpu, FiEdit2, FiPlus, FiTrash2, FiX } from 'rea
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { matchesSearchText } from '../../../lib/textSearch'
 import { capacityGroup } from '../../../lib/catalogGroups'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteRam, getRams } from '../../../services/ram.service'
@@ -184,10 +185,8 @@ export function RamListPage() {
   }, [rams])
 
   const visibleRams = useMemo(() => {
-    const query = search.trim().toLowerCase()
     return rams.filter((ram) => {
-      const matchesSearch =
-        query === '' || ram.name.toLowerCase().includes(query) || ram.sku.toLowerCase().includes(query)
+      const matchesSearch = matchesSearchText(search, ram.name, ram.sku)
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(ram.brand)
       const matchesCapacity = capacities.selected.size === 0 || capacities.selected.has(capacityGroup(ram.specs.capacity))
       const matchesSpeed = speeds.selected.size === 0 || speeds.selected.has(ram.specs.speed)

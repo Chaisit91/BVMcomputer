@@ -3,6 +3,7 @@ import { FiBox, FiCheckCircle, FiEdit2, FiPlus, FiSlash, FiTrash2, FiX } from 'r
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { matchesSearchText } from '../../../lib/textSearch'
 import { motherboardPlatform } from '../../../lib/catalogGroups'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteMotherboard, getMotherboards } from '../../../services/motherboard.service'
@@ -209,10 +210,8 @@ export function MotherboardListPage() {
   }, [motherboards])
 
   const visibleMotherboards = useMemo(() => {
-    const query = search.trim().toLowerCase()
     const filtered = motherboards.filter((mb) => {
-      const matchesSearch =
-        query === '' || mb.name.toLowerCase().includes(query) || mb.sku.toLowerCase().includes(query)
+      const matchesSearch = matchesSearchText(search, mb.name, mb.sku)
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(mb.brand)
       const matchesCpu =
         cpuSupports.selected.size === 0 || cpuSupports.selected.has(motherboardPlatform(mb.specs.cpuSupport, mb.specs.socket))

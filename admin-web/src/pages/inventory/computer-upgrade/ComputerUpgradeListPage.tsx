@@ -3,6 +3,7 @@ import { FiCheckCircle, FiClock, FiPlus, FiRefreshCw } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { ComputerUpgradeTable } from '../../../components/inventory/computer-upgrade/ComputerUpgradeTable'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
+import { matchesSearchText } from '../../../lib/textSearch'
 import { getComputerUpgrades } from '../../../services/computerUpgrade.service'
 import { computerUpgradeStatusMeta, type ComputerUpgrade, type ComputerUpgradeStatus } from '../../../types/computerUpgrade'
 
@@ -52,10 +53,9 @@ export function ComputerUpgradeListPage() {
   )
 
   const filteredUpgrades = useMemo(() => {
-    const query = search.trim().toLowerCase()
     return upgrades.filter((upgrade) => {
       const matchesStatus = statusFilter === 'all' || upgrade.status === statusFilter
-      const matchesSearch = query === '' || upgrade.customerName.toLowerCase().includes(query)
+      const matchesSearch = matchesSearchText(search, upgrade.customerName)
       return matchesStatus && matchesSearch
     })
   }, [upgrades, search, statusFilter])

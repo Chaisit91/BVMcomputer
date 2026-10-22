@@ -3,6 +3,7 @@ import { FiEdit2, FiPlus, FiTrash2, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { matchesSearchText } from '../../../lib/textSearch'
 import { gpuFamily, gpuGeneration } from '../../../lib/catalogGroups'
 import { deleteGpu, getGpus } from '../../../services/gpu.service'
 import type { Gpu, GpuStatus } from '../../../types/gpu'
@@ -186,10 +187,8 @@ export function GpuListPage() {
   }, [gpus])
 
   const visibleGpus = useMemo(() => {
-    const query = search.trim().toLowerCase()
     return gpus.filter((gpu) => {
-      const matchesSearch =
-        query === '' || gpu.name.toLowerCase().includes(query) || gpu.sku.toLowerCase().includes(query)
+      const matchesSearch = matchesSearchText(search, gpu.name, gpu.sku)
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(gpu.brand)
       const matchesSeries = series.selected.size === 0 || series.selected.has(gpuFamily(gpu.name, gpu.series, gpu.model))
       const matchesModel = models.selected.size === 0 || models.selected.has(gpuGeneration(gpu.name, gpu.series, gpu.model))

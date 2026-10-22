@@ -6,6 +6,7 @@ import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteCpu, getCpus } from '../../../services/cpu.service'
 import type { Cpu, CpuStatus } from '../../../types/cpu'
 import { cpuFacetOptions, cpuFacetValue, LEGACY_CPU_SERIES, matchesCpuFacet } from '../../../lib/cpuFilters'
+import { matchesSearchText } from '../../../lib/textSearch'
 
 const statusMap: Record<CpuStatus, { label: string; variant: 'success' | 'warning' | 'danger' | 'neutral' }> = {
   active: { label: 'พร้อมจำหน่าย', variant: 'success' },
@@ -211,10 +212,8 @@ export function CpuListPage() {
   }, [cpus])
 
   const visibleCpus = useMemo(() => {
-    const query = search.trim().toLowerCase()
     const filtered = cpus.filter((cpu) => {
-      const matchesSearch =
-        query === '' || cpu.name.toLowerCase().includes(query) || cpu.sku.toLowerCase().includes(query)
+      const matchesSearch = matchesSearchText(search, cpu.name, cpu.sku)
       const matchesBrand = matchesCpuFacet(cpu, 'brand', brands.selected)
       const matchesSeries = matchesCpuFacet(cpu, 'series', series.selected)
       const matchesProcessor = matchesCpuFacet(cpu, 'processorLine', processors.selected)

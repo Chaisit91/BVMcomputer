@@ -3,6 +3,7 @@ import { FiCheckCircle, FiClipboard, FiClock, FiPlus, FiXCircle } from 'react-ic
 import { Link } from 'react-router-dom'
 import { CustomBuildTable } from '../../../components/inventory/custom-build/CustomBuildTable'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
+import { matchesSearchText } from '../../../lib/textSearch'
 import { getCustomBuilds } from '../../../services/customBuild.service'
 import type { BuildStatus, CustomBuild } from '../../../types/customBuild'
 
@@ -54,12 +55,9 @@ export function CustomBuildPage() {
   )
 
   const filteredBuilds = useMemo(() => {
-    const query = search.trim().toLowerCase()
-
     return builds.filter((build) => {
       const matchesStatus = statusFilter === 'all' || build.status === statusFilter
-      const matchesSearch =
-        query === '' || build.customer.toLowerCase().includes(query) || build.orderNo.toLowerCase().includes(query)
+      const matchesSearch = matchesSearchText(search, build.customer, build.orderNo)
       return matchesStatus && matchesSearch
     })
   }, [builds, search, statusFilter])

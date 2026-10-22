@@ -3,6 +3,7 @@ import { FiAlertTriangle, FiBox, FiEdit2, FiPlus, FiShield, FiTrash2, FiX, FiXCi
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { matchesSearchText } from '../../../lib/textSearch'
 import { psuPowerGroup } from '../../../lib/catalogGroups'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deletePsu, getPsus } from '../../../services/psu.service'
@@ -185,10 +186,8 @@ export function PsuListPage() {
   }, [items])
 
   const visibleItems = useMemo(() => {
-    const query = search.trim().toLowerCase()
     return items.filter((item) => {
-      const matchesSearch =
-        query === '' || item.name.toLowerCase().includes(query) || item.sku.toLowerCase().includes(query)
+      const matchesSearch = matchesSearchText(search, item.name, item.sku)
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(item.brand)
       const matchesPower = continuousPowers.selected.size === 0 || continuousPowers.selected.has(psuPowerGroup(item.specs.continuousPower))
       const matchesCertification = certifications.selected.size === 0 || certifications.selected.has(item.specs.certification)

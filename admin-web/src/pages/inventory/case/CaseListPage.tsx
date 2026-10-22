@@ -3,6 +3,7 @@ import { FiBox, FiCheckCircle, FiEdit2, FiHardDrive, FiLayers, FiPlus, FiTrash2,
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
 import { facetValues } from '../../../lib/catalogFilters'
+import { matchesSearchText } from '../../../lib/textSearch'
 import { caseSizeFamily } from '../../../lib/catalogGroups'
 import { SummaryCard } from '../../../components/ui/SummaryCard'
 import { deleteCase, getCases } from '../../../services/case.service'
@@ -183,10 +184,8 @@ export function CaseListPage() {
   }, [items])
 
   const visibleItems = useMemo(() => {
-    const query = search.trim().toLowerCase()
     return items.filter((item) => {
-      const matchesSearch =
-        query === '' || item.name.toLowerCase().includes(query) || item.sku.toLowerCase().includes(query)
+      const matchesSearch = matchesSearchText(search, item.name, item.sku)
       const matchesBrand = brands.selected.size === 0 || brands.selected.has(item.brand)
       const matchesMbSupport =
         mbSupports.selected.size === 0 || Array.from(mbSupports.selected).some((value) => item.specs.mbSupport.includes(value))
