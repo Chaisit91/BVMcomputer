@@ -32,6 +32,7 @@ export const adminCreateSchema = z
     phone: z.string(),
     jobTitle: z.string(),
     role: z.string().min(1, 'กรุณาเลือกบทบาท'),
+    isTeamLead: z.boolean(),
     active: z.boolean(),
     password: z.string().min(8, 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร'),
     confirmPassword: z.string(),

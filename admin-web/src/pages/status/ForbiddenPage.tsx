@@ -6,7 +6,7 @@ export function ForbiddenPage() {
     <StatusPage
       code="403"
       title="ไม่มีสิทธิ์เข้าถึงหน้านี้"
-      message="บทบาทของคุณไม่สามารถเข้าถึงส่วนนี้ได้ ติดต่อ Super Admin หากคิดว่าควรมีสิทธิ์เข้าถึง"
+      message="บทบาทของคุณไม่สามารถเข้าถึงส่วนนี้ได้ ติดต่อผู้ดูแลระบบสูงสุดหากคิดว่าควรมีสิทธิ์เข้าถึง"
       icon={<FiLock size={28} />}
       actionLabel="กลับหน้าแดชบอร์ด"
       actionTo="/dashboard"

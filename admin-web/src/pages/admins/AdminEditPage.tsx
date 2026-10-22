@@ -97,14 +97,31 @@ export function AdminEditPage() {
 
   const active = watch('active')
   const isTeamLead = watch('isTeamLead')
+  const selectedRole = watch('role')
+  // super_admin already has full access regardless of isTeamLead (see schema
+  // comment on AdminAccount.isTeamLead) — the department-lead distinction is
+  // meaningless for this role, so don't offer it.
+  const showTeamLeadOption = selectedRole !== 'super_admin'
   const isSuperAdminEditor = currentUser?.role === 'super_admin'
   const isSelf = currentUser?.id === adminId
   // Only super_admin can move someone across departments or grant super_admin.
   const canEditRole = isSuperAdminEditor
-  // Status + team-lead flag: super_admin always, or a team lead managing
-  // their own department — matches what the backend actually accepts
-  // (src/modules/admin/admin.router.ts PUT /:id strips these otherwise).
-  const canEditStatusAndLead = isSuperAdminEditor || Boolean(currentUser?.isTeamLead)
+  // General profile fields (name/phone/jobTitle), status, and the team-lead
+  // flag: super_admin always, the account owner always, or a team lead
+  // managing a regular (non-lead) teammate in their own department — a team
+  // lead can't edit a fellow team lead's account at all (view-only), only
+  // their own account or subordinates (matches backend's PUT /:id, which
+  // strips everything but identity/credential fields otherwise).
+  const canEditGeneral =
+    isSuperAdminEditor || isSelf || (Boolean(currentUser?.isTeamLead) && !detail?.isTeamLead)
+  // Identity/credential fields: a team lead managing a teammate must not be
+  // able to take over their account by changing email/password — only the
+  // account owner or super_admin may touch these (mirrors backend PUT /:id).
+  const canEditSensitive = isSuperAdminEditor || isSelf
+
+  useEffect(() => {
+    if (!showTeamLeadOption && isTeamLead) setValue('isTeamLead', false)
+  }, [showTeamLeadOption, isTeamLead, setValue])
 
   // Redux's auth.user only refreshes on login/checkSession — editing your own
   // account here otherwise leaves the Topbar showing stale name/avatar until
@@ -244,14 +261,16 @@ export function AdminEditPage() {
                 className="hidden"
                 onChange={handleAvatarChange}
               />
-              <button
-                type="button"
-                disabled={avatarUploading}
-                onClick={() => avatarInputRef.current?.click()}
-                className="mt-1 text-sm font-medium text-rose-500 hover:underline disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {avatarUploading ? 'กำลังอัปโหลด...' : 'เปลี่ยนรูป'}
-              </button>
+              {canEditGeneral && (
+                <button
+                  type="button"
+                  disabled={avatarUploading}
+                  onClick={() => avatarInputRef.current?.click()}
+                  className="mt-1 text-sm font-medium text-rose-500 hover:underline disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {avatarUploading ? 'กำลังอัปโหลด...' : 'เปลี่ยนรูป'}
+                </button>
+              )}
               {avatarError && <p className="mt-1 text-xs text-red-500">{avatarError}</p>}
             </div>
           </div>
@@ -266,29 +285,40 @@ export function AdminEditPage() {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">ชื่อ</label>
-                <input type="text" className={inputClass} {...register('firstName')} />
+                <input type="text" disabled={!canEditGeneral} className={inputClass} {...register('firstName')} />
                 {errors.firstName && <p className="mt-1 text-xs text-red-500">{errors.firstName.message}</p>}
               </div>
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">นามสกุล</label>
-                <input type="text" className={inputClass} {...register('lastName')} />
+                <input type="text" disabled={!canEditGeneral} className={inputClass} {...register('lastName')} />
                 {errors.lastName && <p className="mt-1 text-xs text-red-500">{errors.lastName.message}</p>}
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">อีเมล</label>
-                <input type="email" className={inputClass} {...register('email')} />
+                <input
+                  type="email"
+                  disabled={!canEditSensitive}
+                  className={`${inputClass} ${!canEditSensitive ? 'cursor-not-allowed opacity-60' : ''}`}
+                  {...register('email')}
+                />
+                {!canEditSensitive && (
+                  <p className="mt-1 text-xs text-gray-400">แก้ไขได้เฉพาะเจ้าของบัญชีหรือผู้ดูแลระบบสูงสุด</p>
+                )}
                 {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
               </div>
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">เบอร์โทรศัพท์</label>
-                <input type="text" className={inputClass} {...register('phone')} />
+                <input type="text" disabled={!canEditGeneral} className={inputClass} {...register('phone')} />
               </div>
             </div>
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">ตำแหน่งงาน</label>
-              <input type="text" className={inputClass} {...register('jobTitle')} />
+              <input type="text" autoComplete="off" disabled={!canEditGeneral} className={inputClass} {...register('jobTitle')} />
+              {!canEditGeneral && (
+                <p className="mt-1 text-xs text-gray-400">หัวหน้าแผนกไม่สามารถแก้ไขบัญชีของหัวหน้าแผนกคนอื่นได้ ดูได้อย่างเดียว</p>
+              )}
             </div>
           </div>
         </div>
@@ -318,11 +348,11 @@ export function AdminEditPage() {
               <div className="flex items-center gap-3 py-2">
                 <span className={`h-2 w-2 rounded-full ${active ? 'bg-emerald-500' : 'bg-gray-400'}`} />
                 <span className="text-sm text-gray-700">{active ? 'ใช้งานอยู่ (Active)' : 'ปิดใช้งาน (Inactive)'}</span>
-                {canEditStatusAndLead && <Toggle checked={active} onChange={(value) => setValue('active', value)} />}
+                {canEditGeneral && <Toggle checked={active} onChange={(value) => setValue('active', value)} />}
               </div>
             </div>
           </div>
-          {canEditRole && (
+          {canEditRole && showTeamLeadOption && (
             <div className="mt-4 flex items-center gap-3 rounded-xl bg-gray-50 px-3 py-2.5">
               <Toggle checked={isTeamLead} onChange={(value) => setValue('isTeamLead', value)} />
               <div>
@@ -344,24 +374,26 @@ export function AdminEditPage() {
           {logoutNotice && <p className="mt-1.5 text-xs text-emerald-600">บังคับออกจากระบบเรียบร้อยแล้ว</p>}
         </div>
 
-        <div className="border-t border-gray-100 pt-6">
-          <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold text-gray-800">
-            <FiShield className="text-rose-500" />
-            แก้ไขรหัสผ่าน
-          </h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">รหัสผ่านใหม่</label>
-              <input type="password" placeholder="เว้นว่างไว้หากไม่เปลี่ยนรหัสผ่าน" className={inputClass} {...register('password')} />
-              {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password.message}</p>}
-            </div>
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">ยืนยันรหัสผ่านใหม่</label>
-              <input type="password" className={inputClass} {...register('confirmPassword')} />
-              {errors.confirmPassword && <p className="mt-1 text-xs text-red-500">{errors.confirmPassword.message}</p>}
+        {canEditSensitive && (
+          <div className="border-t border-gray-100 pt-6">
+            <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold text-gray-800">
+              <FiShield className="text-rose-500" />
+              แก้ไขรหัสผ่าน
+            </h2>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">รหัสผ่านใหม่</label>
+                <input type="password" placeholder="เว้นว่างไว้หากไม่เปลี่ยนรหัสผ่าน" className={inputClass} {...register('password')} />
+                {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password.message}</p>}
+              </div>
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">ยืนยันรหัสผ่านใหม่</label>
+                <input type="password" className={inputClass} {...register('confirmPassword')} />
+                {errors.confirmPassword && <p className="mt-1 text-xs text-red-500">{errors.confirmPassword.message}</p>}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div className="border-t border-gray-100 pt-6">
           <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold text-gray-800">
@@ -447,14 +479,16 @@ export function AdminEditPage() {
 
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-6">
           <div className="flex flex-wrap items-center gap-3">
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="flex items-center gap-2 rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <FiSave size={16} />
-              {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกการเปลี่ยนแปลง'}
-            </button>
+            {(canEditGeneral || canEditSensitive) && (
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="flex items-center gap-2 rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <FiSave size={16} />
+                {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกการเปลี่ยนแปลง'}
+              </button>
+            )}
             <button
               type="button"
               onClick={() => navigate('/admins')}
@@ -463,7 +497,7 @@ export function AdminEditPage() {
               ยกเลิก
             </button>
           </div>
-          {canEditStatusAndLead && !isSelf && detail.role !== 'super_admin' && (
+          {canEditGeneral && !isSelf && detail.role !== 'super_admin' && (
             <button
               type="button"
               onClick={handleSuspend}

@@ -37,8 +37,8 @@ export interface AdminSummary {
 }
 
 export const adminRoleMeta: Record<AdminRole, { label: string; badgeClass: string }> = {
-  super_admin: { label: 'Super Admin', badgeClass: 'bg-rose-50 text-rose-600' },
-  inventory_manager: { label: 'ผู้จัดการคลัง', badgeClass: 'bg-blue-50 text-blue-600' },
-  sales_staff: { label: 'พนักงานขาย', badgeClass: 'bg-emerald-50 text-emerald-600' },
-  content_moderator: { label: 'ผู้ดูแลเนื้อหา', badgeClass: 'bg-amber-50 text-amber-600' },
+  super_admin: { label: 'ผู้ดูแลระบบสูงสุด', badgeClass: 'bg-rose-50 text-rose-600' },
+  inventory_manager: { label: 'ผู้จัดการคลังสินค้า', badgeClass: 'bg-blue-50 text-blue-600' },
+  sales_staff: { label: 'ผู้จัดการคำสั่งซื้อและบริการลูกค้า', badgeClass: 'bg-emerald-50 text-emerald-600' },
+  content_moderator: { label: 'ผู้จัดการเนื้อหาและโปรโมชั่น', badgeClass: 'bg-amber-50 text-amber-600' },
 }

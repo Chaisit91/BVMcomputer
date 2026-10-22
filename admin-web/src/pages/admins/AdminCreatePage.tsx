@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FiShield, FiUser } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
@@ -20,6 +21,8 @@ export function AdminCreatePage() {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<AdminCreateFormValues>({
     resolver: zodResolver(adminCreateSchema),
@@ -30,12 +33,23 @@ export function AdminCreatePage() {
       phone: '',
       jobTitle: '',
       role: '',
+      isTeamLead: false,
       active: true,
       password: '',
       confirmPassword: '',
       notes: '',
     },
   })
+
+  const selectedRole = watch('role')
+  const isTeamLead = watch('isTeamLead')
+  // super_admin already has full access regardless of isTeamLead — the
+  // department-lead distinction is meaningless for this role.
+  const showTeamLeadOption = selectedRole !== 'super_admin'
+
+  useEffect(() => {
+    if (!showTeamLeadOption && isTeamLead) setValue('isTeamLead', false)
+  }, [showTeamLeadOption, isTeamLead, setValue])
 
   const onSubmit = handleSubmit(async (values) => {
     await createAdmin(values)
@@ -105,7 +119,7 @@ export function AdminCreatePage() {
               </div>
               <div>
                 <label className="mb-1.5 block text-sm font-medium text-gray-700">ตำแหน่งงาน</label>
-                <input type="text" placeholder="เช่น ผู้จัดการคลังสินค้า" className={inputClass} {...register('jobTitle')} />
+                <input type="text" placeholder="เช่น ผู้จัดการคลังสินค้า" autoComplete="off" className={inputClass} {...register('jobTitle')} />
               </div>
             </div>
           </div>
@@ -154,6 +168,16 @@ export function AdminCreatePage() {
               </select>
               {errors.role && <p className="mt-1 text-xs text-red-500">{errors.role.message}</p>}
             </div>
+            {showTeamLeadOption && (
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">ตำแหน่งในแผนก</label>
+                <select className={inputClass} {...register('isTeamLead', { setValueAs: (value) => value === 'true' })}>
+                  <option value="false">แอดมินปกติ</option>
+                  <option value="true">หัวหน้าแผนก</option>
+                </select>
+                <p className="mt-1 text-xs text-gray-400">หัวหน้าแผนกเห็นและแก้ไขบัญชีของทุกคนในแผนกเดียวกันได้</p>
+              </div>
+            )}
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">สถานะเริ่มต้น</label>
               <select className={inputClass} {...register('active', { setValueAs: (value) => value === 'true' })}>

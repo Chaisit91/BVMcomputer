@@ -226,7 +226,7 @@ export function AdminListPage() {
                     <td className="py-3 pr-4">
                       <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${adminRoleMeta[admin.role].badgeClass}`}>
                         {adminRoleMeta[admin.role].label}
-                        {admin.isTeamLead && ' · หัวหน้าแผนก'}
+                        {admin.role !== 'super_admin' && admin.isTeamLead && ' · หัวหน้าแผนก'}
                       </span>
                     </td>
                     <td className="py-3 pr-4">

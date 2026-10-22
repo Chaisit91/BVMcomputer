@@ -44,6 +44,15 @@ async function requireCanManage(req: AuthenticatedRequest, res: import('express'
   res.status(403).json({ message: 'Forbidden' })
 }
 
+// A team lead can edit any regular (non-lead) teammate in their own
+// department, but never a fellow team lead — peers can't act on peers, not
+// even for name/phone/avatar. Only super_admin or the account owner can.
+async function isPeerTeamLead(req: AuthenticatedRequest, targetId: string): Promise<boolean> {
+  if (req.user!.role === 'super_admin' || !req.user!.isTeamLead || req.user!.id === targetId) return false
+  const target = await adminRepository.findById(targetId)
+  return !!target && target.isTeamLead
+}
+
 // Any authenticated admin can see their own department's roster — used for
 // the Topbar's "my team" link that replaces "ผู้ดูแลระบบ" for non-super_admin roles.
 adminRouter.get('/team', async (req: AuthenticatedRequest, res) => {
@@ -69,18 +78,31 @@ adminRouter.post('/', requireRole('super_admin'), async (req: AuthenticatedReque
 })
 
 adminRouter.put('/:id', requireCanManage, async (req: AuthenticatedRequest, res) => {
+  const isSelf = req.user!.id === String(req.params.id)
+  if (req.user!.role !== 'super_admin' && !isSelf && (await isPeerTeamLead(req, String(req.params.id)))) {
+    res.status(403).json({ message: 'Forbidden' })
+    return
+  }
+
   const body = { ...req.body }
   // Only super_admin can move someone across departments or grant super_admin.
-  // A team lead editing a teammate (or anyone editing themselves) can still
-  // touch status/isTeamLead; plain self-edit strips those too, so regular
-  // staff can only ever change their own profile fields, never their own
-  // standing.
+  // A team lead editing a (non-lead) teammate, or anyone editing themselves,
+  // can still touch status/isTeamLead; plain self-edit by a non-lead strips
+  // those too, so regular staff can only ever change their own profile
+  // fields, never their own standing.
   if (req.user!.role !== 'super_admin') {
     delete body.role
     delete body.createdById
     if (!req.user!.isTeamLead) {
       delete body.status
       delete body.isTeamLead
+    }
+    // Identity/credential fields: a team lead managing a teammate must not be
+    // able to take over their account by changing their email or password —
+    // only the account owner (editing themselves) or super_admin may touch these.
+    if (!isSelf) {
+      delete body.email
+      delete body.password
     }
   }
   res.json(withoutPasswordHash(await adminService.update(String(req.params.id), body)))
@@ -95,7 +117,13 @@ adminRouter.post('/:id/force-logout', requireRole('super_admin'), async (req, re
   res.json(withoutPasswordHash(await adminService.forceLogout(String(req.params.id))))
 })
 
-adminRouter.post('/:id/avatar', requireCanManage, upload.single('avatar'), async (req, res) => {
+adminRouter.post('/:id/avatar', requireCanManage, upload.single('avatar'), async (req: AuthenticatedRequest, res) => {
+  const isSelf = req.user!.id === String(req.params.id)
+  if (req.user!.role !== 'super_admin' && !isSelf && (await isPeerTeamLead(req, String(req.params.id)))) {
+    res.status(403).json({ message: 'Forbidden' })
+    return
+  }
+
   if (!req.file) {
     res.status(400).json({ message: 'ต้องแนบไฟล์รูปภาพ (avatar)' })
     return
