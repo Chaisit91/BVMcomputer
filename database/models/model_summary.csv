@@ -1,8 +1,0 @@
-﻿dataset,records,training_records,testing_records,features,accuracy,precision,recall,f1_score
-cpu_motherboard,20000,16000,4000,10,1.0,1.0,1.0,1.0
-cpu_cooler,20000,16000,4000,8,0.983,0.98494,0.981,0.982966
-ram_motherboard,20000,16000,4000,8,1.0,1.0,1.0,1.0
-gpu_case,20000,16000,4000,8,1.0,1.0,1.0,1.0
-cooler_case,20000,16000,4000,7,1.0,1.0,1.0,1.0
-motherboard_case,20000,16000,4000,5,0.9995,0.9995,0.9995,0.9995
-psu_case,20000,16000,4000,6,0.99725,1.0,0.9945,0.997242

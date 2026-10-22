@@ -1,1 +1,0 @@
-These are all of the publicly available schemas and fields from BuildCores.

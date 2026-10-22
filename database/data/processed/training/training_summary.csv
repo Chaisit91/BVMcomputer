@@ -1,9 +1,0 @@
-﻿dataset,original_compatible,original_incompatible,training_compatible,training_incompatible,total_training_records
-cpu_motherboard.csv,50000,50000,10000,10000,20000
-cpu_cooler.csv,50000,50000,10000,10000,20000
-ram_motherboard.csv,50000,50000,10000,10000,20000
-storage_motherboard.csv,50000,50000,10000,10000,20000
-gpu_case.csv,50000,50000,10000,10000,20000
-cooler_case.csv,50000,50000,10000,10000,20000
-motherboard_case.csv,50000,50000,10000,10000,20000
-psu_case.csv,50000,50000,10000,10000,20000
