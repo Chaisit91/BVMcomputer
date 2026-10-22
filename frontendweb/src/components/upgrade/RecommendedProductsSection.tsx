@@ -25,9 +25,14 @@ export function RecommendedProductsSection() {
 
   useEffect(() => {
     let cancelled = false;
-    listUpgradeProducts(activeKey).then((items) => {
-      if (!cancelled) setProducts(items.slice(0, GRID_SIZE));
-    });
+    listUpgradeProducts(activeKey)
+      .then((items) => {
+        if (!cancelled) setProducts(items.slice(0, GRID_SIZE));
+      })
+      // Optional browsing section — on failure just leave it empty rather than blocking the page.
+      .catch(() => {
+        if (!cancelled) setProducts([]);
+      });
     return () => {
       cancelled = true;
     };

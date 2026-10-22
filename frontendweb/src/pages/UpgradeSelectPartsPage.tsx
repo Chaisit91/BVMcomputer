@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiCheck, FiFilter } from 'react-icons/fi';
 import { Container } from '../components/ui/Container';
+import { ErrorState } from '../components/ui/ErrorState';
 import { ProductPagination } from '../components/category/ProductPagination';
 import { UpgradeStepIndicator } from '../components/upgrade/UpgradeStepIndicator';
 import { UpgradeProductCard } from '../components/upgrade/UpgradeProductCard';
@@ -11,6 +12,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { addToCart } from '../features/cart/cartSlice';
 import { clearUpgrades, removeUpgrade, toggleUpgrade } from '../features/upgrade/upgradeSlice';
 import { listUpgradeProducts } from '../services/upgrade/productSearchService';
+import { getErrorMessage } from '../api/apiError';
 import { cn } from '../lib/cn';
 import type { UpgradeComponentKey, UpgradeProduct } from '../types/upgrade';
 
@@ -51,7 +53,10 @@ export function UpgradeSelectPartsPage() {
   const { currentSpec, upgrades } = useAppSelector((state) => state.upgrade);
 
   const [activeKey, setActiveKey] = useState<UpgradeComponentKey>('cpu');
-  const [loaded, setLoaded] = useState<{ key: UpgradeComponentKey; items: UpgradeProduct[] } | null>(null);
+  const [loaded, setLoaded] = useState<{ key: UpgradeComponentKey; items: UpgradeProduct[]; error: string | null } | null>(
+    null,
+  );
+  const [retryCount, setRetryCount] = useState(0);
   const [sort, setSort] = useState<SortKey>('recommended');
   const [page, setPage] = useState(1);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -60,17 +65,26 @@ export function UpgradeSelectPartsPage() {
 
   useEffect(() => {
     let cancelled = false;
-    listUpgradeProducts(activeKey).then((items) => {
-      if (!cancelled) setLoaded({ key: activeKey, items });
-    });
+    listUpgradeProducts(activeKey)
+      .then((items) => {
+        if (!cancelled) setLoaded({ key: activeKey, items, error: null });
+      })
+      .catch((error: unknown) => {
+        if (!cancelled) setLoaded({ key: activeKey, items: [], error: getErrorMessage(error) });
+      });
     return () => {
       cancelled = true;
     };
-  }, [activeKey]);
+  }, [activeKey, retryCount]);
 
   // Only trust products that belong to the tab currently open (avoids a one-frame flash of
   // the previous tab's items while the next category is loading).
   const products = loaded?.key === activeKey ? loaded.items : null;
+  const loadError = loaded?.key === activeKey ? loaded.error : null;
+  const retryLoad = () => {
+    setLoaded(null);
+    setRetryCount((count) => count + 1);
+  };
 
   const brandOptions = useMemo(() => Array.from(new Set((products ?? []).map((p) => p.brand))).sort(), [products]);
 
@@ -271,6 +285,8 @@ export function UpgradeSelectPartsPage() {
               <div className="mt-4">
                 {products === null ? (
                   <div className="py-16 text-center text-sm text-slate-400">กำลังโหลดสินค้า...</div>
+                ) : loadError ? (
+                  <ErrorState message={loadError} onRetry={retryLoad} />
                 ) : visibleProducts.length === 0 ? (
                   <div className="rounded-xl border border-dashed border-slate-200 py-16 text-center text-sm text-slate-400">
                     ไม่พบสินค้าที่ตรงกับตัวกรองที่เลือก

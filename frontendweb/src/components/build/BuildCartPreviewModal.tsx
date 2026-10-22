@@ -3,6 +3,7 @@ import type { IconType } from 'react-icons';
 import { FiArrowLeft, FiCheck, FiEye, FiList, FiLoader, FiX } from 'react-icons/fi';
 import { formatTHB } from '../../lib/format';
 import { generatePcPreview, type PcPreviewResponse } from '../../services/build/pcPreviewService';
+import { getErrorMessage } from '../../api/apiError';
 import type { StepId } from '../../pages/BuildCategoryPage';
 
 export interface BuildCartPreviewItem {
@@ -54,12 +55,19 @@ export function BuildCartPreviewModal({ items, onClose, onConfirm }: BuildCartPr
         specLine: item.specLine,
         image: item.image,
       })),
-    }).then((result) => {
-      if (!cancelled) {
-        setPreviewResult(result);
-        setView('result');
-      }
-    });
+    })
+      .then((result) => {
+        if (!cancelled) {
+          setPreviewResult(result);
+          setView('result');
+        }
+      })
+      .catch((error: unknown) => {
+        if (!cancelled) {
+          setPreviewResult({ status: 'error', message: getErrorMessage(error) });
+          setView('result');
+        }
+      });
     return () => {
       cancelled = true;
     };
@@ -114,6 +122,11 @@ export function BuildCartPreviewModal({ items, onClose, onConfirm }: BuildCartPr
                 />
               ) : (
                 <AiPcPreviewArt />
+              )}
+              {previewResult?.status === 'error' && (
+                <p role="alert" className="text-sm text-red-500">
+                  {previewResult.message}
+                </p>
               )}
               <button
                 type="button"

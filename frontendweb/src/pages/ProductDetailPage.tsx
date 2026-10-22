@@ -1,42 +1,22 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import type { IconType } from 'react-icons';
-import {
-  BsCpu,
-  BsDeviceSsd,
-  BsGpuCard,
-  BsMemory,
-  BsMotherboard,
-  BsPcDisplay,
-  BsPlug,
-  BsShieldCheck,
-  BsSnow2,
-} from 'react-icons/bs';
-import { PiComputerTower, PiLightningFill } from 'react-icons/pi';
-import { FiChevronRight, FiHeart, FiMinus, FiPlus, FiRepeat, FiShare2, FiShoppingCart, FiStar } from 'react-icons/fi';
+import { BsShieldCheck } from 'react-icons/bs';
+import { PiLightningFill } from 'react-icons/pi';
+import { FiChevronRight, FiHeart, FiMinus, FiPackage, FiPlus, FiRepeat, FiShare2, FiShoppingCart, FiStar } from 'react-icons/fi';
 import { Container } from '../components/ui/Container';
+import { EmptyState } from '../components/ui/EmptyState';
+import { ErrorState } from '../components/ui/ErrorState';
+import { Skeleton } from '../components/ui/Skeleton';
 import { ProductGallery } from '../components/product-detail/ProductGallery';
 import { ProductSpecTable } from '../components/product-detail/ProductSpecTable';
 import { RelatedProductsCarousel } from '../components/product-detail/RelatedProductsCarousel';
-import { ServiceBadges } from '../components/shared/ServiceBadges';
-import { useAppDispatch } from '../app/hooks';
+import { productCategoryIcons } from '../components/shared/productCategoryIcons';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { addToCart } from '../features/cart/cartSlice';
+import { fetchProductDetail, productDetailKey } from '../features/productDetail/productDetailSlice';
 import { formatTHB } from '../lib/format';
 import { cn } from '../lib/cn';
-import { getProductDetail, toCartCategoryKey, type ProductCategorySlug } from '../data/productLookup';
-
-const categoryFallbackIcons: Record<ProductCategorySlug, IconType> = {
-  cpu: BsCpu,
-  gpu: BsGpuCard,
-  motherboard: BsMotherboard,
-  ram: BsMemory,
-  storage: BsDeviceSsd,
-  psu: BsPlug,
-  case: PiComputerTower,
-  cooling: BsSnow2,
-  'desktop-pc': PiComputerTower,
-  'pc-sets': BsPcDisplay,
-};
+import { toCartCategoryKey } from '../data/productLookup';
 
 const badgeStyle: Record<string, string> = {
   แนะนำ: 'bg-ink text-white',
@@ -76,21 +56,54 @@ export function ProductDetailPage() {
   const [activeTab, setActiveTab] = useState<TabId>('specs');
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const product = category && id ? getProductDetail(category, id) : null;
+  const { product, status, error, key } = useAppSelector((state) => state.productDetail);
 
-  if (!product) {
+  const load = useCallback(() => {
+    if (category && id) void dispatch(fetchProductDetail({ category, id }));
+  }, [dispatch, category, id]);
+
+  // Real side effect: (re)load whenever the URL points at a different product.
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  // The store may still hold the previous product for a render before the new request starts.
+  const isCurrent = category !== undefined && id !== undefined && key === productDetailKey(category, id);
+
+  if (!category || !id || (isCurrent && status === 'succeeded' && !product)) {
     return (
       <section className="bg-slate-50 py-20">
         <Container>
-          <div className="rounded-xl border border-dashed border-slate-200 bg-white py-16 text-center text-sm text-slate-400">
-            ไม่พบสินค้าที่คุณค้นหา
-          </div>
+          <EmptyState
+            icon={FiPackage}
+            title="ไม่พบสินค้าที่คุณค้นหา"
+            description="สินค้านี้อาจถูกนำออกจากระบบแล้ว ลองค้นหาสินค้าอื่นหรือกลับไปหน้าหมวดสินค้า"
+            action={
+              <Link to="/" className="rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark">
+                กลับหน้าแรก
+              </Link>
+            }
+          />
         </Container>
       </section>
     );
   }
 
-  const Icon = categoryFallbackIcons[product.categorySlug];
+  if (isCurrent && status === 'failed') {
+    return (
+      <section className="bg-slate-50 py-20">
+        <Container>
+          <ErrorState message={error} onRetry={load} />
+        </Container>
+      </section>
+    );
+  }
+
+  if (!isCurrent || status !== 'succeeded' || !product) {
+    return <ProductDetailSkeleton />;
+  }
+
+  const Icon = productCategoryIcons[product.categorySlug];
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i += 1) {
@@ -375,14 +388,38 @@ export function ProductDetailPage() {
       </section>
 
       {/* Related products */}
-      <section className="bg-slate-50 pb-8">
+      <section className="bg-slate-50 pb-16">
         <Container>
           <h2 className="mb-4 text-lg font-bold text-ink">สินค้าที่เกี่ยวข้อง</h2>
           <RelatedProductsCarousel items={product.related} fallbackIcon={Icon} />
         </Container>
       </section>
-
-      <ServiceBadges />
     </>
+  );
+}
+
+/** Same two-column shape as the loaded page, so nothing jumps when the product arrives. */
+function ProductDetailSkeleton() {
+  return (
+    <section className="bg-slate-50 py-6" aria-busy="true" aria-label="กำลังโหลดข้อมูลสินค้า">
+      <Container>
+        <Skeleton className="mb-4 h-3 w-64 max-w-full" />
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <Skeleton className="aspect-square w-full rounded-2xl" />
+          <div className="flex flex-col gap-3">
+            <Skeleton className="h-6 w-32" />
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-4 w-2/3" />
+            <Skeleton className="h-4 w-1/2" />
+            <Skeleton className="mt-4 h-10 w-40" />
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row">
+              <Skeleton className="h-12 flex-1 rounded-full" />
+              <Skeleton className="h-12 flex-1 rounded-full" />
+            </div>
+            <Skeleton className="mt-4 h-24 w-full rounded-xl" />
+          </div>
+        </div>
+      </Container>
+    </section>
   );
 }

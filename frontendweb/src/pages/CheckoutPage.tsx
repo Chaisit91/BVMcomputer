@@ -1,4 +1,5 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import {
   BsBank,
@@ -10,16 +11,20 @@ import {
   BsTruck,
   BsTruckFront,
 } from 'react-icons/bs';
-import { FiChevronRight, FiLock, FiShoppingCart, FiTag } from 'react-icons/fi';
+import { FiAlertCircle, FiChevronRight, FiLock, FiShoppingCart, FiTag } from 'react-icons/fi';
 import { Container } from '../components/ui/Container';
+import { EmptyState } from '../components/ui/EmptyState';
+import { FormField, SelectInput, TextInput } from '../components/ui/FormField';
+import { Spinner } from '../components/ui/Spinner';
 import { categoryIcons } from '../components/home/categoryIcons';
-import { useAppSelector } from '../app/hooks';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { selectCartItems } from '../features/cart/cartSelectors';
+import { placeOrder, resetOrder } from '../features/order/orderSlice';
+import { validateCoupon } from '../api/orderApi';
+import { getErrorMessage } from '../api/apiError';
 import { formatTHB } from '../lib/format';
 import { cn } from '../lib/cn';
-
-type ShippingMethodId = 'standard' | 'express';
-type PaymentMethodId = 'bank' | 'card' | 'qr' | 'cod';
+import type { CreateOrderResponse, PaymentMethodId, ShippingAddress, ShippingMethodId } from '../types/api';
 
 const steps = [
   { id: 1, label: 'ตรวจสอบคำสั่งซื้อ' },
@@ -57,48 +62,132 @@ const trustNotes = [
   'ตรวจสอบสถานะคำสั่งซื้อได้ทุกขั้นตอน',
 ];
 
-// Mock coupon — no backend yet, so any non-empty code just demonstrates the applied-state UI.
-const MOCK_COUPON_DISCOUNT = 100;
 const VAT_RATE = 0.07;
+const COD_FEE = 50;
+
+interface CheckoutFormValues extends ShippingAddress {
+  saveAddress: boolean;
+  shippingMethod: ShippingMethodId;
+  paymentMethod: PaymentMethodId;
+}
+
+const REQUIRED = 'กรุณากรอกข้อมูลนี้';
 
 export function CheckoutPage() {
+  const dispatch = useAppDispatch();
   const items = useAppSelector(selectCartItems);
+  const { status: orderStatus, error: orderError, lastOrder } = useAppSelector((state) => state.order);
 
-  const [shippingMethod, setShippingMethod] = useState<ShippingMethodId>('standard');
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodId>('bank');
-  const [saveAddress, setSaveAddress] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors },
+  } = useForm<CheckoutFormValues>({
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+    defaultValues: {
+      fullName: '',
+      phone: '',
+      address: '',
+      province: '',
+      district: '',
+      subdistrict: '',
+      postalCode: '',
+      saveAddress: false,
+      shippingMethod: 'standard',
+      paymentMethod: 'bank',
+    },
+  });
+
+  // Both drive the live fee/total in the summary column.
+  const shippingMethod = useWatch({ control, name: 'shippingMethod' });
+  const paymentMethod = useWatch({ control, name: 'paymentMethod' });
+
   const [couponCode, setCouponCode] = useState('');
-  const [couponApplied, setCouponApplied] = useState(false);
+  const [coupon, setCoupon] = useState<{ code: string; discount: number } | null>(null);
+  const [couponChecking, setCouponChecking] = useState(false);
+  const [couponError, setCouponError] = useState<string | null>(null);
+
+  // Leaving the page clears the "order placed" screen so the next visit starts fresh.
+  useEffect(() => {
+    return () => {
+      dispatch(resetOrder());
+    };
+  }, [dispatch]);
 
   const subtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
   const shippingFee = shippingMethods.find((m) => m.id === shippingMethod)?.fee ?? 0;
-  const codFee = paymentMethod === 'cod' ? 50 : 0;
-  const discount = couponApplied ? Math.min(MOCK_COUPON_DISCOUNT, subtotal) : 0;
+  const codFee = paymentMethod === 'cod' ? COD_FEE : 0;
+  const discount = coupon ? Math.min(coupon.discount, subtotal) : 0;
   const total = subtotal + shippingFee + codFee - discount;
   const vatIncluded = subtotal - subtotal / (1 + VAT_RATE);
+  const isPlacingOrder = orderStatus === 'loading';
 
-  const handleApplyCoupon = () => {
-    if (!couponCode.trim()) return;
-    setCouponApplied(true);
+  const handleApplyCoupon = async () => {
+    const code = couponCode.trim();
+    if (!code) return;
+    setCouponChecking(true);
+    setCouponError(null);
+    try {
+      const result = await validateCoupon(code, subtotal);
+      if (result.valid) {
+        setCoupon({ code, discount: result.discount });
+      } else {
+        setCoupon(null);
+        setCouponError(result.message ?? 'โค้ดส่วนลดนี้ไม่สามารถใช้ได้');
+      }
+    } catch (error) {
+      setCouponError(getErrorMessage(error));
+    } finally {
+      setCouponChecking(false);
+    }
   };
+
+  const onSubmit = handleSubmit(async ({ saveAddress, shippingMethod: shipping, paymentMethod: payment, ...shippingAddress }) => {
+    const result = await dispatch(
+      placeOrder({
+        items: items.map(({ product, quantity }) => ({
+          productId: product.id,
+          category: product.category,
+          quantity,
+          unitPrice: product.price,
+        })),
+        shippingAddress,
+        shippingMethod: shipping,
+        paymentMethod: payment,
+        couponCode: coupon?.code,
+        saveAddress,
+      }),
+    );
+    // Card / QR payments continue on the payment gateway's own page when the backend provides one.
+    if (placeOrder.fulfilled.match(result) && result.payload.paymentUrl) {
+      window.location.assign(result.payload.paymentUrl);
+    }
+  });
+
+  if (orderStatus === 'succeeded' && lastOrder) {
+    return <OrderSuccess order={lastOrder} />;
+  }
 
   if (items.length === 0) {
     return (
       <section className="bg-slate-50 py-20">
         <Container>
-          <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-slate-200 bg-white py-16 text-center">
-            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-50 text-slate-300">
-              <FiShoppingCart size={28} aria-hidden="true" />
-            </span>
-            <p className="text-base font-semibold text-ink">ยังไม่มีสินค้าสำหรับชำระเงิน</p>
-            <p className="text-sm text-slate-400">เลือกซื้อสินค้าก่อนแล้วค่อยกลับมาที่หน้านี้</p>
-            <Link
-              to="/"
-              className="mt-2 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
-            >
-              เลือกซื้อสินค้าต่อ
-            </Link>
-          </div>
+          <EmptyState
+            icon={FiShoppingCart}
+            title="ยังไม่มีสินค้าสำหรับชำระเงิน"
+            description="เลือกซื้อสินค้าก่อนแล้วค่อยกลับมาที่หน้านี้"
+            action={
+              <Link
+                to="/"
+                className="rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+              >
+                เลือกซื้อสินค้าต่อ
+              </Link>
+            }
+          />
         </Container>
       </section>
     );
@@ -144,23 +233,45 @@ export function CheckoutPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
-          {/* Left column */}
-          <div className="flex flex-col gap-5">
+          {/* Left column — the form; the submit button lives in the summary column and targets it by id. */}
+          <form id="checkout-form" onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
             {/* 1. Shipping info */}
             <div className="rounded-2xl border border-slate-100 bg-white p-5 sm:p-6">
               <SectionTitle number={1} title="ข้อมูลการจัดส่ง" />
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <Field label="ชื่อ - นามสกุล" required>
-                  <input type="text" placeholder="ชื่อผู้รับสินค้า" className={inputClass} />
-                </Field>
-                <Field label="เบอร์โทรศัพท์" required>
-                  <input type="tel" placeholder="08X-XXX-XXXX" className={inputClass} />
-                </Field>
-                <Field label="ที่อยู่" required className="sm:col-span-2">
-                  <input type="text" placeholder="บ้านเลขที่ / ถนน / ซอย" className={inputClass} />
-                </Field>
-                <Field label="จังหวัด" required>
-                  <select className={inputClass} defaultValue="">
+                <FormField label="ชื่อ - นามสกุล" required error={errors.fullName?.message}>
+                  <TextInput
+                    type="text"
+                    placeholder="ชื่อผู้รับสินค้า"
+                    autoComplete="name"
+                    invalid={!!errors.fullName}
+                    {...register('fullName', { required: REQUIRED, minLength: { value: 2, message: 'กรุณากรอกชื่อให้ครบถ้วน' } })}
+                  />
+                </FormField>
+                <FormField label="เบอร์โทรศัพท์" required error={errors.phone?.message}>
+                  <TextInput
+                    type="tel"
+                    placeholder="08X-XXX-XXXX"
+                    autoComplete="tel"
+                    invalid={!!errors.phone}
+                    {...register('phone', {
+                      required: REQUIRED,
+                      validate: (value) =>
+                        /^0\d{8,9}$/.test(value.replace(/[\s-]/g, '')) || 'เบอร์โทรศัพท์ไม่ถูกต้อง',
+                    })}
+                  />
+                </FormField>
+                <FormField label="ที่อยู่" required error={errors.address?.message} className="sm:col-span-2">
+                  <TextInput
+                    type="text"
+                    placeholder="บ้านเลขที่ / ถนน / ซอย"
+                    autoComplete="street-address"
+                    invalid={!!errors.address}
+                    {...register('address', { required: REQUIRED })}
+                  />
+                </FormField>
+                <FormField label="จังหวัด" required error={errors.province?.message}>
+                  <SelectInput invalid={!!errors.province} {...register('province', { required: 'กรุณาเลือกจังหวัด' })}>
                     <option value="" disabled>
                       เลือกจังหวัด
                     </option>
@@ -169,24 +280,44 @@ export function CheckoutPage() {
                         {province}
                       </option>
                     ))}
-                  </select>
-                </Field>
-                <Field label="อำเภอ / เขต" required>
-                  <input type="text" placeholder="อำเภอ / เขต" className={inputClass} />
-                </Field>
-                <Field label="ตำบล / แขวง" required>
-                  <input type="text" placeholder="ตำบล / แขวง" className={inputClass} />
-                </Field>
-                <Field label="รหัสไปรษณีย์" required>
-                  <input type="text" inputMode="numeric" placeholder="10xxx" className={inputClass} />
-                </Field>
+                  </SelectInput>
+                </FormField>
+                <FormField label="อำเภอ / เขต" required error={errors.district?.message}>
+                  <TextInput
+                    type="text"
+                    placeholder="อำเภอ / เขต"
+                    invalid={!!errors.district}
+                    {...register('district', { required: REQUIRED })}
+                  />
+                </FormField>
+                <FormField label="ตำบล / แขวง" required error={errors.subdistrict?.message}>
+                  <TextInput
+                    type="text"
+                    placeholder="ตำบล / แขวง"
+                    invalid={!!errors.subdistrict}
+                    {...register('subdistrict', { required: REQUIRED })}
+                  />
+                </FormField>
+                <FormField label="รหัสไปรษณีย์" required error={errors.postalCode?.message}>
+                  <TextInput
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="10xxx"
+                    autoComplete="postal-code"
+                    maxLength={5}
+                    invalid={!!errors.postalCode}
+                    {...register('postalCode', {
+                      required: REQUIRED,
+                      pattern: { value: /^\d{5}$/, message: 'รหัสไปรษณีย์ต้องเป็นตัวเลข 5 หลัก' },
+                    })}
+                  />
+                </FormField>
               </div>
               <label className="mt-4 flex items-center gap-2 text-xs text-slate-500">
                 <input
                   type="checkbox"
-                  checked={saveAddress}
-                  onChange={(e) => setSaveAddress(e.target.checked)}
                   className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
+                  {...register('saveAddress')}
                 />
                 บันทึกที่อยู่นี้สำหรับการสั่งซื้อครั้งถัดไป
               </label>
@@ -202,7 +333,8 @@ export function CheckoutPage() {
                     <button
                       key={method.id}
                       type="button"
-                      onClick={() => setShippingMethod(method.id)}
+                      aria-pressed={selected}
+                      onClick={() => setValue('shippingMethod', method.id)}
                       className={cn(
                         'relative flex flex-col gap-2 rounded-xl border p-4 text-left transition-colors',
                         selected ? 'border-brand bg-red-50' : 'border-slate-200 bg-white hover:border-slate-300',
@@ -243,10 +375,9 @@ export function CheckoutPage() {
                     >
                       <input
                         type="radio"
-                        name="payment-method"
-                        checked={selected}
-                        onChange={() => setPaymentMethod(method.id)}
+                        value={method.id}
                         className="h-4 w-4 shrink-0 border-slate-300 text-brand focus:ring-brand"
+                        {...register('paymentMethod')}
                       />
                       <method.icon size={20} className={selected ? 'text-brand' : 'text-slate-400'} aria-hidden="true" />
                       <div className="min-w-0 flex-1">
@@ -259,7 +390,7 @@ export function CheckoutPage() {
                 })}
               </div>
             </div>
-          </div>
+          </form>
 
           {/* Right: order summary */}
           <div className="flex flex-col gap-4 lg:sticky lg:top-4 lg:self-start">
@@ -303,9 +434,9 @@ export function CheckoutPage() {
                     {discount > 0 ? `- ${formatTHB(discount)}` : formatTHB(0)}
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-slate-400">
+                <div className="flex items-center justify-between gap-3 text-slate-400">
                   <span>ภาษีมูลค่าเพิ่ม (VAT 7%)</span>
-                  <span className="font-medium">{formatTHB(vatIncluded)} (รวมในราคาแล้ว)</span>
+                  <span className="text-right font-medium">{formatTHB(vatIncluded)} (รวมในราคาแล้ว)</span>
                 </div>
               </div>
 
@@ -320,23 +451,31 @@ export function CheckoutPage() {
                     value={couponCode}
                     onChange={(e) => {
                       setCouponCode(e.target.value);
-                      setCouponApplied(false);
+                      setCoupon(null);
+                      setCouponError(null);
                     }}
                     placeholder="กรอกโค้ดส่วนลด"
-                    className="h-10 flex-1 rounded-lg border border-slate-200 px-3 text-sm text-ink outline-none focus:border-brand"
+                    className="h-10 min-w-0 flex-1 rounded-lg border border-slate-200 px-3 text-sm text-ink outline-none focus:border-brand"
                   />
                   <button
                     type="button"
-                    onClick={handleApplyCoupon}
-                    className="whitespace-nowrap rounded-lg bg-ink px-4 text-sm font-semibold text-white transition-colors hover:bg-ink-light"
+                    onClick={() => void handleApplyCoupon()}
+                    disabled={couponChecking || !couponCode.trim()}
+                    className="flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-ink px-4 text-sm font-semibold text-white transition-colors hover:bg-ink-light disabled:opacity-60"
                   >
+                    {couponChecking && <Spinner size={14} />}
                     ใช้โค้ดส่วนลด
                   </button>
                 </div>
-                {couponApplied && (
+                {coupon && (
                   <p className="mt-2 flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
                     <BsCheckCircleFill size={12} aria-hidden="true" />
                     ใช้โค้ดส่วนลดสำเร็จ ลด {formatTHB(discount)}
+                  </p>
+                )}
+                {couponError && (
+                  <p role="alert" className="mt-2 text-xs text-red-500">
+                    {couponError}
                   </p>
                 )}
               </div>
@@ -346,12 +485,21 @@ export function CheckoutPage() {
                 <span className="text-2xl font-bold text-brand">{formatTHB(total)}</span>
               </div>
 
+              {orderStatus === 'failed' && orderError && (
+                <p role="alert" className="mt-4 flex items-start gap-2 rounded-xl bg-red-50 px-3 py-2.5 text-xs text-red-600">
+                  <FiAlertCircle size={14} className="mt-px shrink-0" aria-hidden="true" />
+                  {orderError}
+                </p>
+              )}
+
               <button
-                type="button"
-                className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-full bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+                type="submit"
+                form="checkout-form"
+                disabled={isPlacingOrder}
+                className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-full bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:cursor-wait disabled:opacity-70"
               >
-                <FiLock size={15} aria-hidden="true" />
-                ยืนยันการสั่งซื้อ
+                {isPlacingOrder ? <Spinner size={15} /> : <FiLock size={15} aria-hidden="true" />}
+                {isPlacingOrder ? 'กำลังสั่งซื้อ...' : 'ยืนยันการสั่งซื้อ'}
               </button>
             </div>
 
@@ -372,6 +520,35 @@ export function CheckoutPage() {
   );
 }
 
+function OrderSuccess({ order }: { order: CreateOrderResponse }) {
+  return (
+    <section className="bg-slate-50 py-16">
+      <Container>
+        <EmptyState
+          icon={BsCheckCircleFill}
+          title="สั่งซื้อสำเร็จ ขอบคุณที่ใช้บริการ"
+          iconClassName="bg-emerald-50 text-emerald-500"
+          description={
+            <>
+              หมายเลขคำสั่งซื้อ <span className="font-semibold text-ink">{order.orderId}</span>
+              <br />
+              ยอดชำระ <span className="font-semibold text-brand">{formatTHB(order.total)}</span>
+            </>
+          }
+          action={
+            <Link
+              to="/"
+              className="rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+            >
+              กลับไปเลือกซื้อสินค้า
+            </Link>
+          }
+        />
+      </Container>
+    </section>
+  );
+}
+
 function SectionTitle({ number, title }: { number: number; title: string }) {
   return (
     <div className="mb-4 flex items-center gap-2.5">
@@ -380,30 +557,5 @@ function SectionTitle({ number, title }: { number: number; title: string }) {
       </span>
       <h2 className="text-sm font-bold text-ink">{title}</h2>
     </div>
-  );
-}
-
-const inputClass =
-  'h-11 w-full rounded-lg border border-slate-200 px-3.5 text-sm text-ink outline-none focus:border-brand';
-
-function Field({
-  label,
-  required,
-  className,
-  children,
-}: {
-  label: string;
-  required?: boolean;
-  className?: string;
-  children: ReactNode;
-}) {
-  return (
-    <label className={cn('flex flex-col gap-1.5', className)}>
-      <span className="text-xs font-medium text-slate-500">
-        {label}
-        {required && <span className="text-brand"> *</span>}
-      </span>
-      {children}
-    </label>
   );
 }

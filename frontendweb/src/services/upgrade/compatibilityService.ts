@@ -1,3 +1,4 @@
+import { apiPost, withMockFallback } from '../../api/request';
 import type { UpgradeComponentKey, UpgradeSelection } from '../../types/upgrade';
 
 export interface CompatibilityCheckRequest {
@@ -15,12 +16,14 @@ export interface CompatibilityCheckResponse {
 }
 
 /**
- * TODO(backend): `POST /api/upgrade/compatibility` — the real compatibility
- * engine (socket/RAM type/PSU wattage/GPU length/case clearance, etc.) lives on
- * the backend. Not called by the UI yet (step 4 isn't built); this stub only
- * exists so that page can call something with the right shape once it is.
+ * POST /upgrade/compatibility — the real compatibility engine (socket/RAM type/PSU
+ * wattage/GPU length/case clearance, etc.) lives on the backend. Not called by the
+ * UI yet (step 4 isn't built); the mock reports everything as compatible.
  */
-export async function checkCompatibility(request: CompatibilityCheckRequest): Promise<CompatibilityCheckResponse> {
-  void request;
-  return { compatible: true, issues: [] };
+export function checkCompatibility(request: CompatibilityCheckRequest): Promise<CompatibilityCheckResponse> {
+  return withMockFallback(
+    'POST /upgrade/compatibility',
+    () => apiPost<CompatibilityCheckResponse>('/upgrade/compatibility', request),
+    () => ({ compatible: true, issues: [] }),
+  );
 }

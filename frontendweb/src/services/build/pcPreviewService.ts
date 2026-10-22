@@ -1,3 +1,4 @@
+import { apiPost, mockDelay, withMockFallback } from '../../api/request';
 import type { StepId } from '../../pages/BuildCategoryPage';
 
 export interface PcPreviewPart {
@@ -22,19 +23,21 @@ export interface PcPreviewResponse {
 }
 
 /**
- * TODO(backend): a teammate owns the real AI PC-render pipeline — it takes the selected
- * parts (see PcPreviewRequest) and generates a photo of the assembled build. This mock
- * keeps the request/response shape that service will use, so swapping the body of this
- * function for a real `fetch('/api/build/preview', ...)` call later is a one-line change —
- * no UI rewrite needed. The modal never generates the image itself; it only calls this and
- * renders whatever comes back, falling back to a placeholder while status is 'pending'.
+ * POST /build/preview — a teammate owns the AI PC-render pipeline: it takes the selected
+ * parts and generates a photo of the assembled build. The modal never generates the image
+ * itself; it only calls this and renders whatever comes back, falling back to a placeholder
+ * while status is 'pending' (which is what the mock always answers).
  */
-export async function generatePcPreview(request: PcPreviewRequest): Promise<PcPreviewResponse> {
-  void request;
-  // Simulated latency so the loading state is visible in the mock.
-  await new Promise((resolve) => setTimeout(resolve, 1400));
-  return {
-    status: 'pending',
-    message: 'ระบบ AI สร้างภาพ PC กำลังเตรียมเชื่อมต่อ — เร็วๆ นี้จะแสดงภาพจำลองจากชิ้นส่วนที่คุณเลือกที่นี่',
-  };
+export function generatePcPreview(request: PcPreviewRequest): Promise<PcPreviewResponse> {
+  return withMockFallback(
+    'POST /build/preview',
+    () => apiPost<PcPreviewResponse>('/build/preview', request),
+    async () => {
+      await mockDelay(1400);
+      return {
+        status: 'pending',
+        message: 'ระบบ AI สร้างภาพ PC กำลังเตรียมเชื่อมต่อ — เร็วๆ นี้จะแสดงภาพจำลองจากชิ้นส่วนที่คุณเลือกที่นี่',
+      };
+    },
+  );
 }

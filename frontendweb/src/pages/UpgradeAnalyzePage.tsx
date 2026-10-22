@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Container } from '../components/ui/Container';
+import { ErrorState } from '../components/ui/ErrorState';
 import { UpgradeStepIndicator } from '../components/upgrade/UpgradeStepIndicator';
 import { AnalysisSpecCard } from '../components/upgrade/AnalysisSpecCard';
 import { CompatibilityScorePanel } from '../components/upgrade/CompatibilityScorePanel';
@@ -11,6 +12,7 @@ import { UpgradePromoBanner } from '../components/upgrade/UpgradePromoBanner';
 import { categoryIcons } from '../components/home/categoryIcons';
 import { useAppSelector } from '../app/hooks';
 import { listUpgradeProducts } from '../services/upgrade/productSearchService';
+import { getErrorMessage } from '../api/apiError';
 import { upgradeSpecRows } from '../data/upgradeSpecRows';
 import type { RecommendationTabKey } from '../data/upgradeAnalysisMock';
 import type { RecommendationItem } from '../components/upgrade/RecommendationCard';
@@ -41,10 +43,13 @@ export function UpgradeAnalyzePage() {
   const navigate = useNavigate();
   const { currentSpec, upgrades } = useAppSelector((state) => state.upgrade);
   const [items, setItems] = useState<Record<RecommendationTabKey, RecommendationItem[]> | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
 
+    // The five category lists are independent — fetch them in parallel.
     Promise.all([
       listUpgradeProducts('cpu'),
       listUpgradeProducts('ram'),
@@ -88,14 +93,22 @@ export function UpgradeAnalyzePage() {
         sequential: [toItem('gpu', gpu[0]), toItem('psu', psu[0])].filter((item): item is RecommendationItem => item !== null),
         skip: skipItems,
       });
-    });
+    })
+      .catch((error: unknown) => {
+        if (!cancelled) setLoadError(getErrorMessage(error));
+      });
 
     return () => {
       cancelled = true;
     };
     // currentSpec only matters for the "skip" list's snapshot — re-running per keystroke isn't needed here.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [retryCount]);
+
+  const retryLoad = () => {
+    setLoadError(null);
+    setRetryCount((count) => count + 1);
+  };
 
   const hasAnySpec = upgradeSpecRows.some((row) => currentSpec[row.key]);
   const goToSummary = () => navigate('/upgrade-pc/summary');
@@ -141,7 +154,9 @@ export function UpgradeAnalyzePage() {
               </Link>
             </div>
 
-            {items === null ? (
+            {loadError ? (
+              <ErrorState className="mt-6" message={loadError} onRetry={retryLoad} />
+            ) : items === null ? (
               <div className="mt-6 rounded-2xl border border-slate-100 bg-white py-24 text-center text-sm text-slate-400 shadow-card">
                 กำลังวิเคราะห์สเปคของคุณ...
               </div>

@@ -1,26 +1,17 @@
-import { cpuProducts, type CpuProduct } from './cpuProducts';
-import { gpuProducts, type GpuProduct } from './gpuProducts';
-import { motherboardProducts, type MotherboardProduct } from './motherboardProducts';
-import { ramProducts, type RamProduct } from './ramProducts';
-import { storageProducts, type StorageProduct } from './storageProducts';
-import { psuProducts, type PsuProduct } from './psuProducts';
-import { caseProducts, type CaseProduct } from './caseProducts';
-import { coolingProducts, type CoolingProduct } from './coolingProducts';
-import { desktopPcProducts, type DesktopPcProduct } from './desktopPcProducts';
-import { pcSetProducts, type PcSetProduct } from './pcSetProducts';
+import type { CpuProduct } from './cpuProducts';
+import type { GpuProduct } from './gpuProducts';
+import type { MotherboardProduct } from './motherboardProducts';
+import type { RamProduct } from './ramProducts';
+import type { StorageProduct } from './storageProducts';
+import type { PsuProduct } from './psuProducts';
+import type { CaseProduct } from './caseProducts';
+import type { CoolingProduct } from './coolingProducts';
+import type { DesktopPcProduct } from './desktopPcProducts';
+import type { PcSetProduct } from './pcSetProducts';
+import type { CategoryProductMap, ProductCategorySlug } from './catalog';
 import type { CategoryIconKey } from '../types';
 
-export type ProductCategorySlug =
-  | 'cpu'
-  | 'gpu'
-  | 'motherboard'
-  | 'ram'
-  | 'storage'
-  | 'psu'
-  | 'case'
-  | 'cooling'
-  | 'desktop-pc'
-  | 'pc-sets';
+export type { ProductCategorySlug } from './catalog';
 
 export interface SpecRow {
   label: string;
@@ -141,7 +132,7 @@ function baseFields<T extends { id: string; name: string; brand: string; price: 
   };
 }
 
-function buildCpuDetail(p: CpuProduct): ProductDetailData {
+function buildCpuDetail(p: CpuProduct, catalog: CpuProduct[]): ProductDetailData {
   return {
     ...baseFields('cpu', p),
     tags: [
@@ -171,7 +162,7 @@ function buildCpuDetail(p: CpuProduct): ProductDetailData {
         { label: 'Warranty', value: p.warranty },
       ];
     })(),
-    related: cpuProducts
+    related: catalog
       .filter((item) => item.id !== p.id)
       .slice(0, 6)
       .map((item) => ({
@@ -184,7 +175,7 @@ function buildCpuDetail(p: CpuProduct): ProductDetailData {
   };
 }
 
-function buildGpuDetail(p: GpuProduct): ProductDetailData {
+function buildGpuDetail(p: GpuProduct, catalog: GpuProduct[]): ProductDetailData {
   return {
     ...baseFields('gpu', p),
     tags: [categoryTagLabel.gpu, categoryMeta.gpu.label, p.brand, p.model, p.memorySize, p.boostClock],
@@ -196,7 +187,7 @@ function buildGpuDetail(p: GpuProduct): ProductDetailData {
       { label: 'Boost Clock', value: p.boostClock },
       { label: 'Power Requirement', value: p.power },
     ],
-    related: gpuProducts
+    related: catalog
       .filter((item) => item.id !== p.id)
       .slice(0, 6)
       .map((item) => ({
@@ -209,7 +200,7 @@ function buildGpuDetail(p: GpuProduct): ProductDetailData {
   };
 }
 
-function buildMotherboardDetail(p: MotherboardProduct): ProductDetailData {
+function buildMotherboardDetail(p: MotherboardProduct, catalog: MotherboardProduct[]): ProductDetailData {
   return {
     ...baseFields('motherboard', p),
     tags: [
@@ -231,7 +222,7 @@ function buildMotherboardDetail(p: MotherboardProduct): ProductDetailData {
       { label: 'Memory Type', value: p.memoryType },
       { label: 'Max Memory', value: p.maxMemory },
     ],
-    related: motherboardProducts
+    related: catalog
       .filter((item) => item.id !== p.id)
       .slice(0, 6)
       .map((item) => ({
@@ -244,7 +235,7 @@ function buildMotherboardDetail(p: MotherboardProduct): ProductDetailData {
   };
 }
 
-function buildRamDetail(p: RamProduct): ProductDetailData {
+function buildRamDetail(p: RamProduct, catalog: RamProduct[]): ProductDetailData {
   return {
     ...baseFields('ram', p),
     tags: [categoryTagLabel.ram, categoryMeta.ram.label, p.brand, p.series, p.capacity, p.speed, p.memoryType],
@@ -255,7 +246,7 @@ function buildRamDetail(p: RamProduct): ProductDetailData {
       { label: 'Speed', value: p.speed },
       { label: 'Memory Type', value: p.memoryType },
     ],
-    related: ramProducts
+    related: catalog
       .filter((item) => item.id !== p.id)
       .slice(0, 6)
       .map((item) => ({
@@ -268,7 +259,7 @@ function buildRamDetail(p: RamProduct): ProductDetailData {
   };
 }
 
-function buildStorageDetail(p: StorageProduct): ProductDetailData {
+function buildStorageDetail(p: StorageProduct, catalog: StorageProduct[]): ProductDetailData {
   return {
     ...baseFields('storage', p),
     tags: [categoryTagLabel.storage, categoryMeta.storage.label, p.brand, p.type, p.capacity, p.readSpeed],
@@ -278,7 +269,7 @@ function buildStorageDetail(p: StorageProduct): ProductDetailData {
       { label: 'Capacity', value: p.capacity },
       { label: 'Read Speed', value: p.readSpeed },
     ],
-    related: storageProducts
+    related: catalog
       .filter((item) => item.id !== p.id)
       .slice(0, 6)
       .map((item) => ({
@@ -291,7 +282,7 @@ function buildStorageDetail(p: StorageProduct): ProductDetailData {
   };
 }
 
-function buildPsuDetail(p: PsuProduct): ProductDetailData {
+function buildPsuDetail(p: PsuProduct, catalog: PsuProduct[]): ProductDetailData {
   return {
     ...baseFields('psu', p),
     tags: [categoryTagLabel.psu, categoryMeta.psu.label, p.brand, p.wattage, p.certification, p.modular],
@@ -301,7 +292,7 @@ function buildPsuDetail(p: PsuProduct): ProductDetailData {
       { label: 'Certification', value: p.certification },
       { label: 'Modular', value: p.modular },
     ],
-    related: psuProducts
+    related: catalog
       .filter((item) => item.id !== p.id)
       .slice(0, 6)
       .map((item) => ({
@@ -314,7 +305,7 @@ function buildPsuDetail(p: PsuProduct): ProductDetailData {
   };
 }
 
-function buildCaseDetail(p: CaseProduct): ProductDetailData {
+function buildCaseDetail(p: CaseProduct, catalog: CaseProduct[]): ProductDetailData {
   return {
     ...baseFields('case', p),
     tags: [categoryTagLabel.case, categoryMeta.case.label, p.brand, p.formFactor, p.caseType, p.sidePanel],
@@ -324,7 +315,7 @@ function buildCaseDetail(p: CaseProduct): ProductDetailData {
       { label: 'Mainboard Support', value: p.formFactor },
       { label: 'Side Panel', value: p.sidePanel },
     ],
-    related: caseProducts
+    related: catalog
       .filter((item) => item.id !== p.id)
       .slice(0, 6)
       .map((item) => ({
@@ -337,7 +328,7 @@ function buildCaseDetail(p: CaseProduct): ProductDetailData {
   };
 }
 
-function buildCoolingDetail(p: CoolingProduct): ProductDetailData {
+function buildCoolingDetail(p: CoolingProduct, catalog: CoolingProduct[]): ProductDetailData {
   return {
     ...baseFields('cooling', p),
     tags: [categoryTagLabel.cooling, categoryMeta.cooling.label, p.brand, p.type, p.fanSize, p.socket],
@@ -347,7 +338,7 @@ function buildCoolingDetail(p: CoolingProduct): ProductDetailData {
       { label: 'Fan Size', value: p.fanSize },
       { label: 'Socket Support', value: p.socket },
     ],
-    related: coolingProducts
+    related: catalog
       .filter((item) => item.id !== p.id)
       .slice(0, 6)
       .map((item) => ({
@@ -360,7 +351,7 @@ function buildCoolingDetail(p: CoolingProduct): ProductDetailData {
   };
 }
 
-function buildDesktopPcDetail(p: DesktopPcProduct): ProductDetailData {
+function buildDesktopPcDetail(p: DesktopPcProduct, catalog: DesktopPcProduct[]): ProductDetailData {
   return {
     ...baseFields('desktop-pc', p),
     tags: [categoryTagLabel['desktop-pc'], categoryMeta['desktop-pc'].label, p.brand, p.usageType, p.cpuPlatform],
@@ -371,7 +362,7 @@ function buildDesktopPcDetail(p: DesktopPcProduct): ProductDetailData {
       { label: 'GPU', value: p.gpu },
       { label: 'RAM', value: p.ram },
     ],
-    related: desktopPcProducts
+    related: catalog
       .filter((item) => item.id !== p.id)
       .slice(0, 6)
       .map((item) => ({
@@ -384,7 +375,7 @@ function buildDesktopPcDetail(p: DesktopPcProduct): ProductDetailData {
   };
 }
 
-function buildPcSetDetail(p: PcSetProduct): ProductDetailData {
+function buildPcSetDetail(p: PcSetProduct, catalog: PcSetProduct[]): ProductDetailData {
   return {
     ...baseFields('pc-sets', p),
     originalPrice: p.originalPrice > p.price ? p.originalPrice : undefined,
@@ -396,7 +387,7 @@ function buildPcSetDetail(p: PcSetProduct): ProductDetailData {
       { label: 'GPU', value: p.gpu },
       { label: 'RAM', value: p.ram },
     ],
-    related: pcSetProducts
+    related: catalog
       .filter((item) => item.id !== p.id)
       .slice(0, 6)
       .map((item) => ({
@@ -416,49 +407,29 @@ export function toCartCategoryKey(categorySlug: ProductCategorySlug): CategoryIc
   return categorySlug;
 }
 
-export function getProductDetail(categorySlug: string, id: string): ProductDetailData | null {
-  switch (categorySlug as ProductCategorySlug) {
-    case 'cpu': {
-      const product = cpuProducts.find((p) => p.id === id);
-      return product ? buildCpuDetail(product) : null;
-    }
-    case 'gpu': {
-      const product = gpuProducts.find((p) => p.id === id);
-      return product ? buildGpuDetail(product) : null;
-    }
-    case 'motherboard': {
-      const product = motherboardProducts.find((p) => p.id === id);
-      return product ? buildMotherboardDetail(product) : null;
-    }
-    case 'ram': {
-      const product = ramProducts.find((p) => p.id === id);
-      return product ? buildRamDetail(product) : null;
-    }
-    case 'storage': {
-      const product = storageProducts.find((p) => p.id === id);
-      return product ? buildStorageDetail(product) : null;
-    }
-    case 'psu': {
-      const product = psuProducts.find((p) => p.id === id);
-      return product ? buildPsuDetail(product) : null;
-    }
-    case 'case': {
-      const product = caseProducts.find((p) => p.id === id);
-      return product ? buildCaseDetail(product) : null;
-    }
-    case 'cooling': {
-      const product = coolingProducts.find((p) => p.id === id);
-      return product ? buildCoolingDetail(product) : null;
-    }
-    case 'desktop-pc': {
-      const product = desktopPcProducts.find((p) => p.id === id);
-      return product ? buildDesktopPcDetail(product) : null;
-    }
-    case 'pc-sets': {
-      const product = pcSetProducts.find((p) => p.id === id);
-      return product ? buildPcSetDetail(product) : null;
-    }
-    default:
-      return null;
-  }
+const detailBuilders: {
+  [K in ProductCategorySlug]: (product: CategoryProductMap[K], catalog: CategoryProductMap[K][]) => ProductDetailData;
+} = {
+  cpu: buildCpuDetail,
+  gpu: buildGpuDetail,
+  motherboard: buildMotherboardDetail,
+  ram: buildRamDetail,
+  storage: buildStorageDetail,
+  psu: buildPsuDetail,
+  case: buildCaseDetail,
+  cooling: buildCoolingDetail,
+  'desktop-pc': buildDesktopPcDetail,
+  'pc-sets': buildPcSetDetail,
+};
+
+/**
+ * Turn a raw category product (as returned by the backend) into the product-detail
+ * view model. `catalog` is that category's product list, used for "related products".
+ */
+export function buildProductDetail<K extends ProductCategorySlug>(
+  categorySlug: K,
+  product: CategoryProductMap[K],
+  catalog: CategoryProductMap[K][],
+): ProductDetailData {
+  return detailBuilders[categorySlug](product, catalog);
 }

@@ -1,26 +1,15 @@
-import { api } from './axiosClient';
+import { apiGet, withMockFallback } from './request';
 import { mockCategories, mockProducts, mockPromoBanners, mockSpecialDeals } from './mockData';
 import type { Category, Product, PromoBanner, SpecialDeal } from '../types';
 
-/**
- * Try the real backend first; if it's unreachable (not built yet, CORS not
- * configured, offline, ...) fall back to mockup data so the UI keeps working.
- * Once the backend is live this silently starts returning real data with no
- * component changes needed.
- */
-async function safeGet<T>(url: string, fallback: T): Promise<T> {
-  try {
-    const { data } = await api.get<T>(url);
-    return data;
-  } catch {
-    return fallback;
-  }
-}
+export const getCategories = (): Promise<Category[]> =>
+  withMockFallback('GET /categories', () => apiGet<Category[]>('/categories'), () => mockCategories);
 
-export const getCategories = (): Promise<Category[]> => safeGet('/categories', mockCategories);
+export const getProducts = (): Promise<Product[]> =>
+  withMockFallback('GET /products/popular', () => apiGet<Product[]>('/products/popular'), () => mockProducts);
 
-export const getProducts = (): Promise<Product[]> => safeGet('/products/popular', mockProducts);
+export const getPromoBanners = (): Promise<PromoBanner[]> =>
+  withMockFallback('GET /banners/promo', () => apiGet<PromoBanner[]>('/banners/promo'), () => mockPromoBanners);
 
-export const getPromoBanners = (): Promise<PromoBanner[]> => safeGet('/banners/promo', mockPromoBanners);
-
-export const getSpecialDeals = (): Promise<SpecialDeal[]> => safeGet('/deals/special', mockSpecialDeals);
+export const getSpecialDeals = (): Promise<SpecialDeal[]> =>
+  withMockFallback('GET /deals/special', () => apiGet<SpecialDeal[]>('/deals/special'), () => mockSpecialDeals);

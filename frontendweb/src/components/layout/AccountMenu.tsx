@@ -3,7 +3,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { useState } from 'react';
 import { FiLogOut, FiPackage, FiUser } from 'react-icons/fi';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { logout } from '../../features/auth/authSlice';
+import { logoutUser } from '../../features/auth/authSlice';
 import { getInitials } from '../../lib/format';
 import { LoginModal } from './LoginModal';
 
@@ -15,7 +15,7 @@ const itemClassName =
 export function AccountMenu() {
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
-  const { isAuthenticated, email } = useAppSelector((state) => state.auth);
+  const { isAuthenticated, email, user } = useAppSelector((state) => state.auth);
 
   if (isAuthenticated) {
     return (
@@ -31,6 +31,11 @@ export function AccountMenu() {
             sideOffset={8}
             className="z-50 w-64 rounded-xl border border-slate-100 bg-white p-1.5 shadow-card"
           >
+            <div className="px-4 pb-2 pt-1.5">
+              {user?.name && <p className="truncate text-sm font-semibold text-ink">{user.name}</p>}
+              <p className="truncate text-xs text-slate-400">{email}</p>
+            </div>
+            <DropdownMenu.Separator className="mb-1.5 border-t border-slate-100" />
             <DropdownMenu.Item asChild>
               <a href="#account" className={itemClassName}>
                 <FiUser size={19} strokeWidth={1.8} className="shrink-0 text-[#253047]" aria-hidden="true" />
@@ -47,7 +52,7 @@ export function AccountMenu() {
             <DropdownMenu.Item asChild>
               <button
                 type="button"
-                onClick={() => dispatch(logout())}
+                onClick={() => void dispatch(logoutUser())}
                 className={`${itemClassName} w-full text-[#E60012] hover:bg-red-50 focus:bg-red-50`}
               >
                 <FiLogOut size={19} strokeWidth={1.8} className="shrink-0 text-[#E60012]" aria-hidden="true" />

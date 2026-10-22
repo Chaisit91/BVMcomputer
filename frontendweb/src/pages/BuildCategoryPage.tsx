@@ -7,20 +7,25 @@ import { BuildHeroBanner } from '../components/build/BuildHeroBanner';
 import { BuildOptionCard } from '../components/build/BuildOptionCard';
 import { BuildSummarySidebar, type BuildSummaryRow } from '../components/build/BuildSummarySidebar';
 import { BuildCartPreviewModal, type BuildCartPreviewItem } from '../components/build/BuildCartPreviewModal';
-import { ServiceBadges } from '../components/shared/ServiceBadges';
+import { ErrorState } from '../components/ui/ErrorState';
+import { ProductGridSkeleton } from '../components/category/ProductGridSkeleton';
 import { useAppDispatch } from '../app/hooks';
+import { useCatalogs } from '../hooks/useCatalogs';
 import { addToCart } from '../features/cart/cartSlice';
 import type { CategoryIconKey } from '../types';
-import { cpuProducts, type CpuProduct } from '../data/cpuProducts';
-import { motherboardProducts, type MotherboardProduct } from '../data/motherboardProducts';
-import { gpuProducts, type GpuProduct } from '../data/gpuProducts';
-import { ramProducts, type RamProduct } from '../data/ramProducts';
-import { storageProducts, type StorageProduct } from '../data/storageProducts';
-import { psuProducts, type PsuProduct } from '../data/psuProducts';
-import { caseProducts, type CaseProduct } from '../data/caseProducts';
-import { coolingProducts, type CoolingProduct } from '../data/coolingProducts';
+import type { CpuProduct } from '../data/cpuProducts';
+import type { MotherboardProduct } from '../data/motherboardProducts';
+import type { GpuProduct } from '../data/gpuProducts';
+import type { RamProduct } from '../data/ramProducts';
+import type { StorageProduct } from '../data/storageProducts';
+import type { PsuProduct } from '../data/psuProducts';
+import type { CaseProduct } from '../data/caseProducts';
+import type { CoolingProduct } from '../data/coolingProducts';
 
 export type StepId = 'cpu' | 'motherboard' | 'gpu' | 'ram' | 'storage' | 'psu' | 'case' | 'cooling';
+
+// Module-level so useCatalogs gets a stable array and doesn't refetch on every render.
+const BUILD_CATEGORIES = ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'psu', 'case', 'cooling'] as const satisfies readonly StepId[];
 
 interface StepMeta {
   id: StepId;
@@ -42,6 +47,8 @@ const stepMeta: StepMeta[] = [
 
 export function BuildCategoryPage() {
   const dispatch = useAppDispatch();
+  // All 8 part lists are fetched in parallel (Promise.all) the first time the page opens.
+  const { catalogs, status: catalogStatus, error: catalogError, reload: reloadCatalogs } = useCatalogs(BUILD_CATEGORIES);
   const [activeStep, setActiveStep] = useState<StepId>('cpu');
   const [showCartPreview, setShowCartPreview] = useState(false);
 
@@ -65,12 +72,13 @@ export function BuildCategoryPage() {
   // Compatible motherboards/coolers are derived from the chosen CPU's socket — pure
   // derived data, so useMemo (not useEffect) is the right tool.
   const compatibleMotherboards = useMemo(
-    () => (selectedCpu ? motherboardProducts.filter((m) => m.socket === selectedCpu.socket) : motherboardProducts),
-    [selectedCpu],
+    () =>
+      selectedCpu ? catalogs.motherboard.filter((m) => m.socket === selectedCpu.socket) : catalogs.motherboard,
+    [selectedCpu, catalogs.motherboard],
   );
   const compatibleCoolers = useMemo(
-    () => (selectedCpu ? coolingProducts.filter((c) => c.socket === selectedCpu.socket) : coolingProducts),
-    [selectedCpu],
+    () => (selectedCpu ? catalogs.cooling.filter((c) => c.socket === selectedCpu.socket) : catalogs.cooling),
+    [selectedCpu, catalogs.cooling],
   );
 
   const totalPrice =
@@ -271,7 +279,7 @@ export function BuildCategoryPage() {
   const renderStepOptions = () => {
     switch (activeStep) {
       case 'cpu':
-        return cpuProducts.map((p) => (
+        return catalogs.cpu.map((p) => (
           <BuildOptionCard
             key={p.id}
             icon={BsCpu}
@@ -307,7 +315,7 @@ export function BuildCategoryPage() {
           />
         ));
       case 'gpu':
-        return gpuProducts.map((p) => (
+        return catalogs.gpu.map((p) => (
           <BuildOptionCard
             key={p.id}
             icon={BsGpuCard}
@@ -325,7 +333,7 @@ export function BuildCategoryPage() {
           />
         ));
       case 'ram':
-        return ramProducts.map((p) => (
+        return catalogs.ram.map((p) => (
           <BuildOptionCard
             key={p.id}
             icon={BsMemory}
@@ -343,7 +351,7 @@ export function BuildCategoryPage() {
           />
         ));
       case 'storage':
-        return storageProducts.map((p) => (
+        return catalogs.storage.map((p) => (
           <BuildOptionCard
             key={p.id}
             icon={BsHdd}
@@ -361,7 +369,7 @@ export function BuildCategoryPage() {
           />
         ));
       case 'psu':
-        return psuProducts.map((p) => (
+        return catalogs.psu.map((p) => (
           <BuildOptionCard
             key={p.id}
             icon={BsPlug}
@@ -379,7 +387,7 @@ export function BuildCategoryPage() {
           />
         ));
       case 'case':
-        return caseProducts.map((p) => (
+        return catalogs.case.map((p) => (
           <BuildOptionCard
             key={p.id}
             icon={PiComputerTower}
@@ -432,7 +440,7 @@ export function BuildCategoryPage() {
     <>
       <BuildHeroBanner />
 
-      <section className="bg-slate-50 py-8">
+      <section className="bg-slate-50 pb-16 pt-8">
         <Container>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
             <BuildSummarySidebar
@@ -452,7 +460,13 @@ export function BuildCategoryPage() {
                   </div>
                 )}
 
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">{renderStepOptions()}</div>
+                {catalogStatus === 'failed' ? (
+                  <ErrorState message={catalogError} onRetry={reloadCatalogs} />
+                ) : catalogStatus !== 'succeeded' ? (
+                  <ProductGridSkeleton />
+                ) : (
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">{renderStepOptions()}</div>
+                )}
 
                 <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-4">
                   <button
@@ -478,7 +492,6 @@ export function BuildCategoryPage() {
         </Container>
       </section>
 
-      <ServiceBadges />
 
       {showCartPreview && (
         <BuildCartPreviewModal

@@ -7,10 +7,10 @@ import { UpgradeStepIndicator } from '../components/upgrade/UpgradeStepIndicator
 import { UpgradeSpecForm } from '../components/upgrade/UpgradeSpecForm';
 import { UpgradeSidebar } from '../components/upgrade/UpgradeSidebar';
 import { UpgradeArticles } from '../components/upgrade/UpgradeArticles';
-import { ServiceBadges } from '../components/shared/ServiceBadges';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
-import { setCurrentSpec } from '../features/upgrade/upgradeSlice';
-import type { UpgradeComponentKey, UpgradeProduct, UpgradeSelection } from '../types/upgrade';
+import { clearCurrentPart, setCurrentPart, setCurrentSpec, setUpgradeDetails } from '../features/upgrade/upgradeSlice';
+import { getUnknownParts } from '../data/upgradeSpecFields';
+import type { UpgradeComponentKey, UpgradeProduct } from '../types/upgrade';
 
 /**
  * Step 1 of the upgrade-advisor flow — collects the customer's current spec, then
@@ -20,35 +20,37 @@ import type { UpgradeComponentKey, UpgradeProduct, UpgradeSelection } from '../t
 export function UpgradePcPage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const stored = useAppSelector((state) => state.upgrade);
+  // The form reads/writes the `upgrade` slice directly, so nothing typed is lost on navigation
+  // and the support chat can offer to send it to an admin.
+  const { currentSpec: selection, budget, usage, games } = useAppSelector((state) => state.upgrade);
 
   const [currentStep] = useState(1);
-  // Seeded from the store so coming back from step 2 doesn't wipe what was typed.
-  const [selection, setSelection] = useState<UpgradeSelection>(stored.currentSpec);
-  const [budget, setBudget] = useState(stored.budget);
-  const [usage, setUsage] = useState(stored.usage);
-  const [games, setGames] = useState(stored.games);
 
   const handleSelectComponent = (key: UpgradeComponentKey, product: UpgradeProduct) => {
-    setSelection((prev) => ({ ...prev, [key]: product }));
+    dispatch(setCurrentPart({ key, product }));
   };
 
   const handleClearComponent = (key: UpgradeComponentKey) => {
-    setSelection((prev) => {
-      const next = { ...prev };
-      delete next[key];
-      return next;
-    });
+    dispatch(clearCurrentPart(key));
   };
 
+  // Called by UpgradeSpecForm only after its validation passes.
   const handleSelectUpgradeParts = () => {
-    dispatch(setCurrentSpec({ currentSpec: selection, budget, usage, games }));
+    dispatch(
+      setCurrentSpec({
+        currentSpec: selection,
+        unknownParts: getUnknownParts(selection),
+        budget,
+        usage,
+        games: games.trim(),
+      }),
+    );
     navigate('/upgrade-pc/select');
   };
 
   return (
     <>
-      <section className="bg-slate-50 pb-0 pt-6">
+      <section className="bg-slate-50 pb-16 pt-6">
         <Container>
           <nav className="mb-4 flex items-center gap-1.5 text-xs text-slate-400">
             <Link to="/" className="hover:text-brand">
@@ -67,11 +69,11 @@ export function UpgradePcPage() {
               onSelectComponent={handleSelectComponent}
               onClearComponent={handleClearComponent}
               budget={budget}
-              onBudgetChange={setBudget}
+              onBudgetChange={(value) => dispatch(setUpgradeDetails({ budget: value }))}
               usage={usage}
-              onUsageChange={setUsage}
+              onUsageChange={(value) => dispatch(setUpgradeDetails({ usage: value }))}
               games={games}
-              onGamesChange={setGames}
+              onGamesChange={(value) => dispatch(setUpgradeDetails({ games: value }))}
               onSelectParts={handleSelectUpgradeParts}
             />
 
@@ -81,8 +83,6 @@ export function UpgradePcPage() {
           <UpgradeArticles />
         </Container>
       </section>
-
-      <ServiceBadges />
     </>
   );
 }

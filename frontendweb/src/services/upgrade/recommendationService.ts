@@ -1,3 +1,4 @@
+import { apiPost, withMockFallback } from '../../api/request';
 import type { UpgradeProduct, UpgradeSelection } from '../../types/upgrade';
 
 export interface RecommendationRequest {
@@ -11,11 +12,13 @@ export interface RecommendationResponse {
 }
 
 /**
- * TODO(backend): `POST /api/upgrade/recommend` — real product recommendations
- * come from the backend once the AI analysis exists. Not called by the UI yet
- * (step 3 isn't built); this stub just reserves the interface.
+ * POST /upgrade/recommend — real product recommendations come from the backend once
+ * the AI analysis exists. Not called by the UI yet; the mock returns no items.
  */
-export async function getUpgradeRecommendations(request: RecommendationRequest): Promise<RecommendationResponse> {
-  void request;
-  return { items: [] };
+export function getUpgradeRecommendations(request: RecommendationRequest): Promise<RecommendationResponse> {
+  return withMockFallback(
+    'POST /upgrade/recommend',
+    () => apiPost<RecommendationResponse>('/upgrade/recommend', request),
+    () => ({ items: [] }),
+  );
 }

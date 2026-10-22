@@ -21,6 +21,8 @@ import { UpgradePcPage } from './pages/UpgradePcPage';
 import { UpgradeSelectPartsPage } from './pages/UpgradeSelectPartsPage';
 import { UpgradeAnalyzePage } from './pages/UpgradeAnalyzePage';
 import { UpgradeSummaryPage } from './pages/UpgradeSummaryPage';
+import { SearchPage } from './pages/SearchPage';
+import { UpgradeFlowLayout } from './components/upgrade/UpgradeFlowLayout';
 
 function App() {
   return (
@@ -41,12 +43,15 @@ function App() {
             <Route path="/category/pc-sets" element={<PcSetCategoryPage />} />
             <Route path="/build" element={<BuildCategoryPage />} />
             <Route path="/product/:category/:id" element={<ProductDetailPage />} />
+            <Route path="/search" element={<SearchPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/upgrade-pc" element={<UpgradePcPage />} />
-            <Route path="/upgrade-pc/select" element={<UpgradeSelectPartsPage />} />
-            <Route path="/upgrade-pc/analyze" element={<UpgradeAnalyzePage />} />
-            <Route path="/upgrade-pc/summary" element={<UpgradeSummaryPage />} />
+            <Route element={<UpgradeFlowLayout />}>
+              <Route path="/upgrade-pc" element={<UpgradePcPage />} />
+              <Route path="/upgrade-pc/select" element={<UpgradeSelectPartsPage />} />
+              <Route path="/upgrade-pc/analyze" element={<UpgradeAnalyzePage />} />
+              <Route path="/upgrade-pc/summary" element={<UpgradeSummaryPage />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

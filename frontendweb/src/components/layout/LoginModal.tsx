@@ -1,11 +1,12 @@
 import * as Dialog from '@radix-ui/react-dialog';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaFacebookF } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
-import { FiEye, FiEyeOff, FiLock, FiMail, FiX } from 'react-icons/fi';
-import { useAppDispatch } from '../../app/hooks';
-import { login } from '../../features/auth/authSlice';
+import { FiAlertCircle, FiEye, FiEyeOff, FiLock, FiMail, FiX } from 'react-icons/fi';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { clearLoginError, loginUser } from '../../features/auth/authSlice';
+import { Spinner } from '../ui/Spinner';
 import { cn } from '../../lib/cn';
 
 interface LoginFormValues {
@@ -18,18 +19,19 @@ interface LoginFormValues {
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 interface LoginModalProps {
-  /** Called right after a (mock) successful login — used to close the dialog. */
+  /** Called right after a successful login — used to close the dialog. */
   onLoggedIn: () => void;
 }
 
 /** Login dialog rendered inside the AccountMenu's Dialog.Root. */
 export function LoginModal({ onLoggedIn }: LoginModalProps) {
   const dispatch = useAppDispatch();
+  const loginError = useAppSelector((state) => state.auth.loginError);
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     // Validate on blur first (no error until the field has been touched and
     // left), then re-validate on every change so a fixed value clears the
@@ -39,12 +41,15 @@ export function LoginModal({ onLoggedIn }: LoginModalProps) {
     defaultValues: { email: '', password: '', remember: false },
   });
 
-  const onSubmit = handleSubmit((data) => {
-    // TODO(backend): call the real login endpoint once it exists. For now,
-    // any non-empty email/password logs you in so the rest of the site can
-    // be built and tested behind an authenticated state.
-    dispatch(login(data.email));
-    onLoggedIn();
+  // A failed attempt from the last time the dialog was open shouldn't greet the user again.
+  useEffect(() => {
+    dispatch(clearLoginError());
+  }, [dispatch]);
+
+  // Returning the promise keeps react-hook-form's isSubmitting true until the request settles.
+  const onSubmit = handleSubmit(async (data) => {
+    const result = await dispatch(loginUser(data));
+    if (loginUser.fulfilled.match(result)) onLoggedIn();
   });
 
   return (
@@ -114,11 +119,20 @@ export function LoginModal({ onLoggedIn }: LoginModalProps) {
               จำฉันเข้าระบบ
             </label>
 
+            {loginError && (
+              <p role="alert" className="flex items-start gap-2 rounded-xl bg-red-50 px-3 py-2.5 text-xs text-red-600">
+                <FiAlertCircle size={14} className="mt-px shrink-0" aria-hidden="true" />
+                {loginError}
+              </p>
+            )}
+
             <button
               type="submit"
-              className="mt-1 flex h-[50px] w-full items-center justify-center rounded-full bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+              disabled={isSubmitting}
+              className="mt-1 flex h-[50px] w-full items-center justify-center gap-2 rounded-full bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:cursor-wait disabled:opacity-70"
             >
-              เข้าสู่ระบบ
+              {isSubmitting && <Spinner />}
+              {isSubmitting ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
             </button>
           </form>
 

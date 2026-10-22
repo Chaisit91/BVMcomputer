@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { IconType } from 'react-icons';
 import { FiSearch, FiX } from 'react-icons/fi';
 import { searchUpgradeProducts } from '../../services/upgrade/productSearchService';
+import { cn } from '../../lib/cn';
 import type { UpgradeComponentKey, UpgradeProduct } from '../../types/upgrade';
 
 interface SpecSearchFieldProps {
@@ -12,6 +13,12 @@ interface SpecSearchFieldProps {
   value: UpgradeProduct | null;
   onSelect: (product: UpgradeProduct) => void;
   onClear: () => void;
+  /** Shows a red asterisk; optional fields get a "(ไม่บังคับ)" hint instead. */
+  required?: boolean;
+  /** Validation message shown under the field. */
+  error?: string;
+  /** id for the search input, so form validation can scroll to and focus it. */
+  inputId?: string;
 }
 
 /**
@@ -19,7 +26,18 @@ interface SpecSearchFieldProps {
  * Typing filters the real product catalog for that category; picking a result
  * swaps the field into a "selected product" card (thumbnail, brand, SKU, key specs).
  */
-export function SpecSearchField({ component, label, placeholder, icon: Icon, value, onSelect, onClear }: SpecSearchFieldProps) {
+export function SpecSearchField({
+  component,
+  label,
+  placeholder,
+  icon: Icon,
+  value,
+  onSelect,
+  onClear,
+  required,
+  error,
+  inputId,
+}: SpecSearchFieldProps) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<UpgradeProduct[]>([]);
   const [open, setOpen] = useState(false);
@@ -28,9 +46,14 @@ export function SpecSearchField({ component, label, placeholder, icon: Icon, val
   useEffect(() => {
     if (!open) return;
     let cancelled = false;
-    searchUpgradeProducts(component, query).then((items) => {
-      if (!cancelled) setResults(items);
-    });
+    searchUpgradeProducts(component, query)
+      .then((items) => {
+        if (!cancelled) setResults(items);
+      })
+      // A failed lookup just shows no suggestions — the user can keep typing to retry.
+      .catch(() => {
+        if (!cancelled) setResults([]);
+      });
     return () => {
       cancelled = true;
     };
@@ -47,7 +70,10 @@ export function SpecSearchField({ component, label, placeholder, icon: Icon, val
 
   return (
     <div className="flex flex-col gap-1.5">
-      <span className="text-xs font-medium text-slate-500">{label}</span>
+      <label htmlFor={inputId} className="text-xs font-medium text-slate-500">
+        {label}{' '}
+        {required ? <span className="text-brand">*</span> : <span className="text-slate-400">(ไม่บังคับ)</span>}
+      </label>
 
       {value ? (
         <div className="flex items-center gap-3 rounded-lg border border-brand/30 bg-red-50 px-3 py-2">
@@ -75,10 +101,18 @@ export function SpecSearchField({ component, label, placeholder, icon: Icon, val
         </div>
       ) : (
         <div ref={containerRef} className="relative">
-          <div className="flex h-11 items-center rounded-lg border border-slate-200 px-3 focus-within:border-brand">
+          <div
+            className={cn(
+              'flex h-11 items-center rounded-lg border px-3',
+              error ? 'border-red-300 bg-red-50/40 focus-within:border-red-400' : 'border-slate-200 focus-within:border-brand',
+            )}
+          >
             <FiSearch size={15} className="shrink-0 text-slate-400" aria-hidden="true" />
             <input
+              id={inputId}
               type="text"
+              aria-required={required || undefined}
+              aria-invalid={error ? true : undefined}
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
@@ -121,6 +155,12 @@ export function SpecSearchField({ component, label, placeholder, icon: Icon, val
             </div>
           )}
         </div>
+      )}
+
+      {error && !value && (
+        <p role="alert" className="text-xs text-red-500">
+          {error}
+        </p>
       )}
     </div>
   );
