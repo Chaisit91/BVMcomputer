@@ -1,5 +1,7 @@
 import { prisma } from '../../lib/prisma'
+import { sendPasswordSetupEmail } from '../../utils/email'
 import { comparePassword, hashPassword } from '../../utils/password'
+import { createPasswordSetupToken } from '../../utils/passwordSetupToken'
 import { adminRepository } from './admin.repository'
 
 // ponytail: passes data straight through otherwise — swap in a Zod schema
@@ -17,7 +19,22 @@ export const adminService = {
   create: async (data: any) => {
     const { password, ...rest } = data
     const passwordHash = await hashPassword(password)
-    const created = await adminRepository.create({ ...rest, passwordHash })
+    const { rawToken, tokenHash, expiresAt } = createPasswordSetupToken()
+    const created = await adminRepository.create({
+      ...rest,
+      passwordHash,
+      passwordSetupTokenHash: tokenHash,
+      passwordSetupExpiresAt: expiresAt,
+    })
+
+    if (rest.personalEmail) {
+      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173'
+      const setupLink = `${frontendUrl}/set-password?token=${rawToken}`
+      // Fire-and-forget: a slow/failed email provider shouldn't make account
+      // creation hang or fail — sendPasswordSetupEmail logs its own errors.
+      void sendPasswordSetupEmail(rest.personalEmail, setupLink, `${rest.firstName} ${rest.lastName}`)
+    }
+
     return adminRepository.findById(created.id)
   },
 

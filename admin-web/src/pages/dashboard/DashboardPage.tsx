@@ -7,16 +7,27 @@ import { RecentOrdersTable } from '../../components/dashboard/RecentOrdersTable'
 import { LowStockList } from '../../components/dashboard/LowStockList'
 import { TopProductsTable } from '../../components/dashboard/TopProductsTable'
 import { getDashboardData } from '../../services/dashboard.service'
+import { useAppSelector } from '../../store/hooks'
 import type { DashboardData } from '../../types/dashboard'
+import { DepartmentOverviewPage } from './DepartmentOverviewPage'
 
 type LoadStatus = 'loading' | 'error' | 'success'
 
 export function DashboardPage() {
+  const currentUser = useAppSelector((state) => state.auth.user)
   const [status, setStatus] = useState<LoadStatus>('loading')
   const [data, setData] = useState<DashboardData | null>(null)
   const [reportRange, setReportRange] = useState<'monthly' | 'daily'>('monthly')
 
+  // The full analytics dashboard pulls from every category/orders/customers
+  // endpoint, each individually role-gated on the backend (see
+  // roleMiddleware.ts) — a non-super_admin role would fail most of those
+  // calls and land on the generic error state below. Give them their
+  // department's own overview instead of fetching data they can't see.
+  const isSuperAdmin = currentUser?.role === 'super_admin'
+
   useEffect(() => {
+    if (!isSuperAdmin) return
     let cancelled = false
 
     getDashboardData()
@@ -33,7 +44,11 @@ export function DashboardPage() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [isSuperAdmin])
+
+  if (!isSuperAdmin) {
+    return <DepartmentOverviewPage />
+  }
 
   if (status === 'loading') {
     return (

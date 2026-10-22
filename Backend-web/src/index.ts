@@ -7,6 +7,7 @@ import { errorMiddleware } from './middleware/errorMiddleware'
 import { requireRole } from './middleware/roleMiddleware'
 import { aiRouter } from './modules/ai/ai.router'
 import { catalogRouter } from './modules/ai/catalog.router'
+import { adminPasswordSetupRouter } from './modules/admin/admin-password-setup.router'
 import { adminRouter } from './modules/admin/admin.router'
 import { authRouter } from './modules/auth/auth.router'
 import { bannerRouter } from './modules/banner/banner.router'
@@ -74,6 +75,9 @@ app.use('/api/ai', ...inventory, aiRouter)
 // exists. Add its dev/prod origin to CORS_ORIGIN in .env when that happens,
 // same as admin-web's origins are listed there today.
 app.use('/api/public/computer-upgrades', computerUpgradePublicRouter)
+// No auth — a brand-new admin has no session yet when they click the emailed
+// "set your password" link. Protected only by the one-time token itself.
+app.use('/api/public/admin-password-setup', adminPasswordSetupRouter)
 app.use('/api/customers', ...sales, customerRouter)
 app.use('/api/orders', ...sales, orderRouter)
 app.use('/api/banners', ...content, bannerRouter)

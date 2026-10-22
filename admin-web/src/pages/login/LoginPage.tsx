@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FiUser, FiLock, FiEye, FiEyeOff, FiMonitor } from 'react-icons/fi'
 import { Button } from '../../components/ui/Button'
 import { TextField } from '../../components/ui/TextField'
@@ -80,9 +80,9 @@ export function LoginPage() {
 
             <div className="flex items-center justify-between">
               <Checkbox label="จดจำการเข้าสู่ระบบ" {...register('remember')} />
-              <a href="#" className="text-sm text-rose-500 hover:underline">
+              <Link to="/forgot-password" className="text-sm text-rose-500 hover:underline">
                 ลืมรหัสผ่าน?
-              </a>
+              </Link>
             </div>
 
             {errors.root && (

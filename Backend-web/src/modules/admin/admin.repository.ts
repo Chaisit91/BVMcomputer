@@ -23,6 +23,12 @@ export const adminRepository = {
   findById: async (id: string) => shape(await prisma.adminAccount.findUnique({ where: { id }, include })),
   // plain lookup for auth only — no need to resolve createdBy/history there
   findByEmail: (email: string) => prisma.adminAccount.findUnique({ where: { email } }),
+  findByPasswordSetupTokenHash: (tokenHash: string) =>
+    prisma.adminAccount.findUnique({ where: { passwordSetupTokenHash: tokenHash } }),
+  // personalEmail isn't a unique column (older accounts predate it and share
+  // the "" default) — findFirst is fine here since only accounts with a real,
+  // distinct personalEmail can ever receive a reset link in the first place.
+  findByPersonalEmail: (personalEmail: string) => prisma.adminAccount.findFirst({ where: { personalEmail } }),
   create: (data: any) => prisma.adminAccount.create({ data }),
   update: (id: string, data: any) => prisma.adminAccount.update({ where: { id }, data }),
   remove: (id: string) => prisma.adminAccount.delete({ where: { id } }),

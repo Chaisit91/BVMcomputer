@@ -16,6 +16,7 @@ export interface AdminAccount {
   firstName: string
   lastName: string
   email: string
+  personalEmail: string
   phone: string
   jobTitle: string
   avatarUrl: string | null

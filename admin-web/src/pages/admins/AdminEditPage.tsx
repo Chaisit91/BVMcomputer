@@ -76,6 +76,7 @@ export function AdminEditPage() {
           firstName: result.firstName,
           lastName: result.lastName,
           email: result.email,
+          personalEmail: result.personalEmail,
           phone: result.phone,
           jobTitle: result.jobTitle,
           role: result.role,
@@ -309,9 +310,22 @@ export function AdminEditPage() {
                 {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
               </div>
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-gray-700">เบอร์โทรศัพท์</label>
-                <input type="text" disabled={!canEditGeneral} className={inputClass} {...register('phone')} />
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">อีเมลส่วนตัว (Gmail)</label>
+                <input
+                  type="email"
+                  disabled={!canEditSensitive}
+                  className={`${inputClass} ${!canEditSensitive ? 'cursor-not-allowed opacity-60' : ''}`}
+                  {...register('personalEmail')}
+                />
+                {!canEditSensitive && (
+                  <p className="mt-1 text-xs text-gray-400">แก้ไขได้เฉพาะเจ้าของบัญชีหรือผู้ดูแลระบบสูงสุด</p>
+                )}
+                {errors.personalEmail && <p className="mt-1 text-xs text-red-500">{errors.personalEmail.message}</p>}
               </div>
+            </div>
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">เบอร์โทรศัพท์</label>
+              <input type="text" disabled={!canEditGeneral} className={inputClass} {...register('phone')} />
             </div>
             <div>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">ตำแหน่งงาน</label>

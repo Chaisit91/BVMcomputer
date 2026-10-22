@@ -98,10 +98,12 @@ adminRouter.put('/:id', requireCanManage, async (req: AuthenticatedRequest, res)
       delete body.isTeamLead
     }
     // Identity/credential fields: a team lead managing a teammate must not be
-    // able to take over their account by changing their email or password —
+    // able to take over their account by changing their login email,
+    // password, or where password-setup emails get sent (personalEmail) —
     // only the account owner (editing themselves) or super_admin may touch these.
     if (!isSelf) {
       delete body.email
+      delete body.personalEmail
       delete body.password
     }
   }

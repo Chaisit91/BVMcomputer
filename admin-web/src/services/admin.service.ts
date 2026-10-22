@@ -46,3 +46,18 @@ export function uploadAdminAvatar(id: string, file: File): Promise<AdminAccount>
   formData.append('avatar', file)
   return api.post<AdminAccount>(`/admins/${id}/avatar`, formData).then((res) => res.data)
 }
+
+// Public endpoint (no auth) — a brand-new admin has no session yet when they
+// click the emailed "set your password" link.
+export function setPasswordWithToken(token: string, newPassword: string): Promise<void> {
+  return api.post('/public/admin-password-setup', { token, newPassword }).then(() => undefined)
+}
+
+// Public endpoint (no auth) — "forgot password" self-service. Always
+// resolves with the backend's generic message, whether or not the email
+// matched an account (see admin-password-setup.router.ts).
+export function requestPasswordReset(personalEmail: string): Promise<string> {
+  return api
+    .post<{ message: string }>('/public/admin-password-setup/request', { personalEmail })
+    .then((res) => res.data.message)
+}

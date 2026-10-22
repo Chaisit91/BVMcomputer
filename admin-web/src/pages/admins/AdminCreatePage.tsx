@@ -30,6 +30,7 @@ export function AdminCreatePage() {
       firstName: '',
       lastName: '',
       email: '',
+      personalEmail: '',
       phone: '',
       jobTitle: '',
       role: '',
@@ -111,6 +112,14 @@ export function AdminCreatePage() {
               </label>
               <input type="email" placeholder="example@bvm.com" className={inputClass} {...register('email')} />
               {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
+            </div>
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">
+                อีเมลส่วนตัว (Gmail) <span className="text-rose-500">*</span>
+              </label>
+              <input type="email" placeholder="your.name@gmail.com" className={inputClass} {...register('personalEmail')} />
+              <p className="mt-1 text-xs text-gray-400">ใช้ส่งลิงก์ให้เจ้าของบัญชีตั้งรหัสผ่านเอง ไม่ใช่อีเมลสำหรับเข้าสู่ระบบ</p>
+              {errors.personalEmail && <p className="mt-1 text-xs text-red-500">{errors.personalEmail.message}</p>}
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>

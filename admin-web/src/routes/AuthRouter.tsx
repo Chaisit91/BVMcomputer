@@ -42,6 +42,8 @@ import { StorageCreatePage } from '../pages/inventory/storage/StorageCreatePage'
 import { StorageEditPage } from '../pages/inventory/storage/StorageEditPage'
 import { StorageListPage } from '../pages/inventory/storage/StorageListPage'
 import { LoginPage } from '../pages/login/LoginPage'
+import { ForgotPasswordPage } from '../pages/set-password/ForgotPasswordPage'
+import { SetPasswordPage } from '../pages/set-password/SetPasswordPage'
 import { BannerCreatePage } from '../pages/manage/banners/BannerCreatePage'
 import { BannerEditPage } from '../pages/manage/banners/BannerEditPage'
 import { BannerListPage } from '../pages/manage/banners/BannerListPage'
@@ -57,6 +59,8 @@ export function AuthRouter() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/set-password" element={<SetPasswordPage />} />
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />

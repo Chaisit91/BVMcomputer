@@ -613,6 +613,12 @@ model AdminAccount {
   firstName    String
   lastName     String
   email        String             @unique
+  // Personal inbox (not used for login) that account-setup notifications —
+  // system email + initial password — get sent to. Kept separate from
+  // `email` (the login identity) so a compromised personal inbox can't be
+  // used to log in, and so credential notifications always go to this
+  // address even if `email` is later changed.
+  personalEmail String            @default("")
   phone        String
   passwordHash String
   jobTitle     String             @default("")
@@ -630,6 +636,13 @@ model AdminAccount {
   // unexpired — the only way to invalidate a specific admin's existing
   // sessions with stateless JWTs (no server-side session store to delete from).
   sessionsInvalidatedAt DateTime?
+
+  // One-time "set your password" link sent to personalEmail on creation.
+  // Only the sha256 hash is stored (never the raw token) — same reasoning as
+  // passwordHash: a DB leak shouldn't hand out usable credentials. The raw
+  // token only ever exists in the email itself and this request's memory.
+  passwordSetupTokenHash String?   @unique
+  passwordSetupExpiresAt DateTime?
 
   createdById   String?
   createdBy     AdminAccount?  @relation("AdminCreatedBy", fields: [createdById], references: [id])
