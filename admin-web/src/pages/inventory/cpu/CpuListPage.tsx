@@ -293,7 +293,7 @@ export function CpuListPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_1fr]">
-        <aside className="h-fit rounded-2xl border border-gray-100 bg-white p-4">
+        <aside className="h-fit rounded-2xl border border-gray-100 bg-white p-4 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto">
           <div className="mb-2 flex items-center justify-between">
             <p className="text-sm font-semibold text-gray-800">ตัวกรองสินค้า</p>
             <button type="button" onClick={clearAllFilters} className="text-xs text-rose-500 hover:underline">
