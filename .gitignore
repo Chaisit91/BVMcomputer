@@ -141,3 +141,11 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# เก็บ benchmark ZIP ในเครื่อง ไม่เพิ่มไฟล์ขนาดใหญ่เข้า Git
+/data/pc-builder-starter/04_benchmarks/*.zip
+
+# ต้นฉบับและข้อมูลซ้ำเก็บในเครื่อง ใช้ parts.json เป็นรูปแบบหลัก
+/data/pc-builder-starter/01_raw/
+/data/pc-builder-starter/02_catalog/**/*.csv
+/data/pc-builder-starter/02_catalog/**/*.jsonl

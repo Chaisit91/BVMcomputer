@@ -1,0 +1,2611 @@
+[
+  {
+    "opendb_id": "097f4884-ad64-4c84-bec3-f81f83116e6b",
+    "capacity": 2000,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate FireCuda Compute 2TB Hybrid 2.5\" 5400 RPM SATA",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "ST2000LXZ01",
+        "LX001"
+      ],
+      "series": "FireCuda",
+      "variant": "2000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "mpn",
+          "value": "LX001",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ST2000LXZ01",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": []
+    }
+  },
+  {
+    "opendb_id": "1259f142-0aa8-4ae8-ba58-6a3e24b1d437",
+    "capacity": 1000,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Western Digital Black2 1TB Hybrid 2.5\" 5400RPM SATA",
+      "manufacturer": "Western Digital",
+      "part_numbers": [
+        "WD1001X06XDTL"
+      ],
+      "series": "Black2",
+      "variant": "1000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "ean",
+          "value": "0132018246900",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "WD1001X06XDTL",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "014444446959",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": [
+        {
+          "source": "amazon",
+          "channel": "au",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "be",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ca",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "de",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "es",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "fr",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ie",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "it",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "jp",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "nl",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "pl",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "se",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "sg",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "uk",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "us",
+          "source_product_id": "B00GSJ9X4Q",
+          "pricing_enabled": true,
+          "verified": true
+        }
+      ]
+    }
+  },
+  {
+    "opendb_id": "1429d3c8-bdc3-45e3-ac50-a11c563fcefa",
+    "capacity": 2000,
+    "storage_type": "SSHD",
+    "form_factor": "3.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate FireCuda 2TB Hybrid 3.5\" 7200 RPM SATA",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "ST2000DX002",
+        "ST2000DXB02"
+      ],
+      "series": "FireCuda",
+      "variant": "2000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "ean",
+          "value": "0763649110270",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "0763649118023",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "3660619400379",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ST2000DX002",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ST2000DXB02",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "763649110270",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "763649118023",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": [
+        {
+          "source": "amazon",
+          "channel": "au",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "be",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ca",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "de",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "es",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "fr",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ie",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "it",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "jp",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "nl",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "pl",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "se",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "sg",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "uk",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "us",
+          "source_product_id": "B01IEKG2HM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "cenowarka",
+          "channel": "pl",
+          "source_product_id": "1479569",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "geizhals",
+          "channel": "de",
+          "source_product_id": "1479569",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "ruedecommerce",
+          "channel": "fr",
+          "source_product_id": "MKR00005790526",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "skinflint",
+          "channel": "uk",
+          "source_product_id": "1479569",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "walmart",
+          "channel": "us",
+          "source_product_id": "747845567",
+          "pricing_enabled": true,
+          "verified": false
+        }
+      ]
+    }
+  },
+  {
+    "opendb_id": "1f4fa3df-27c7-4726-ad19-e8f10f887ac7",
+    "capacity": 2000,
+    "storage_type": "SSHD",
+    "form_factor": "3.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate ST2000DX001 2TB Hybrid HDD 3.5\" 7200RPM SATA",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "ST2000DX001"
+      ],
+      "series": "ST2000DX001",
+      "variant": "2000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "ean",
+          "value": "0763649037775",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "0804066533195",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "7636490036323",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ST2000DX001",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "724627279556",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "763649037775",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "804066533195",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": [
+        {
+          "source": "amazon",
+          "channel": "au",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "be",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ca",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "de",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "es",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "fr",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ie",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "it",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "jp",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "nl",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "pl",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "se",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "sg",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "uk",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "us",
+          "source_product_id": "B00EIQTKAS",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "cenowarka",
+          "channel": "pl",
+          "source_product_id": "988347",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "geizhals",
+          "channel": "de",
+          "source_product_id": "988347",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "skinflint",
+          "channel": "uk",
+          "source_product_id": "988347",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "walmart",
+          "channel": "us",
+          "source_product_id": "31260692",
+          "pricing_enabled": true,
+          "verified": false
+        }
+      ]
+    }
+  },
+  {
+    "opendb_id": "2e40ffcd-c061-4a9e-8f92-802776c6bec3",
+    "capacity": 500,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Toshiba MQ01ABF050H 500GB Hybrid 2.5\" 5400RPM SATA",
+      "manufacturer": "Toshiba",
+      "part_numbers": [
+        "MQ01ABF050H"
+      ],
+      "series": "MQ01ABF050H",
+      "variant": "500GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "mpn",
+          "value": "MQ01ABF050H",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": []
+    }
+  },
+  {
+    "opendb_id": "37dec7ca-995d-41d7-84ae-10fe4a55284f",
+    "capacity": 500,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate ST500LM000 500GB Hybrid 2.5\" 5400 RPM SATA 6.0 Gb/s Internal",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "ST500LM000"
+      ],
+      "series": "ST500LM000",
+      "variant": "500GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "ean",
+          "value": "0013201088203",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "4520865116723",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "4988755007702",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "5712505108505",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "7636490041242",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ST500LM000",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "013201088203",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "707223032268",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": [
+        {
+          "source": "amazon",
+          "channel": "au",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "be",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ca",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "de",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "es",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "fr",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ie",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "it",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "jp",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "nl",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "pl",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "se",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "sg",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "uk",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "us",
+          "source_product_id": "B00B99JU5M",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "cenowarka",
+          "channel": "pl",
+          "source_product_id": "915221",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "geizhals",
+          "channel": "de",
+          "source_product_id": "915221",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "skinflint",
+          "channel": "uk",
+          "source_product_id": "915221",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "walmart",
+          "channel": "us",
+          "source_product_id": "26972760",
+          "pricing_enabled": true,
+          "verified": false
+        }
+      ]
+    }
+  },
+  {
+    "opendb_id": "59e40c0c-45ed-4976-a19f-20d12e438f7b",
+    "capacity": 500,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate FireCuda 500GB Hybrid 2.5\" 5400RPM SATA",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "ST500LX025",
+        "2754009"
+      ],
+      "series": "FireCuda",
+      "variant": "500GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "ean",
+          "value": "4520865119038",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "7434709190114",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "7636490067655",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "2754009",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ST500LX025",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "763649069103",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": [
+        {
+          "source": "amazon",
+          "channel": "au",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "be",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ca",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "de",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "es",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "fr",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ie",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "it",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "jp",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "nl",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "pl",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "se",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "sg",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "uk",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "us",
+          "source_product_id": "B01LX4E7FM",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "cenowarka",
+          "channel": "pl",
+          "source_product_id": "1521968",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "geizhals",
+          "channel": "de",
+          "source_product_id": "1521968",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "skinflint",
+          "channel": "uk",
+          "source_product_id": "1521968",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "walmart",
+          "channel": "us",
+          "source_product_id": "110051392",
+          "pricing_enabled": true,
+          "verified": false
+        }
+      ]
+    }
+  },
+  {
+    "opendb_id": "5d268a3b-9047-432e-8f42-417880e6f5d2",
+    "capacity": 4000,
+    "storage_type": "SSHD",
+    "form_factor": "3.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate ST4000DX001 4TB 3.5\" Hybrid 5900RPM SATA 6.0 Gb/s",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "ST4000DX001"
+      ],
+      "series": "ST4000DX001",
+      "variant": "4000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "mpn",
+          "value": "ST4000DX001",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": []
+    }
+  },
+  {
+    "opendb_id": "6368bd8e-cc71-4dac-8f2b-d62cff646fc6",
+    "capacity": 1000,
+    "storage_type": "SSHD",
+    "form_factor": "3.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate ST1000DX001 1TB Hybrid 3.5\" 7200RPM SATA",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "ST1000DX001"
+      ],
+      "series": "ST1000DX001",
+      "variant": "1000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "ean",
+          "value": "4022107289351",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "5053973137629",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "7636490036316",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ST1000DX001",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "620416517857",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": [
+        {
+          "source": "amazon",
+          "channel": "au",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "be",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ca",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "de",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "es",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "fr",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ie",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "it",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "jp",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "nl",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "pl",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "se",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "sg",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "uk",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "us",
+          "source_product_id": "B00EIQTOFY",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "cenowarka",
+          "channel": "pl",
+          "source_product_id": "988345",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "geizhals",
+          "channel": "de",
+          "source_product_id": "988345",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "ruedecommerce",
+          "channel": "fr",
+          "source_product_id": "MKR00003395913",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "skinflint",
+          "channel": "uk",
+          "source_product_id": "988345",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "walmart",
+          "channel": "us",
+          "source_product_id": "34995188",
+          "pricing_enabled": true,
+          "verified": false
+        }
+      ]
+    }
+  },
+  {
+    "opendb_id": "637d1123-424e-4e67-bc68-4b1f62654554",
+    "capacity": 1000,
+    "storage_type": "SSHD",
+    "form_factor": "3.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate FireCuda 1 TB Hybrid 3.5\" 7200 RPM SATA 6.0 Gb/s",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "ST1000DX002"
+      ],
+      "series": "FireCuda",
+      "variant": "1000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "mpn",
+          "value": "ST1000DX002",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": []
+    }
+  },
+  {
+    "opendb_id": "684583f8-097c-4a84-8646-acb0903e44cc",
+    "capacity": 1000,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate FireCuda 1TB Hybrid Internal 2.5\" 5400RPM SATA 6.0 Gb/s",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "ST1000LX015"
+      ],
+      "series": "FireCuda",
+      "variant": "1000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "ean",
+          "value": "5415247103257",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "7636490067624",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "8592978062088",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ST1000LX015",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "763649118078",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": [
+        {
+          "source": "amazon",
+          "channel": "au",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "be",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ca",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "de",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "es",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "fr",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ie",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "it",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "jp",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "nl",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "pl",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "se",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "sg",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "uk",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "us",
+          "source_product_id": "B01LXNUKKW",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "cenowarka",
+          "channel": "pl",
+          "source_product_id": "1521969",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "geizhals",
+          "channel": "de",
+          "source_product_id": "1521969",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "newegg",
+          "channel": "ca",
+          "source_product_id": "9SIAAEEHJ10427",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "newegg",
+          "channel": "us",
+          "source_product_id": "9SIAAEEHJ10427",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "skinflint",
+          "channel": "uk",
+          "source_product_id": "1521969",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "walmart",
+          "channel": "us",
+          "source_product_id": "347973959",
+          "pricing_enabled": true,
+          "verified": false
+        }
+      ]
+    }
+  },
+  {
+    "opendb_id": "6b6b9644-931c-46cd-af54-77f855c6097a",
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate BarraCuda Pro 12TB 256MB Cache",
+      "part_numbers": [
+        "ST12000DM0007",
+        "ST12000DMZ007"
+      ]
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "ean",
+          "value": "0034722812139",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "0763649117330",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "5415247174981",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ST12000DM0007",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ST12000DMZ007",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "034722812139",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "763649117330",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "763649129586",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": [
+        {
+          "source": "amazon",
+          "channel": "au",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "be",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ca",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "de",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "es",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "fr",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ie",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "it",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "jp",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "nl",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "pl",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "se",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "sg",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "uk",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "us",
+          "source_product_id": "B07H2FGPND",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "cenowarka",
+          "channel": "pl",
+          "source_product_id": "1705403",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "geizhals",
+          "channel": "de",
+          "source_product_id": "1705403",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "skinflint",
+          "channel": "uk",
+          "source_product_id": "1705403",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "walmart",
+          "channel": "us",
+          "source_product_id": "920007498",
+          "pricing_enabled": true,
+          "verified": false
+        }
+      ]
+    }
+  },
+  {
+    "opendb_id": "6f72179b-69ed-4d27-8a4d-c6346f8063ed",
+    "capacity": 500,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate ST500LM020 500GB Hybrid 2.5\" 5400RPM SATA",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "ST500LM020"
+      ],
+      "series": "ST500LM020",
+      "variant": "500GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "mpn",
+          "value": "ST500LM020",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": []
+    }
+  },
+  {
+    "opendb_id": "74507f8c-1c20-4e1e-a0d6-cfc9ba8ec178",
+    "capacity": 4000,
+    "storage_type": "SSHD",
+    "form_factor": "3.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Western Digital Blue 4TB Hybrid 3.5\" 5400 RPM SATA 6.0 Gb/s Internal",
+      "manufacturer": "Western Digital",
+      "part_numbers": [
+        "WD40E31X"
+      ],
+      "series": "Blue",
+      "variant": "4000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "mpn",
+          "value": "WD40E31X",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": []
+    }
+  },
+  {
+    "opendb_id": "79d3f4ee-d762-4f6e-a98a-522f27e1c235",
+    "capacity": 1000,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate SuperSpeed 1TB Hybrid HDD 5400 RPM 2.5\" SATA 6.0 Gb/s",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "STBD1000400"
+      ],
+      "series": "SuperSpeed",
+      "variant": "1000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "mpn",
+          "value": "STBD1000400",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": []
+    }
+  },
+  {
+    "opendb_id": "9a40369a-81b8-4eb5-a14b-67c04f029ecb",
+    "capacity": 500,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate Momentus XT 500 GB Hybrid 2.5\" 7200 RPM SATA 6.0 Gb/s",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "ST500LX003"
+      ],
+      "series": "Momentus",
+      "variant": "500GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "mpn",
+          "value": "ST500LX003",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": []
+    }
+  },
+  {
+    "opendb_id": "a0c75aef-3b94-44fb-81c4-3e9127f4e84e",
+    "capacity": 1000,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Western Digital Blue 1TB Hybrid Internal 2.5\" 5400 RPM SATA 6.0 Gb/s",
+      "manufacturer": "Western Digital",
+      "part_numbers": [
+        "WD10J31X"
+      ],
+      "series": "Blue",
+      "variant": "1000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "ean",
+          "value": "7180378376808",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "WD10J31X",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "738878296019",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": [
+        {
+          "source": "amazon",
+          "channel": "au",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "be",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ca",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "de",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "es",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "fr",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ie",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "it",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "jp",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "nl",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "pl",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "se",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "sg",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "uk",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "us",
+          "source_product_id": "B00YY3UBY4",
+          "pricing_enabled": true,
+          "verified": true
+        }
+      ]
+    }
+  },
+  {
+    "opendb_id": "a8f8c31c-cf49-492e-9220-5a3af12c8fb3",
+    "capacity": 4000,
+    "storage_type": "SSHD",
+    "form_factor": "3.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate STCL4000400 4TB 3.5\" Hybrid HDD 5900RPM SATA",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "STCL4000400"
+      ],
+      "series": "STCL4000400",
+      "variant": "4000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "mpn",
+          "value": "STCL4000400",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": []
+    }
+  },
+  {
+    "opendb_id": "b0f305cd-9c32-482c-8d66-6b405d5dec12",
+    "capacity": 1000,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate ST1000LM014 1 TB Hybrid Internal 5400 RPM 2.5\" SATA 6.0 Gb/s",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "ST1000LM014",
+        "ST-1000LM014"
+      ],
+      "series": "ST1000LM014",
+      "variant": "1000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "ean",
+          "value": "0763649034859",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "0763649042670",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "5053973592503",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "7636490041228",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ST-1000LM014",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ST1000LM014",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "763649034859",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "763649042670",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "804066532952",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "807034591180",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "809185313611",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "951942465405",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": [
+        {
+          "source": "amazon",
+          "channel": "au",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "be",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ca",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "de",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "es",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "fr",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ie",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "it",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "jp",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "nl",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "pl",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "se",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "sg",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "uk",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "us",
+          "source_product_id": "B00C57SO1I",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "cenowarka",
+          "channel": "pl",
+          "source_product_id": "915243",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "geizhals",
+          "channel": "de",
+          "source_product_id": "915243",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "skinflint",
+          "channel": "uk",
+          "source_product_id": "915243",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "walmart",
+          "channel": "us",
+          "source_product_id": "26819954",
+          "pricing_enabled": true,
+          "verified": false
+        }
+      ]
+    }
+  },
+  {
+    "opendb_id": "c37efd1f-3757-4748-8d51-99547aa16c0b",
+    "capacity": 2000,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate FireCuda 2TB Hybrid 2.5\" SATA 5400RPM",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "ST2000LX001"
+      ],
+      "series": "FireCuda",
+      "variant": "2000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "ean",
+          "value": "0763649071212",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "0763649071298",
+          "region": "all"
+        },
+        {
+          "type": "ean",
+          "value": "7636490069840",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "4109695483982",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ST2000LX001",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "763649071212",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "763649071298",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": [
+        {
+          "source": "amazon",
+          "channel": "au",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "be",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ca",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "de",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "es",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "fr",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ie",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "it",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "jp",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "nl",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "pl",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "se",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "sg",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "uk",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "us",
+          "source_product_id": "B01M1UQQT5",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "cenowarka",
+          "channel": "pl",
+          "source_product_id": "1521971",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "geizhals",
+          "channel": "de",
+          "source_product_id": "1521971",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "newegg",
+          "channel": "ca",
+          "source_product_id": "9SIBF3XJ742129",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "newegg",
+          "channel": "us",
+          "source_product_id": "9SIBF3XJ742129",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "ruedecommerce",
+          "channel": "fr",
+          "source_product_id": "MKR00002258469",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "skinflint",
+          "channel": "uk",
+          "source_product_id": "1521971",
+          "pricing_enabled": true,
+          "verified": false
+        }
+      ]
+    }
+  },
+  {
+    "opendb_id": "c3e1f2c8-6dbd-4e84-8ef0-1124a4856674",
+    "capacity": 2000,
+    "storage_type": "SSHD",
+    "form_factor": "3.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Seagate STCL2000400 2TB 3.5\" Hybrid 7200RPM SATA",
+      "manufacturer": "Seagate",
+      "part_numbers": [
+        "STCL2000400"
+      ],
+      "series": "STCL2000400",
+      "variant": "2000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "mpn",
+          "value": "STCL2000400",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": []
+    }
+  },
+  {
+    "opendb_id": "e8e8fbda-3c09-47b0-8c69-6c9c6a1b9c9c",
+    "lighting": [],
+    "metadata": {
+      "name": "ADATA SU800 2TB 3D-NAND 2.5 Inch",
+      "part_numbers": [
+        "ASU800SS-2TT-C"
+      ]
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "ean",
+          "value": "4713218466594",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "ASU800SS-2TT-C",
+          "region": "all"
+        },
+        {
+          "type": "mpn",
+          "value": "WDS100T3XHC",
+          "region": "all"
+        },
+        {
+          "type": "upc",
+          "value": "763649128213",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": [
+        {
+          "source": "amazon",
+          "channel": "au",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "be",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ca",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "de",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "es",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "fr",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "ie",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "it",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "jp",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "nl",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "pl",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "se",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "sg",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "uk",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "amazon",
+          "channel": "us",
+          "source_product_id": "B07GBRG2G8",
+          "pricing_enabled": true,
+          "verified": true
+        },
+        {
+          "source": "newegg",
+          "channel": "ca",
+          "source_product_id": "9SIBK8ZJRA8521",
+          "pricing_enabled": true,
+          "verified": false
+        },
+        {
+          "source": "newegg",
+          "channel": "us",
+          "source_product_id": "9SIBK8ZJRA8521",
+          "pricing_enabled": true,
+          "verified": false
+        }
+      ]
+    }
+  },
+  {
+    "opendb_id": "f5081c06-0401-430f-b47b-2b43b02f0804",
+    "capacity": 1000,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Toshiba MQ02ABD100H 1TB Hybrid 5400 RPM Internal 2.5\" SATA 6.0 Gb/s",
+      "manufacturer": "Toshiba",
+      "part_numbers": [
+        "MQ02ABD100H"
+      ],
+      "series": "MQ02ABD100H",
+      "variant": "1000GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "mpn",
+          "value": "MQ02ABD100H",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": []
+    }
+  },
+  {
+    "opendb_id": "fb9490b4-0454-4fd1-8763-518b61fcee7a",
+    "capacity": 320,
+    "storage_type": "SSHD",
+    "form_factor": "2.5\"",
+    "interface": "SATA 6.0 Gb/s",
+    "nvme": false,
+    "lighting": [],
+    "metadata": {
+      "name": "Toshiba MQ01ABF032H 320GB Hybrid 5400 RPM 2.5\" SATA 6.0 Gb/s Internal",
+      "manufacturer": "Toshiba",
+      "part_numbers": [
+        "MQ01ABF032H"
+      ],
+      "series": "MQ01ABF032H",
+      "variant": "320GB"
+    },
+    "general_product_information": {},
+    "identifiers": {
+      "version": 1,
+      "identifiers": [
+        {
+          "type": "mpn",
+          "value": "MQ01ABF032H",
+          "region": "all"
+        }
+      ],
+      "retailer_listings": []
+    }
+  }
+]

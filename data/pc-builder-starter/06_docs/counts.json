@@ -1,0 +1,42 @@
+[
+  {
+    "category": "cpu",
+    "count": 789
+  },
+  {
+    "category": "gpu",
+    "count": 3865
+  },
+  {
+    "category": "motherboard",
+    "count": 3701
+  },
+  {
+    "category": "ram",
+    "count": 4876
+  },
+  {
+    "category": "psu",
+    "count": 3301
+  },
+  {
+    "category": "cpu_cooler",
+    "count": 2423
+  },
+  {
+    "category": "case",
+    "count": 3804
+  },
+  {
+    "category": "ssd",
+    "count": 2514
+  },
+  {
+    "category": "hdd",
+    "count": 967
+  },
+  {
+    "category": "storage_other",
+    "count": 24
+  }
+]

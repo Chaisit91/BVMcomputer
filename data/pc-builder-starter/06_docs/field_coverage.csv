@@ -1,0 +1,337 @@
+﻿category,field_path,total_rows,nonempty_rows,nonempty_percent,example
+cpu,cache.l1,789,697,88.34,"""64 × 64 KB (32 KB L1I + 32 KB L1D)"""
+cpu,cache.l2,789,788,99.87,64
+cpu,cache.l3,789,789,100.0,256
+cpu,clocks.efficiency.base,789,696,88.21,0
+cpu,clocks.efficiency.boost,789,697,88.34,0
+cpu,clocks.performance.base,789,789,100.0,3.2
+cpu,clocks.performance.boost,789,789,100.0,5.4
+cpu,coreFamily,789,788,99.87,"""Shimada Peak"""
+cpu,cores.efficiency,789,695,88.09,0
+cpu,cores.performance,789,788,99.87,0
+cpu,cores.threads,789,789,100.0,128
+cpu,cores.total,789,789,100.0,64
+cpu,general_product_information.manufacturer_url,789,656,83.14,"""https://www.amd.com/en/products/processors/ryzen-threadripper/9000-series/amd-ryzen-threadripper-9980x.html"""
+cpu,identifiers.identifiers,789,787,99.75,"[{""type"": ""ean"", ""value"": ""0730143317542"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""100-000001593WOF"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""100-100001593WOF"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""AMD Ryz"
+cpu,identifiers.retailer_listings,789,676,85.68,"[{""source"": ""alternate"", ""channel"": ""de"", ""source_product_id"": ""100145435"", ""pricing_enabled"": true, ""verified"": false}, {""source"": ""alternate"", ""channel"": ""es"", ""source_product_id"": ""100145435"", ""pricing_enabled"": true,"
+cpu,identifiers.version,789,787,99.75,1
+cpu,metadata.last_manually_spec_verified_at,789,9,1.14,"""2025-07-28T23:30:30.778Z"""
+cpu,metadata.manufacturer,789,788,99.87,"""AMD"""
+cpu,metadata.name,789,789,100.0,"""AMD Ryzen Threadripper 9980X"""
+cpu,metadata.part_numbers,789,789,100.0,"[""AMD Ryzen Threadripper 9980X"", ""100-000001593WOF"", ""100-100001593WOF""]"
+cpu,metadata.releaseYear,789,698,88.47,2025
+cpu,metadata.series,789,787,99.75,"""Threadripper 9000"""
+cpu,metadata.variant,789,696,88.21,"""9980X"""
+cpu,microarchitecture,789,789,100.0,"""Zen 5"""
+cpu,opendb_id,789,789,100.0,"""007a5a23-1e12-45b7-90d0-565b80876539"""
+cpu,series,789,789,100.0,"""Ryzen Threadripper 9000"""
+cpu,socket,789,789,100.0,"""sTR5"""
+cpu,specifications.eccSupport,789,789,100.0,true
+cpu,specifications.includesCooler,789,789,100.0,false
+cpu,specifications.integratedGraphics.baseClock,789,694,87.96,0
+cpu,specifications.integratedGraphics.boostClock,789,697,88.34,0
+cpu,specifications.integratedGraphics.model,789,789,100.0,"""None"""
+cpu,specifications.integratedGraphics.shaderCount,789,697,88.34,0
+cpu,specifications.lithography,789,789,100.0,"""TSMC 4nm FinFET, TSMC 6nm FinFET"""
+cpu,specifications.memory.channels,789,698,88.47,4
+cpu,specifications.memory.maxSupport,789,789,100.0,1024
+cpu,specifications.memory.types,789,704,89.23,"[""DDR5""]"
+cpu,specifications.packaging,789,789,100.0,"""Boxed"""
+cpu,specifications.ppt,789,694,87.96,0
+cpu,specifications.simultaneousMultithreading,789,789,100.0,true
+cpu,specifications.tdp,789,789,100.0,350
+gpu,case_expansion_slot_width,3865,1577,40.8,0
+gpu,chipset,3865,3865,100.0,"""Radeon RX 570"""
+gpu,chipset_manufacturer,3865,3865,100.0,"""AMD"""
+gpu,color,3865,3264,84.45,"[""BLACK""]"
+gpu,cooling,3865,3850,99.61,"""2 Fans"""
+gpu,core_base_clock,3865,3858,99.82,1168
+gpu,core_boost_clock,3865,3859,99.84,1310
+gpu,core_count,3865,2904,75.14,5888
+gpu,display_outputs,3865,2,0.05,"[{""id"": ""fe30f346-15db-4580-bbb2-be9817c97ba2"", ""connector"": ""hdmi"", ""count"": 1, ""version_label"": ""2.1b""}, {""id"": ""9e918fe9-4d11-41b9-9a9f-3d21e048b9c2"", ""connector"": ""displayport"", ""count"": 2, ""version_label"": ""2.1b""}, "
+gpu,effective_memory_clock,3865,3863,99.95,7000
+gpu,fan_quantity,3865,119,3.08,0
+gpu,fan_size,3865,119,3.08,0
+gpu,frame_sync,3865,1296,33.53,"""FreeSync"""
+gpu,general_product_information.manufacturer_url,3865,990,25.61,"""https://www.msi.com/Graphics-Card/GeForce-RTX-4070-VENTUS-2X-WHITE-12G-OC/Specification"""
+gpu,identifiers.identifiers,3865,3823,98.91,"[{""type"": ""mpn"", ""value"": ""90YV0AJ0-M0NA00"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""ROG-STRIX-RX570-O4G-GAMING"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""STRIX-RX570-O4G-GAMING"", ""region"": ""all""}]"
+gpu,identifiers.retailer_listings,3865,1986,51.38,[]
+gpu,identifiers.version,3865,3862,99.92,1
+gpu,interface,3865,3861,99.9,"""PCIe x16"""
+gpu,length,3865,3862,99.92,240
+gpu,lighting,3865,954,24.68,[]
+gpu,memory,3865,3865,100.0,4
+gpu,memory_bus,3865,3865,100.0,0
+gpu,memory_type,3865,3865,100.0,"""GDDR5"""
+gpu,metadata.last_manually_spec_verified_at,3865,409,10.58,"""2025-10-09T16:00:06.908Z"""
+gpu,metadata.manufacturer,3865,3864,99.97,"""ASUS"""
+gpu,metadata.manufacturer_color,3865,1089,28.18,"""White"""
+gpu,metadata.name,3865,3865,100.0,"""Asus ROG STRIX Radeon RX 570 4GB GDDR5 Black"""
+gpu,metadata.part_numbers,3865,3490,90.3,"[""ROG-STRIX-RX570-O4G-GAMING"", ""STRIX-RX570-O4G-GAMING"", ""90YV0AJ0-M0NA00""]"
+gpu,metadata.releaseYear,3865,1213,31.38,2019
+gpu,metadata.series,3865,3839,99.33,"""Radeon RX 570"""
+gpu,metadata.variant,3865,3522,91.13,"""Asus"""
+gpu,opendb_id,3865,3865,100.0,"""00034350-61f0-4057-ad9d-9aaea84645d0"""
+gpu,power_connectors.pcie_12VHPWR,3865,3777,97.72,0
+gpu,power_connectors.pcie_12V_2x6,3865,3792,98.11,0
+gpu,power_connectors.pcie_6_pin,3865,3776,97.7,0
+gpu,power_connectors.pcie_8_pin,3865,3833,99.17,1
+gpu,radiator_size,3865,119,3.08,0
+gpu,tdp,3865,3864,99.97,150
+gpu,total_slot_width,3865,3860,99.87,2
+gpu,video_outputs.displayport_1_4a,3865,3820,98.84,1
+gpu,video_outputs.displayport_2_1,3865,3774,97.65,0
+gpu,video_outputs.displayport_2_1_b,3865,952,24.63,0
+gpu,video_outputs.displayport_2_1a,3865,3767,97.46,0
+gpu,video_outputs.dvi_d,3865,3793,98.14,0
+gpu,video_outputs.hdmi_2_0,3865,3797,98.24,1
+gpu,video_outputs.hdmi_2_0a,3865,857,22.17,0
+gpu,video_outputs.hdmi_2_0b,3865,858,22.2,0
+gpu,video_outputs.hdmi_2_1,3865,3809,98.55,0
+gpu,video_outputs.hdmi_2_1a,3865,884,22.87,1
+gpu,video_outputs.hdmi_2_1b,3865,910,23.54,0
+gpu,video_outputs.hdmi_2_2,3865,889,23.0,0
+gpu,video_outputs.usb_c,3865,875,22.64,0
+gpu,video_outputs.vga,3865,3787,97.98,0
+gpu,weight,3865,1,0.03,2.25
+motherboard,audio.channels,3701,3685,99.57,"""7.1"""
+motherboard,audio.chipset,3701,3685,99.57,"""Realtek"""
+motherboard,back_connect_connectors,3701,3682,99.49,false
+motherboard,back_panel_ports,3701,3688,99.65,"[""4 x USB 3.2 Gen 1 ports (4 x Type-A)"", ""2 x USB 2.0 ports (2 x Type-A)"", ""1 x HDMI port"", ""1 x Wi-Fi Module"", ""1 x Realtek 2.5Gb Ethernet port"", ""3 x Audio jacks"", ""1 x PS/2 Keyboard/Mouse combo port""]"
+motherboard,bios_features.clear_cmos,3701,3682,99.49,false
+motherboard,bios_features.flashback,3701,3675,99.3,false
+motherboard,chipset,3701,3697,99.89,"""Intel B760"""
+motherboard,color,3701,3399,91.84,"[""GREY"", ""BLACK""]"
+motherboard,display_outputs,3701,3,0.08,"[{""id"": ""7c1f4fb2-6365-44bb-81e4-89cb38c9522a"", ""connector"": ""hdmi"", ""count"": 1, ""version_label"": ""2.1"", ""video_signal"": ""hdmi"", ""transport"": ""native"", ""graphics_route"": ""discrete"", ""mode_claims"": [{""id"": ""44f74c47-272f-"
+motherboard,ecc_support,3701,3688,99.65,false
+motherboard,fan_headers.case_fan,3701,578,15.62,1
+motherboard,fan_headers.cpu_fan,3701,577,15.59,1
+motherboard,fan_headers.cpu_opt,3701,418,11.29,0
+motherboard,fan_headers.pump,3701,528,14.27,0
+motherboard,form_factor,3701,3699,99.95,"""Micro ATX"""
+motherboard,front_panel_headers.hdd_led,3701,573,15.48,true
+motherboard,front_panel_headers.power_button,3701,574,15.51,true
+motherboard,front_panel_headers.power_led,3701,574,15.51,true
+motherboard,front_panel_headers.reset_button,3701,573,15.48,true
+motherboard,general_product_information.manufacturer_url,3701,563,15.21,"""https://www.asus.com/ph/motherboards-components/motherboards/others/b760m-ayw-wifi-d4/techspec/"""
+motherboard,identifiers.identifiers,3701,3664,99.0,"[{""type"": ""ean"", ""value"": ""4711081982661"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""90MB1CX0-M1EAY0"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""B760M-AYW WIFI D4"", ""region"": ""all""}]"
+motherboard,identifiers.retailer_listings,3701,1612,43.56,"[{""source"": ""alternate"", ""channel"": ""de"", ""source_product_id"": ""1886588"", ""pricing_enabled"": true, ""verified"": false}, {""source"": ""alternate"", ""channel"": ""es"", ""source_product_id"": ""1886588"", ""pricing_enabled"": true, ""ve"
+motherboard,identifiers.version,3701,3696,99.86,1
+motherboard,lighting,3701,490,13.24,"[""RGB"", ""ARGB""]"
+motherboard,m2_slots,3701,2969,80.22,"[{""size"": ""2242/2260/2280"", ""key"": ""M"", ""interface"": ""PCIe 4.0 x4""}, {""size"": ""2242/2260/2280"", ""key"": ""M"", ""interface"": ""PCIe 4.0 x4""}]"
+motherboard,memory.max,3701,3694,99.81,64
+motherboard,memory.ram_type,3701,3697,99.89,"""DDR4"""
+motherboard,memory.slots,3701,3697,99.89,2
+motherboard,metadata.last_manually_spec_verified_at,3701,225,6.08,"""2026-04-27T14:43:51.000Z"""
+motherboard,metadata.manufacturer,3701,3697,99.89,"""ASUS"""
+motherboard,metadata.manufacturer_color,3701,972,26.26,"""Black"""
+motherboard,metadata.name,3701,3701,100.0,"""ASUS B760M-AYW WIFI D4 LGA1700 DDR4 Micro-ATX"""
+motherboard,metadata.part_numbers,3701,3598,97.22,[]
+motherboard,metadata.releaseYear,3701,763,20.62,2022
+motherboard,metadata.series,3701,3656,98.78,"""AYW"""
+motherboard,metadata.variant,3701,1097,29.64,"""B760M-AYW WIFI D4"""
+motherboard,onboard_ethernet,3701,3685,99.57,"[{""speed"": ""2.5 Gb/s"", ""controller"": ""Realtek""}]"
+motherboard,opendb_id,3701,3701,100.0,"""000deb7d-a2c6-4134-9d33-ffc0508cb277"""
+motherboard,other_headers.com_port,3701,463,12.51,1
+motherboard,other_headers.temperature_sensor,3701,398,10.75,0
+motherboard,other_headers.thunderbolt,3701,396,10.7,0
+motherboard,pcie_slots,3701,3684,99.54,"[{""gen"": ""4.0"", ""quantity"": 1, ""lanes"": 16}, {""gen"": ""4.0"", ""quantity"": 2, ""lanes"": 1}]"
+motherboard,power_connectors.cpu_power,3701,577,15.59,"[""8-pin""]"
+motherboard,power_connectors.main_power,3701,577,15.59,"""24-pin"""
+motherboard,raid_support,3701,3688,99.65,true
+motherboard,rgb_headers.argb_5v,3701,555,15.0,2
+motherboard,rgb_headers.rgb_12v,3701,498,13.46,1
+motherboard,socket,3701,3697,99.89,"""LGA 1700"""
+motherboard,storage_devices.sata_3_gb_s,3701,3566,96.35,0
+motherboard,storage_devices.sata_6_gb_s,3701,3694,99.81,4
+motherboard,storage_devices.u2,3701,3568,96.41,0
+motherboard,usb_headers.usb_2_0,3701,3694,99.81,1
+motherboard,usb_headers.usb_3_2_gen_1,3701,3694,99.81,1
+motherboard,usb_headers.usb_3_2_gen_2,3701,3599,97.24,0
+motherboard,usb_headers.usb_3_2_gen_2x2,3701,3598,97.22,0
+motherboard,usb_headers.usb_4,3701,3566,96.35,0
+motherboard,usb_headers.usb_4_80g,3701,343,9.27,0
+motherboard,wireless_networking,3701,512,13.83,"""Wifi 6"""
+ram,capacity,4876,4876,100.0,48
+ram,cas_latency,4876,4875,99.98,32
+ram,color,4876,4654,95.45,"[""BLACK"", ""GOLD""]"
+ram,ecc,4876,4857,99.61,"""Non-ECC"""
+ram,form_factor,4876,4875,99.98,"""288-pin DIMM"""
+ram,general_product_information.manufacturer_url,4876,870,17.84,"""https://www.teamgroupinc.com/en/product-detail/memory/T-FORCE/xtreem-ddr5-pink/xtreem-ddr5-pink-FFPD548G6800HC34ADC01/"""
+ram,heat_spreader,4876,4580,93.93,true
+ram,height,4876,830,17.02,48.8
+ram,identifiers.identifiers,4876,4859,99.65,"[{""type"": ""ean"", ""value"": ""0765441867123"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""CTCED548G6400HC32ADC01"", ""region"": ""all""}, {""type"": ""upc"", ""value"": ""765441867123"", ""region"": ""all""}]"
+ram,identifiers.retailer_listings,4876,2618,53.69,"[{""source"": ""alternate"", ""channel"": ""de"", ""source_product_id"": ""100040415"", ""pricing_enabled"": true, ""verified"": false}, {""source"": ""alternate"", ""channel"": ""es"", ""source_product_id"": ""100040415"", ""pricing_enabled"": true,"
+ram,identifiers.version,4876,4864,99.75,1
+ram,lighting,4876,1852,37.98,[]
+ram,metadata.last_manually_spec_verified_at,4876,480,9.84,"""2025-09-22T21:37:40.929Z"""
+ram,metadata.manufacturer,4876,4876,100.0,"""TEAMGROUP"""
+ram,metadata.manufacturer_color,4876,2103,43.13,"""Black"""
+ram,metadata.name,4876,4876,100.0,"""TEAMGROUP T-Create Expert Black / Gold DDR5-6400 CL32 48GB (2x24GB)"""
+ram,metadata.part_numbers,4876,4470,91.67,"[""CTCED548G6400HC32ADC01""]"
+ram,metadata.releaseYear,4876,587,12.04,2024
+ram,metadata.series,4876,4872,99.92,"""T-Create Expert"""
+ram,metadata.variant,4876,3749,76.89,"""6400 CL32"""
+ram,modules.capacity_gb,4876,4876,100.0,24
+ram,modules.quantity,4876,4876,100.0,2
+ram,opendb_id,4876,4876,100.0,"""000c0c27-8b0a-4760-92ec-89ef39e630d8"""
+ram,profile_support,4876,1285,26.35,[]
+ram,ram_type,4876,4876,100.0,"""DDR5"""
+ram,registered,4876,4857,99.61,"""Unbuffered"""
+ram,rgb,4876,4485,91.98,false
+ram,speed,4876,4876,100.0,6400
+ram,timings,4876,3306,67.8,"""32-39-39-84"""
+ram,voltage,4876,1290,26.46,null
+ram,weight,4876,29,0.59,56
+psu,color,3301,1863,56.44,[]
+psu,connectors.atx_24_pin,3301,3296,99.85,1
+psu,connectors.eps_8_pin,3301,3296,99.85,1
+psu,connectors.floppy_4_pin,3301,3262,98.82,0
+psu,connectors.molex_4_pin,3301,3293,99.76,3
+psu,connectors.pcie_12vhpwr,3301,3297,99.88,0
+psu,connectors.pcie_6_plus_2_pin,3301,3297,99.88,2
+psu,connectors.sata,3301,3296,99.85,5
+psu,cybernetics_efficiency_rating,3301,57,1.73,null
+psu,cybernetics_noise_rating,3301,55,1.67,null
+psu,efficiency_rating,3301,3020,91.49,"""80+ Bronze"""
+psu,fanless,3301,3282,99.42,false
+psu,form_factor,3301,3296,99.85,"""ATX"""
+psu,general_product_information.manufacturer_url,3301,95,2.88,"""https://www.corsair.com/ww/en/p/psu/cp-9020302-na/rme-series-rm650e-fully-modular-low-noise-atx-power-supply-cp-9020302-na?"""
+psu,identifiers.identifiers,3301,3290,99.67,"[{""type"": ""mpn"", ""value"": ""EA550 Green"", ""region"": ""all""}]"
+psu,identifiers.retailer_listings,3301,1186,35.93,[]
+psu,identifiers.version,3301,3291,99.7,1
+psu,length,3301,3190,96.64,140
+psu,lighting,3301,27,0.82,[]
+psu,metadata.last_manually_spec_verified_at,3301,57,1.73,"""2025-11-23T11:49:04.908Z"""
+psu,metadata.manufacturer,3301,3297,99.88,"""Antec"""
+psu,metadata.manufacturer_color,3301,64,1.94,"""Noctua Edition"""
+psu,metadata.name,3301,3301,100.0,"""Antec Earthwatts 550W 80+ Bronze Certified Non-Modular"""
+psu,metadata.part_numbers,3301,3291,99.7,"[""EA550 Green""]"
+psu,metadata.releaseYear,3301,157,4.76,2021
+psu,metadata.series,3301,3294,99.79,"""Earthwatts"""
+psu,metadata.variant,3301,3232,97.91,"""550W Bronze"""
+psu,modular,3301,3296,99.85,"""Non-Modular"""
+psu,opendb_id,3301,3301,100.0,"""001370cb-f65c-4532-b65a-b0195485f07d"""
+psu,wattage,3301,3297,99.88,550
+psu,weight,3301,1,0.03,1.62
+cpu_cooler,color,2423,1919,79.2,"[""BLACK""]"
+cpu_cooler,cpu_sockets,2423,2420,99.88,"[""AM2"", ""AM3"", ""AM4"", ""AM5"", ""FM1"", ""FM2"", ""LGA 1150"", ""LGA 1151"", ""LGA 1155"", ""LGA 1156"", ""LGA 1200"", ""LGA 1366"", ""LGA 1700"", ""LGA 1851"", ""LGA 2011"", ""LGA 2066""]"
+cpu_cooler,fan_quantity,2423,595,24.56,null
+cpu_cooler,fan_size,2423,605,24.97,null
+cpu_cooler,fanless,2423,2404,99.22,false
+cpu_cooler,general_product_information.manufacturer_url,2423,498,20.55,"""https://www.thermalright.com/product/frozen-warframe-pro-360-black/"""
+cpu_cooler,height,2423,1715,70.78,56
+cpu_cooler,identifiers.identifiers,2423,2388,98.56,"[{""type"": ""ean"", ""value"": ""4897025783652"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""CC-AIO-240-A"", ""region"": ""all""}]"
+cpu_cooler,identifiers.retailer_listings,2423,1387,57.24,"[{""source"": ""amazon"", ""channel"": ""au"", ""source_product_id"": ""B0BV6Z9MN2"", ""pricing_enabled"": true, ""verified"": true}, {""source"": ""amazon"", ""channel"": ""be"", ""source_product_id"": ""B0BV6Z9MN2"", ""pricing_enabled"": true, ""ver"
+cpu_cooler,identifiers.version,2423,2415,99.67,1
+cpu_cooler,lighting,2423,537,22.16,[]
+cpu_cooler,max_fan_rpm,2423,1872,77.26,1800
+cpu_cooler,max_noise_level,2423,932,38.46,null
+cpu_cooler,metadata.last_manually_spec_verified_at,2423,176,7.26,"""2026-01-01T11:37:28.810Z"""
+cpu_cooler,metadata.manufacturer,2423,2422,99.96,"""Gelid Solutions"""
+cpu_cooler,metadata.manufacturer_color,2423,543,22.41,"""Black"""
+cpu_cooler,metadata.name,2423,2423,100.0,"""Gelid Solutions Liquid 240 Water 240mm Black"""
+cpu_cooler,metadata.part_numbers,2423,2193,90.51,"[""CC-AIO-240-A""]"
+cpu_cooler,metadata.releaseYear,2423,581,23.98,null
+cpu_cooler,metadata.series,2423,2406,99.3,"""Liquid"""
+cpu_cooler,metadata.variant,2423,1709,70.53,"""Black"""
+cpu_cooler,min_fan_rpm,2423,2317,95.63,750
+cpu_cooler,min_noise_level,2423,2182,90.05,29.6
+cpu_cooler,opendb_id,2423,2423,100.0,"""0009985c-4992-46ca-92ff-7f4d5a8f96f9"""
+cpu_cooler,radiator_size,2423,1323,54.6,240
+cpu_cooler,water_cooled,2423,2421,99.92,true
+cpu_cooler,weight,2423,150,6.19,634
+case,color,3804,3611,94.93,"[""BLACK""]"
+case,dimensions,3804,3129,82.26,"""413 x 217 x 453"""
+case,dimensions_mm.depth,3804,1273,33.46,413
+case,dimensions_mm.height,3804,1273,33.46,453
+case,dimensions_mm.width,3804,1273,33.46,217
+case,expansion_slots,3804,3755,98.71,7
+case,external_3_5_bays,3804,168,4.42,0
+case,external_5_25_bays,3804,184,4.84,0
+case,form_factor,3804,3803,99.97,"""ATX Mid Tower"""
+case,front_panel_usb,3804,3590,94.37,"""2x USB 3.0"""
+case,front_usb_ports,3804,1266,33.28,"[""2x USB 3.0""]"
+case,general_product_information.manufacturer_url,3804,881,23.16,"""https://www.fractal-design.com/products/cases/meshify/meshify-c/"""
+case,has_transparent_side_panel,3804,3782,99.42,false
+case,identifiers.identifiers,3804,3747,98.5,"[{""type"": ""ean"", ""value"": ""0084327610081"", ""region"": ""all""}, {""type"": ""ean"", ""value"": ""0843276100087"", ""region"": ""all""}, {""type"": ""ean"", ""value"": ""7340172700081"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""FD-CA-MESH-C-"
+case,identifiers.retailer_listings,3804,1996,52.47,"[{""source"": ""alternate"", ""channel"": ""de"", ""source_product_id"": ""1403812"", ""pricing_enabled"": true, ""verified"": false}, {""source"": ""alternate"", ""channel"": ""es"", ""source_product_id"": ""1403812"", ""pricing_enabled"": true, ""ve"
+case,identifiers.version,3804,3789,99.61,1
+case,internal_2_5_bays,3804,3783,99.45,3
+case,internal_3_5_bays,3804,3783,99.45,2
+case,lighting,3804,675,17.74,[]
+case,max_cpu_cooler_height,3804,1394,36.65,170
+case,max_psu_length,3804,686,18.03,180
+case,max_video_card_length,3804,3642,95.74,315
+case,metadata.last_manually_spec_verified_at,3804,1037,27.26,"""2025-10-03T06:29:12.607Z"""
+case,metadata.manufacturer,3804,3789,99.61,"""Fractal Design"""
+case,metadata.manufacturer_color,3804,739,19.43,"""Snow"""
+case,metadata.name,3804,3804,100.0,"""Fractal Design Meshify C ATX Mid Tower Black"""
+case,metadata.part_numbers,3804,3134,82.39,"[""FD-CA-MESH-C-BKO""]"
+case,metadata.releaseYear,3804,696,18.3,2025
+case,metadata.series,3804,3775,99.24,"""Meshify"""
+case,metadata.variant,3804,495,13.01,""""""
+case,opendb_id,3804,3804,100.0,"""0000caee-142c-48f6-99be-9c6f4dd18845"""
+case,power_supply,3804,3681,96.77,"""None"""
+case,power_supply_included,3804,800,21.03,false
+case,power_supply_shroud,3804,728,19.14,false
+case,riser_expansion_slots,3804,620,16.3,0
+case,side_panel,3804,3804,100.0,"""Solid"""
+case,supported_motherboard_form_factors,3804,3803,99.97,"[""ATX"", ""Micro ATX"", ""Mini-ITX""]"
+case,supported_power_supply_form_factors,3804,725,19.06,[]
+case,supports_rear_connecting_motherboard,3804,708,18.61,true
+case,volume,3804,3249,85.41,40.598
+case,weight,3804,1373,36.09,16.57
+ssd,cache,2514,26,1.03,64
+ssd,capacity,2514,2514,100.0,512
+ssd,form_factor,2514,2514,100.0,"""M.2-2280"""
+ssd,general_product_information.manufacturer_url,2514,27,1.07,"""https://www.ibuypower.com/gear-store/pc-parts/storage/1tb-kingston-nv3-m.2-pcie-gen-4-nvme-ssd?irgwc=1&afsrc=1"""
+ssd,identifiers.identifiers,2514,2509,99.8,"[{""type"": ""ean"", ""value"": ""0618996726967"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""512GB NVME PREM"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""a29f5e64-99bb-4031-a318-b119dd446ca4"", ""region"": ""all""}, {""type"": ""mpn"""
+ssd,identifiers.retailer_listings,2514,1469,58.43,"[{""source"": ""amazon"", ""channel"": ""au"", ""source_product_id"": ""B07PB5C36M"", ""pricing_enabled"": true, ""verified"": true}, {""source"": ""amazon"", ""channel"": ""be"", ""source_product_id"": ""B07PB5C36M"", ""pricing_enabled"": true, ""ver"
+ssd,identifiers.version,2514,2513,99.96,1
+ssd,interface,2514,2514,100.0,"""M.2 PCIe 3.0 x4"""
+ssd,lighting,2514,11,0.44,[]
+ssd,metadata.last_manually_spec_verified_at,2514,17,0.68,"""2026-03-22T15:06:58.202Z"""
+ssd,metadata.manufacturer,2514,2514,100.0,"""Inland"""
+ssd,metadata.name,2514,2514,100.0,"""Inland Premium 512GB SSD M.2 2280 PCIe NVMe 3.0 x4 3D NAND Internal Solid State Drive, High-Speed Read/Write Speed up to 3100 MBps and 1900 MBps, NVMe 1.3 & PCIe 3.1 Compatible"""
+ssd,metadata.part_numbers,2514,2504,99.6,"[""a29f5e64-99bb-4031-a318-b119dd446ca4"", ""512GB NVME PREM""]"
+ssd,metadata.releaseYear,2514,75,2.98,2019
+ssd,metadata.series,2514,2510,99.84,"""Inland Premium"""
+ssd,metadata.variant,2514,2482,98.73,"""512GB"""
+ssd,nvme,2514,2514,100.0,true
+ssd,opendb_id,2514,2514,100.0,"""0003d658-2e15-416c-b260-d2882258b170"""
+ssd,storage_type,2514,2514,100.0,"""SSD"""
+ssd,weight,2514,7,0.28,9
+hdd,cache,967,41,4.24,512
+hdd,capacity,967,967,100.0,2000
+hdd,form_factor,967,967,100.0,"""3.5\"""""
+hdd,general_product_information.manufacturer_url,967,1,0.1,"""https://www.westerndigital.com/products/internal-drives/wd-blue-desktop-sata-hdd?sku=WD10EZEX"""
+hdd,identifiers.identifiers,967,967,100.0,"[{""type"": ""ean"", ""value"": ""8592978107611"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""ST2000DM005"", ""region"": ""all""}, {""type"": ""upc"", ""value"": ""763649094396"", ""region"": ""all""}]"
+hdd,identifiers.retailer_listings,967,612,63.29,"[{""source"": ""amazon"", ""channel"": ""au"", ""source_product_id"": ""B07FD98N7N"", ""pricing_enabled"": true, ""verified"": true}, {""source"": ""amazon"", ""channel"": ""be"", ""source_product_id"": ""B07FD98N7N"", ""pricing_enabled"": true, ""ver"
+hdd,identifiers.version,967,967,100.0,1
+hdd,interface,967,967,100.0,"""SATA 6.0 Gb/s"""
+hdd,lighting,967,0,0.0,[]
+hdd,metadata.manufacturer,967,967,100.0,"""Seagate"""
+hdd,metadata.name,967,967,100.0,"""Seagate Barracuda Compute 2TB 3.5\"" HDD 5400RPM SATA 6.0 Gb/s"""
+hdd,metadata.part_numbers,967,967,100.0,"[""ST2000DM005""]"
+hdd,metadata.releaseYear,967,20,2.07,2018
+hdd,metadata.series,967,966,99.9,"""Barracuda"""
+hdd,metadata.variant,967,960,99.28,"""2000GB"""
+hdd,nvme,967,967,100.0,false
+hdd,opendb_id,967,967,100.0,"""00274e77-58c3-4fec-a978-180eaa79bee8"""
+hdd,storage_type,967,967,100.0,"""HDD"""
+storage_other,capacity,24,22,91.67,2000
+storage_other,form_factor,24,22,91.67,"""2.5\"""""
+storage_other,identifiers.identifiers,24,24,100.0,"[{""type"": ""mpn"", ""value"": ""LX001"", ""region"": ""all""}, {""type"": ""mpn"", ""value"": ""ST2000LXZ01"", ""region"": ""all""}]"
+storage_other,identifiers.retailer_listings,24,12,50.0,[]
+storage_other,identifiers.version,24,24,100.0,1
+storage_other,interface,24,22,91.67,"""SATA 6.0 Gb/s"""
+storage_other,lighting,24,0,0.0,[]
+storage_other,metadata.manufacturer,24,22,91.67,"""Seagate"""
+storage_other,metadata.name,24,24,100.0,"""Seagate FireCuda Compute 2TB Hybrid 2.5\"" 5400 RPM SATA"""
+storage_other,metadata.part_numbers,24,24,100.0,"[""ST2000LXZ01"", ""LX001""]"
+storage_other,metadata.series,24,22,91.67,"""FireCuda"""
+storage_other,metadata.variant,24,22,91.67,"""2000GB"""
+storage_other,nvme,24,22,91.67,false
+storage_other,opendb_id,24,24,100.0,"""097f4884-ad64-4c84-bec3-f81f83116e6b"""
+storage_other,storage_type,24,22,91.67,"""SSHD"""

@@ -1,0 +1,57 @@
+{
+  "download_date_bangkok": "2026-10-23",
+  "source": "https://github.com/buildcores/buildcores-open-db",
+  "commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+  "license": "CC BY-NC-SA 4.0; commercial permission required per upstream notice",
+  "counts": [
+    {
+      "category": "cpu",
+      "count": 789
+    },
+    {
+      "category": "gpu",
+      "count": 3865
+    },
+    {
+      "category": "motherboard",
+      "count": 3701
+    },
+    {
+      "category": "ram",
+      "count": 4876
+    },
+    {
+      "category": "psu",
+      "count": 3301
+    },
+    {
+      "category": "cpu_cooler",
+      "count": 2423
+    },
+    {
+      "category": "case",
+      "count": 3804
+    },
+    {
+      "category": "ssd",
+      "count": 2514
+    },
+    {
+      "category": "hdd",
+      "count": 967
+    },
+    {
+      "category": "storage_other",
+      "count": 24
+    }
+  ],
+  "total": 26264,
+  "benchmark_status": "Downloaded; raw ZIP plus 3 real sample records; not cleaned or joined",
+  "processing": "Preserve raw; aggregate by category; Storage split only on explicit storage_type; CSV nested objects flattened; no inferred specs or labels.",
+  "blender": {
+    "source": "https://opendata.blender.org/snapshots/opendata-latest.zip",
+    "license": "CC0; see included license",
+    "archive_bytes": 101803172,
+    "sha256": "1761d5feb9549a1786cfcb0883fde8f6222bf78aaa6c1310d9edbab00b77ba9e"
+  }
+}
