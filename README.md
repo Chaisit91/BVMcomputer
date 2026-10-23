@@ -5,3 +5,7 @@
 
 โปรดอ่านเงื่อนไขใบอนุญาตข้อมูลก่อนใช้งานเชิงพาณิชย์
 
+
+## ข้อมูลที่ผ่านการเตรียม
+
+ใช้ [ชุด cleaned](data/pc-builder-starter/08_cleaned/README_TH.md) สำหรับเริ่มพัฒนา ดู [รายงานคุณภาพ](data/pc-builder-starter/09_reports/summary.json) และรัน `python scripts/data/clean_catalog.py` เพื่อสร้างใหม่

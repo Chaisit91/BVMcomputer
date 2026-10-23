@@ -1,0 +1,422 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "case cleaned v1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "category",
+    "color",
+    "dimensions",
+    "dimensions_mm__depth",
+    "dimensions_mm__height",
+    "dimensions_mm__width",
+    "expansion_slots",
+    "external_3_5_bays",
+    "external_5_25_bays",
+    "form_factor",
+    "front_panel_usb",
+    "front_usb_ports",
+    "general_product_information__adorama_sku",
+    "general_product_information__amazon_sku",
+    "general_product_information__bestbuy_sku",
+    "general_product_information__hyte_sku",
+    "general_product_information__ibuypower_sku",
+    "general_product_information__lttstore_sku",
+    "general_product_information__manufacturer_url",
+    "general_product_information__newegg_sku",
+    "general_product_information__walmart_sku",
+    "has_transparent_side_panel",
+    "identifiers__identifiers",
+    "identifiers__retailer_listings",
+    "identifiers__version",
+    "internal_2_5_bays",
+    "internal_3_5_bays",
+    "lighting",
+    "manufacturer",
+    "manufacturer_url",
+    "max_cpu_cooler_height_mm",
+    "max_gpu_length_mm",
+    "max_psu_length_mm",
+    "metadata__last_manually_spec_verified_at",
+    "metadata__manufacturer",
+    "metadata__manufacturer_color",
+    "metadata__name",
+    "metadata__part_numbers",
+    "metadata__release_year",
+    "metadata__series",
+    "metadata__variant",
+    "name",
+    "part_id",
+    "pipeline_version",
+    "power_supply",
+    "power_supply_included",
+    "power_supply_shroud",
+    "quality_issue_codes",
+    "quality_status",
+    "riser_expansion_slots",
+    "side_panel",
+    "source_category",
+    "source_commit",
+    "source_record",
+    "source_weight_lb",
+    "supported_motherboard_form_factors",
+    "supported_power_supply_form_factors",
+    "supports_rear_connecting_motherboard",
+    "volume_l"
+  ],
+  "properties": {
+    "category": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "color": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "dimensions": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "dimensions_mm__depth": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "dimensions_mm__height": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "dimensions_mm__width": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "expansion_slots": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "external_3_5_bays": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "external_5_25_bays": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "form_factor": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "front_panel_usb": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "front_usb_ports": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "general_product_information__adorama_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__amazon_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__bestbuy_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__hyte_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__ibuypower_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__lttstore_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__manufacturer_url": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "general_product_information__newegg_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__walmart_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "has_transparent_side_panel": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "identifiers__identifiers": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "identifiers__retailer_listings": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "identifiers__version": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "internal_2_5_bays": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "internal_3_5_bays": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "lighting": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "manufacturer": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "manufacturer_url": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "max_cpu_cooler_height_mm": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "max_gpu_length_mm": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "max_psu_length_mm": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "metadata__last_manually_spec_verified_at": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__manufacturer": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__manufacturer_color": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__part_numbers": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "metadata__release_year": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "metadata__series": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__variant": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "part_id": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "pipeline_version": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "power_supply": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "power_supply_included": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "power_supply_shroud": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "quality_issue_codes": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "quality_status": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "riser_expansion_slots": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "side_panel": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_category": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_commit": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_record": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_weight_lb": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "supported_motherboard_form_factors": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "supported_power_supply_form_factors": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "supports_rear_connecting_motherboard": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "volume_l": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    }
+  }
+}

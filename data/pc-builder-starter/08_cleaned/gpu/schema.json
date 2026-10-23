@@ -1,0 +1,509 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "gpu cleaned v1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "base_clock_mhz",
+    "boost_clock_mhz",
+    "case_expansion_slot_width",
+    "category",
+    "chipset",
+    "chipset_manufacturer",
+    "color",
+    "cooling",
+    "core_count",
+    "display_outputs",
+    "fan_quantity",
+    "fan_size",
+    "frame_sync",
+    "general_product_information__adorama_sku",
+    "general_product_information__amazon_sku",
+    "general_product_information__bestbuy_sku",
+    "general_product_information__hyte_sku",
+    "general_product_information__ibuypower_sku",
+    "general_product_information__lttstore_sku",
+    "general_product_information__manufacturer_url",
+    "general_product_information__newegg_sku",
+    "general_product_information__walmart_sku",
+    "identifiers__identifiers",
+    "identifiers__retailer_listings",
+    "identifiers__version",
+    "interface",
+    "length_mm",
+    "lighting",
+    "manufacturer",
+    "manufacturer_url",
+    "memory_bus_bits",
+    "memory_type",
+    "metadata__last_manually_spec_verified_at",
+    "metadata__manufacturer",
+    "metadata__manufacturer_color",
+    "metadata__name",
+    "metadata__part_numbers",
+    "metadata__release_year",
+    "metadata__series",
+    "metadata__variant",
+    "name",
+    "part_id",
+    "pipeline_version",
+    "power_connectors__pcie_12_v_2x6",
+    "power_connectors__pcie_12_vhpwr",
+    "power_connectors__pcie_6_pin",
+    "power_connectors__pcie_8_pin",
+    "quality_issue_codes",
+    "quality_status",
+    "radiator_size",
+    "source_category",
+    "source_commit",
+    "source_effective_memory_clock_mhz",
+    "source_record",
+    "source_weight_g",
+    "tdp_w",
+    "total_slot_width",
+    "video_outputs__displayport_1_4a",
+    "video_outputs__displayport_2_1",
+    "video_outputs__displayport_2_1_b",
+    "video_outputs__displayport_2_1a",
+    "video_outputs__dvi_d",
+    "video_outputs__hdmi_2_0",
+    "video_outputs__hdmi_2_0a",
+    "video_outputs__hdmi_2_0b",
+    "video_outputs__hdmi_2_1",
+    "video_outputs__hdmi_2_1a",
+    "video_outputs__hdmi_2_1b",
+    "video_outputs__hdmi_2_2",
+    "video_outputs__usb_c",
+    "video_outputs__vga",
+    "vram_gb"
+  ],
+  "properties": {
+    "base_clock_mhz": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "boost_clock_mhz": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "case_expansion_slot_width": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "category": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "chipset": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "chipset_manufacturer": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "color": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "cooling": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "core_count": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "display_outputs": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "fan_quantity": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "fan_size": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "frame_sync": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "general_product_information__adorama_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__amazon_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__bestbuy_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__hyte_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__ibuypower_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__lttstore_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__manufacturer_url": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "general_product_information__newegg_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__walmart_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "identifiers__identifiers": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "identifiers__retailer_listings": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "identifiers__version": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "interface": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "length_mm": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "lighting": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "manufacturer": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "manufacturer_url": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "memory_bus_bits": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "memory_type": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__last_manually_spec_verified_at": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__manufacturer": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__manufacturer_color": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__part_numbers": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "metadata__release_year": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "metadata__series": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__variant": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "part_id": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "pipeline_version": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "power_connectors__pcie_12_v_2x6": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "power_connectors__pcie_12_vhpwr": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "power_connectors__pcie_6_pin": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "power_connectors__pcie_8_pin": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "quality_issue_codes": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "quality_status": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "radiator_size": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "source_category": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_commit": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_effective_memory_clock_mhz": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "source_record": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_weight_g": {
+      "type": [
+        "null",
+        "number"
+      ]
+    },
+    "tdp_w": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "total_slot_width": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "video_outputs__displayport_1_4a": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "video_outputs__displayport_2_1": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "video_outputs__displayport_2_1_b": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "video_outputs__displayport_2_1a": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "video_outputs__dvi_d": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "video_outputs__hdmi_2_0": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "video_outputs__hdmi_2_0a": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "video_outputs__hdmi_2_0b": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "video_outputs__hdmi_2_1": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "video_outputs__hdmi_2_1a": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "video_outputs__hdmi_2_1b": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "video_outputs__hdmi_2_2": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "video_outputs__usb_c": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "video_outputs__vga": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "vram_gb": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    }
+  }
+}

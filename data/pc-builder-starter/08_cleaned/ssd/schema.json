@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ssd cleaned v1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "cache_mb",
+    "capacity_gb",
+    "category",
+    "form_factor",
+    "general_product_information__adorama_sku",
+    "general_product_information__amazon_sku",
+    "general_product_information__bestbuy_sku",
+    "general_product_information__hyte_sku",
+    "general_product_information__ibuypower_sku",
+    "general_product_information__lttstore_sku",
+    "general_product_information__manufacturer_url",
+    "general_product_information__newegg_sku",
+    "general_product_information__walmart_sku",
+    "identifiers__identifiers",
+    "identifiers__retailer_listings",
+    "identifiers__version",
+    "interface",
+    "interface_family",
+    "lighting",
+    "manufacturer",
+    "manufacturer_url",
+    "metadata__last_manually_spec_verified_at",
+    "metadata__manufacturer",
+    "metadata__name",
+    "metadata__part_numbers",
+    "metadata__release_year",
+    "metadata__series",
+    "metadata__variant",
+    "name",
+    "nvme",
+    "part_id",
+    "pipeline_version",
+    "quality_issue_codes",
+    "quality_status",
+    "source_category",
+    "source_commit",
+    "source_record",
+    "source_weight_g",
+    "storage_type"
+  ],
+  "properties": {
+    "cache_mb": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "capacity_gb": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "category": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "form_factor": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "general_product_information__adorama_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__amazon_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__bestbuy_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__hyte_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__ibuypower_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__lttstore_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__manufacturer_url": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "general_product_information__newegg_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__walmart_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "identifiers__identifiers": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "identifiers__retailer_listings": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "identifiers__version": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "interface": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "interface_family": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "lighting": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "manufacturer": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "manufacturer_url": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__last_manually_spec_verified_at": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__manufacturer": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__part_numbers": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "metadata__release_year": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "metadata__series": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__variant": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "nvme": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "part_id": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "pipeline_version": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "quality_issue_codes": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "quality_status": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_category": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_commit": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_record": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_weight_g": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "storage_type": {
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  }
+}

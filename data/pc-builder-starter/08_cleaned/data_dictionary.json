@@ -1,0 +1,7208 @@
+[
+  {
+    "category": "case",
+    "column": "category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "color",
+    "source_path": "color",
+    "description": "The color(s) of this product. Each color of the product should be included in the array. Do not use RGB here to describe lighting; use the Lighting field for RGB, ARGB, display, or fixed-color lighting. Includes exterior and interior colors",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "dimensions",
+    "source_path": "dimensions",
+    "description": "The dimensions of the case in mm (e.g., '466 x 290 x 495')",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "dimensions_mm__depth",
+    "source_path": "dimensions_mm.depth",
+    "description": "Part length (depth) in mm",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "dimensions_mm__height",
+    "source_path": "dimensions_mm.height",
+    "description": "Part height in mm",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "dimensions_mm__width",
+    "source_path": "dimensions_mm.width",
+    "description": "Part width in mm",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "expansion_slots",
+    "source_path": "expansion_slots",
+    "description": "The number of expansion slots",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "external_3_5_bays",
+    "source_path": "external_3_5_bays",
+    "description": "The number of external 3.5\" drive bays",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "external_5_25_bays",
+    "source_path": "external_5_25_bays",
+    "description": "The number of external 5.25\" drive bays",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "form_factor",
+    "source_path": "form_factor",
+    "description": "The form factor of the case (e.g., ATX Mid Tower, Full Tower, Mini-ITX)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "front_panel_usb",
+    "source_path": "front_panel_usb",
+    "description": "Legacy front panel USB descriptor (deprecated). Deprecated field. Populate front_usb_ports instead.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "front_usb_ports",
+    "source_path": "front_usb_ports",
+    "description": "Array of front panel USB port types",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "general_product_information__adorama_sku",
+    "source_path": "general_product_information.adorama_sku",
+    "description": "Adorama product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "general_product_information__amazon_sku",
+    "source_path": "general_product_information.amazon_sku",
+    "description": "Amazon product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "general_product_information__bestbuy_sku",
+    "source_path": "general_product_information.bestbuy_sku",
+    "description": "Best Buy product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "general_product_information__hyte_sku",
+    "source_path": "general_product_information.hyte_sku",
+    "description": "HYTE product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "general_product_information__ibuypower_sku",
+    "source_path": "general_product_information.ibuypower_sku",
+    "description": "iBuyPower product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "general_product_information__lttstore_sku",
+    "source_path": "general_product_information.lttstore_sku",
+    "description": "LTTStore product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "general_product_information__manufacturer_url",
+    "source_path": "general_product_information.manufacturer_url",
+    "description": "Official manufacturer product URL",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "general_product_information__newegg_sku",
+    "source_path": "general_product_information.newegg_sku",
+    "description": "Newegg product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "general_product_information__walmart_sku",
+    "source_path": "general_product_information.walmart_sku",
+    "description": "Walmart product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "has_transparent_side_panel",
+    "source_path": "has_transparent_side_panel",
+    "description": "Whether the case has a transparent side panel",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "identifiers__identifiers",
+    "source_path": "identifiers.identifiers",
+    "description": "Canonical product identifiers",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "identifiers__retailer_listings",
+    "source_path": "identifiers.retailer_listings",
+    "description": "Canonical retailer product listings used for pricing",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "identifiers__version",
+    "source_path": "identifiers.version",
+    "description": "Monotonically increasing identity snapshot version",
+    "source_type": "integer",
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "internal_2_5_bays",
+    "source_path": "internal_2_5_bays",
+    "description": "The number of internal 2.5\" drive bays",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "internal_3_5_bays",
+    "source_path": "internal_3_5_bays",
+    "description": "The number of internal 3.5\" drive bays",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "lighting",
+    "source_path": "lighting",
+    "description": "Lighting capabilities for this product. Use RGB for non-addressable RGB, ARGB for addressable RGB, Multicolor for non-RGB multi-color lighting, Fixed for a single fixed lighting color, None when the product has no lighting, Display for configurable displays, and Fixed Color Display for displays limited to fixed colors such as black and white.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "manufacturer",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "manufacturer_url",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "max_cpu_cooler_height_mm",
+    "source_path": "max_cpu_cooler_height",
+    "description": "The maximum supported CPU cooler height in mm",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "max_gpu_length_mm",
+    "source_path": "max_video_card_length",
+    "description": "The maximum supported video card length in mm",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "max_psu_length_mm",
+    "source_path": "max_psu_length",
+    "description": "The maximum supported power supply length in mm",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "metadata__last_manually_spec_verified_at",
+    "source_path": "metadata.last_manually_spec_verified_at",
+    "description": "ISO 8601 timestamp of when the part specs were last manually verified by a human",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "metadata__manufacturer",
+    "source_path": "metadata.manufacturer",
+    "description": "Case manufacturer",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "metadata__manufacturer_color",
+    "source_path": "metadata.manufacturer_color",
+    "description": "Manufacturer's official color name for this product variant. The manufacturer's official marketed colorway name, verbatim — most case manufacturers brand their colorways. If the manufacturer doesn't give a fancy name, fall back to a simple human-readable color ('Black', 'White', 'White / Silver'). Branded / collab colorways belong here when the rest of the hardware is unchanged. Examples: HYTE Y70 in Snow White → 'Snow White'. Fractal Design North in Charcoal Black → 'Charcoal Black'. HYTE Y70 Persona 3 Reload Edition → 'Persona 3 Reload Edition'. Do NOT put hardware sub-model differentiators like 'Momentum Edition', 'RC', or 'Flow' in manufacturer_color — those are either the variant or part of the series.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "metadata__name",
+    "source_path": "metadata.name",
+    "description": "Full product name",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "metadata__part_numbers",
+    "source_path": "metadata.part_numbers",
+    "description": "Array of manufacturer's part numbers/SKUs",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "metadata__release_year",
+    "source_path": "metadata.releaseYear",
+    "description": "Year of release",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "metadata__series",
+    "source_path": "metadata.series",
+    "description": "Product series name The manufacturer's product line / model name that groups related cases. Manufacturer and `form_factor` are stored separately and used as the default grouping, so do NOT repeat them in the series. The same family CAN span multiple form factors (`North` is its own series; `North XL` is a separate series, not a variant). Examples: 'Fractal Design North ATX Mid Tower' → series='North'. 'HYTE Y70 ATX Mid Tower Snow White' → series='Y70'. 'NZXT H3 Flow Micro ATX Mid Tower' → series='H3 Flow'.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "metadata__variant",
+    "source_path": "metadata.variant",
+    "description": "Specific variant in the series Most cases should have an empty variant — color/finish belongs in `manufacturer_color`, not here. Only set a variant when a sub-model needs to be distinguished from the base model within the same (manufacturer, series, form_factor) group: limited / collab editions that change more than paint, refreshed revisions, or named sub-models. Examples: 'Fractal Design North ATX Mid Tower Black' → variant='' (color is the only difference). 'Fractal Design North Momentum Edition' → variant='Momentum Edition'. 'Fractal Design North XL RC' → variant='RC'. The variant must be unique within a (manufacturer, series, form_factor, manufacturer_color) group — if every case collapses to the same value, leave it empty.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "name",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "part_id",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "pipeline_version",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "power_supply",
+    "source_path": "power_supply",
+    "description": "If included with the case, could detail the PSU model.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "power_supply_included",
+    "source_path": "power_supply_included",
+    "description": "Whether the case includes a power supply.",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "power_supply_shroud",
+    "source_path": "power_supply_shroud",
+    "description": "Whether the case has a power supply shroud",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "quality_issue_codes",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "quality_status",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "riser_expansion_slots",
+    "source_path": "riser_expansion_slots",
+    "description": "The number of riser expansion slots",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "side_panel",
+    "source_path": "side_panel",
+    "description": "The type of side panel (e.g., Tempered Glass, Acrylic, Solid)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "source_category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "source_commit",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "source_record",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "source_weight_lb",
+    "source_path": "weight",
+    "description": "Product weight in pounds for one complete, usable case of this exact variant. Exclude retail packaging and shipping materials.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "supported_motherboard_form_factors",
+    "source_path": "supported_motherboard_form_factors",
+    "description": "Array of motherboard form factors this case can accommodate (e.g., ['ATX', 'Micro ATX', 'Mini-ITX'])",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "supported_power_supply_form_factors",
+    "source_path": "supported_power_supply_form_factors",
+    "description": "The PSU form factors that the case can support.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "supports_rear_connecting_motherboard",
+    "source_path": "supports_rear_connecting_motherboard",
+    "description": "Whether the case supports rear connecting motherboard (BTF, Project Zero, etc)",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "case",
+    "column": "volume_l",
+    "source_path": "volume",
+    "description": "The internal volume of the case in liters",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "cache__l1",
+    "source_path": "cache.l1",
+    "description": "Breakdown of L1 cache configuration",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "cache__l2",
+    "source_path": "cache.l2",
+    "description": "The total amount of L2 cache in MB",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "cache__l3",
+    "source_path": "cache.l3",
+    "description": "The total amount of L3 cache in MB",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "core_count",
+    "source_path": "cores.total",
+    "description": "The number of independent processing units (physical cores) within the CPU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "core_family",
+    "source_path": "coreFamily",
+    "description": "The specific core family (e.g., Raptor Cove, Granite Ridge)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "cores__efficiency",
+    "source_path": "cores.efficiency",
+    "description": "The number of efficiency cores (hybrid CPUs only)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "cores__performance",
+    "source_path": "cores.performance",
+    "description": "The number of performance cores (hybrid CPUs only)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "demo_scope",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "efficiency_base_clock_ghz",
+    "source_path": "clocks.efficiency.base",
+    "description": "The base clock speed of the efficiency cores in GHz (if applicable)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "efficiency_boost_clock_ghz",
+    "source_path": "clocks.efficiency.boost",
+    "description": "The maximum boost clock speed of the efficiency cores in GHz (if applicable)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "general_product_information__adorama_sku",
+    "source_path": "general_product_information.adorama_sku",
+    "description": "Adorama product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "general_product_information__amazon_sku",
+    "source_path": "general_product_information.amazon_sku",
+    "description": "Amazon product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "general_product_information__bestbuy_sku",
+    "source_path": "general_product_information.bestbuy_sku",
+    "description": "Best Buy product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "general_product_information__hyte_sku",
+    "source_path": "general_product_information.hyte_sku",
+    "description": "HYTE product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "general_product_information__ibuypower_sku",
+    "source_path": "general_product_information.ibuypower_sku",
+    "description": "iBuyPower product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "general_product_information__lttstore_sku",
+    "source_path": "general_product_information.lttstore_sku",
+    "description": "LTTStore product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "general_product_information__manufacturer_url",
+    "source_path": "general_product_information.manufacturer_url",
+    "description": "Official manufacturer product URL",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "general_product_information__newegg_sku",
+    "source_path": "general_product_information.newegg_sku",
+    "description": "Newegg product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "general_product_information__walmart_sku",
+    "source_path": "general_product_information.walmart_sku",
+    "description": "Walmart product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "identifiers__identifiers",
+    "source_path": "identifiers.identifiers",
+    "description": "Canonical product identifiers",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "identifiers__retailer_listings",
+    "source_path": "identifiers.retailer_listings",
+    "description": "Canonical retailer product listings used for pricing",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "identifiers__version",
+    "source_path": "identifiers.version",
+    "description": "Monotonically increasing identity snapshot version",
+    "source_type": "integer",
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "manufacturer",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "manufacturer_url",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "max_memory_gb",
+    "source_path": "specifications.memory.maxSupport",
+    "description": "Max supported memory in GB",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "metadata__last_manually_spec_verified_at",
+    "source_path": "metadata.last_manually_spec_verified_at",
+    "description": "ISO 8601 timestamp of when the part specs were last manually verified by a human",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "metadata__manufacturer",
+    "source_path": "metadata.manufacturer",
+    "description": "CPU manufacturer",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "metadata__name",
+    "source_path": "metadata.name",
+    "description": "Full product name Prefer manufacturer + product family + processor number/suffix. Exclude generic category words like 'processor' or 'CPU' unless they are part of the marketed family name. Exclude cache, frequency, and other trailing spec text. Example: Intel Core Ultra 5 250K Plus, AMD Ryzen 7 9800X3D",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "metadata__part_numbers",
+    "source_path": "metadata.part_numbers",
+    "description": "Array of manufacturer's part numbers/SKUs",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "metadata__release_year",
+    "source_path": "metadata.releaseYear",
+    "description": "Year of release",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "metadata__series",
+    "source_path": "metadata.series",
+    "description": "Product series name Use the exact reference name first; if there is no reliable reference name, use the exact source product name. Return the normalized family bucket that groups nearby SKUs together — not the full SKU and not the bare tier alone. Include the family number when the naming scheme uses one. Do NOT include the manufacturer name (Intel/AMD) in Series — that belongs in `manufacturer`. Full SKU identifiers belong in `variant`. Reject broad marketing labels like 'Intel Core Ultra Processors (Series 2)' unless they exactly match the canonical family bucket. Examples: 'Intel Core Ultra 5 250K Plus' → series='Core Ultra 5 200'. 'Intel Core i7-14700K' → series='Core i7 14000'. 'AMD Ryzen 7 9800X3D' → series='Ryzen 7 9000'. Wrong outputs for the same examples would be: 'Intel Core Ultra 5 200', 'Core Ultra 5', '250K Plus', or 'Series 2'.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "metadata__variant",
+    "source_path": "metadata.variant",
+    "description": "Specific variant in the series Use the exact model number and suffix that identify the specific SKU inside the series family bucket. Examples: 'Intel Core Ultra 5 250K Plus' → variant='250K Plus' (with series='Core Ultra 5 200'). 'Intel Core i9-14900KS' → variant='14900KS'. 'AMD Ryzen 7 9800X3D' → variant='9800X3D' (with series='Ryzen 7 9000').",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "microarchitecture",
+    "source_path": "microarchitecture",
+    "description": "The underlying design and organization of the processor's core logic (e.g., Raptor Lake Refresh, Zen 4)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "name",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "part_id",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "performance_base_clock_ghz",
+    "source_path": "clocks.performance.base",
+    "description": "The base clock speed of the performance cores in GHz",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "performance_boost_clock_ghz",
+    "source_path": "clocks.performance.boost",
+    "description": "The maximum boost clock speed of the performance cores in GHz",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "pipeline_version",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "power_limit_source_w",
+    "source_path": "specifications.ppt",
+    "description": "The Package Power Tracking limit of the CPU in Watts (maximum sustained power consumption)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "quality_issue_codes",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "quality_status",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "series",
+    "source_path": "series",
+    "description": "The normalized CPU family bucket the product belongs to (e.g., Ryzen 7 9000, Core i7 14000, Core Ultra 5 200)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "socket",
+    "source_path": "socket",
+    "description": "The physical connector on the motherboard that the CPU plugs into (e.g., LGA 1851, AM5, LGA 1700)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "source_category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "source_commit",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "source_record",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "source_weight_g",
+    "source_path": "weight",
+    "description": "Product weight in grams for one complete, usable unit of this exact variant. Exclude retail packaging, shipping materials, multipack totals, and load capacity. Leave unset when the product is digital, the weight is unknown, or the source does not clearly identify product weight.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "specifications__ecc_support",
+    "source_path": "specifications.eccSupport",
+    "description": "Whether the CPU supports Error-Correcting Code memory",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "bool"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "specifications__includes_cooler",
+    "source_path": "specifications.includesCooler",
+    "description": "Whether a cooling solution is bundled with the processor in the box",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "bool"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "specifications__integrated_graphics__base_clock",
+    "source_path": "specifications.integratedGraphics.baseClock",
+    "description": "Base clock of integrated graphics",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "specifications__integrated_graphics__boost_clock",
+    "source_path": "specifications.integratedGraphics.boostClock",
+    "description": "Boost clock of integrated graphics",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "specifications__integrated_graphics__model",
+    "source_path": "specifications.integratedGraphics.model",
+    "description": "The built-in graphics processor included on the CPU die (e.g., Intel UHD 770, AMD Radeon Graphics)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "specifications__integrated_graphics__shader_count",
+    "source_path": "specifications.integratedGraphics.shaderCount",
+    "description": "Number of shaders in the integrated graphics",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "specifications__lithography",
+    "source_path": "specifications.lithography",
+    "description": "The manufacturing process technology used. Can be multiple process technologies if chiplet design",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "specifications__memory__channels",
+    "source_path": "specifications.memory.channels",
+    "description": "Max supported memory channels",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "specifications__memory__types",
+    "source_path": "specifications.memory.types",
+    "description": "The type of RAM supported by the CPU's memory controller (e.g., DDR4, DDR5)",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "specifications__packaging",
+    "source_path": "specifications.packaging",
+    "description": "The type of packaging the CPU comes in (e.g., Boxed, OEM/Tray)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "specifications__simultaneous_multithreading",
+    "source_path": "specifications.simultaneousMultithreading",
+    "description": "Whether the CPU supports simultaneous multithreading (SMT), also known as hyperthreading",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "bool"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "tdp_w",
+    "source_path": "specifications.tdp",
+    "description": "Thermal Design Power: the maximum heat the CPU generates that the cooling system must dissipate, in Watts",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "int"
+    ]
+  },
+  {
+    "category": "cpu",
+    "column": "thread_count",
+    "source_path": "cores.threads",
+    "description": "The number of logical threads the CPU can handle",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "int"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "color",
+    "source_path": "color",
+    "description": "The color(s) of this product. Each color of the product should be included in the array. Do not use RGB here to describe lighting; use the Lighting field for RGB, ARGB, display, or fixed-color lighting. Includes heatsink or radiator assembly colors",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "cooler_type",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "cpu_sockets",
+    "source_path": "cpu_sockets",
+    "description": "An array of CPU socket types supported by the cooler (e.g., AM4, AM5, LGA 1700, LGA 1200)",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "fan_quantity",
+    "source_path": "fan_quantity",
+    "description": "Number of included fans",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "fan_size_mm",
+    "source_path": "fan_size",
+    "description": "Size of the included fan(s) in mm (e.g. 140, 120)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "fanless",
+    "source_path": "fanless",
+    "description": "Whether the cooler can operate fanless",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "general_product_information__adorama_sku",
+    "source_path": "general_product_information.adorama_sku",
+    "description": "Adorama product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "general_product_information__amazon_sku",
+    "source_path": "general_product_information.amazon_sku",
+    "description": "Amazon product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "general_product_information__bestbuy_sku",
+    "source_path": "general_product_information.bestbuy_sku",
+    "description": "Best Buy product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "general_product_information__hyte_sku",
+    "source_path": "general_product_information.hyte_sku",
+    "description": "HYTE product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "general_product_information__ibuypower_sku",
+    "source_path": "general_product_information.ibuypower_sku",
+    "description": "iBuyPower product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "general_product_information__lttstore_sku",
+    "source_path": "general_product_information.lttstore_sku",
+    "description": "LTTStore product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "general_product_information__manufacturer_url",
+    "source_path": "general_product_information.manufacturer_url",
+    "description": "Official manufacturer product URL",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "general_product_information__newegg_sku",
+    "source_path": "general_product_information.newegg_sku",
+    "description": "Newegg product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "general_product_information__walmart_sku",
+    "source_path": "general_product_information.walmart_sku",
+    "description": "Walmart product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "height_mm",
+    "source_path": "height",
+    "description": "The height of the CPU cooler in mm",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "identifiers__identifiers",
+    "source_path": "identifiers.identifiers",
+    "description": "Canonical product identifiers",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "identifiers__retailer_listings",
+    "source_path": "identifiers.retailer_listings",
+    "description": "Canonical retailer product listings used for pricing",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "identifiers__version",
+    "source_path": "identifiers.version",
+    "description": "Monotonically increasing identity snapshot version",
+    "source_type": "integer",
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "lighting",
+    "source_path": "lighting",
+    "description": "Lighting capabilities for this product. Use RGB for non-addressable RGB, ARGB for addressable RGB, Multicolor for non-RGB multi-color lighting, Fixed for a single fixed lighting color, None when the product has no lighting, Display for configurable displays, and Fixed Color Display for displays limited to fixed colors such as black and white.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "manufacturer",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "manufacturer_url",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "max_fan_rpm",
+    "source_path": "max_fan_rpm",
+    "description": "Max value of the fan's rotational speed in RPM. If constant, fill in min_fan_rpm and ignore max_fan_rpm",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "max_noise_dba",
+    "source_path": "max_noise_level",
+    "description": "The max noise level of the cooler in dB. If constant, fill in min_noise_level and ignore max_noise_level",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "metadata__last_manually_spec_verified_at",
+    "source_path": "metadata.last_manually_spec_verified_at",
+    "description": "ISO 8601 timestamp of when the part specs were last manually verified by a human",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "metadata__manufacturer",
+    "source_path": "metadata.manufacturer",
+    "description": "CPU Cooler manufacturer",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "metadata__manufacturer_color",
+    "source_path": "metadata.manufacturer_color",
+    "description": "Manufacturer's official color name for this product variant. The manufacturer's marketed colorway / finish name, verbatim. Common values: 'Black', 'White', 'Black / White'. Multi-tone coolers use ' / '. Branded special / collab colorways belong here when the rest of the SKU is identical (e.g., 'Hatsune Miku Edition'). Noctua's signature finishes ('Brown / Beige', 'chromax.black') also go here. Most stock coolers are 'Black'. Do NOT put radiator size, fan size, 'RGB', or family / model words in manufacturer_color — those belong in dedicated fields or the series.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "metadata__name",
+    "source_path": "metadata.name",
+    "description": "Full product name",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "metadata__part_numbers",
+    "source_path": "metadata.part_numbers",
+    "description": "Array of manufacturer's part numbers/SKUs",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "metadata__release_year",
+    "source_path": "metadata.releaseYear",
+    "description": "Year of release",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "metadata__series",
+    "source_path": "metadata.series",
+    "description": "Product series name The manufacturer's marketed product line / family for the cooler. Manufacturer and `water_cooled` (Liquid vs Air) are stored separately and form the default grouping; `radiator_size`, `fan_size`, `manufacturer_color`, and fan count are also separate fields and MUST NOT be in the series. Examples: 'NZXT Kraken Plus 360mm Black' → series='Kraken Plus' (liquid). 'Corsair iCUE H150i Elite Capellix XT' → series='iCUE Elite Capellix XT' (the H150i prefix encodes radiator size, which lives in `radiator_size`). 'Noctua NH-D15' → series='NH-D15' (air). The series stays consistent across radiator-size / color SKUs of the same product line.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "metadata__variant",
+    "source_path": "metadata.variant",
+    "description": "Specific variant in the series Most coolers should have an empty variant. Radiator size lives in `radiator_size`, fan size in `fan_size`, fan count in `fan_quantity`, color (including Noctua's `chromax.black` / `chromax.black.swap`) in `manufacturer_color`. Only fill `variant` when the manufacturer ships a genuinely distinct sub-model under the same series name that is NOT captured by another field (different cold-plate, regional / OEM-only spin, named accessory kit). Examples: 'NZXT Kraken Plus 240mm Black' / 'NZXT Kraken Plus 360mm Black' → variant='' for both (only `radiator_size` differs). 'Noctua NH-D15 chromax.black' → variant='' with manufacturer_color='chromax.black'. 'be quiet! Dark Rock Pro 5' (single SKU per family) → variant=''. The variant must be unique within a (manufacturer, series, water_cooled, manufacturer_color, radiator_size, fan_size) group; if every cooler collapses to the same value, leave it empty.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "min_fan_rpm",
+    "source_path": "min_fan_rpm",
+    "description": "Min value of the fan's rotational speed in RPM. If constant, fill in min_fan_rpm and ignore max_fan_rpm",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "min_noise_dba",
+    "source_path": "min_noise_level",
+    "description": "The min noise level of the cooler in dB. If constant, fill in min_noise_level and ignore max_noise_level",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "name",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "part_id",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "pipeline_version",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "quality_issue_codes",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "quality_status",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "radiator_size_mm",
+    "source_path": "radiator_size",
+    "description": "Radiator size in mm (e.g. 360, 280, 240). Populate this for water-cooled models.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "source_category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "source_commit",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "source_record",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "source_weight_g",
+    "source_path": "weight",
+    "description": "Product weight in grams for one complete, usable unit of this exact variant. Exclude retail packaging, shipping materials, multipack totals, and load capacity. Leave unset when the product is digital, the weight is unknown, or the source does not clearly identify product weight.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "cpu_cooler",
+    "column": "water_cooled",
+    "source_path": "water_cooled",
+    "description": "Indicates if the cooler is water-cooled",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "base_clock_mhz",
+    "source_path": "core_base_clock",
+    "description": "The base clock speed of the GPU core in MHz",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "boost_clock_mhz",
+    "source_path": "core_boost_clock",
+    "description": "The boost clock speed of the GPU core in MHz",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "case_expansion_slot_width",
+    "source_path": "case_expansion_slot_width",
+    "description": "The number of case expansion slot widths the card occupies",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "chipset",
+    "source_path": "chipset",
+    "description": "The specific GPU chipset (e.g., GeForce RTX 4090, Radeon RX 7900 XTX, ARC B580)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "chipset_manufacturer",
+    "source_path": "chipset_manufacturer",
+    "description": "Manufacturer of the GPU chipset (e.g., NVIDIA, AMD, Intel)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "color",
+    "source_path": "color",
+    "description": "The color(s) of this product. Each color of the product should be included in the array. Do not use RGB here to describe lighting; use the Lighting field for RGB, ARGB, display, or fixed-color lighting. Includes shroud and backplate colors",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "cooling",
+    "source_path": "cooling",
+    "description": "The type of cooling solution (e.g., 3 Fans, 2 Fans, Blower, Water Cooled)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "core_count",
+    "source_path": "core_count",
+    "description": "Number of cores/shaders in the GPU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "display_outputs",
+    "source_path": "display_outputs",
+    "description": "Confirmed video output groups that send video from this exact source product to an external display. Do not enter input-only ports, ordinary USB data ports, or raw legacy connector text. Legacy video-port counts are migration candidates, not automatic evidence.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "fan_quantity",
+    "source_path": "fan_quantity",
+    "description": "Number of fans included with the external GPU radiator",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "fan_size",
+    "source_path": "fan_size",
+    "description": "Size of the included external-radiator fan(s) in mm (for example 120 or 140)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "frame_sync",
+    "source_path": "frame_sync",
+    "description": "The frame synchronization technology supported (e.g., G-Sync, FreeSync, None)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "general_product_information__adorama_sku",
+    "source_path": "general_product_information.adorama_sku",
+    "description": "Adorama product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "general_product_information__amazon_sku",
+    "source_path": "general_product_information.amazon_sku",
+    "description": "Amazon product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "general_product_information__bestbuy_sku",
+    "source_path": "general_product_information.bestbuy_sku",
+    "description": "Best Buy product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "general_product_information__hyte_sku",
+    "source_path": "general_product_information.hyte_sku",
+    "description": "HYTE product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "general_product_information__ibuypower_sku",
+    "source_path": "general_product_information.ibuypower_sku",
+    "description": "iBuyPower product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "general_product_information__lttstore_sku",
+    "source_path": "general_product_information.lttstore_sku",
+    "description": "LTTStore product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "general_product_information__manufacturer_url",
+    "source_path": "general_product_information.manufacturer_url",
+    "description": "Official manufacturer product URL",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "general_product_information__newegg_sku",
+    "source_path": "general_product_information.newegg_sku",
+    "description": "Newegg product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "general_product_information__walmart_sku",
+    "source_path": "general_product_information.walmart_sku",
+    "description": "Walmart product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "identifiers__identifiers",
+    "source_path": "identifiers.identifiers",
+    "description": "Canonical product identifiers",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "identifiers__retailer_listings",
+    "source_path": "identifiers.retailer_listings",
+    "description": "Canonical retailer product listings used for pricing",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "identifiers__version",
+    "source_path": "identifiers.version",
+    "description": "Monotonically increasing identity snapshot version",
+    "source_type": "integer",
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "interface",
+    "source_path": "interface",
+    "description": "The interface used by the graphics card (e.g., PCIe 4.0 x16, PCIe 5.0 x16)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "length_mm",
+    "source_path": "length",
+    "description": "The length of the graphics card in mm",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "lighting",
+    "source_path": "lighting",
+    "description": "Lighting capabilities for this product. Use RGB for non-addressable RGB, ARGB for addressable RGB, Multicolor for non-RGB multi-color lighting, Fixed for a single fixed lighting color, None when the product has no lighting, Display for configurable displays, and Fixed Color Display for displays limited to fixed colors such as black and white.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "manufacturer",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "manufacturer_url",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "memory_bus_bits",
+    "source_path": "memory_bus",
+    "description": "Memory bus width in bits",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "memory_type",
+    "source_path": "memory_type",
+    "description": "The type of video memory (e.g., GDDR6X, GDDR6)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "metadata__last_manually_spec_verified_at",
+    "source_path": "metadata.last_manually_spec_verified_at",
+    "description": "ISO 8601 timestamp of when the part specs were last manually verified by a human",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "metadata__manufacturer",
+    "source_path": "metadata.manufacturer",
+    "description": "GPU manufacturer Use the board partner / card manufacturer, not the chipset designer unless they are the same. Examples: ASUS, MSI, EVGA, Gigabyte, Zotac, Sapphire, XFX, PowerColor.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "metadata__manufacturer_color",
+    "source_path": "metadata.manufacturer_color",
+    "description": "Manufacturer's official color name for this product variant. The manufacturer's marketed colorway / finish name, verbatim. Common values: 'Black', 'Black / Silver', 'White'. Multi-tone cards use ' / ' (e.g., 'Black / Silver'). Branded special / collab editions belong here when the rest of the SKU is identical to a same-tier card (e.g., 'HATSUNE MIKU Edition', 'Noctua Edition'). Most stock cards are 'Black'. Do NOT put clock-tier or SKU descriptors like 'OC', 'OC Edition', 'FTW3', 'Vapor-X' in manufacturer_color — those belong in the variant.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "metadata__name",
+    "source_path": "metadata.name",
+    "description": "Full product name",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "metadata__part_numbers",
+    "source_path": "metadata.part_numbers",
+    "description": "Array of manufacturer's part numbers/SKUs",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "metadata__release_year",
+    "source_path": "metadata.releaseYear",
+    "description": "Year of release",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "metadata__series",
+    "source_path": "metadata.series",
+    "description": "Product series name The manufacturer's sub-brand or product line that groups related cards. Manufacturer and chipset are stored separately and combined automatically, so do NOT repeat them here. Examples: 'ASUS ROG Astral OC GeForce RTX 5090' → series='ROG Astral'. 'MSI Gaming X Trio GeForce RTX 4090' → series='Gaming X Trio'. 'Sapphire Nitro+ Radeon RX 7900 XTX Vapor-X' → series='Nitro+'. Do NOT include OC/variant suffixes, memory size, or color in the series.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "metadata__variant",
+    "source_path": "metadata.variant",
+    "description": "Specific variant in the series The SKU-level differentiator inside a (manufacturer, chipset, series) group. It is almost always a clock tier or model line suffix (`OC`, `OC Edition`, `Vapor-X`, `FTW3`). It is NOT the color and NOT the named edition (those go in `manufacturer_color`). Examples: 'Asus ROG Astral OC GeForce RTX 5080 16GB' → variant='OC'. 'Asus ROG Astral OC HATSUNE MIKU EDITION GeForce RTX 5080' → variant='OC' with manufacturer_color='HATSUNE MIKU Edition'. 'MSI Gaming X Trio GeForce RTX 4090' (base) → variant=''. The variant must be unique within a (manufacturer, chipset, series, manufacturer_color) group — if two cards collapse to the same variant AND the same manufacturer_color, you are missing a differentiator.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "name",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "part_id",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "pipeline_version",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "power_connectors__pcie_12_v_2x6",
+    "source_path": "power_connectors.pcie_12V_2x6",
+    "description": "Number of 12V_2x6 PCIe connectors (12V-2x6/ATX 3.1, 600W)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "power_connectors__pcie_12_vhpwr",
+    "source_path": "power_connectors.pcie_12VHPWR",
+    "description": "Number of 12VHPWR PCIe connectors (12VHPWR/PCIe 5.0, 600W)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "power_connectors__pcie_6_pin",
+    "source_path": "power_connectors.pcie_6_pin",
+    "description": "Number of 6-pin PCIe connectors (75W each)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "power_connectors__pcie_8_pin",
+    "source_path": "power_connectors.pcie_8_pin",
+    "description": "Number of 8-pin PCIe connectors (150W each). A 16-pin PCIe connector is 2x 8-pin PCIe connectors.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "quality_issue_codes",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "quality_status",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "radiator_size",
+    "source_path": "radiator_size",
+    "description": "External radiator size in mm (for example 120, 240, or 360) Populate this only for liquid or hybrid GPUs that include an external radiator.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "source_category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "source_commit",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "source_effective_memory_clock_mhz",
+    "source_path": "effective_memory_clock",
+    "description": "Effective memory clock in MHz",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "source_record",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "source_weight_g",
+    "source_path": "weight",
+    "description": "Product weight in grams for one complete, usable unit of this exact variant. Exclude retail packaging, shipping materials, multipack totals, and load capacity. Leave unset when the product is digital, the weight is unknown, or the source does not clearly identify product weight.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "tdp_w",
+    "source_path": "tdp",
+    "description": "The Thermal Design Power of the graphics card in Watts",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "total_slot_width",
+    "source_path": "total_slot_width",
+    "description": "The total slot width the card occupies, accounting for cooler size",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__displayport_1_4a",
+    "source_path": "video_outputs.displayport_1_4a",
+    "description": "Number of DisplayPort 1.4a ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__displayport_2_1",
+    "source_path": "video_outputs.displayport_2_1",
+    "description": "Number of DisplayPort 2.1 ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__displayport_2_1_b",
+    "source_path": "video_outputs.displayport_2_1_b",
+    "description": "Number of DisplayPort 2.1b ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__displayport_2_1a",
+    "source_path": "video_outputs.displayport_2_1a",
+    "description": "Number of DisplayPort 2.1a ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__dvi_d",
+    "source_path": "video_outputs.dvi_d",
+    "description": "Number of DVI-D ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__hdmi_2_0",
+    "source_path": "video_outputs.hdmi_2_0",
+    "description": "Number of HDMI 2.0 ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__hdmi_2_0a",
+    "source_path": "video_outputs.hdmi_2_0a",
+    "description": "Number of HDMI 2.0a ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__hdmi_2_0b",
+    "source_path": "video_outputs.hdmi_2_0b",
+    "description": "Number of HDMI 2.0b ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__hdmi_2_1",
+    "source_path": "video_outputs.hdmi_2_1",
+    "description": "Number of HDMI 2.1 ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__hdmi_2_1a",
+    "source_path": "video_outputs.hdmi_2_1a",
+    "description": "Number of HDMI 2.1a ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__hdmi_2_1b",
+    "source_path": "video_outputs.hdmi_2_1b",
+    "description": "Number of HDMI 2.1b ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__hdmi_2_2",
+    "source_path": "video_outputs.hdmi_2_2",
+    "description": "Number of HDMI 2.2 ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__usb_c",
+    "source_path": "video_outputs.usb_c",
+    "description": "Number of USB-C ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "video_outputs__vga",
+    "source_path": "video_outputs.vga",
+    "description": "Number of VGA ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "gpu",
+    "column": "vram_gb",
+    "source_path": "memory",
+    "description": "The amount of video memory in GB",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "cache_mb",
+    "source_path": "cache",
+    "description": "The cache size of the drive in MB.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "capacity_gb",
+    "source_path": "capacity",
+    "description": "The storage capacity of the drive in GB (e.g., 4000 GB)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "int"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "form_factor",
+    "source_path": "form_factor",
+    "description": "The physical size and shape of the drive (e.g., M.2-2280, 2.5\", 3.5\")",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "general_product_information__adorama_sku",
+    "source_path": "general_product_information.adorama_sku",
+    "description": "Adorama product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "general_product_information__amazon_sku",
+    "source_path": "general_product_information.amazon_sku",
+    "description": "Amazon product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "general_product_information__bestbuy_sku",
+    "source_path": "general_product_information.bestbuy_sku",
+    "description": "Best Buy product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "general_product_information__hyte_sku",
+    "source_path": "general_product_information.hyte_sku",
+    "description": "HYTE product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "general_product_information__ibuypower_sku",
+    "source_path": "general_product_information.ibuypower_sku",
+    "description": "iBuyPower product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "general_product_information__lttstore_sku",
+    "source_path": "general_product_information.lttstore_sku",
+    "description": "LTTStore product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "general_product_information__manufacturer_url",
+    "source_path": "general_product_information.manufacturer_url",
+    "description": "Official manufacturer product URL",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "general_product_information__newegg_sku",
+    "source_path": "general_product_information.newegg_sku",
+    "description": "Newegg product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "general_product_information__walmart_sku",
+    "source_path": "general_product_information.walmart_sku",
+    "description": "Walmart product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "identifiers__identifiers",
+    "source_path": "identifiers.identifiers",
+    "description": "Canonical product identifiers",
+    "source_type": "array",
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "identifiers__retailer_listings",
+    "source_path": "identifiers.retailer_listings",
+    "description": "Canonical retailer product listings used for pricing",
+    "source_type": "array",
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "identifiers__version",
+    "source_path": "identifiers.version",
+    "description": "Monotonically increasing identity snapshot version",
+    "source_type": "integer",
+    "observed_types": [
+      "int"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "interface",
+    "source_path": "interface",
+    "description": "The interface used by the drive (e.g., M.2 PCIe 4.0 X4, SATA 6Gb/s)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "interface_family",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "lighting",
+    "source_path": "lighting",
+    "description": "Lighting capabilities for this product. Use RGB for non-addressable RGB, ARGB for addressable RGB, Multicolor for non-RGB multi-color lighting, Fixed for a single fixed lighting color, None when the product has no lighting, Display for configurable displays, and Fixed Color Display for displays limited to fixed colors such as black and white.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "manufacturer",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "manufacturer_url",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "metadata__last_manually_spec_verified_at",
+    "source_path": "metadata.last_manually_spec_verified_at",
+    "description": "ISO 8601 timestamp of when the part specs were last manually verified by a human",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "metadata__manufacturer",
+    "source_path": "metadata.manufacturer",
+    "description": "Storage manufacturer",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "metadata__name",
+    "source_path": "metadata.name",
+    "description": "Full product name",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "metadata__part_numbers",
+    "source_path": "metadata.part_numbers",
+    "description": "Array of manufacturer's part numbers/SKUs",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "metadata__release_year",
+    "source_path": "metadata.releaseYear",
+    "description": "Year of release",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "metadata__series",
+    "source_path": "metadata.series",
+    "description": "Product series name The manufacturer's marketed product line / family for the drive. Manufacturer, `capacity`, `form_factor`, `interface`, `storage_type` (SSD vs HDD), and `nvme` are all stored separately and MUST NOT be repeated in the series. Capacity is NEVER part of the series. Examples: 'Samsung 990 Pro 2TB M.2-2280' → series='990 Pro'. 'WD_BLACK SN850X 2TB' → series='WD_BLACK SN850X' (the color tier is part of WD's marketed family name and IS part of the series for WD). 'Crucial MX500 1TB 2.5\" SATA' → series='MX500'. The series stays consistent across capacity tiers of the same product line.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "metadata__variant",
+    "source_path": "metadata.variant",
+    "description": "Specific variant in the series Most drives should have an empty variant — capacity, form factor, interface, NVMe, and storage type are all stored in their own fields. The most common non-empty case is a heatsink-bundled SKU vs the bare-drive SKU of the same series + capacity. Examples: 'Samsung 990 Pro 2TB' (bare) → variant=''. 'Samsung 990 Pro 2TB with Heatsink' → variant='Heatsink'. 'Seagate FireCuda 530 1TB Heatsink (PS5)' → variant='Heatsink'. The variant must be unique within a (manufacturer, series, capacity, form_factor, interface) group; if every drive collapses to the same value, leave it empty.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "name",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "nvme",
+    "source_path": "nvme",
+    "description": "Whether the drive uses the NVMe protocol. Only applicable to SSDs",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "bool"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "part_id",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "pipeline_version",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "quality_issue_codes",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "quality_status",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "source_category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "source_commit",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "source_record",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "source_weight_g",
+    "source_path": "weight",
+    "description": "Product weight in grams for one complete, usable unit of this exact variant. Exclude retail packaging, shipping materials, multipack totals, and load capacity. Leave unset when the product is digital, the weight is unknown, or the source does not clearly identify product weight.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "hdd",
+    "column": "storage_type",
+    "source_path": "storage_type",
+    "description": "The type of storage drive (either HDD or SSD)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "audio__channels",
+    "source_path": "audio.channels",
+    "description": "Number of audio channels supported",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "audio__chipset",
+    "source_path": "audio.chipset",
+    "description": "Details on the audio chipset used",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "back_connect_connectors",
+    "source_path": "back_connect_connectors",
+    "description": "Whether the motherboard uses back-connect connectors",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "back_panel_ports",
+    "source_path": "back_panel_ports",
+    "description": "This is a list of ports on the back of the motherboard.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "bios_features__clear_cmos",
+    "source_path": "bios_features.clear_cmos",
+    "description": "Whether the board has a clear CMOS button",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "bios_features__flashback",
+    "source_path": "bios_features.flashback",
+    "description": "Whether the board has BIOS flashback capability",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "chipset",
+    "source_path": "chipset",
+    "description": "The chipset used by the motherboard (e.g., Intel Z790, AMD X670E)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "color",
+    "source_path": "color",
+    "description": "The color(s) of this product. Each color of the product should be included in the array. Do not use RGB here to describe lighting; use the Lighting field for RGB, ARGB, display, or fixed-color lighting. Includes PCB and heatsink colors",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "display_outputs",
+    "source_path": "display_outputs",
+    "description": "Confirmed video output groups that send video from this exact source product to an external display. Do not enter input-only ports, ordinary USB data ports, or raw legacy connector text. Legacy video-port counts are migration candidates, not automatic evidence.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "ecc_support",
+    "source_path": "ecc_support",
+    "description": "Whether the motherboard supports ECC memory",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "fan_headers__case_fan",
+    "source_path": "fan_headers.case_fan",
+    "description": "Number of case/chassis fan headers (typically 4-pin PWM)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "fan_headers__cpu_fan",
+    "source_path": "fan_headers.cpu_fan",
+    "description": "Number of CPU fan headers (typically 4-pin PWM)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "fan_headers__cpu_opt",
+    "source_path": "fan_headers.cpu_opt",
+    "description": "Number of CPU optional fan headers",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "fan_headers__pump",
+    "source_path": "fan_headers.pump",
+    "description": "Number of dedicated pump headers for AIO coolers",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "form_factor",
+    "source_path": "form_factor",
+    "description": "The physical size and layout of the motherboard (e.g., ATX, Micro ATX, Mini-ITX)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "front_panel_headers__hdd_led",
+    "source_path": "front_panel_headers.hdd_led",
+    "description": "Whether the motherboard has an HDD activity LED header",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "front_panel_headers__power_button",
+    "source_path": "front_panel_headers.power_button",
+    "description": "Whether the motherboard has a power button header",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "front_panel_headers__power_led",
+    "source_path": "front_panel_headers.power_led",
+    "description": "Whether the motherboard has a power LED header",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "front_panel_headers__reset_button",
+    "source_path": "front_panel_headers.reset_button",
+    "description": "Whether the motherboard has a reset button header",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "general_product_information__adorama_sku",
+    "source_path": "general_product_information.adorama_sku",
+    "description": "Adorama product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "general_product_information__amazon_sku",
+    "source_path": "general_product_information.amazon_sku",
+    "description": "Amazon product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "general_product_information__bestbuy_sku",
+    "source_path": "general_product_information.bestbuy_sku",
+    "description": "Best Buy product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "general_product_information__hyte_sku",
+    "source_path": "general_product_information.hyte_sku",
+    "description": "HYTE product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "general_product_information__ibuypower_sku",
+    "source_path": "general_product_information.ibuypower_sku",
+    "description": "iBuyPower product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "general_product_information__lttstore_sku",
+    "source_path": "general_product_information.lttstore_sku",
+    "description": "LTTStore product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "general_product_information__manufacturer_url",
+    "source_path": "general_product_information.manufacturer_url",
+    "description": "Official manufacturer product URL",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "general_product_information__newegg_sku",
+    "source_path": "general_product_information.newegg_sku",
+    "description": "Newegg product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "general_product_information__walmart_sku",
+    "source_path": "general_product_information.walmart_sku",
+    "description": "Walmart product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "identifiers__identifiers",
+    "source_path": "identifiers.identifiers",
+    "description": "Canonical product identifiers",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "identifiers__retailer_listings",
+    "source_path": "identifiers.retailer_listings",
+    "description": "Canonical retailer product listings used for pricing",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "identifiers__version",
+    "source_path": "identifiers.version",
+    "description": "Monotonically increasing identity snapshot version",
+    "source_type": "integer",
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "lighting",
+    "source_path": "lighting",
+    "description": "Lighting capabilities for this product. Use RGB for non-addressable RGB, ARGB for addressable RGB, Multicolor for non-RGB multi-color lighting, Fixed for a single fixed lighting color, None when the product has no lighting, Display for configurable displays, and Fixed Color Display for displays limited to fixed colors such as black and white.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "m2_slots",
+    "source_path": "m2_slots",
+    "description": "M.2 slots on the motherboard. For every slot that is supported, add an object to the array. E.g. for a motherboard with 4 M.2 slots, add 4 objects to the array.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "manufacturer",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "manufacturer_url",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "max_memory_gb",
+    "source_path": "memory.max",
+    "description": "The maximum amount of RAM the motherboard can support in GB",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "memory_slot_count",
+    "source_path": "memory.slots",
+    "description": "The number of RAM slots on the motherboard",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "metadata__last_manually_spec_verified_at",
+    "source_path": "metadata.last_manually_spec_verified_at",
+    "description": "ISO 8601 timestamp of when the part specs were last manually verified by a human",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "metadata__manufacturer",
+    "source_path": "metadata.manufacturer",
+    "description": "Motherboard manufacturer",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "metadata__manufacturer_color",
+    "source_path": "metadata.manufacturer_color",
+    "description": "Manufacturer's official color name for this product variant. The manufacturer's marketed colorway name when one exists; otherwise derive a simple human-readable color from the product images (do not infer color from words in the title). Common values: 'Black' (most stock boards), 'White', 'White / Silver'. Branded special editions belong here when the manufacturer markets them as a distinct colorway (e.g., 'HATSUNE MIKU EDITION'). Examples: standard ROG STRIX X870E-E in black → 'Black'. White ROG CROSSHAIR X870E GLACIAL → 'White' (GLACIAL is the model variant, not the colorway). Hatsune Miku ROG STRIX X870E-H Gaming → 'HATSUNE MIKU EDITION'. Do NOT put model descriptors like `HERO`, `APEX`, `EXTREME`, `GLACIAL`, `Creator` in manufacturer_color — those belong in the variant.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "metadata__name",
+    "source_path": "metadata.name",
+    "description": "Full product name",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "metadata__part_numbers",
+    "source_path": "metadata.part_numbers",
+    "description": "Array of manufacturer's part numbers/SKUs",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "metadata__release_year",
+    "source_path": "metadata.releaseYear",
+    "description": "Year of release",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "metadata__series",
+    "source_path": "metadata.series",
+    "description": "Product series name The manufacturer's sub-brand or product line that groups related boards. Manufacturer, chipset, and memory type are stored separately and used as the default variant grouping, so do NOT repeat any of them in the series. Examples: 'Asus ROG CROSSHAIR X870E HERO WIFI DDR5 ATX' → series='ROG CROSSHAIR'. 'Gigabyte X870E AORUS MASTER' → series='AORUS'. 'MSI MEG X870E GODLIKE' → series='MEG'. The series stays consistent across multiple chipset generations of the same product line.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "metadata__variant",
+    "source_path": "metadata.variant",
+    "description": "Specific variant in the series The full board model identifier inside the series. It MUST include the chipset SKU as the manufacturer prints it (e.g., `X870E`, `X870E-E`, `X870E-PLUS`, `B650M-A`) plus any model descriptor that distinguishes it from siblings (`HERO`, `APEX`, `EXTREME`, `MASTER`, `Creator`, etc.). Include `WIFI` / `WIFI7` / `BT` tokens ONLY when they appear in the manufacturer's printed model name on the box; the full WiFi standard still goes in `wireless_networking`. Do NOT include the manufacturer, the broad series, the form factor, or memory type — those are stored separately. Examples: 'Asus ROG CROSSHAIR X870E HERO WIFI DDR5 ATX' → variant='X870E HERO WIFI'. 'Asus X870E-PLUS TUF GAMING WIFI7' → variant='X870E-PLUS WIFI7'. 'ASUS ROG CROSSHAIR X870E GLACIAL' → variant='X870E GLACIAL'. The variant must be unique within a (manufacturer, chipset, memory type) group — if two boards collapse to the same variant string, you are missing a model descriptor.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "name",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "onboard_ethernet",
+    "source_path": "onboard_ethernet",
+    "description": "Source field; see upstream schema/raw record",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "other_headers__com_port",
+    "source_path": "other_headers.com_port",
+    "description": "Number of COM port headers",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "other_headers__temperature_sensor",
+    "source_path": "other_headers.temperature_sensor",
+    "description": "Number of temperature sensor headers",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "other_headers__thunderbolt",
+    "source_path": "other_headers.thunderbolt",
+    "description": "Number of Thunderbolt headers",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "part_id",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "pcie_slots",
+    "source_path": "pcie_slots",
+    "description": "PCIe slots on the motherboard. E.g. a motherboard with 4 PCIe x16 slots, 2 PCIe x8 slots, and 1 PCIe x4 slot would be represented as an array with 3 objects. Be careful on this section and use all available info to make your decision including obvious pcie slots on the motherboard images if provided.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "pipeline_version",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "power_connectors__cpu_power",
+    "source_path": "power_connectors.cpu_power",
+    "description": "CPU power connector specifications (e.g., ['8-pin', '8-pin'] for dual 8-pin)",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "power_connectors__main_power",
+    "source_path": "power_connectors.main_power",
+    "description": "Main power connector specification (e.g., '24-pin')",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "quality_issue_codes",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "quality_status",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "raid_support",
+    "source_path": "raid_support",
+    "description": "Whether the motherboard supports RAID configurations",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "ram_type",
+    "source_path": "memory.ram_type",
+    "description": "The type of RAM supported (e.g., DDR5, DDR4)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "rgb_headers__argb_5v",
+    "source_path": "rgb_headers.argb_5v",
+    "description": "Number of addressable RGB headers (5V, 3-pin)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "rgb_headers__rgb_12v",
+    "source_path": "rgb_headers.rgb_12v",
+    "description": "Number of standard RGB headers (12V, 4-pin)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "socket",
+    "source_path": "socket",
+    "description": "The CPU socket type supported by the motherboard. E.g. AM4, AM5, LGA 1700, LGA 2066, TR5, etc.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "source_category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "source_commit",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "source_record",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "source_weight_g",
+    "source_path": "weight",
+    "description": "Product weight in grams for one complete, usable unit of this exact variant. Exclude retail packaging, shipping materials, multipack totals, and load capacity. Leave unset when the product is digital, the weight is unknown, or the source does not clearly identify product weight.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "storage_devices__sata_3_gb_s",
+    "source_path": "storage_devices.sata_3_gb_s",
+    "description": "Number of SATA 3 Gb/s ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "storage_devices__sata_6_gb_s",
+    "source_path": "storage_devices.sata_6_gb_s",
+    "description": "Number of SATA 6 Gb/s ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "storage_devices__u2",
+    "source_path": "storage_devices.u2",
+    "description": "Number of U.2 ports",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "usb_headers__usb_2_0",
+    "source_path": "usb_headers.usb_2_0",
+    "description": "Number of USB 2.0 headers",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "usb_headers__usb_3_2_gen_1",
+    "source_path": "usb_headers.usb_3_2_gen_1",
+    "description": "Number of USB 3.2 Gen 1 headers. This is also known as USB 5Gbps.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "usb_headers__usb_3_2_gen_2",
+    "source_path": "usb_headers.usb_3_2_gen_2",
+    "description": "Number of USB 3.2 Gen 2 headers. This is also known as USB 10Gbps.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "usb_headers__usb_3_2_gen_2x2",
+    "source_path": "usb_headers.usb_3_2_gen_2x2",
+    "description": "Number of USB 3.2 Gen 2x2 headers. This is also known as USB 20Gbps.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "usb_headers__usb_4",
+    "source_path": "usb_headers.usb_4",
+    "description": "Number of USB 4 headers. This is also known as USB 40Gbps.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "usb_headers__usb_4_80g",
+    "source_path": "usb_headers.usb_4_80g",
+    "description": "Number of USB 4 headers. This is also known as USB 80Gbps.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "motherboard",
+    "column": "wireless_networking",
+    "source_path": "wireless_networking",
+    "description": "Supported wifi standards. E.g. Wifi 6E, Wifi 7, etc",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "color",
+    "source_path": "color",
+    "description": "The color(s) of this product. Each color of the product should be included in the array. Do not use RGB here to describe lighting; use the Lighting field for RGB, ARGB, display, or fixed-color lighting. Includes the casing color",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "connectors__atx_24_pin",
+    "source_path": "connectors.atx_24_pin",
+    "description": "The number of ATX 24-pin (20+4) connectors (main motherboard power)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "connectors__eps_8_pin",
+    "source_path": "connectors.eps_8_pin",
+    "description": "The number of EPS12V 8-pin (4+4) connectors (CPU power)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "connectors__floppy_4_pin",
+    "source_path": "connectors.floppy_4_pin",
+    "description": "The number of Floppy 4-pin connectors. Increasingly rare.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "connectors__molex_4_pin",
+    "source_path": "connectors.molex_4_pin",
+    "description": "The number of Molex 4-pin peripheral connectors (for older devices)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "connectors__pcie_12vhpwr",
+    "source_path": "connectors.pcie_12vhpwr",
+    "description": "The number of PCIe 5.0 12VHPWR (12+4) pin connectors (for high-end GPUs). Also referred to as 16-pin (12+4).",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "connectors__pcie_6_plus_2_pin",
+    "source_path": "connectors.pcie_6_plus_2_pin",
+    "description": "The number of PCIe 6+2-pin connectors (commonly used for GPUs)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "connectors__sata",
+    "source_path": "connectors.sata",
+    "description": "The number of SATA power connectors",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "cybernetics_efficiency_rating",
+    "source_path": "cybernetics_efficiency_rating",
+    "description": "The Cybernetics efficiency rating of the PSU (e.g., Cybenetics Titanium)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "cybernetics_noise_rating",
+    "source_path": "cybernetics_noise_rating",
+    "description": "The Cybernetics noise rating of the PSU (e.g., Cybernetics A++)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "efficiency_rating",
+    "source_path": "efficiency_rating",
+    "description": "The 80 PLUS efficiency certification level (e.g., 80 PLUS Gold)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "fanless",
+    "source_path": "fanless",
+    "description": "Whether the PSU operates without a fan",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "form_factor",
+    "source_path": "form_factor",
+    "description": "The physical size and shape of the PSU (e.g., ATX)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "general_product_information__adorama_sku",
+    "source_path": "general_product_information.adorama_sku",
+    "description": "Adorama product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "general_product_information__amazon_sku",
+    "source_path": "general_product_information.amazon_sku",
+    "description": "Amazon product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "general_product_information__bestbuy_sku",
+    "source_path": "general_product_information.bestbuy_sku",
+    "description": "Best Buy product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "general_product_information__hyte_sku",
+    "source_path": "general_product_information.hyte_sku",
+    "description": "HYTE product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "general_product_information__ibuypower_sku",
+    "source_path": "general_product_information.ibuypower_sku",
+    "description": "iBuyPower product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "general_product_information__lttstore_sku",
+    "source_path": "general_product_information.lttstore_sku",
+    "description": "LTTStore product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "general_product_information__manufacturer_url",
+    "source_path": "general_product_information.manufacturer_url",
+    "description": "Official manufacturer product URL",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "general_product_information__newegg_sku",
+    "source_path": "general_product_information.newegg_sku",
+    "description": "Newegg product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "general_product_information__walmart_sku",
+    "source_path": "general_product_information.walmart_sku",
+    "description": "Walmart product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "identifiers__identifiers",
+    "source_path": "identifiers.identifiers",
+    "description": "Canonical product identifiers",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "identifiers__retailer_listings",
+    "source_path": "identifiers.retailer_listings",
+    "description": "Canonical retailer product listings used for pricing",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "identifiers__version",
+    "source_path": "identifiers.version",
+    "description": "Monotonically increasing identity snapshot version",
+    "source_type": "integer",
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "length_mm",
+    "source_path": "length",
+    "description": "The length of the PSU in mm (e.g., 140)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "lighting",
+    "source_path": "lighting",
+    "description": "Lighting capabilities for this product. Use RGB for non-addressable RGB, ARGB for addressable RGB, Multicolor for non-RGB multi-color lighting, Fixed for a single fixed lighting color, None when the product has no lighting, Display for configurable displays, and Fixed Color Display for displays limited to fixed colors such as black and white.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "manufacturer",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "manufacturer_url",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "metadata__last_manually_spec_verified_at",
+    "source_path": "metadata.last_manually_spec_verified_at",
+    "description": "ISO 8601 timestamp of when the part specs were last manually verified by a human",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "metadata__manufacturer",
+    "source_path": "metadata.manufacturer",
+    "description": "Power Supply manufacturer",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "metadata__manufacturer_color",
+    "source_path": "metadata.manufacturer_color",
+    "description": "Manufacturer's official color name for this product variant. The manufacturer's marketed colorway / casing finish name, verbatim. Common values: 'Black', 'White', 'Black / White'. Branded special / collab colorways belong here when the rest of the SKU is identical (e.g., 'Hatsune Miku Edition'). Most stock PSUs are 'Black'. Do NOT put wattage, efficiency, modularity, form factor, or family / model words like 'RMx', 'Prime' in manufacturer_color — those belong in dedicated fields or the series.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "metadata__name",
+    "source_path": "metadata.name",
+    "description": "Full product name",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "metadata__part_numbers",
+    "source_path": "metadata.part_numbers",
+    "description": "Array of manufacturer's part numbers/SKUs",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "metadata__release_year",
+    "source_path": "metadata.releaseYear",
+    "description": "Year of release",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "metadata__series",
+    "source_path": "metadata.series",
+    "description": "Product series name The manufacturer's marketed product line / family for the PSU. Manufacturer, wattage (`wattage`), form factor (`form_factor`), modularity (`modular`), and efficiency rating (`efficiency_rating`) are stored separately, so do NOT repeat any of them in the series. Wattage is NEVER part of the series. Examples: 'Corsair RM1000x 1000W 80+ Gold' → series='RMx'. 'Seasonic Prime TX-1600 ATX 3.1' → series='Prime TX'. 'ASUS ROG Loki SFX-L 1000W Platinum' → series='ROG Loki SFX-L'.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "metadata__variant",
+    "source_path": "metadata.variant",
+    "description": "Specific variant in the series Most PSUs should have an empty variant. Wattage, efficiency rating, form factor, modularity, length, and color are all stored in their own fields. Only fill `variant` when the manufacturer ships a genuinely distinct sub-model under the same series + wattage that needs its own selector — for example a marketed hardware revision (`2024` refresh, `R2`) or an ATX spec refresh sold next to the previous SKU. Examples: 'Corsair RM1000x' → variant=''. 'Corsair RM1000x 2024' → variant='2024'. The variant must be unique within a (manufacturer, series, wattage, manufacturer_color) group; if every PSU in a group ends up with the same value, leave it empty.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "modular",
+    "source_path": "modular",
+    "description": "The modularity of the PSU cables (e.g., Full, Semi-Modular, Non-Modular)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "name",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "part_id",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "pipeline_version",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "quality_issue_codes",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "quality_status",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "source_category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "source_commit",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "source_record",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "source_weight_g",
+    "source_path": "weight",
+    "description": "Product weight in grams for one complete, usable unit of this exact variant. Exclude retail packaging, shipping materials, multipack totals, and load capacity. Leave unset when the product is digital, the weight is unknown, or the source does not clearly identify product weight.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float"
+    ]
+  },
+  {
+    "category": "psu",
+    "column": "wattage_w",
+    "source_path": "wattage",
+    "description": "The total power output of the PSU in watts (e.g., 1000)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "cas_latency",
+    "source_path": "cas_latency",
+    "description": "The CAS latency of the RAM. Looks for hints of this in the product name.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "color",
+    "source_path": "color",
+    "description": "The color(s) of this product. Each color of the product should be included in the array. Do not use RGB here to describe lighting; use the Lighting field for RGB, ARGB, display, or fixed-color lighting. Includes PCB and heat spreader colors. Looks for hints of this in the product name.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "ecc",
+    "source_path": "ecc",
+    "description": "Whether the RAM supports Error-Correcting Code (e.g., Non-ECC, ECC)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "form_factor",
+    "source_path": "form_factor",
+    "description": "The physical form factor of the RAM module (e.g., 288-pin DIMM, 260-pin SO-DIMM)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "general_product_information__adorama_sku",
+    "source_path": "general_product_information.adorama_sku",
+    "description": "Adorama product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "general_product_information__amazon_sku",
+    "source_path": "general_product_information.amazon_sku",
+    "description": "Amazon product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "general_product_information__bestbuy_sku",
+    "source_path": "general_product_information.bestbuy_sku",
+    "description": "Best Buy product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "general_product_information__hyte_sku",
+    "source_path": "general_product_information.hyte_sku",
+    "description": "HYTE product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "general_product_information__ibuypower_sku",
+    "source_path": "general_product_information.ibuypower_sku",
+    "description": "iBuyPower product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "general_product_information__lttstore_sku",
+    "source_path": "general_product_information.lttstore_sku",
+    "description": "LTTStore product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "general_product_information__manufacturer_url",
+    "source_path": "general_product_information.manufacturer_url",
+    "description": "Official manufacturer product URL",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "general_product_information__newegg_sku",
+    "source_path": "general_product_information.newegg_sku",
+    "description": "Newegg product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "general_product_information__walmart_sku",
+    "source_path": "general_product_information.walmart_sku",
+    "description": "Walmart product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "heat_spreader",
+    "source_path": "heat_spreader",
+    "description": "Whether the RAM modules have a heat spreader",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "height_mm",
+    "source_path": "height",
+    "description": "The height of the RAM module in mm",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "identifiers__identifiers",
+    "source_path": "identifiers.identifiers",
+    "description": "Canonical product identifiers",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "identifiers__retailer_listings",
+    "source_path": "identifiers.retailer_listings",
+    "description": "Canonical retailer product listings used for pricing",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "identifiers__version",
+    "source_path": "identifiers.version",
+    "description": "Monotonically increasing identity snapshot version",
+    "source_type": "integer",
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "kit_capacity_gb",
+    "source_path": "capacity",
+    "description": "Total capacity of the RAM kit in GB. Looks for hints of this in the product name.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "int"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "lighting",
+    "source_path": "lighting",
+    "description": "Lighting capabilities for this product. Use RGB for non-addressable RGB, ARGB for addressable RGB, Multicolor for non-RGB multi-color lighting, Fixed for a single fixed lighting color, None when the product has no lighting, Display for configurable displays, and Fixed Color Display for displays limited to fixed colors such as black and white.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "manufacturer",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "manufacturer_url",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "metadata__last_manually_spec_verified_at",
+    "source_path": "metadata.last_manually_spec_verified_at",
+    "description": "ISO 8601 timestamp of when the part specs were last manually verified by a human",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "metadata__manufacturer",
+    "source_path": "metadata.manufacturer",
+    "description": "RAM manufacturer Use the memory kit manufacturer. Examples: Corsair, G.Skill, Kingston.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "metadata__manufacturer_color",
+    "source_path": "metadata.manufacturer_color",
+    "description": "Manufacturer's official color name for this product variant. The manufacturer's marketed colorway / heat-spreader finish name, verbatim. Common values: 'Black', 'White', 'Black / Red'. Multi-tone heat spreaders use ' / '. Branded special / collab colorways belong here when the rest of the SKU is identical (e.g., 'Royal Silver', 'Hatsune Miku Edition'). Most stock kits are 'Black'. Do NOT put speed, CL, capacity, RGB, or model-line names like 'Trident Z5', 'Aegis', 'Neo' in manufacturer_color — those belong in series / dedicated fields.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "metadata__name",
+    "source_path": "metadata.name",
+    "description": "Full product name",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "metadata__part_numbers",
+    "source_path": "metadata.part_numbers",
+    "description": "Array of manufacturer's part numbers/SKUs",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "metadata__release_year",
+    "source_path": "metadata.releaseYear",
+    "description": "Year of release",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "metadata__series",
+    "source_path": "metadata.series",
+    "description": "Product series name The manufacturer's marketed product line / family for the kit. Manufacturer and `ram_type` are stored separately and used as the default grouping. Speed, CAS latency, capacity, and module count are ALSO stored separately and MUST NOT be in the series. Color goes in `manufacturer_color`. The series string MUST be identical across kits the manufacturer markets under the same product line, regardless of speed/capacity/timing/color. Examples: 'G.Skill Aegis Black / Red DDR4-3200 CL16 32GB' → series='Aegis'. 'G.Skill Trident Z5 Neo RGB DDR5-6000 CL30' → series='Trident Z5 Neo' (only include `RGB` in the series when it's part of a distinct product line like `Vengeance RGB Pro`). 'Corsair Vengeance LPX DDR4-3200' → series='Vengeance LPX'.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "metadata__variant",
+    "source_path": "metadata.variant",
+    "description": "Specific variant in the series Most RAM kits should have an empty variant — speed, CAS latency, timings, capacity, modules, and color are all stored in their own fields and are NOT variants. Only fill `variant` when the manufacturer ships a genuine sub-model within the same (manufacturer, series, ram_type) group (separately marketed revision, regional / OEM-only spin, distinct binning tier sold under the same series name). Examples: 'G.Skill Aegis DDR4-3200 CL16 32GB (Black / Red)' → variant=''. 'G.Skill Trident Z5 Neo RGB DDR5-6000 CL30' → variant='' (RGB is captured by the `rgb` flag and 'Neo' is part of the series). 'Corsair Vengeance LPX DDR4-3200' → variant=''. If you find yourself wanting to put speed, CAS, timings, capacity, kit count, or color into variant — stop and use the dedicated field instead. The variant must be unique within a (manufacturer, series, ram_type, manufacturer_color) group; if every kit collapses to the same value, leave it empty.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "module_capacity_gb",
+    "source_path": "modules.capacity_gb",
+    "description": "Capacity per module in GB. Looks for hints of this in the product name.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "int"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "module_count",
+    "source_path": "modules.quantity",
+    "description": "Number of modules in the kit. Looks for hints of this in the product name.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "int"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "module_format",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "name",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "part_id",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "pipeline_version",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "profile_support",
+    "source_path": "profile_support",
+    "description": "Overclocking profile support tags (xmp_only, expo_only)",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "quality_issue_codes",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "quality_status",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "ram_type",
+    "source_path": "ram_type",
+    "description": "DDR generation (e.g., DDR4, DDR5)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "registered",
+    "source_path": "registered",
+    "description": "Whether the RAM is registered or unbuffered (e.g., Unbuffered, Registered, Load Reduced)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "rgb",
+    "source_path": "rgb",
+    "description": "Whether the RAM has RGB lighting",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "bool"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "source_category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "source_commit",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "source_record",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "source_speed_mhz",
+    "source_path": "speed",
+    "description": "The speed of the RAM in MHz (e.g., 6000, 3200). Looks for hints of this in the product name.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "int"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "source_weight_g",
+    "source_path": "weight",
+    "description": "Product weight in grams for one complete, usable unit of this exact variant. Exclude retail packaging, shipping materials, multipack totals, and load capacity. Leave unset when the product is digital, the weight is unknown, or the source does not clearly identify product weight.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "timings",
+    "source_path": "timings",
+    "description": "The complete timing specification of the RAM (e.g., 30-36-36-76). Looks for hints of this in the product name.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ram",
+    "column": "voltage_v",
+    "source_path": "voltage",
+    "description": "The operating voltage of the RAM",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "cache_mb",
+    "source_path": "cache",
+    "description": "The cache size of the drive in MB.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "capacity_gb",
+    "source_path": "capacity",
+    "description": "The storage capacity of the drive in GB (e.g., 4000 GB)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "int"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "form_factor",
+    "source_path": "form_factor",
+    "description": "The physical size and shape of the drive (e.g., M.2-2280, 2.5\", 3.5\")",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "general_product_information__adorama_sku",
+    "source_path": "general_product_information.adorama_sku",
+    "description": "Adorama product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "general_product_information__amazon_sku",
+    "source_path": "general_product_information.amazon_sku",
+    "description": "Amazon product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "general_product_information__bestbuy_sku",
+    "source_path": "general_product_information.bestbuy_sku",
+    "description": "Best Buy product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "general_product_information__hyte_sku",
+    "source_path": "general_product_information.hyte_sku",
+    "description": "HYTE product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "general_product_information__ibuypower_sku",
+    "source_path": "general_product_information.ibuypower_sku",
+    "description": "iBuyPower product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "general_product_information__lttstore_sku",
+    "source_path": "general_product_information.lttstore_sku",
+    "description": "LTTStore product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "general_product_information__manufacturer_url",
+    "source_path": "general_product_information.manufacturer_url",
+    "description": "Official manufacturer product URL",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "general_product_information__newegg_sku",
+    "source_path": "general_product_information.newegg_sku",
+    "description": "Newegg product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "general_product_information__walmart_sku",
+    "source_path": "general_product_information.walmart_sku",
+    "description": "Walmart product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "identifiers__identifiers",
+    "source_path": "identifiers.identifiers",
+    "description": "Canonical product identifiers",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "identifiers__retailer_listings",
+    "source_path": "identifiers.retailer_listings",
+    "description": "Canonical retailer product listings used for pricing",
+    "source_type": "array",
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "identifiers__version",
+    "source_path": "identifiers.version",
+    "description": "Monotonically increasing identity snapshot version",
+    "source_type": "integer",
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "interface",
+    "source_path": "interface",
+    "description": "The interface used by the drive (e.g., M.2 PCIe 4.0 X4, SATA 6Gb/s)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "interface_family",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "lighting",
+    "source_path": "lighting",
+    "description": "Lighting capabilities for this product. Use RGB for non-addressable RGB, ARGB for addressable RGB, Multicolor for non-RGB multi-color lighting, Fixed for a single fixed lighting color, None when the product has no lighting, Display for configurable displays, and Fixed Color Display for displays limited to fixed colors such as black and white.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "manufacturer",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "manufacturer_url",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "metadata__last_manually_spec_verified_at",
+    "source_path": "metadata.last_manually_spec_verified_at",
+    "description": "ISO 8601 timestamp of when the part specs were last manually verified by a human",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "metadata__manufacturer",
+    "source_path": "metadata.manufacturer",
+    "description": "Storage manufacturer",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "metadata__name",
+    "source_path": "metadata.name",
+    "description": "Full product name",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "metadata__part_numbers",
+    "source_path": "metadata.part_numbers",
+    "description": "Array of manufacturer's part numbers/SKUs",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "list"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "metadata__release_year",
+    "source_path": "metadata.releaseYear",
+    "description": "Year of release",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "int"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "metadata__series",
+    "source_path": "metadata.series",
+    "description": "Product series name The manufacturer's marketed product line / family for the drive. Manufacturer, `capacity`, `form_factor`, `interface`, `storage_type` (SSD vs HDD), and `nvme` are all stored separately and MUST NOT be repeated in the series. Capacity is NEVER part of the series. Examples: 'Samsung 990 Pro 2TB M.2-2280' → series='990 Pro'. 'WD_BLACK SN850X 2TB' → series='WD_BLACK SN850X' (the color tier is part of WD's marketed family name and IS part of the series for WD). 'Crucial MX500 1TB 2.5\" SATA' → series='MX500'. The series stays consistent across capacity tiers of the same product line.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "metadata__variant",
+    "source_path": "metadata.variant",
+    "description": "Specific variant in the series Most drives should have an empty variant — capacity, form factor, interface, NVMe, and storage type are all stored in their own fields. The most common non-empty case is a heatsink-bundled SKU vs the bare-drive SKU of the same series + capacity. Examples: 'Samsung 990 Pro 2TB' (bare) → variant=''. 'Samsung 990 Pro 2TB with Heatsink' → variant='Heatsink'. 'Seagate FireCuda 530 1TB Heatsink (PS5)' → variant='Heatsink'. The variant must be unique within a (manufacturer, series, capacity, form_factor, interface) group; if every drive collapses to the same value, leave it empty.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "name",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "nvme",
+    "source_path": "nvme",
+    "description": "Whether the drive uses the NVMe protocol. Only applicable to SSDs",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "bool"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "part_id",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "pipeline_version",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "quality_issue_codes",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "quality_status",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "source_category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "source_commit",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "source_record",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "source_weight_g",
+    "source_path": "weight",
+    "description": "Product weight in grams for one complete, usable unit of this exact variant. Exclude retail packaging, shipping materials, multipack totals, and load capacity. Leave unset when the product is digital, the weight is unknown, or the source does not clearly identify product weight.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType",
+      "float",
+      "int"
+    ]
+  },
+  {
+    "category": "ssd",
+    "column": "storage_type",
+    "source_path": "storage_type",
+    "description": "The type of storage drive (either HDD or SSD)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "cache_mb",
+    "source_path": "cache",
+    "description": "The cache size of the drive in MB.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "capacity_gb",
+    "source_path": "capacity",
+    "description": "The storage capacity of the drive in GB (e.g., 4000 GB)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "int"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "form_factor",
+    "source_path": "form_factor",
+    "description": "The physical size and shape of the drive (e.g., M.2-2280, 2.5\", 3.5\")",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "general_product_information__adorama_sku",
+    "source_path": "general_product_information.adorama_sku",
+    "description": "Adorama product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "general_product_information__amazon_sku",
+    "source_path": "general_product_information.amazon_sku",
+    "description": "Amazon product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "general_product_information__bestbuy_sku",
+    "source_path": "general_product_information.bestbuy_sku",
+    "description": "Best Buy product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "general_product_information__hyte_sku",
+    "source_path": "general_product_information.hyte_sku",
+    "description": "HYTE product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "general_product_information__ibuypower_sku",
+    "source_path": "general_product_information.ibuypower_sku",
+    "description": "iBuyPower product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "general_product_information__lttstore_sku",
+    "source_path": "general_product_information.lttstore_sku",
+    "description": "LTTStore product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "general_product_information__manufacturer_url",
+    "source_path": "general_product_information.manufacturer_url",
+    "description": "Official manufacturer product URL",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "general_product_information__newegg_sku",
+    "source_path": "general_product_information.newegg_sku",
+    "description": "Newegg product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "general_product_information__walmart_sku",
+    "source_path": "general_product_information.walmart_sku",
+    "description": "Walmart product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "identifiers__identifiers",
+    "source_path": "identifiers.identifiers",
+    "description": "Canonical product identifiers",
+    "source_type": "array",
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "identifiers__retailer_listings",
+    "source_path": "identifiers.retailer_listings",
+    "description": "Canonical retailer product listings used for pricing",
+    "source_type": "array",
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "identifiers__version",
+    "source_path": "identifiers.version",
+    "description": "Monotonically increasing identity snapshot version",
+    "source_type": "integer",
+    "observed_types": [
+      "int"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "interface",
+    "source_path": "interface",
+    "description": "The interface used by the drive (e.g., M.2 PCIe 4.0 X4, SATA 6Gb/s)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "interface_family",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "lighting",
+    "source_path": "lighting",
+    "description": "Lighting capabilities for this product. Use RGB for non-addressable RGB, ARGB for addressable RGB, Multicolor for non-RGB multi-color lighting, Fixed for a single fixed lighting color, None when the product has no lighting, Display for configurable displays, and Fixed Color Display for displays limited to fixed colors such as black and white.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "manufacturer",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "manufacturer_url",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "metadata__last_manually_spec_verified_at",
+    "source_path": "metadata.last_manually_spec_verified_at",
+    "description": "ISO 8601 timestamp of when the part specs were last manually verified by a human",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "metadata__manufacturer",
+    "source_path": "metadata.manufacturer",
+    "description": "Storage manufacturer",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "metadata__name",
+    "source_path": "metadata.name",
+    "description": "Full product name",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "metadata__part_numbers",
+    "source_path": "metadata.part_numbers",
+    "description": "Array of manufacturer's part numbers/SKUs",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "metadata__release_year",
+    "source_path": "metadata.releaseYear",
+    "description": "Year of release",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "metadata__series",
+    "source_path": "metadata.series",
+    "description": "Product series name The manufacturer's marketed product line / family for the drive. Manufacturer, `capacity`, `form_factor`, `interface`, `storage_type` (SSD vs HDD), and `nvme` are all stored separately and MUST NOT be repeated in the series. Capacity is NEVER part of the series. Examples: 'Samsung 990 Pro 2TB M.2-2280' → series='990 Pro'. 'WD_BLACK SN850X 2TB' → series='WD_BLACK SN850X' (the color tier is part of WD's marketed family name and IS part of the series for WD). 'Crucial MX500 1TB 2.5\" SATA' → series='MX500'. The series stays consistent across capacity tiers of the same product line.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "metadata__variant",
+    "source_path": "metadata.variant",
+    "description": "Specific variant in the series Most drives should have an empty variant — capacity, form factor, interface, NVMe, and storage type are all stored in their own fields. The most common non-empty case is a heatsink-bundled SKU vs the bare-drive SKU of the same series + capacity. Examples: 'Samsung 990 Pro 2TB' (bare) → variant=''. 'Samsung 990 Pro 2TB with Heatsink' → variant='Heatsink'. 'Seagate FireCuda 530 1TB Heatsink (PS5)' → variant='Heatsink'. The variant must be unique within a (manufacturer, series, capacity, form_factor, interface) group; if every drive collapses to the same value, leave it empty.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "name",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "nvme",
+    "source_path": "nvme",
+    "description": "Whether the drive uses the NVMe protocol. Only applicable to SSDs",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "bool"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "part_id",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "pipeline_version",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "quality_issue_codes",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "quality_status",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "source_category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "source_commit",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "source_record",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "source_weight_g",
+    "source_path": "weight",
+    "description": "Product weight in grams for one complete, usable unit of this exact variant. Exclude retail packaging, shipping materials, multipack totals, and load capacity. Leave unset when the product is digital, the weight is unknown, or the source does not clearly identify product weight.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "sshd",
+    "column": "storage_type",
+    "source_path": "storage_type",
+    "description": "The type of storage drive (either HDD or SSD)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "cache_mb",
+    "source_path": "cache",
+    "description": "The cache size of the drive in MB.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "capacity_gb",
+    "source_path": "capacity",
+    "description": "The storage capacity of the drive in GB (e.g., 4000 GB)",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "form_factor",
+    "source_path": "form_factor",
+    "description": "The physical size and shape of the drive (e.g., M.2-2280, 2.5\", 3.5\")",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "general_product_information__adorama_sku",
+    "source_path": "general_product_information.adorama_sku",
+    "description": "Adorama product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "general_product_information__amazon_sku",
+    "source_path": "general_product_information.amazon_sku",
+    "description": "Amazon product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "general_product_information__bestbuy_sku",
+    "source_path": "general_product_information.bestbuy_sku",
+    "description": "Best Buy product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "general_product_information__hyte_sku",
+    "source_path": "general_product_information.hyte_sku",
+    "description": "HYTE product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "general_product_information__ibuypower_sku",
+    "source_path": "general_product_information.ibuypower_sku",
+    "description": "iBuyPower product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "general_product_information__lttstore_sku",
+    "source_path": "general_product_information.lttstore_sku",
+    "description": "LTTStore product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "general_product_information__manufacturer_url",
+    "source_path": "general_product_information.manufacturer_url",
+    "description": "Official manufacturer product URL",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "general_product_information__newegg_sku",
+    "source_path": "general_product_information.newegg_sku",
+    "description": "Newegg product SKU",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "general_product_information__walmart_sku",
+    "source_path": "general_product_information.walmart_sku",
+    "description": "Walmart product SKU",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "identifiers__identifiers",
+    "source_path": "identifiers.identifiers",
+    "description": "Canonical product identifiers",
+    "source_type": "array",
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "identifiers__retailer_listings",
+    "source_path": "identifiers.retailer_listings",
+    "description": "Canonical retailer product listings used for pricing",
+    "source_type": "array",
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "identifiers__version",
+    "source_path": "identifiers.version",
+    "description": "Monotonically increasing identity snapshot version",
+    "source_type": "integer",
+    "observed_types": [
+      "int"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "interface",
+    "source_path": "interface",
+    "description": "The interface used by the drive (e.g., M.2 PCIe 4.0 X4, SATA 6Gb/s)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "interface_family",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "lighting",
+    "source_path": "lighting",
+    "description": "Lighting capabilities for this product. Use RGB for non-addressable RGB, ARGB for addressable RGB, Multicolor for non-RGB multi-color lighting, Fixed for a single fixed lighting color, None when the product has no lighting, Display for configurable displays, and Fixed Color Display for displays limited to fixed colors such as black and white.",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "manufacturer",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "manufacturer_url",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "metadata__last_manually_spec_verified_at",
+    "source_path": "metadata.last_manually_spec_verified_at",
+    "description": "ISO 8601 timestamp of when the part specs were last manually verified by a human",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "metadata__manufacturer",
+    "source_path": "metadata.manufacturer",
+    "description": "Storage manufacturer",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "metadata__name",
+    "source_path": "metadata.name",
+    "description": "Full product name",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "metadata__part_numbers",
+    "source_path": "metadata.part_numbers",
+    "description": "Array of manufacturer's part numbers/SKUs",
+    "source_type": [
+      "array",
+      "null"
+    ],
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "metadata__release_year",
+    "source_path": "metadata.releaseYear",
+    "description": "Year of release",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "metadata__series",
+    "source_path": "metadata.series",
+    "description": "Product series name The manufacturer's marketed product line / family for the drive. Manufacturer, `capacity`, `form_factor`, `interface`, `storage_type` (SSD vs HDD), and `nvme` are all stored separately and MUST NOT be repeated in the series. Capacity is NEVER part of the series. Examples: 'Samsung 990 Pro 2TB M.2-2280' → series='990 Pro'. 'WD_BLACK SN850X 2TB' → series='WD_BLACK SN850X' (the color tier is part of WD's marketed family name and IS part of the series for WD). 'Crucial MX500 1TB 2.5\" SATA' → series='MX500'. The series stays consistent across capacity tiers of the same product line.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "metadata__variant",
+    "source_path": "metadata.variant",
+    "description": "Specific variant in the series Most drives should have an empty variant — capacity, form factor, interface, NVMe, and storage type are all stored in their own fields. The most common non-empty case is a heatsink-bundled SKU vs the bare-drive SKU of the same series + capacity. Examples: 'Samsung 990 Pro 2TB' (bare) → variant=''. 'Samsung 990 Pro 2TB with Heatsink' → variant='Heatsink'. 'Seagate FireCuda 530 1TB Heatsink (PS5)' → variant='Heatsink'. The variant must be unique within a (manufacturer, series, capacity, form_factor, interface) group; if every drive collapses to the same value, leave it empty.",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "name",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "nvme",
+    "source_path": "nvme",
+    "description": "Whether the drive uses the NVMe protocol. Only applicable to SSDs",
+    "source_type": [
+      "boolean",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "part_id",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "pipeline_version",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "quality_issue_codes",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "list"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "quality_status",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "source_category",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "source_commit",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "source_record",
+    "source_path": null,
+    "description": "Derived/provenance column; see README_TH.md",
+    "source_type": null,
+    "observed_types": [
+      "str"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "source_weight_g",
+    "source_path": "weight",
+    "description": "Product weight in grams for one complete, usable unit of this exact variant. Exclude retail packaging, shipping materials, multipack totals, and load capacity. Leave unset when the product is digital, the weight is unknown, or the source does not clearly identify product weight.",
+    "source_type": [
+      "number",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  },
+  {
+    "category": "storage_unknown",
+    "column": "storage_type",
+    "source_path": "storage_type",
+    "description": "The type of storage drive (either HDD or SSD)",
+    "source_type": [
+      "string",
+      "null"
+    ],
+    "observed_types": [
+      "NoneType"
+    ]
+  }
+]

@@ -1,0 +1,409 @@
+[
+  {
+    "cache_mb": null,
+    "capacity_gb": null,
+    "category": "storage_unknown",
+    "form_factor": null,
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "ean",
+        "value": "0034722812139",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "0763649117330",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "5415247174981",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ST12000DM0007",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ST12000DMZ007",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "034722812139",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "763649117330",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "763649129586",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [
+      {
+        "source": "amazon",
+        "channel": "au",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "be",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ca",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "de",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "es",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "fr",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ie",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "it",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "jp",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "nl",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "pl",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "se",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "sg",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "uk",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "us",
+        "source_product_id": "B07H2FGPND",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "cenowarka",
+        "channel": "pl",
+        "source_product_id": "1705403",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "geizhals",
+        "channel": "de",
+        "source_product_id": "1705403",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "skinflint",
+        "channel": "uk",
+        "source_product_id": "1705403",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "walmart",
+        "channel": "us",
+        "source_product_id": "920007498",
+        "pricing_enabled": true,
+        "verified": false
+      }
+    ],
+    "identifiers__version": 1,
+    "interface": null,
+    "interface_family": null,
+    "lighting": [],
+    "manufacturer": null,
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": null,
+    "metadata__name": "Seagate BarraCuda Pro 12TB 256MB Cache",
+    "metadata__part_numbers": [
+      "ST12000DM0007",
+      "ST12000DMZ007"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": null,
+    "metadata__variant": null,
+    "name": "Seagate BarraCuda Pro 12TB 256MB Cache",
+    "nvme": null,
+    "part_id": "6b6b9644-931c-46cd-af54-77f855c6097a",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [
+      "missing_required_for_initial_checks"
+    ],
+    "quality_status": "needs_review",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/6b6b9644-931c-46cd-af54-77f855c6097a.json",
+    "source_weight_g": null,
+    "storage_type": null
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": null,
+    "category": "storage_unknown",
+    "form_factor": null,
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "ean",
+        "value": "4713218466594",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ASU800SS-2TT-C",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "WDS100T3XHC",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "763649128213",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [
+      {
+        "source": "amazon",
+        "channel": "au",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "be",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ca",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "de",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "es",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "fr",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ie",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "it",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "jp",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "nl",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "pl",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "se",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "sg",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "uk",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "us",
+        "source_product_id": "B07GBRG2G8",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "newegg",
+        "channel": "ca",
+        "source_product_id": "9SIBK8ZJRA8521",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "newegg",
+        "channel": "us",
+        "source_product_id": "9SIBK8ZJRA8521",
+        "pricing_enabled": true,
+        "verified": false
+      }
+    ],
+    "identifiers__version": 1,
+    "interface": null,
+    "interface_family": null,
+    "lighting": [],
+    "manufacturer": null,
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": null,
+    "metadata__name": "ADATA SU800 2TB 3D-NAND 2.5 Inch",
+    "metadata__part_numbers": [
+      "ASU800SS-2TT-C"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": null,
+    "metadata__variant": null,
+    "name": "ADATA SU800 2TB 3D-NAND 2.5 Inch",
+    "nvme": null,
+    "part_id": "e8e8fbda-3c09-47b0-8c69-6c9c6a1b9c9c",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [
+      "missing_required_for_initial_checks"
+    ],
+    "quality_status": "needs_review",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/e8e8fbda-3c09-47b0-8c69-6c9c6a1b9c9c.json",
+    "source_weight_g": null,
+    "storage_type": null
+  }
+]

@@ -1,0 +1,435 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "cpu cleaned v1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "cache__l1",
+    "cache__l2",
+    "cache__l3",
+    "category",
+    "core_count",
+    "core_family",
+    "cores__efficiency",
+    "cores__performance",
+    "demo_scope",
+    "efficiency_base_clock_ghz",
+    "efficiency_boost_clock_ghz",
+    "general_product_information__adorama_sku",
+    "general_product_information__amazon_sku",
+    "general_product_information__bestbuy_sku",
+    "general_product_information__hyte_sku",
+    "general_product_information__ibuypower_sku",
+    "general_product_information__lttstore_sku",
+    "general_product_information__manufacturer_url",
+    "general_product_information__newegg_sku",
+    "general_product_information__walmart_sku",
+    "identifiers__identifiers",
+    "identifiers__retailer_listings",
+    "identifiers__version",
+    "manufacturer",
+    "manufacturer_url",
+    "max_memory_gb",
+    "metadata__last_manually_spec_verified_at",
+    "metadata__manufacturer",
+    "metadata__name",
+    "metadata__part_numbers",
+    "metadata__release_year",
+    "metadata__series",
+    "metadata__variant",
+    "microarchitecture",
+    "name",
+    "part_id",
+    "performance_base_clock_ghz",
+    "performance_boost_clock_ghz",
+    "pipeline_version",
+    "power_limit_source_w",
+    "quality_issue_codes",
+    "quality_status",
+    "series",
+    "socket",
+    "source_category",
+    "source_commit",
+    "source_record",
+    "source_weight_g",
+    "specifications__ecc_support",
+    "specifications__includes_cooler",
+    "specifications__integrated_graphics__base_clock",
+    "specifications__integrated_graphics__boost_clock",
+    "specifications__integrated_graphics__model",
+    "specifications__integrated_graphics__shader_count",
+    "specifications__lithography",
+    "specifications__memory__channels",
+    "specifications__memory__types",
+    "specifications__packaging",
+    "specifications__simultaneous_multithreading",
+    "tdp_w",
+    "thread_count"
+  ],
+  "properties": {
+    "cache__l1": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "cache__l2": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "cache__l3": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "category": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "core_count": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "core_family": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "cores__efficiency": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "cores__performance": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "demo_scope": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "efficiency_base_clock_ghz": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "efficiency_boost_clock_ghz": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "general_product_information__adorama_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__amazon_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__bestbuy_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__hyte_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__ibuypower_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__lttstore_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__manufacturer_url": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "general_product_information__newegg_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__walmart_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "identifiers__identifiers": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "identifiers__retailer_listings": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "identifiers__version": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "manufacturer": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "manufacturer_url": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "max_memory_gb": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "metadata__last_manually_spec_verified_at": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__manufacturer": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__part_numbers": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "metadata__release_year": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "metadata__series": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__variant": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "microarchitecture": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "part_id": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "performance_base_clock_ghz": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "performance_boost_clock_ghz": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "pipeline_version": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "power_limit_source_w": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "quality_issue_codes": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "quality_status": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "series": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "socket": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_category": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_commit": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_record": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_weight_g": {
+      "type": [
+        "null"
+      ]
+    },
+    "specifications__ecc_support": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "specifications__includes_cooler": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "specifications__integrated_graphics__base_clock": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "specifications__integrated_graphics__boost_clock": {
+      "type": [
+        "integer",
+        "null",
+        "number"
+      ]
+    },
+    "specifications__integrated_graphics__model": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "specifications__integrated_graphics__shader_count": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "specifications__lithography": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "specifications__memory__channels": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "specifications__memory__types": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "specifications__packaging": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "specifications__simultaneous_multithreading": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "tdp_w": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "thread_count": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    }
+  }
+}

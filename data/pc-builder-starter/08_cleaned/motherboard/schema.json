@@ -1,0 +1,540 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "motherboard cleaned v1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "audio__channels",
+    "audio__chipset",
+    "back_connect_connectors",
+    "back_panel_ports",
+    "bios_features__clear_cmos",
+    "bios_features__flashback",
+    "category",
+    "chipset",
+    "color",
+    "display_outputs",
+    "ecc_support",
+    "fan_headers__case_fan",
+    "fan_headers__cpu_fan",
+    "fan_headers__cpu_opt",
+    "fan_headers__pump",
+    "form_factor",
+    "front_panel_headers__hdd_led",
+    "front_panel_headers__power_button",
+    "front_panel_headers__power_led",
+    "front_panel_headers__reset_button",
+    "general_product_information__adorama_sku",
+    "general_product_information__amazon_sku",
+    "general_product_information__bestbuy_sku",
+    "general_product_information__hyte_sku",
+    "general_product_information__ibuypower_sku",
+    "general_product_information__lttstore_sku",
+    "general_product_information__manufacturer_url",
+    "general_product_information__newegg_sku",
+    "general_product_information__walmart_sku",
+    "identifiers__identifiers",
+    "identifiers__retailer_listings",
+    "identifiers__version",
+    "lighting",
+    "m2_slots",
+    "manufacturer",
+    "manufacturer_url",
+    "max_memory_gb",
+    "memory_slot_count",
+    "metadata__last_manually_spec_verified_at",
+    "metadata__manufacturer",
+    "metadata__manufacturer_color",
+    "metadata__name",
+    "metadata__part_numbers",
+    "metadata__release_year",
+    "metadata__series",
+    "metadata__variant",
+    "name",
+    "onboard_ethernet",
+    "other_headers__com_port",
+    "other_headers__temperature_sensor",
+    "other_headers__thunderbolt",
+    "part_id",
+    "pcie_slots",
+    "pipeline_version",
+    "power_connectors__cpu_power",
+    "power_connectors__main_power",
+    "quality_issue_codes",
+    "quality_status",
+    "raid_support",
+    "ram_type",
+    "rgb_headers__argb_5v",
+    "rgb_headers__rgb_12v",
+    "socket",
+    "source_category",
+    "source_commit",
+    "source_record",
+    "source_weight_g",
+    "storage_devices__sata_3_gb_s",
+    "storage_devices__sata_6_gb_s",
+    "storage_devices__u2",
+    "usb_headers__usb_2_0",
+    "usb_headers__usb_3_2_gen_1",
+    "usb_headers__usb_3_2_gen_2",
+    "usb_headers__usb_3_2_gen_2x2",
+    "usb_headers__usb_4",
+    "usb_headers__usb_4_80g",
+    "wireless_networking"
+  ],
+  "properties": {
+    "audio__channels": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "audio__chipset": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "back_connect_connectors": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "back_panel_ports": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "bios_features__clear_cmos": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "bios_features__flashback": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "category": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "chipset": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "color": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "display_outputs": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "ecc_support": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "fan_headers__case_fan": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "fan_headers__cpu_fan": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "fan_headers__cpu_opt": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "fan_headers__pump": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "form_factor": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "front_panel_headers__hdd_led": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "front_panel_headers__power_button": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "front_panel_headers__power_led": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "front_panel_headers__reset_button": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "general_product_information__adorama_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__amazon_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__bestbuy_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__hyte_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__ibuypower_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__lttstore_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__manufacturer_url": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "general_product_information__newegg_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "general_product_information__walmart_sku": {
+      "type": [
+        "null"
+      ]
+    },
+    "identifiers__identifiers": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "identifiers__retailer_listings": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "identifiers__version": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "lighting": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "m2_slots": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "manufacturer": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "manufacturer_url": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "max_memory_gb": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "memory_slot_count": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "metadata__last_manually_spec_verified_at": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__manufacturer": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__manufacturer_color": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__part_numbers": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "metadata__release_year": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "metadata__series": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "metadata__variant": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "name": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "onboard_ethernet": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "other_headers__com_port": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "other_headers__temperature_sensor": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "other_headers__thunderbolt": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "part_id": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "pcie_slots": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "pipeline_version": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "power_connectors__cpu_power": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "power_connectors__main_power": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "quality_issue_codes": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
+    "quality_status": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "raid_support": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "ram_type": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "rgb_headers__argb_5v": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "rgb_headers__rgb_12v": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "socket": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_category": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_commit": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_record": {
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    "source_weight_g": {
+      "type": [
+        "null"
+      ]
+    },
+    "storage_devices__sata_3_gb_s": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "storage_devices__sata_6_gb_s": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "storage_devices__u2": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "usb_headers__usb_2_0": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "usb_headers__usb_3_2_gen_1": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "usb_headers__usb_3_2_gen_2": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "usb_headers__usb_3_2_gen_2x2": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "usb_headers__usb_4": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "usb_headers__usb_4_80g": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "wireless_networking": {
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  }
+}

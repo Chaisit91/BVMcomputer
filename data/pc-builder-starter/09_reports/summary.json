@@ -1,0 +1,41 @@
+{
+  "pipeline_version": "1.0.0",
+  "input_sha256": {
+    "02_catalog\\case\\parts.json": "80c4df030732a9e25f6ee2d2f4822600751824011338029b56bf931f4398ba5f",
+    "02_catalog\\cpu\\parts.json": "dbe41c8ce0f67c7a7bd261cba3e06cd9a291b508a4cafa78a959f0f669cbcc26",
+    "02_catalog\\cpu_cooler\\parts.json": "28c844c844aafcdb17335f7a18921c3db03a08ffafa4a2408ee63091683c2a51",
+    "02_catalog\\gpu\\parts.json": "6ecceb1f752983a808ee074919e7d1013336cefbe5b36cc22588cb1845aa455a",
+    "02_catalog\\hdd\\parts.json": "62d8ee35791d96d5132c86561931e8a42cd1ddad2c7740715b9ce1e5db1540c4",
+    "02_catalog\\motherboard\\parts.json": "4f16d7ed59dfddc5b8c0fb9ff30e5a508b755027ef4e84f3aab1606659156eda",
+    "02_catalog\\psu\\parts.json": "82f80a99ec078eaaaae1fda81a5d731276b48beaa702bab731247147f609b7a6",
+    "02_catalog\\ram\\parts.json": "1f887b462ced310e81b65e7a51647df7057f86780aaab5a4956bcc76e56c9695",
+    "02_catalog\\ssd\\parts.json": "afed0e2810e90035f5d9b9bb4e9add577f4b21e26830ea1ef10059b076d69206",
+    "02_catalog\\storage_other\\parts.json": "2017e4a2652fd9ad42c4295350a74255fd2b9b63bbdd7b9b6db347984881903e"
+  },
+  "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+  "input_rows": 26264,
+  "output_rows": 26264,
+  "counts": {
+    "case": 3804,
+    "cpu": 789,
+    "cpu_cooler": 2423,
+    "gpu": 3865,
+    "hdd": 967,
+    "motherboard": 3701,
+    "psu": 3301,
+    "ram": 4876,
+    "ssd": 2514,
+    "sshd": 22,
+    "storage_unknown": 2
+  },
+  "issues_by_code": {
+    "missing_conditional_measurement": 14,
+    "missing_required_for_initial_checks": 5992,
+    "nonpositive_measurement": 3364,
+    "source_unit_requires_verification": 1561
+  },
+  "records_with_issues": 7403,
+  "changes": 27487,
+  "possible_duplicate_groups": 1521,
+  "removed_records": 0
+}

@@ -1,0 +1,2680 @@
+[
+  {
+    "cache_mb": null,
+    "capacity_gb": 2000,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "mpn",
+        "value": "LX001",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ST2000LXZ01",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate FireCuda Compute 2TB Hybrid 2.5\" 5400 RPM SATA",
+    "metadata__part_numbers": [
+      "ST2000LXZ01",
+      "LX001"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "FireCuda",
+    "metadata__variant": "2000GB",
+    "name": "Seagate FireCuda Compute 2TB Hybrid 2.5\" 5400 RPM SATA",
+    "nvme": false,
+    "part_id": "097f4884-ad64-4c84-bec3-f81f83116e6b",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/097f4884-ad64-4c84-bec3-f81f83116e6b.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 1000,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "ean",
+        "value": "0132018246900",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "WD1001X06XDTL",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "014444446959",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [
+      {
+        "source": "amazon",
+        "channel": "au",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "be",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ca",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "de",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "es",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "fr",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ie",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "it",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "jp",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "nl",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "pl",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "se",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "sg",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "uk",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "us",
+        "source_product_id": "B00GSJ9X4Q",
+        "pricing_enabled": true,
+        "verified": true
+      }
+    ],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Western Digital",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Western Digital",
+    "metadata__name": "Western Digital Black2 1TB Hybrid 2.5\" 5400RPM SATA",
+    "metadata__part_numbers": [
+      "WD1001X06XDTL"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "Black2",
+    "metadata__variant": "1000GB",
+    "name": "Western Digital Black2 1TB Hybrid 2.5\" 5400RPM SATA",
+    "nvme": false,
+    "part_id": "1259f142-0aa8-4ae8-ba58-6a3e24b1d437",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/1259f142-0aa8-4ae8-ba58-6a3e24b1d437.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 2000,
+    "category": "sshd",
+    "form_factor": "3.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "ean",
+        "value": "0763649110270",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "0763649118023",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "3660619400379",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ST2000DX002",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ST2000DXB02",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "763649110270",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "763649118023",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [
+      {
+        "source": "amazon",
+        "channel": "au",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "be",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ca",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "de",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "es",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "fr",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ie",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "it",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "jp",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "nl",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "pl",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "se",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "sg",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "uk",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "us",
+        "source_product_id": "B01IEKG2HM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "cenowarka",
+        "channel": "pl",
+        "source_product_id": "1479569",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "geizhals",
+        "channel": "de",
+        "source_product_id": "1479569",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "ruedecommerce",
+        "channel": "fr",
+        "source_product_id": "MKR00005790526",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "skinflint",
+        "channel": "uk",
+        "source_product_id": "1479569",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "walmart",
+        "channel": "us",
+        "source_product_id": "747845567",
+        "pricing_enabled": true,
+        "verified": false
+      }
+    ],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate FireCuda 2TB Hybrid 3.5\" 7200 RPM SATA",
+    "metadata__part_numbers": [
+      "ST2000DX002",
+      "ST2000DXB02"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "FireCuda",
+    "metadata__variant": "2000GB",
+    "name": "Seagate FireCuda 2TB Hybrid 3.5\" 7200 RPM SATA",
+    "nvme": false,
+    "part_id": "1429d3c8-bdc3-45e3-ac50-a11c563fcefa",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/1429d3c8-bdc3-45e3-ac50-a11c563fcefa.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 2000,
+    "category": "sshd",
+    "form_factor": "3.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "ean",
+        "value": "0763649037775",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "0804066533195",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "7636490036323",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ST2000DX001",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "724627279556",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "763649037775",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "804066533195",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [
+      {
+        "source": "amazon",
+        "channel": "au",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "be",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ca",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "de",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "es",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "fr",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ie",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "it",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "jp",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "nl",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "pl",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "se",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "sg",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "uk",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "us",
+        "source_product_id": "B00EIQTKAS",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "cenowarka",
+        "channel": "pl",
+        "source_product_id": "988347",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "geizhals",
+        "channel": "de",
+        "source_product_id": "988347",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "skinflint",
+        "channel": "uk",
+        "source_product_id": "988347",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "walmart",
+        "channel": "us",
+        "source_product_id": "31260692",
+        "pricing_enabled": true,
+        "verified": false
+      }
+    ],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate ST2000DX001 2TB Hybrid HDD 3.5\" 7200RPM SATA",
+    "metadata__part_numbers": [
+      "ST2000DX001"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "ST2000DX001",
+    "metadata__variant": "2000GB",
+    "name": "Seagate ST2000DX001 2TB Hybrid HDD 3.5\" 7200RPM SATA",
+    "nvme": false,
+    "part_id": "1f4fa3df-27c7-4726-ad19-e8f10f887ac7",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/1f4fa3df-27c7-4726-ad19-e8f10f887ac7.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 500,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "mpn",
+        "value": "MQ01ABF050H",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Toshiba",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Toshiba",
+    "metadata__name": "Toshiba MQ01ABF050H 500GB Hybrid 2.5\" 5400RPM SATA",
+    "metadata__part_numbers": [
+      "MQ01ABF050H"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "MQ01ABF050H",
+    "metadata__variant": "500GB",
+    "name": "Toshiba MQ01ABF050H 500GB Hybrid 2.5\" 5400RPM SATA",
+    "nvme": false,
+    "part_id": "2e40ffcd-c061-4a9e-8f92-802776c6bec3",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/2e40ffcd-c061-4a9e-8f92-802776c6bec3.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 500,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "ean",
+        "value": "0013201088203",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "4520865116723",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "4988755007702",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "5712505108505",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "7636490041242",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ST500LM000",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "013201088203",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "707223032268",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [
+      {
+        "source": "amazon",
+        "channel": "au",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "be",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ca",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "de",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "es",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "fr",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ie",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "it",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "jp",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "nl",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "pl",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "se",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "sg",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "uk",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "us",
+        "source_product_id": "B00B99JU5M",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "cenowarka",
+        "channel": "pl",
+        "source_product_id": "915221",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "geizhals",
+        "channel": "de",
+        "source_product_id": "915221",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "skinflint",
+        "channel": "uk",
+        "source_product_id": "915221",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "walmart",
+        "channel": "us",
+        "source_product_id": "26972760",
+        "pricing_enabled": true,
+        "verified": false
+      }
+    ],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate ST500LM000 500GB Hybrid 2.5\" 5400 RPM SATA 6.0 Gb/s Internal",
+    "metadata__part_numbers": [
+      "ST500LM000"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "ST500LM000",
+    "metadata__variant": "500GB",
+    "name": "Seagate ST500LM000 500GB Hybrid 2.5\" 5400 RPM SATA 6.0 Gb/s Internal",
+    "nvme": false,
+    "part_id": "37dec7ca-995d-41d7-84ae-10fe4a55284f",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/37dec7ca-995d-41d7-84ae-10fe4a55284f.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 500,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "ean",
+        "value": "4520865119038",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "7434709190114",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "7636490067655",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "2754009",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ST500LX025",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "763649069103",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [
+      {
+        "source": "amazon",
+        "channel": "au",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "be",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ca",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "de",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "es",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "fr",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ie",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "it",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "jp",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "nl",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "pl",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "se",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "sg",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "uk",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "us",
+        "source_product_id": "B01LX4E7FM",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "cenowarka",
+        "channel": "pl",
+        "source_product_id": "1521968",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "geizhals",
+        "channel": "de",
+        "source_product_id": "1521968",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "skinflint",
+        "channel": "uk",
+        "source_product_id": "1521968",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "walmart",
+        "channel": "us",
+        "source_product_id": "110051392",
+        "pricing_enabled": true,
+        "verified": false
+      }
+    ],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate FireCuda 500GB Hybrid 2.5\" 5400RPM SATA",
+    "metadata__part_numbers": [
+      "ST500LX025",
+      "2754009"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "FireCuda",
+    "metadata__variant": "500GB",
+    "name": "Seagate FireCuda 500GB Hybrid 2.5\" 5400RPM SATA",
+    "nvme": false,
+    "part_id": "59e40c0c-45ed-4976-a19f-20d12e438f7b",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/59e40c0c-45ed-4976-a19f-20d12e438f7b.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 4000,
+    "category": "sshd",
+    "form_factor": "3.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "mpn",
+        "value": "ST4000DX001",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate ST4000DX001 4TB 3.5\" Hybrid 5900RPM SATA 6.0 Gb/s",
+    "metadata__part_numbers": [
+      "ST4000DX001"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "ST4000DX001",
+    "metadata__variant": "4000GB",
+    "name": "Seagate ST4000DX001 4TB 3.5\" Hybrid 5900RPM SATA 6.0 Gb/s",
+    "nvme": false,
+    "part_id": "5d268a3b-9047-432e-8f42-417880e6f5d2",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/5d268a3b-9047-432e-8f42-417880e6f5d2.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 1000,
+    "category": "sshd",
+    "form_factor": "3.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "ean",
+        "value": "4022107289351",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "5053973137629",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "7636490036316",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ST1000DX001",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "620416517857",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [
+      {
+        "source": "amazon",
+        "channel": "au",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "be",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ca",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "de",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "es",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "fr",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ie",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "it",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "jp",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "nl",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "pl",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "se",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "sg",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "uk",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "us",
+        "source_product_id": "B00EIQTOFY",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "cenowarka",
+        "channel": "pl",
+        "source_product_id": "988345",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "geizhals",
+        "channel": "de",
+        "source_product_id": "988345",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "ruedecommerce",
+        "channel": "fr",
+        "source_product_id": "MKR00003395913",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "skinflint",
+        "channel": "uk",
+        "source_product_id": "988345",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "walmart",
+        "channel": "us",
+        "source_product_id": "34995188",
+        "pricing_enabled": true,
+        "verified": false
+      }
+    ],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate ST1000DX001 1TB Hybrid 3.5\" 7200RPM SATA",
+    "metadata__part_numbers": [
+      "ST1000DX001"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "ST1000DX001",
+    "metadata__variant": "1000GB",
+    "name": "Seagate ST1000DX001 1TB Hybrid 3.5\" 7200RPM SATA",
+    "nvme": false,
+    "part_id": "6368bd8e-cc71-4dac-8f2b-d62cff646fc6",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/6368bd8e-cc71-4dac-8f2b-d62cff646fc6.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 1000,
+    "category": "sshd",
+    "form_factor": "3.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "mpn",
+        "value": "ST1000DX002",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate FireCuda 1 TB Hybrid 3.5\" 7200 RPM SATA 6.0 Gb/s",
+    "metadata__part_numbers": [
+      "ST1000DX002"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "FireCuda",
+    "metadata__variant": "1000GB",
+    "name": "Seagate FireCuda 1 TB Hybrid 3.5\" 7200 RPM SATA 6.0 Gb/s",
+    "nvme": false,
+    "part_id": "637d1123-424e-4e67-bc68-4b1f62654554",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/637d1123-424e-4e67-bc68-4b1f62654554.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 1000,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "ean",
+        "value": "5415247103257",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "7636490067624",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "8592978062088",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ST1000LX015",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "763649118078",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [
+      {
+        "source": "amazon",
+        "channel": "au",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "be",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ca",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "de",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "es",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "fr",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ie",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "it",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "jp",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "nl",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "pl",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "se",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "sg",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "uk",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "us",
+        "source_product_id": "B01LXNUKKW",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "cenowarka",
+        "channel": "pl",
+        "source_product_id": "1521969",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "geizhals",
+        "channel": "de",
+        "source_product_id": "1521969",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "newegg",
+        "channel": "ca",
+        "source_product_id": "9SIAAEEHJ10427",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "newegg",
+        "channel": "us",
+        "source_product_id": "9SIAAEEHJ10427",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "skinflint",
+        "channel": "uk",
+        "source_product_id": "1521969",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "walmart",
+        "channel": "us",
+        "source_product_id": "347973959",
+        "pricing_enabled": true,
+        "verified": false
+      }
+    ],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate FireCuda 1TB Hybrid Internal 2.5\" 5400RPM SATA 6.0 Gb/s",
+    "metadata__part_numbers": [
+      "ST1000LX015"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "FireCuda",
+    "metadata__variant": "1000GB",
+    "name": "Seagate FireCuda 1TB Hybrid Internal 2.5\" 5400RPM SATA 6.0 Gb/s",
+    "nvme": false,
+    "part_id": "684583f8-097c-4a84-8646-acb0903e44cc",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/684583f8-097c-4a84-8646-acb0903e44cc.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 500,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "mpn",
+        "value": "ST500LM020",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate ST500LM020 500GB Hybrid 2.5\" 5400RPM SATA",
+    "metadata__part_numbers": [
+      "ST500LM020"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "ST500LM020",
+    "metadata__variant": "500GB",
+    "name": "Seagate ST500LM020 500GB Hybrid 2.5\" 5400RPM SATA",
+    "nvme": false,
+    "part_id": "6f72179b-69ed-4d27-8a4d-c6346f8063ed",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/6f72179b-69ed-4d27-8a4d-c6346f8063ed.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 4000,
+    "category": "sshd",
+    "form_factor": "3.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "mpn",
+        "value": "WD40E31X",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Western Digital",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Western Digital",
+    "metadata__name": "Western Digital Blue 4TB Hybrid 3.5\" 5400 RPM SATA 6.0 Gb/s Internal",
+    "metadata__part_numbers": [
+      "WD40E31X"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "Blue",
+    "metadata__variant": "4000GB",
+    "name": "Western Digital Blue 4TB Hybrid 3.5\" 5400 RPM SATA 6.0 Gb/s Internal",
+    "nvme": false,
+    "part_id": "74507f8c-1c20-4e1e-a0d6-cfc9ba8ec178",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/74507f8c-1c20-4e1e-a0d6-cfc9ba8ec178.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 1000,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "mpn",
+        "value": "STBD1000400",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate SuperSpeed 1TB Hybrid HDD 5400 RPM 2.5\" SATA 6.0 Gb/s",
+    "metadata__part_numbers": [
+      "STBD1000400"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "SuperSpeed",
+    "metadata__variant": "1000GB",
+    "name": "Seagate SuperSpeed 1TB Hybrid HDD 5400 RPM 2.5\" SATA 6.0 Gb/s",
+    "nvme": false,
+    "part_id": "79d3f4ee-d762-4f6e-a98a-522f27e1c235",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/79d3f4ee-d762-4f6e-a98a-522f27e1c235.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 500,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "mpn",
+        "value": "ST500LX003",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate Momentus XT 500 GB Hybrid 2.5\" 7200 RPM SATA 6.0 Gb/s",
+    "metadata__part_numbers": [
+      "ST500LX003"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "Momentus",
+    "metadata__variant": "500GB",
+    "name": "Seagate Momentus XT 500 GB Hybrid 2.5\" 7200 RPM SATA 6.0 Gb/s",
+    "nvme": false,
+    "part_id": "9a40369a-81b8-4eb5-a14b-67c04f029ecb",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/9a40369a-81b8-4eb5-a14b-67c04f029ecb.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 1000,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "ean",
+        "value": "7180378376808",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "WD10J31X",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "738878296019",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [
+      {
+        "source": "amazon",
+        "channel": "au",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "be",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ca",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "de",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "es",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "fr",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ie",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "it",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "jp",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "nl",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "pl",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "se",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "sg",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "uk",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "us",
+        "source_product_id": "B00YY3UBY4",
+        "pricing_enabled": true,
+        "verified": true
+      }
+    ],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Western Digital",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Western Digital",
+    "metadata__name": "Western Digital Blue 1TB Hybrid Internal 2.5\" 5400 RPM SATA 6.0 Gb/s",
+    "metadata__part_numbers": [
+      "WD10J31X"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "Blue",
+    "metadata__variant": "1000GB",
+    "name": "Western Digital Blue 1TB Hybrid Internal 2.5\" 5400 RPM SATA 6.0 Gb/s",
+    "nvme": false,
+    "part_id": "a0c75aef-3b94-44fb-81c4-3e9127f4e84e",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/a0c75aef-3b94-44fb-81c4-3e9127f4e84e.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 4000,
+    "category": "sshd",
+    "form_factor": "3.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "mpn",
+        "value": "STCL4000400",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate STCL4000400 4TB 3.5\" Hybrid HDD 5900RPM SATA",
+    "metadata__part_numbers": [
+      "STCL4000400"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "STCL4000400",
+    "metadata__variant": "4000GB",
+    "name": "Seagate STCL4000400 4TB 3.5\" Hybrid HDD 5900RPM SATA",
+    "nvme": false,
+    "part_id": "a8f8c31c-cf49-492e-9220-5a3af12c8fb3",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/a8f8c31c-cf49-492e-9220-5a3af12c8fb3.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 1000,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "ean",
+        "value": "0763649034859",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "0763649042670",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "5053973592503",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "7636490041228",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ST-1000LM014",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ST1000LM014",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "763649034859",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "763649042670",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "804066532952",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "807034591180",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "809185313611",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "951942465405",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [
+      {
+        "source": "amazon",
+        "channel": "au",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "be",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ca",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "de",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "es",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "fr",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ie",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "it",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "jp",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "nl",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "pl",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "se",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "sg",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "uk",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "us",
+        "source_product_id": "B00C57SO1I",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "cenowarka",
+        "channel": "pl",
+        "source_product_id": "915243",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "geizhals",
+        "channel": "de",
+        "source_product_id": "915243",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "skinflint",
+        "channel": "uk",
+        "source_product_id": "915243",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "walmart",
+        "channel": "us",
+        "source_product_id": "26819954",
+        "pricing_enabled": true,
+        "verified": false
+      }
+    ],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate ST1000LM014 1 TB Hybrid Internal 5400 RPM 2.5\" SATA 6.0 Gb/s",
+    "metadata__part_numbers": [
+      "ST1000LM014",
+      "ST-1000LM014"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "ST1000LM014",
+    "metadata__variant": "1000GB",
+    "name": "Seagate ST1000LM014 1 TB Hybrid Internal 5400 RPM 2.5\" SATA 6.0 Gb/s",
+    "nvme": false,
+    "part_id": "b0f305cd-9c32-482c-8d66-6b405d5dec12",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/b0f305cd-9c32-482c-8d66-6b405d5dec12.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 2000,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "ean",
+        "value": "0763649071212",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "0763649071298",
+        "region": "all"
+      },
+      {
+        "type": "ean",
+        "value": "7636490069840",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "4109695483982",
+        "region": "all"
+      },
+      {
+        "type": "mpn",
+        "value": "ST2000LX001",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "763649071212",
+        "region": "all"
+      },
+      {
+        "type": "upc",
+        "value": "763649071298",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [
+      {
+        "source": "amazon",
+        "channel": "au",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "be",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ca",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "de",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "es",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "fr",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "ie",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "it",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "jp",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "nl",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "pl",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "se",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "sg",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "uk",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "amazon",
+        "channel": "us",
+        "source_product_id": "B01M1UQQT5",
+        "pricing_enabled": true,
+        "verified": true
+      },
+      {
+        "source": "cenowarka",
+        "channel": "pl",
+        "source_product_id": "1521971",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "geizhals",
+        "channel": "de",
+        "source_product_id": "1521971",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "newegg",
+        "channel": "ca",
+        "source_product_id": "9SIBF3XJ742129",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "newegg",
+        "channel": "us",
+        "source_product_id": "9SIBF3XJ742129",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "ruedecommerce",
+        "channel": "fr",
+        "source_product_id": "MKR00002258469",
+        "pricing_enabled": true,
+        "verified": false
+      },
+      {
+        "source": "skinflint",
+        "channel": "uk",
+        "source_product_id": "1521971",
+        "pricing_enabled": true,
+        "verified": false
+      }
+    ],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate FireCuda 2TB Hybrid 2.5\" SATA 5400RPM",
+    "metadata__part_numbers": [
+      "ST2000LX001"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "FireCuda",
+    "metadata__variant": "2000GB",
+    "name": "Seagate FireCuda 2TB Hybrid 2.5\" SATA 5400RPM",
+    "nvme": false,
+    "part_id": "c37efd1f-3757-4748-8d51-99547aa16c0b",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/c37efd1f-3757-4748-8d51-99547aa16c0b.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 2000,
+    "category": "sshd",
+    "form_factor": "3.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "mpn",
+        "value": "STCL2000400",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Seagate",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Seagate",
+    "metadata__name": "Seagate STCL2000400 2TB 3.5\" Hybrid 7200RPM SATA",
+    "metadata__part_numbers": [
+      "STCL2000400"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "STCL2000400",
+    "metadata__variant": "2000GB",
+    "name": "Seagate STCL2000400 2TB 3.5\" Hybrid 7200RPM SATA",
+    "nvme": false,
+    "part_id": "c3e1f2c8-6dbd-4e84-8ef0-1124a4856674",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/c3e1f2c8-6dbd-4e84-8ef0-1124a4856674.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 1000,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "mpn",
+        "value": "MQ02ABD100H",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Toshiba",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Toshiba",
+    "metadata__name": "Toshiba MQ02ABD100H 1TB Hybrid 5400 RPM Internal 2.5\" SATA 6.0 Gb/s",
+    "metadata__part_numbers": [
+      "MQ02ABD100H"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "MQ02ABD100H",
+    "metadata__variant": "1000GB",
+    "name": "Toshiba MQ02ABD100H 1TB Hybrid 5400 RPM Internal 2.5\" SATA 6.0 Gb/s",
+    "nvme": false,
+    "part_id": "f5081c06-0401-430f-b47b-2b43b02f0804",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/f5081c06-0401-430f-b47b-2b43b02f0804.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  },
+  {
+    "cache_mb": null,
+    "capacity_gb": 320,
+    "category": "sshd",
+    "form_factor": "2.5\"",
+    "general_product_information__adorama_sku": null,
+    "general_product_information__amazon_sku": null,
+    "general_product_information__bestbuy_sku": null,
+    "general_product_information__hyte_sku": null,
+    "general_product_information__ibuypower_sku": null,
+    "general_product_information__lttstore_sku": null,
+    "general_product_information__manufacturer_url": null,
+    "general_product_information__newegg_sku": null,
+    "general_product_information__walmart_sku": null,
+    "identifiers__identifiers": [
+      {
+        "type": "mpn",
+        "value": "MQ01ABF032H",
+        "region": "all"
+      }
+    ],
+    "identifiers__retailer_listings": [],
+    "identifiers__version": 1,
+    "interface": "SATA 6.0 Gb/s",
+    "interface_family": "SATA",
+    "lighting": [],
+    "manufacturer": "Toshiba",
+    "manufacturer_url": null,
+    "metadata__last_manually_spec_verified_at": null,
+    "metadata__manufacturer": "Toshiba",
+    "metadata__name": "Toshiba MQ01ABF032H 320GB Hybrid 5400 RPM 2.5\" SATA 6.0 Gb/s Internal",
+    "metadata__part_numbers": [
+      "MQ01ABF032H"
+    ],
+    "metadata__release_year": null,
+    "metadata__series": "MQ01ABF032H",
+    "metadata__variant": "320GB",
+    "name": "Toshiba MQ01ABF032H 320GB Hybrid 5400 RPM 2.5\" SATA 6.0 Gb/s Internal",
+    "nvme": false,
+    "part_id": "fb9490b4-0454-4fd1-8763-518b61fcee7a",
+    "pipeline_version": "1.0.0",
+    "quality_issue_codes": [],
+    "quality_status": "no_issues_detected",
+    "source_category": "storage_other",
+    "source_commit": "3e1f527bef5ee94596a947e70a38bdaa90417592",
+    "source_record": "01_raw/buildcores/Storage/fb9490b4-0454-4fd1-8763-518b61fcee7a.json",
+    "source_weight_g": null,
+    "storage_type": "SSHD"
+  }
+]
