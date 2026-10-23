@@ -44,6 +44,8 @@ import { StorageListPage } from '../pages/inventory/storage/StorageListPage'
 import { LoginPage } from '../pages/login/LoginPage'
 import { ForgotPasswordPage } from '../pages/set-password/ForgotPasswordPage'
 import { SetPasswordPage } from '../pages/set-password/SetPasswordPage'
+import { ChatDetailPage } from '../pages/manage/chats/ChatDetailPage'
+import { ChatListPage } from '../pages/manage/chats/ChatListPage'
 import { BannerCreatePage } from '../pages/manage/banners/BannerCreatePage'
 import { BannerEditPage } from '../pages/manage/banners/BannerEditPage'
 import { BannerListPage } from '../pages/manage/banners/BannerListPage'
@@ -119,6 +121,8 @@ export function AuthRouter() {
           <Route path="/manage/users/:userId/edit" element={<UserEditPage />} />
           <Route path="/manage/orders" element={<OrderListPage />} />
           <Route path="/manage/orders/:orderId/edit" element={<OrderEditPage />} />
+          <Route path="/manage/chats" element={<ChatListPage />} />
+          <Route path="/manage/chats/:conversationId" element={<ChatDetailPage />} />
           <Route path="/manage/banners" element={<BannerListPage />} />
           <Route path="/manage/banners/new" element={<BannerCreatePage />} />
           <Route path="/manage/banners/:bannerId/edit" element={<BannerEditPage />} />

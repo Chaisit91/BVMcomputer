@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { FiChevronRight, FiFileText, FiPercent, FiUsers } from 'react-icons/fi'
+import { FiChevronRight, FiFileText, FiMessageCircle, FiPercent, FiUsers } from 'react-icons/fi'
 import { HiMegaphone } from 'react-icons/hi2'
 import { Link, useLocation } from 'react-router-dom'
 import { canAccess } from '../../lib/permissions'
@@ -16,6 +16,7 @@ interface ManageMenuItem {
 const items: ManageMenuItem[] = [
   { id: 'users', name: 'จัดการผู้ใช้งาน', description: 'ตรวจสอบข้อมูลและสถานะบัญชีลูกค้า', icon: <FiUsers />, path: '/manage/users' },
   { id: 'orders', name: 'จัดการคำสั่งซื้อ', description: 'ตรวจสอบและอัปเดตสถานะคำสั่งซื้อ', icon: <FiFileText />, path: '/manage/orders' },
+  { id: 'chats', name: 'แชทลูกค้า', description: 'ตอบแชทและข้อความสอบถามจากลูกค้าทุกช่องทางในระบบ', icon: <FiMessageCircle />, path: '/manage/chats' },
   { id: 'banners', name: 'จัดการโฆษณาและแบนเนอร์', description: 'จัดการภาพประชาสัมพันธ์ที่แสดงบนหน้าบ้าน', icon: <HiMegaphone />, path: '/manage/banners' },
   { id: 'promotions', name: 'จัดการโปรโมชั่น', description: 'จัดการคูปองและส่วนลด', icon: <FiPercent /> },
 ]

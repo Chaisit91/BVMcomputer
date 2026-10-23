@@ -3,6 +3,7 @@ import { FiBell, FiChevronDown, FiLogOut, FiMenu, FiMonitor, FiUser, FiX } from 
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Avatar } from '../ui/Avatar'
 import { canAccess } from '../../lib/permissions'
+import { getUnreadChatSummary } from '../../services/chat.service'
 import { logout } from '../../services/auth.service'
 import { clearUser } from '../../store/authSlice'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
@@ -10,7 +11,7 @@ import { adminRoleMeta } from '../../types/admin'
 import { InventoryMenu } from './InventoryMenu'
 import { ManageMenu } from './ManageMenu'
 
-const managePaths = ['/manage/orders', '/manage/users', '/manage/banners']
+const managePaths = ['/manage/orders', '/manage/users', '/manage/banners', '/manage/chats']
 
 type OpenMenu = 'inventory' | 'manage' | 'user' | null
 
@@ -39,6 +40,11 @@ export function Topbar() {
 
   const showInventoryNav = canAccess(user?.role, '/inventory')
   const showManageNav = managePaths.some((path) => canAccess(user?.role, path))
+  const showChatBadge = canAccess(user?.role, '/manage/chats')
+  const [unreadChatCount, setUnreadChatCount] = useState(0)
+  // When exactly one conversation is unread, the bell jumps straight to it
+  // instead of the list — with several open, there's no single "the" one to jump to.
+  const [soleUnreadConversationId, setSoleUnreadConversationId] = useState<string | null>(null)
   // super_admin manages every account; every other role gets a "my team" link
   // scoped to their own department instead of the full admin-management page.
   const showAdminsNav = Boolean(user)
@@ -66,6 +72,27 @@ export function Topbar() {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [openMenu, mobileMenuOpen])
+
+  useEffect(() => {
+    if (!showChatBadge) return
+
+    let cancelled = false
+    const poll = () => {
+      getUnreadChatSummary()
+        .then((summary) => {
+          if (cancelled) return
+          setUnreadChatCount(summary.total)
+          setSoleUnreadConversationId(summary.soleConversationId)
+        })
+        .catch(() => {})
+    }
+    poll()
+    const interval = setInterval(poll, 20_000)
+    return () => {
+      cancelled = true
+      clearInterval(interval)
+    }
+  }, [showChatBadge])
 
   const toggleMenu = (menu: Exclude<OpenMenu, null>) => {
     setOpenMenu((current) => (current === menu ? null : menu))
@@ -158,9 +185,24 @@ export function Topbar() {
           >
             {mobileMenuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
           </button>
-          <button type="button" className="text-gray-400 hover:text-gray-600" aria-label="การแจ้งเตือน">
-            <FiBell size={20} />
-          </button>
+          {showChatBadge ? (
+            <Link
+              to={soleUnreadConversationId ? `/manage/chats/${soleUnreadConversationId}` : '/manage/chats'}
+              className="relative text-gray-400 hover:text-gray-600"
+              aria-label="แชทลูกค้าที่ยังไม่ได้ตอบ"
+            >
+              <FiBell size={20} />
+              {unreadChatCount > 0 && (
+                <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-semibold text-white">
+                  {unreadChatCount > 99 ? '99+' : unreadChatCount}
+                </span>
+              )}
+            </Link>
+          ) : (
+            <button type="button" className="text-gray-400 hover:text-gray-600" aria-label="การแจ้งเตือน">
+              <FiBell size={20} />
+            </button>
+          )}
 
           <div ref={userMenuRef} className="relative">
             <button

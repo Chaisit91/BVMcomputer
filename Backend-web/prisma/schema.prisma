@@ -425,6 +425,7 @@ model Customer {
   orders           Order[]
   customBuilds     CustomBuild[]
   computerUpgrades ComputerUpgrade[]
+  chatConversation ChatConversation?
 }
 
 // customerName/Phone/shippingAddress stay on Order (not just via the Customer
@@ -654,6 +655,7 @@ model AdminAccount {
   loginHistory AdminLoginHistory[]
 
   verifiedUpgradeItems ComputerUpgradeItem[]
+  sentChatMessages     ChatMessage[]
 }
 
 model AdminRoleHistory {
@@ -670,4 +672,41 @@ model AdminLoginHistory {
   adminId String
   date    DateTime
   device  String
+}
+
+// ---------- Customer service chat ----------
+
+enum ChatSender {
+  customer
+  admin
+}
+
+// One conversation per customer (unique customerId) — a single running
+// thread rather than per-topic threads, matching how Shopee/LINE OA show one
+// chat per customer regardless of what they're asking about.
+model ChatConversation {
+  id            String        @id @default(cuid())
+  customer      Customer      @relation(fields: [customerId], references: [id])
+  customerId    String        @unique
+  lastMessageAt DateTime      @default(now())
+  // Count of customer messages not yet seen by an admin; reset to 0 whenever
+  // an admin opens the thread or replies. Drives the unread badge in admin-web.
+  unreadCount   Int           @default(0)
+  messages      ChatMessage[]
+}
+
+model ChatMessage {
+  id             String           @id @default(cuid())
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId String
+  sender         ChatSender
+  // Internal accountability only — admin-web's back office shows this name
+  // so any reply can be traced to the admin who sent it. Whenever a
+  // customer-facing surface (the storefront chat widget, not built yet)
+  // renders an admin message, it must show the company's name instead,
+  // never this field.
+  senderAdmin    AdminAccount?    @relation(fields: [senderAdminId], references: [id])
+  senderAdminId  String?
+  content        String
+  createdAt      DateTime         @default(now())
 }

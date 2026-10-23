@@ -12,6 +12,8 @@ import { adminRouter } from './modules/admin/admin.router'
 import { authRouter } from './modules/auth/auth.router'
 import { bannerRouter } from './modules/banner/banner.router'
 import { caseRouter } from './modules/case/case.router'
+import { chatPublicRouter } from './modules/chat/chat-public.router'
+import { chatRouter } from './modules/chat/chat.router'
 import { computerUpgradePublicRouter } from './modules/computer-upgrade/computer-upgrade-public.router'
 import { computerUpgradeRouter } from './modules/computer-upgrade/computer-upgrade.router'
 import { coolingRouter } from './modules/cooling/cooling.router'
@@ -78,8 +80,12 @@ app.use('/api/public/computer-upgrades', computerUpgradePublicRouter)
 // No auth — a brand-new admin has no session yet when they click the emailed
 // "set your password" link. Protected only by the one-time token itself.
 app.use('/api/public/admin-password-setup', adminPasswordSetupRouter)
+// No auth — customer-sent chat messages land here directly once the
+// storefront exists; same reasoning as the public routers above.
+app.use('/api/public/chats', chatPublicRouter)
 app.use('/api/customers', ...sales, customerRouter)
 app.use('/api/orders', ...sales, orderRouter)
+app.use('/api/chats', ...sales, chatRouter)
 app.use('/api/banners', ...content, bannerRouter)
 // adminRouter guards itself per-route (list/create/delete are super_admin
 // only; view/edit is self-or-team-lead-or-super_admin) — see admin.router.ts.

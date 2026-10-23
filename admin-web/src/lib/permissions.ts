@@ -6,7 +6,7 @@ import type { AdminRole } from '../types/admin'
 // anything enforced only here.
 const sectionPrefixes: Partial<Record<AdminRole, string[]>> = {
   inventory_manager: ['/inventory'],
-  sales_staff: ['/manage/orders', '/manage/users'],
+  sales_staff: ['/manage/orders', '/manage/users', '/manage/chats'],
   content_moderator: ['/manage/banners'],
 }
 
