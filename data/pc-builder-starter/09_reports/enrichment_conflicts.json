@@ -1,0 +1,323 @@
+[
+  {
+    "part_id": "14d9ab20-35fd-4849-acb2-f16e28466764",
+    "field": "max_video_card_length",
+    "options": [
+      {
+        "value": 360,
+        "donor_ids": [
+          "c298f197-7bda-4cb7-ab79-c8d6bb105265",
+          "f6f60ff7-1351-41e6-a2f9-3ada91e38a66"
+        ]
+      },
+      {
+        "value": 365,
+        "donor_ids": [
+          "6960793f-387a-4df5-9625-45a4f0d30bf1"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "336024ff-6df8-4710-bd5f-b3c8ef276dd4",
+    "field": "supported_power_supply_form_factors",
+    "options": [
+      {
+        "value": [
+          "SFX",
+          "SFX-L"
+        ],
+        "donor_ids": [
+          "81721d18-7067-4bde-8b98-0f9c8cb25af9"
+        ]
+      },
+      {
+        "value": [
+          "SFX-L",
+          "SFX"
+        ],
+        "donor_ids": [
+          "44ab0fa6-87df-4b80-888c-e9e000d067ec"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "4c2afff4-077f-42f5-b36a-96850ca4a8ce",
+    "field": "max_cpu_cooler_height",
+    "options": [
+      {
+        "value": 160,
+        "donor_ids": [
+          "870a224a-b129-406b-82ff-0f0b32c892ed",
+          "97182328-a217-45cd-b8df-5f86c6dbf9c3"
+        ]
+      },
+      {
+        "value": 165,
+        "donor_ids": [
+          "1f48999a-18bd-479e-b27a-006636cd296e",
+          "4e8e319a-cd49-4977-bdcc-d268616f5e1f",
+          "c1a4235b-f507-4b21-9db9-445ff70934d2"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "4c2afff4-077f-42f5-b36a-96850ca4a8ce",
+    "field": "max_video_card_length",
+    "options": [
+      {
+        "value": 305,
+        "donor_ids": [
+          "1f48999a-18bd-479e-b27a-006636cd296e",
+          "4e8e319a-cd49-4977-bdcc-d268616f5e1f",
+          "97182328-a217-45cd-b8df-5f86c6dbf9c3",
+          "c1a4235b-f507-4b21-9db9-445ff70934d2"
+        ]
+      },
+      {
+        "value": 320,
+        "donor_ids": [
+          "870a224a-b129-406b-82ff-0f0b32c892ed"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "58262c93-3e90-4378-b38a-96115e94ea7e",
+    "field": "max_video_card_length",
+    "options": [
+      {
+        "value": 365,
+        "donor_ids": [
+          "db39b83e-baed-4d65-9fed-723809f6edbf"
+        ]
+      },
+      {
+        "value": 381,
+        "donor_ids": [
+          "07d99520-525a-4ec0-9e75-2f29aa97e9c7"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "112ed343-c0dc-41a1-885e-d4bb0bfdc4d3",
+    "field": "length",
+    "options": [
+      {
+        "value": 281,
+        "donor_ids": [
+          "0a52814e-a565-4d74-aa28-d5b4cd61c128"
+        ]
+      },
+      {
+        "value": 290,
+        "donor_ids": [
+          "6206bf3d-0935-46fd-a3c4-4da6602b9152"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "2de616f4-198c-4e11-98f1-d8c2e403339b",
+    "field": "total_slot_width",
+    "options": [
+      {
+        "value": 2,
+        "donor_ids": [
+          "29846269-2c76-4c70-b7f0-6492378277c6"
+        ]
+      },
+      {
+        "value": 3,
+        "donor_ids": [
+          "b9f61edc-7d73-4ef3-a765-eaabc07cfc23"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "4a74f132-d616-4cd7-b43e-28d7dcbbdab5",
+    "field": "total_slot_width",
+    "options": [
+      {
+        "value": 2.5,
+        "donor_ids": [
+          "24274df6-7437-4561-9af5-9ef1353feb94"
+        ]
+      },
+      {
+        "value": 3,
+        "donor_ids": [
+          "2c95d8b2-c31a-4384-8d99-f678c3ed6ef8"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "5a754053-6cd5-4ca9-8bd0-74fca826387b",
+    "field": "total_slot_width",
+    "options": [
+      {
+        "value": 2,
+        "donor_ids": [
+          "aa8b78a5-88f7-47f6-a3c2-5160bfe31d09",
+          "ea75b721-84ea-4bbd-9ded-8b57daf5e1e1"
+        ]
+      },
+      {
+        "value": 2.3,
+        "donor_ids": [
+          "82b299af-cbdd-46c9-89d7-209fd870cf1d"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "74882092-d369-4476-ad91-8947900ba31f",
+    "field": "total_slot_width",
+    "options": [
+      {
+        "value": 2,
+        "donor_ids": [
+          "f37aaf74-9f5e-4ef1-b889-42393666d65f"
+        ]
+      },
+      {
+        "value": 3,
+        "donor_ids": [
+          "fb1064f7-59ff-4847-932f-38f8976e9d1f"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "d2fe66ef-35ae-442e-a04d-e4625c7da773",
+    "field": "total_slot_width",
+    "options": [
+      {
+        "value": 2,
+        "donor_ids": [
+          "0653d195-f151-4cb7-a4a8-d78004183fb7"
+        ]
+      },
+      {
+        "value": 3,
+        "donor_ids": [
+          "d9d6b0cc-4885-4cf1-b45c-3af1cad02dd4",
+          "fdfeb6ae-e10d-4a01-88af-7fdc0677d7b6"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "f5940021-9aa9-497b-89c3-43db01a786a9",
+    "field": "memory_bus",
+    "options": [
+      {
+        "value": 192,
+        "donor_ids": [
+          "172342d8-c7df-4a47-b795-cd93cf612f51"
+        ]
+      },
+      {
+        "value": 256,
+        "donor_ids": [
+          "450d1d39-afeb-4b05-82c0-178e48a7ea53"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "0de97244-1e05-4dde-ac60-e78d785fecfa",
+    "field": "length",
+    "options": [
+      {
+        "value": 140,
+        "donor_ids": [
+          "206ffb46-a83f-4144-9a6b-f87003bdfc60"
+        ]
+      },
+      {
+        "value": 180,
+        "donor_ids": [
+          "a3a1e13e-67d6-4c3c-ac07-a43cd87b6b02"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "172342d8-c7df-4a47-b795-cd93cf612f51",
+    "field": "memory_bus",
+    "options": [
+      {
+        "value": 192,
+        "donor_ids": [
+          "original_record"
+        ]
+      },
+      {
+        "value": 256,
+        "donor_ids": [
+          "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3060-3060ti/"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "8b3fc962-0843-40dd-abfe-a9afa073dd5b",
+    "field": "memory_bus",
+    "options": [
+      {
+        "value": 192,
+        "donor_ids": [
+          "original_record"
+        ]
+      },
+      {
+        "value": 256,
+        "donor_ids": [
+          "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3070-3070ti/"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "a4381fce-f845-45f7-b51d-c6d493c30c1d",
+    "field": "memory_bus",
+    "options": [
+      {
+        "value": 256,
+        "donor_ids": [
+          "original_record"
+        ]
+      },
+      {
+        "value": 192,
+        "donor_ids": [
+          "https://www.nvidia.com/en-au/geforce/graphics-cards/50-series/rtx-5070-family/"
+        ]
+      }
+    ]
+  },
+  {
+    "part_id": "fe4b5ef8-8a73-4c9a-a0d6-53e74fcc7948",
+    "field": "memory_bus",
+    "options": [
+      {
+        "value": 192,
+        "donor_ids": [
+          "original_record"
+        ]
+      },
+      {
+        "value": 256,
+        "donor_ids": [
+          "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3070-3070ti/"
+        ]
+      }
+    ]
+  }
+]

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "cpu cleaned v1.0.0",
+  "title": "cpu cleaned v1.1.0",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -15,6 +15,7 @@
     "demo_scope",
     "efficiency_base_clock_ghz",
     "efficiency_boost_clock_ghz",
+    "enrichment_evidence",
     "general_product_information__adorama_sku",
     "general_product_information__amazon_sku",
     "general_product_information__bestbuy_sku",
@@ -27,8 +28,10 @@
     "identifiers__identifiers",
     "identifiers__retailer_listings",
     "identifiers__version",
+    "inherited_fields",
     "manufacturer",
     "manufacturer_url",
+    "manufacturer_verified_fields",
     "max_memory_gb",
     "metadata__last_manually_spec_verified_at",
     "metadata__manufacturer",
@@ -137,6 +140,12 @@
         "number"
       ]
     },
+    "enrichment_evidence": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
     "general_product_information__adorama_sku": {
       "type": [
         "null"
@@ -201,6 +210,12 @@
         "null"
       ]
     },
+    "inherited_fields": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
     "manufacturer": {
       "type": [
         "null",
@@ -211,6 +226,12 @@
       "type": [
         "null",
         "string"
+      ]
+    },
+    "manufacturer_verified_fields": {
+      "type": [
+        "array",
+        "null"
       ]
     },
     "max_memory_gb": {

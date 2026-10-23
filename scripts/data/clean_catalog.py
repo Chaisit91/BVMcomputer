@@ -13,8 +13,11 @@ import math
 import re
 import unicodedata
 import uuid
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from enrichment import enrich
 
-VERSION = '1.0.0'
+VERSION = '1.1.0'
 UPSTREAM = {'cpu':'CPU','gpu':'GPU','motherboard':'Motherboard','ram':'RAM',
             'psu':'PSU','cpu_cooler':'CPUCooler','case':'PCCase',
             'ssd':'Storage','hdd':'Storage','storage_other':'Storage'}
@@ -110,6 +113,16 @@ def run(root):
     source=root/'02_catalog'; out=root/'08_cleaned'; reports=root/'09_reports'
     manifest=json.loads((root/'manifest.json').read_text(encoding='utf-8'))
     issues=[]; changes=[]; datasets=collections.defaultdict(list); dictionaries={}; hashes={}
+    original_catalogs={f.parent.name:json.loads(f.read_text(encoding='utf-8')) for f in source.glob('*/parts.json')}
+    corrections_path=root/'05_manual_data/verified_corrections.json'
+    corrections=json.loads(corrections_path.read_text(encoding='utf-8')) if corrections_path.exists() else []
+    references_path=root/'05_manual_data/gpu_reference_rules.json'
+    references=json.loads(references_path.read_text(encoding='utf-8')) if references_path.exists() else []
+    catalogs,receipts,identity_conflicts=enrich(original_catalogs,corrections,references)
+    by_part=collections.defaultdict(list)
+    for receipt in receipts:by_part[receipt['part_id']].append(receipt)
+    if corrections_path.exists():hashes['05_manual_data/verified_corrections.json']=hashlib.sha256(corrections_path.read_bytes()).hexdigest()
+    if references_path.exists():hashes['05_manual_data/gpu_reference_rules.json']=hashlib.sha256(references_path.read_bytes()).hexdigest()
     duplicates=collections.defaultdict(list); seen=set(); rows_in=0
     def issue(cat,pid,path,code,value=None):
         issues.append(dict(category=cat,part_id=pid,field=path,code=code,source_value=value))
@@ -118,7 +131,7 @@ def run(root):
         if original_cat not in UPSTREAM: raise ValueError('Unexpected category '+original_cat)
         raw=file.read_bytes(); hashes[str(file.relative_to(root))]=hashlib.sha256(raw).hexdigest()
         schema=json.loads((root/'03_schemas'/(UPSTREAM[original_cat]+'.schema.json')).read_text(encoding='utf-8'))
-        for d in json.loads(raw):
+        for d in catalogs[original_cat]:
             rows_in+=1; pid=d.get('opendb_id'); uuid.UUID(pid)
             if pid in seen: raise ValueError('Duplicate primary ID '+pid)
             seen.add(pid)
@@ -129,6 +142,9 @@ def run(root):
             row={'part_id':pid,'category':cat,'source_category':original_cat,
                  'source_record':f'01_raw/buildcores/{UPSTREAM[original_cat]}/{pid}.json',
                  'source_commit':manifest['commit'],'pipeline_version':VERSION}
+            row['enrichment_evidence']=by_part[pid]
+            row['manufacturer_verified_fields']=sorted({x['field'] for x in by_part[pid] if x['manufacturer_verified']})
+            row['inherited_fields']=sorted({x['field'] for x in by_part[pid] if not x['manufacturer_verified']})
             mapping=dictionaries.setdefault(cat,{})
             # ทุกฟิลด์ที่ schema กำหนดมีคอลัมน์แม้ข้อมูลทั้งหมวดจะยังไม่มีค่า
             flat={**schema_leaves(schema),**flatten(d)}
@@ -195,12 +211,16 @@ def run(root):
             if cat=='cpu':
                 row['demo_scope']='modern_desktop_socket' if row.get('socket') in ('AM4','AM5','LGA1700') else 'other_or_unknown'
             # ไม่แปลงหน่วย weight อัตโนมัติ: สเปกบางรายการดูผิดหน่วยแม้ schema ระบุแล้ว
-            if 'weight' in flat and flat['weight'] is not None:issue(cat,pid,'weight','source_unit_requires_verification',flat['weight'])
+            if 'weight' in flat and flat['weight'] is not None and 'weight' not in row['manufacturer_verified_fields']:issue(cat,pid,'weight','source_unit_requires_verification',flat['weight'])
             datasets[cat].append(row)
             manufacturer=str(row.get('manufacturer') or '').casefold()
             for mpn in get(d,'metadata.part_numbers') or []:
                 if isinstance(mpn,str) and mpn.strip():duplicates[(manufacturer,text(mpn).casefold())].append(pid)
     by_id=collections.defaultdict(list)
+    category_by_id={r['part_id']:cat for cat,rows in datasets.items() for r in rows}
+    for conflict in identity_conflicts:
+        # conflict ของ donor ไม่ใช่เหตุให้เติมค่า; คง unknown และแสดงหลักฐานแยก
+        issue(category_by_id[conflict['part_id']],conflict['part_id'],conflict['field'],'conflicting_enrichment_evidence',conflict['options'])
     for item in issues:by_id[item['part_id']].append(item['code'])
     coverage=[]; dictionary=[]; counts={}
     for cat,rows in sorted(datasets.items()):
@@ -225,9 +245,21 @@ def run(root):
     duplicate_groups=[dict(manufacturer=k[0],part_number=k[1],part_ids=sorted(set(v))) for k,v in sorted(duplicates.items()) if len(set(v))>1]
     write_json(reports/'issues.json',issues);write_json(reports/'changes.json',changes)
     write_json(reports/'possible_duplicates.json',duplicate_groups)
+    write_json(reports/'enrichment_receipts.json',receipts)
+    write_json(reports/'enrichment_conflicts.json',identity_conflicts)
+    index={r['part_id']:r for rows in datasets.values() for r in rows}
+    queue={}
+    optional={'weight','memory_bus','specifications.ppt','volume'}
+    for item in issues:
+        key=(item['part_id'],item['field'])
+        d=index[item['part_id']]
+        task=queue.setdefault(key,dict(part_id=item['part_id'],category=item['category'],name=d['name'],field=item['field'],issue_codes=[],priority='supplemental' if item['field'] in optional else 'compatibility',manufacturer_url=d['manufacturer_url'],part_numbers=d.get('metadata__part_numbers'),status='unresolved'))
+        task['issue_codes'].append(item['code'])
+    write_json(reports/'review_queue.json',sorted(queue.values(),key=lambda x:(x['priority']!='compatibility',x['category'],x['part_id'],x['field'])))
     write_json(out/'data_dictionary.json',dictionary)
     write_csv(reports/'column_coverage.csv',coverage,['category','column','total_rows','nonempty_rows','nonempty_percent'])
     summary=dict(pipeline_version=VERSION,input_sha256=hashes,source_commit=manifest['commit'],input_rows=rows_in,output_rows=sum(counts.values()),counts=counts,issues_by_code=dict(sorted(collections.Counter(i['code'] for i in issues).items())),records_with_issues=sum(bool(v) for v in by_id.values()),changes=len(changes),possible_duplicate_groups=len(duplicate_groups),removed_records=0)
+    summary['enrichment']={'field_updates':len(receipts),'manufacturer_verified_updates':sum(x['manufacturer_verified'] for x in receipts),'inherited_updates':sum(not x['manufacturer_verified'] for x in receipts),'donor_conflicts':len(identity_conflicts),'records_updated':sum(bool(v) for v in by_part.values()),'unresolved_field_tasks':len(queue)}
     assert rows_in==sum(counts.values())
     write_json(reports/'summary.json',summary)
     print(json.dumps(summary,ensure_ascii=False,indent=2))
@@ -242,6 +274,10 @@ def main():
         with tempfile.TemporaryDirectory() as temp:
             tmp=Path(temp)
             for name in ('02_catalog','03_schemas'):shutil.copytree(root/name,tmp/name)
+            for filename in ('verified_corrections.json','gpu_reference_rules.json'):
+                corrections_path=root/'05_manual_data'/filename
+                if corrections_path.exists():
+                    (tmp/'05_manual_data').mkdir(exist_ok=True);shutil.copy2(corrections_path,tmp/'05_manual_data'/filename)
             shutil.copy2(root/'manifest.json',tmp/'manifest.json');run(tmp)
             for folder in ('08_cleaned','09_reports'):
                 expected={str(f.relative_to(tmp/folder)):hashlib.sha256(f.read_bytes()).hexdigest() for f in (tmp/folder).rglob('*') if f.is_file()}

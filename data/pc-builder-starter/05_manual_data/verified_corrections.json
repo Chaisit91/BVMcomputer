@@ -1,0 +1,107 @@
+[
+  {
+    "part_id": "0000caee-142c-48f6-99be-9c6f4dd18845",
+    "expected_mpns": [
+      "FD-CA-MESH-C-BKO"
+    ],
+    "field": "supported_power_supply_form_factors",
+    "value": [
+      "ATX"
+    ],
+    "source_url": "https://www.fractal-design.com/products/cases/meshify-series/meshify-c/meshify-c/",
+    "checked_on": "2026-10-23",
+    "note": "Exact SKU on official page; net weight 6.2 kg converted to source schema pounds. PSU 175 mm with drive cage; retain installation conditions in evidence, not a guarantee with radiator."
+  },
+  {
+    "part_id": "0000caee-142c-48f6-99be-9c6f4dd18845",
+    "expected_mpns": [
+      "FD-CA-MESH-C-BKO"
+    ],
+    "field": "max_psu_length",
+    "value": 175,
+    "source_url": "https://www.fractal-design.com/products/cases/meshify-series/meshify-c/meshify-c/",
+    "checked_on": "2026-10-23",
+    "note": "Exact SKU on official page; net weight 6.2 kg converted to source schema pounds. PSU 175 mm with drive cage; retain installation conditions in evidence, not a guarantee with radiator."
+  },
+  {
+    "part_id": "0000caee-142c-48f6-99be-9c6f4dd18845",
+    "expected_mpns": [
+      "FD-CA-MESH-C-BKO"
+    ],
+    "field": "weight",
+    "value": 13.66866026,
+    "source_url": "https://www.fractal-design.com/products/cases/meshify-series/meshify-c/meshify-c/",
+    "checked_on": "2026-10-23",
+    "note": "Exact SKU on official page; net weight 6.2 kg converted to source schema pounds. PSU 175 mm with drive cage; retain installation conditions in evidence, not a guarantee with radiator."
+  },
+  {
+    "part_id": "000a0d8c-7590-4fd6-a724-41c36a3a4a9f",
+    "expected_mpns": [
+      "R-CH510-BKNSE1-G-1"
+    ],
+    "field": "supported_power_supply_form_factors",
+    "value": [
+      "ATX"
+    ],
+    "source_url": "https://jp.deepcool.com/products/Cases/CH510-MESH-DIGITAL-Mid-Tower-ATX-Case/2022/16218.shtml",
+    "checked_on": "2026-10-23",
+    "note": "Exact PN in official technical spec; ATX PS2, cooler height 175 mm, PSU length 170 mm. No claim about front radiator clearance."
+  },
+  {
+    "part_id": "000a0d8c-7590-4fd6-a724-41c36a3a4a9f",
+    "expected_mpns": [
+      "R-CH510-BKNSE1-G-1"
+    ],
+    "field": "max_cpu_cooler_height",
+    "value": 175,
+    "source_url": "https://jp.deepcool.com/products/Cases/CH510-MESH-DIGITAL-Mid-Tower-ATX-Case/2022/16218.shtml",
+    "checked_on": "2026-10-23",
+    "note": "Exact PN in official technical spec; ATX PS2, cooler height 175 mm, PSU length 170 mm. No claim about front radiator clearance."
+  },
+  {
+    "part_id": "000a0d8c-7590-4fd6-a724-41c36a3a4a9f",
+    "expected_mpns": [
+      "R-CH510-BKNSE1-G-1"
+    ],
+    "field": "max_psu_length",
+    "value": 170,
+    "source_url": "https://jp.deepcool.com/products/Cases/CH510-MESH-DIGITAL-Mid-Tower-ATX-Case/2022/16218.shtml",
+    "checked_on": "2026-10-23",
+    "note": "Exact PN in official technical spec; ATX PS2, cooler height 175 mm, PSU length 170 mm. No claim about front radiator clearance."
+  },
+  {
+    "part_id": "08021e0d-66d3-479f-b1be-bddd88c1916e",
+    "expected_mpns": [
+      "R-CH510-BKNNE1-G-1"
+    ],
+    "field": "supported_power_supply_form_factors",
+    "value": [
+      "ATX"
+    ],
+    "source_url": "https://www.deepcool.com/products/Cases/CH510-Mid-Tower-ATX-Case/2022/15764.shtml",
+    "checked_on": "2026-10-23",
+    "note": "Exact PN in official technical spec; applies only to black CH510, not inferred for other variants."
+  },
+  {
+    "part_id": "08021e0d-66d3-479f-b1be-bddd88c1916e",
+    "expected_mpns": [
+      "R-CH510-BKNNE1-G-1"
+    ],
+    "field": "max_cpu_cooler_height",
+    "value": 175,
+    "source_url": "https://www.deepcool.com/products/Cases/CH510-Mid-Tower-ATX-Case/2022/15764.shtml",
+    "checked_on": "2026-10-23",
+    "note": "Exact PN in official technical spec; applies only to black CH510, not inferred for other variants."
+  },
+  {
+    "part_id": "08021e0d-66d3-479f-b1be-bddd88c1916e",
+    "expected_mpns": [
+      "R-CH510-BKNNE1-G-1"
+    ],
+    "field": "max_psu_length",
+    "value": 170,
+    "source_url": "https://www.deepcool.com/products/Cases/CH510-Mid-Tower-ATX-Case/2022/15764.shtml",
+    "checked_on": "2026-10-23",
+    "note": "Exact PN in official technical spec; applies only to black CH510, not inferred for other variants."
+  }
+]

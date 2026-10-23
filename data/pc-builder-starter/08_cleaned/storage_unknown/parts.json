@@ -3,6 +3,7 @@
     "cache_mb": null,
     "capacity_gb": null,
     "category": "storage_unknown",
+    "enrichment_evidence": [],
     "form_factor": null,
     "general_product_information__adorama_sku": null,
     "general_product_information__amazon_sku": null,
@@ -191,11 +192,13 @@
       }
     ],
     "identifiers__version": 1,
+    "inherited_fields": [],
     "interface": null,
     "interface_family": null,
     "lighting": [],
     "manufacturer": null,
     "manufacturer_url": null,
+    "manufacturer_verified_fields": [],
     "metadata__last_manually_spec_verified_at": null,
     "metadata__manufacturer": null,
     "metadata__name": "Seagate BarraCuda Pro 12TB 256MB Cache",
@@ -209,7 +212,7 @@
     "name": "Seagate BarraCuda Pro 12TB 256MB Cache",
     "nvme": null,
     "part_id": "6b6b9644-931c-46cd-af54-77f855c6097a",
-    "pipeline_version": "1.0.0",
+    "pipeline_version": "1.1.0",
     "quality_issue_codes": [
       "missing_required_for_initial_checks"
     ],
@@ -224,6 +227,7 @@
     "cache_mb": null,
     "capacity_gb": null,
     "category": "storage_unknown",
+    "enrichment_evidence": [],
     "form_factor": null,
     "general_product_information__adorama_sku": null,
     "general_product_information__amazon_sku": null,
@@ -378,11 +382,13 @@
       }
     ],
     "identifiers__version": 1,
+    "inherited_fields": [],
     "interface": null,
     "interface_family": null,
     "lighting": [],
     "manufacturer": null,
     "manufacturer_url": null,
+    "manufacturer_verified_fields": [],
     "metadata__last_manually_spec_verified_at": null,
     "metadata__manufacturer": null,
     "metadata__name": "ADATA SU800 2TB 3D-NAND 2.5 Inch",
@@ -395,7 +401,7 @@
     "name": "ADATA SU800 2TB 3D-NAND 2.5 Inch",
     "nvme": null,
     "part_id": "e8e8fbda-3c09-47b0-8c69-6c9c6a1b9c9c",
-    "pipeline_version": "1.0.0",
+    "pipeline_version": "1.1.0",
     "quality_issue_codes": [
       "missing_required_for_initial_checks"
     ],

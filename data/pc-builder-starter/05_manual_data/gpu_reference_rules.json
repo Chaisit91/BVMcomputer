@@ -1,0 +1,314 @@
+[
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 5090",
+      "memory": 32,
+      "memory_type": "GDDR7"
+    },
+    "value": 512,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5090/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 5080",
+      "memory": 16,
+      "memory_type": "GDDR7"
+    },
+    "value": 256,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5080/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 5070 Ti",
+      "memory": 16,
+      "memory_type": "GDDR7"
+    },
+    "value": 256,
+    "source_url": "https://www.nvidia.com/en-au/geforce/graphics-cards/50-series/rtx-5070-family/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 5070",
+      "memory": 12,
+      "memory_type": "GDDR7"
+    },
+    "value": 192,
+    "source_url": "https://www.nvidia.com/en-au/geforce/graphics-cards/50-series/rtx-5070-family/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 5060",
+      "memory": 8,
+      "memory_type": "GDDR7"
+    },
+    "value": 128,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5060-family/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 5060 Ti",
+      "memory": 8,
+      "memory_type": "GDDR7"
+    },
+    "value": 128,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5060-family/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 5060 Ti",
+      "memory": 16,
+      "memory_type": "GDDR7"
+    },
+    "value": 128,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5060-family/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 4070 Ti SUPER",
+      "memory": 16,
+      "memory_type": "GDDR6X"
+    },
+    "value": 256,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 4070 Ti",
+      "memory": 12,
+      "memory_type": "GDDR6X"
+    },
+    "value": 192,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 4070 SUPER",
+      "memory": 12,
+      "memory_type": "GDDR6X"
+    },
+    "value": 192,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 4070",
+      "memory": 12,
+      "memory_type": "GDDR6"
+    },
+    "value": 192,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 4070",
+      "memory": 12,
+      "memory_type": "GDDR6X"
+    },
+    "value": 192,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4070-family/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 3060",
+      "memory": 12,
+      "memory_type": "GDDR6"
+    },
+    "value": 192,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3060-3060ti/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 3060",
+      "memory": 8,
+      "memory_type": "GDDR6"
+    },
+    "value": 128,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3060-3060ti/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 3060 Ti",
+      "memory": 8,
+      "memory_type": "GDDR6"
+    },
+    "value": 256,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3060-3060ti/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 3060 Ti",
+      "memory": 8,
+      "memory_type": "GDDR6X"
+    },
+    "value": 256,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3060-3060ti/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 3070",
+      "memory": 8,
+      "memory_type": "GDDR6"
+    },
+    "value": 256,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3070-3070ti/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 3070 Ti",
+      "memory": 8,
+      "memory_type": "GDDR6X"
+    },
+    "value": 256,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3070-3070ti/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 3080",
+      "memory": 10,
+      "memory_type": "GDDR6X"
+    },
+    "value": 320,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3080-3080ti/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 3080",
+      "memory": 12,
+      "memory_type": "GDDR6X"
+    },
+    "value": 384,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3080-3080ti/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 3080 Ti",
+      "memory": 12,
+      "memory_type": "GDDR6X"
+    },
+    "value": 384,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/30-series/rtx-3080-3080ti/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 4060",
+      "memory": 8,
+      "memory_type": "GDDR6"
+    },
+    "value": 128,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 4060 Ti",
+      "memory": 8,
+      "memory_type": "GDDR6"
+    },
+    "value": 128,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  },
+  {
+    "field": "memory_bus",
+    "match": {
+      "chipset_manufacturer": "NVIDIA",
+      "chipset": "GeForce RTX 4060 Ti",
+      "memory": 16,
+      "memory_type": "GDDR6"
+    },
+    "value": 128,
+    "source_url": "https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4060-4060ti/",
+    "checked_on": "2026-10-23",
+    "note": "Official desktop memory configuration matched by exact chipset, VRAM capacity and memory type. Only memory interface width is filled; no inference about board dimensions, power connectors, clocks or cooling."
+  }
+]

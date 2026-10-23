@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "case cleaned v1.0.0",
+  "title": "case cleaned v1.1.0",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -10,6 +10,7 @@
     "dimensions_mm__depth",
     "dimensions_mm__height",
     "dimensions_mm__width",
+    "enrichment_evidence",
     "expansion_slots",
     "external_3_5_bays",
     "external_5_25_bays",
@@ -29,11 +30,13 @@
     "identifiers__identifiers",
     "identifiers__retailer_listings",
     "identifiers__version",
+    "inherited_fields",
     "internal_2_5_bays",
     "internal_3_5_bays",
     "lighting",
     "manufacturer",
     "manufacturer_url",
+    "manufacturer_verified_fields",
     "max_cpu_cooler_height_mm",
     "max_gpu_length_mm",
     "max_psu_length_mm",
@@ -102,6 +105,12 @@
         "integer",
         "null",
         "number"
+      ]
+    },
+    "enrichment_evidence": {
+      "type": [
+        "array",
+        "null"
       ]
     },
     "expansion_slots": {
@@ -210,6 +219,12 @@
         "null"
       ]
     },
+    "inherited_fields": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
     "internal_2_5_bays": {
       "type": [
         "integer",
@@ -238,6 +253,12 @@
       "type": [
         "null",
         "string"
+      ]
+    },
+    "manufacturer_verified_fields": {
+      "type": [
+        "array",
+        "null"
       ]
     },
     "max_cpu_cooler_height_mm": {

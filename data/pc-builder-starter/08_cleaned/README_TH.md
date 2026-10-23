@@ -1,4 +1,4 @@
-# ชุดสเปกที่ผ่านการเตรียมข้อมูล v1
+# ชุดสเปกที่ผ่านการเตรียมข้อมูล v1.1
 
 ## ใช้ชุดไหน
 แอปควรอ่าน 08_cleaned/<category>/parts.json แทน 02_catalog
@@ -60,3 +60,15 @@ python -m unittest discover -s tests -p "test_clean_catalog.py"
 schema.json เป็น output contract ที่สร้างจาก source schema + ชนิดที่พบ ไม่ใช่หลักฐานว่า upstream ถูกต้องทุกค่า
 ต้นฉบับ 01_raw และ 02_catalog ไม่ถูกแก้ไข; ไม่แก้ .gitignore และไม่มีการ stage/commit
 สิทธิ์ข้อมูล BuildCores ยังคง CC BY-NC-SA 4.0 ดู ../licenses/
+
+## การเติมข้อมูล v1.1
+- verified_corrections.json ใน 05_manual_data เก็บการแก้ค่าจากหน้า official ตรง part ID และ MPN พร้อม URL/วันที่/เงื่อนไข
+- gpu_reference_rules.json เติมได้เฉพาะ memory_bus โดยต้องตรง chipset_manufacturer, chipset, VRAM และ memory_type ทุกค่า ไม่ใช้กับขนาดการ์ดหรือขั้วต่อไฟ
+- ค่าจาก official_reference_configuration คือสเปก configuration อ้างอิง ไม่ใช่การตรวจการ์ด custom แต่ละใบ; อย่านับเป็นการยืนยันสินค้าทุกฟิลด์
+- exact_manufacturer_mpn_consensus เติมจาก record อื่นเมื่อผู้ผลิต/MPN ตรง และสเปกแยกรุ่นไม่ขัดกัน พร้อมเก็บ donor IDs; manufacturer_verified=false
+- หาก donors ให้ค่าขัดกัน หรือค่าที่มีขัดกับ reference ให้คงข้อมูล/unknown และติด conflicting_enrichment_evidence ไม่เลือกทับอัตโนมัติ
+- enrichment_evidence, manufacturer_verified_fields, inherited_fields อธิบายที่มาของค่าที่เติม; อ่าน method ประกอบเสมอ
+- ยังมี needs_review และรายการอาจซ้ำ; ห้ามถือว่าการลดจำนวน issue คือการยืนยัน compatibility ทั้งชุด
+- รายการ unresolved ทุกฟิลด์อยู่ใน 09_reports/review_queue.json แยก priority compatibility/supplemental พร้อมชื่อรุ่น/MPN/ลิงก์ผู้ผลิตถ้ามี
+- น้ำหนัก/memory bus/CPU PPT บางรายการเป็นข้อมูลเสริม ไม่ควรปิดการแสดงสินค้าทั้งตัวเพียงเพราะฟิลด์นี้ขาด แต่กฎใดที่ต้องใช้ค่าที่ขาดต้องให้ unknown
+- ทดสอบทั้งหมดด้วย python -m unittest discover -s tests

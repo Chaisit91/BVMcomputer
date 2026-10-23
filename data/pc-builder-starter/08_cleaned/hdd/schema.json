@@ -1,12 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "hdd cleaned v1.0.0",
+  "title": "hdd cleaned v1.1.0",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "cache_mb",
     "capacity_gb",
     "category",
+    "enrichment_evidence",
     "form_factor",
     "general_product_information__adorama_sku",
     "general_product_information__amazon_sku",
@@ -20,11 +21,13 @@
     "identifiers__identifiers",
     "identifiers__retailer_listings",
     "identifiers__version",
+    "inherited_fields",
     "interface",
     "interface_family",
     "lighting",
     "manufacturer",
     "manufacturer_url",
+    "manufacturer_verified_fields",
     "metadata__last_manually_spec_verified_at",
     "metadata__manufacturer",
     "metadata__name",
@@ -61,6 +64,12 @@
       "type": [
         "null",
         "string"
+      ]
+    },
+    "enrichment_evidence": {
+      "type": [
+        "array",
+        "null"
       ]
     },
     "form_factor": {
@@ -133,6 +142,12 @@
         "null"
       ]
     },
+    "inherited_fields": {
+      "type": [
+        "array",
+        "null"
+      ]
+    },
     "interface": {
       "type": [
         "null",
@@ -161,6 +176,12 @@
       "type": [
         "null",
         "string"
+      ]
+    },
+    "manufacturer_verified_fields": {
+      "type": [
+        "array",
+        "null"
       ]
     },
     "metadata__last_manually_spec_verified_at": {
