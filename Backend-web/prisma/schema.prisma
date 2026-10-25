@@ -743,8 +743,26 @@ model Announcement {
   // always sees every announcement regardless of this field.
   department AdminRole?
   content    String
+  // An optional link to reference alongside the text (e.g. a doc, a page on
+  // the storefront) — separate from file attachments below.
+  linkUrl    String?
   createdAt  DateTime     @default(now())
+
+  attachments AnnouncementAttachment[]
 
   @@index([authorId])
   @@index([department])
+}
+
+model AnnouncementAttachment {
+  id             String       @id @default(cuid())
+  announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  announcementId String
+  url            String
+  fileName       String
+  contentType    String
+  fileSizeBytes  Int
+  createdAt      DateTime     @default(now())
+
+  @@index([announcementId])
 }

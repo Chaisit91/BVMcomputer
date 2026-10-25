@@ -14,6 +14,9 @@ import { InventoryMenu } from './InventoryMenu'
 import { ManageMenu } from './ManageMenu'
 
 const managePaths = ['/manage/orders', '/manage/users', '/manage/banners', '/manage/chats']
+// Not true push — just a tight enough poll that it feels near-instant without
+// standing up a WebSocket/SSE server for a small internal team.
+const NOTIFICATION_POLL_INTERVAL_MS = 5_000
 
 type OpenMenu = 'inventory' | 'manage' | 'user' | null
 
@@ -90,12 +93,14 @@ export function Topbar() {
         .catch(() => {})
     }
     poll()
-    const interval = setInterval(poll, 20_000)
+    const interval = setInterval(poll, NOTIFICATION_POLL_INTERVAL_MS)
     return () => {
       cancelled = true
       clearInterval(interval)
     }
-  }, [showChatBadge])
+    // Re-poll immediately on every navigation too — otherwise reading a chat
+    // then leaving the page leaves the badge stale until the next 20s tick.
+  }, [showChatBadge, location.pathname])
 
   useEffect(() => {
     if (!user) return
@@ -109,12 +114,15 @@ export function Topbar() {
         .catch(() => {})
     }
     poll()
-    const interval = setInterval(poll, 20_000)
+    const interval = setInterval(poll, NOTIFICATION_POLL_INTERVAL_MS)
     return () => {
       cancelled = true
       clearInterval(interval)
     }
-  }, [user])
+    // Re-poll immediately on every navigation too — otherwise reading
+    // announcements then leaving the page leaves the badge stale until the
+    // next 20s tick.
+  }, [user, location.pathname])
 
   const toggleMenu = (menu: Exclude<OpenMenu, null>) => {
     setOpenMenu((current) => (current === menu ? null : menu))
