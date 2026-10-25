@@ -98,7 +98,6 @@ export function UpgradeSelectPartsPage() {
   }, [products, brands, maxPrice, sort]);
 
   const activeFilterCount = brands.length + (maxPrice !== null ? 1 : 0);
-  const activeTab = tabs.find((tab) => tab.key === activeKey) ?? tabs[0];
   const Icon = categoryIcons[activeKey];
 
   const handleTabChange = (key: UpgradeComponentKey) => {
@@ -179,18 +178,9 @@ export function UpgradeSelectPartsPage() {
               })}
             </div>
 
-            <div className="mt-4 rounded-2xl border border-slate-100 bg-white p-5 shadow-card">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <h2 className="flex items-center gap-2.5 text-xl font-bold text-ink">
-                    <span className="h-6 w-1.5 rounded-full bg-brand" aria-hidden="true" />
-                    {activeTab.label}
-                  </h2>
-                  <p className="mt-0.5 pl-4 text-sm text-slate-400">
-                    เลือก {activeTab.label} ที่ต้องการอัปเกรด (เลือกได้ 1 รายการ)
-                  </p>
-                </div>
-
+            {/* No outer card here on purpose — product cards sit directly on the page background. */}
+            <div className="mt-4">
+              <div className="flex flex-wrap items-center justify-end gap-3">
                 <div className="flex items-center gap-2">
                   <label className="flex h-10 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-500">
                     เรียงตาม:

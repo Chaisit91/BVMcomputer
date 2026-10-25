@@ -1,119 +1,77 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import { Container } from '../components/ui/Container';
-import { ErrorState } from '../components/ui/ErrorState';
 import { UpgradeStepIndicator } from '../components/upgrade/UpgradeStepIndicator';
 import { AnalysisSpecCard } from '../components/upgrade/AnalysisSpecCard';
 import { CompatibilityScorePanel } from '../components/upgrade/CompatibilityScorePanel';
-import { AiRecommendationPanel } from '../components/upgrade/AiRecommendationPanel';
+import { AiRecommendationPanel, type ContinueNotice } from '../components/upgrade/AiRecommendationPanel';
 import { RecommendedProductsSection } from '../components/upgrade/RecommendedProductsSection';
 import { UpgradePromoBanner } from '../components/upgrade/UpgradePromoBanner';
-import { categoryIcons } from '../components/home/categoryIcons';
-import { useAppSelector } from '../app/hooks';
-import { listUpgradeProducts } from '../services/upgrade/productSearchService';
-import { getErrorMessage } from '../api/apiError';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
+import { toggleUpgradeSelection } from '../features/upgrade/upgradeSlice';
+import { selectEffectiveUpgrades } from '../features/upgrade/upgradeSelectors';
+import { runUpgradeAnalysis, selectIsAnalysisStale } from '../features/upgrade/upgradeAnalysisSlice';
 import { upgradeSpecRows } from '../data/upgradeSpecRows';
-import type { RecommendationTabKey } from '../data/upgradeAnalysisMock';
-import type { RecommendationItem } from '../components/upgrade/RecommendationCard';
-import type { UpgradeComponentKey } from '../types/upgrade';
-
-// Illustrative AI copy per category — the compatibility engine itself is a TODO(backend),
-// but this wording is just presentation and can stay static either way.
-const reasonsByCategory: Partial<Record<UpgradeComponentKey, string[]>> = {
-  cpu: ['เพิ่มประสิทธิภาพการประมวลผลได้สูงสุด', 'รองรับ Mainboard และ RAM ที่เลือกไว้', 'ลดปัญหาคอขวดกับการ์ดจอใหม่'],
-  ram: ['เพิ่มความเร็วในการทำงานหลายโปรแกรมพร้อมกัน', 'ราคาคุ้มค่าเมื่อเทียบกับประสิทธิภาพที่ได้'],
-  cooling: ['ระบายความร้อนได้ดีกว่าชุดเดิม', 'รองรับ CPU ที่อัปเกรดใหม่'],
-  gpu: ['เพิ่มประสิทธิภาพการเล่นเกมและกราฟิก', 'ควรอัปเกรดหลังจาก CPU และ RAM พร้อม'],
-  psu: ['รองรับกำลังไฟของการ์ดจอรุ่นใหม่ในอนาคต', 'เพิ่มความเสถียรให้ระบบโดยรวม'],
-};
-
-const primaryBadges: Partial<Record<UpgradeComponentKey, { label: string; className: string }>> = {
-  cpu: { label: 'แนะนำมากที่สุด', className: 'bg-brand text-white' },
-  ram: { label: 'คุ้มค่า', className: 'bg-emerald-500 text-white' },
-  cooling: { label: 'เสริมระบบ', className: 'bg-slate-700 text-white' },
-};
+import type { UpgradeProduct } from '../types/upgrade';
 
 /**
- * Step 3 — AI analysis + compatibility check, one combined step (not two). Score/checklist
- * are illustrative (see upgradeAnalysisMock.ts, TODO(backend)); the current-spec column and
- * both recommendation lists are sourced from real Redux state and the real mock catalog.
+ * Step 3 — AI analysis + compatibility check. The `upgrade` slice keeps the step-2 products
+ * (`upgrades`, never changed here) and this page's choices (`upgradeSelections`) apart; every
+ * panel reads the effective build (choice ?? step-2 product), so the sidebar, AI cards, product
+ * grid, totals and "needs re-analysis" state always agree. Removing a step-3 choice brings the
+ * step-2 product back everywhere. Analysis runs on entry and then only on "วิเคราะห์ใหม่".
  */
 export function UpgradeAnalyzePage() {
   const navigate = useNavigate();
-  const { currentSpec, upgrades } = useAppSelector((state) => state.upgrade);
-  const [items, setItems] = useState<Record<RecommendationTabKey, RecommendationItem[]> | null>(null);
-  const [loadError, setLoadError] = useState<string | null>(null);
-  const [retryCount, setRetryCount] = useState(0);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    // The five category lists are independent — fetch them in parallel.
-    Promise.all([
-      listUpgradeProducts('cpu'),
-      listUpgradeProducts('ram'),
-      listUpgradeProducts('cooling'),
-      listUpgradeProducts('gpu'),
-      listUpgradeProducts('psu'),
-    ]).then(([cpu, ram, cooling, gpu, psu]) => {
-      if (cancelled) return;
-
-      const toItem = (key: UpgradeComponentKey, product: (typeof cpu)[number] | undefined): RecommendationItem | null => {
-        if (!product) return null;
-        const badge = primaryBadges[key] ?? { label: 'ลำดับถัดไป', className: 'bg-slate-100 text-slate-600' };
-        return {
-          product,
-          icon: categoryIcons[key],
-          badgeLabel: badge.label,
-          badgeClassName: badge.className,
-          reasons: reasonsByCategory[key] ?? [],
-        };
-      };
-
-      const skipKeys: UpgradeComponentKey[] = ['storage', 'case', 'motherboard'];
-      const skipItems = skipKeys
-        .map((key) => {
-          const product = currentSpec[key];
-          if (!product) return null;
-          return {
-            product,
-            icon: categoryIcons[key],
-            badgeLabel: 'ยังไม่จำเป็น',
-            badgeClassName: 'bg-slate-100 text-slate-500',
-            reasons: ['สเปคปัจจุบันยังเพียงพอสำหรับการใช้งาน'],
-          } satisfies RecommendationItem;
-        })
-        .filter((item): item is RecommendationItem => item !== null);
-
-      setItems({
-        primary: [toItem('cpu', cpu[0]), toItem('ram', ram[0]), toItem('cooling', cooling[0])].filter(
-          (item): item is RecommendationItem => item !== null,
-        ),
-        sequential: [toItem('gpu', gpu[0]), toItem('psu', psu[0])].filter((item): item is RecommendationItem => item !== null),
-        skip: skipItems,
-      });
-    })
-      .catch((error: unknown) => {
-        if (!cancelled) setLoadError(getErrorMessage(error));
-      });
-
-    return () => {
-      cancelled = true;
-    };
-    // currentSpec only matters for the "skip" list's snapshot — re-running per keystroke isn't needed here.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [retryCount]);
-
-  const retryLoad = () => {
-    setLoadError(null);
-    setRetryCount((count) => count + 1);
-  };
+  const dispatch = useAppDispatch();
+  const { currentSpec, upgradeSelections } = useAppSelector((state) => state.upgrade);
+  const upgrades = useAppSelector(selectEffectiveUpgrades);
+  const { status, error, result } = useAppSelector((state) => state.upgradeAnalysis);
+  const stale = useAppSelector(selectIsAnalysisStale);
+  const [notice, setNotice] = useState<ContinueNotice | null>(null);
 
   const hasAnySpec = upgradeSpecRows.some((row) => currentSpec[row.key]);
-  const goToSummary = () => navigate('/upgrade-pc/summary');
-  const scrollToRecommended = () => {
-    document.getElementById('recommended-products')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // On entry: analyse if there's no result yet, or the build was changed back in step 2.
+  // Afterwards, part changes on this page only mark the result stale — the customer can change
+  // several parts and re-analyse once.
+  useEffect(() => {
+    if (hasAnySpec && (!result || stale)) void dispatch(runUpgradeAnalysis());
+    // Mount only — later changes are re-analysed on request.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const recommendedIds = useMemo(
+    () => new Set(result?.recommendations.filter((r) => r.tier !== 'skip').map((r) => r.product.productId) ?? []),
+    [result],
+  );
+
+  // Same rule from the AI panel and the product grid: new product = select/replace,
+  // same product again = deselect, which brings back the step-2 product for that category.
+  const handleToggle = (product: UpgradeProduct) => {
+    dispatch(toggleUpgradeSelection({ key: product.category, product }));
+    setNotice(null);
+  };
+
+  const handleReanalyze = () => {
+    setNotice(null);
+    void dispatch(runUpgradeAnalysis());
+  };
+
+  const showNotice = (next: ContinueNotice) => {
+    setNotice(next);
+    document.getElementById('ai-recommendation-panel')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  // Step 4 only with an up-to-date, successful analysis; serious problems need explicit confirmation.
+  const handleContinue = () => {
+    if (status === 'loading') return;
+    if (stale) return showNotice({ kind: 'stale' });
+    if (status !== 'succeeded' || !result) return showNotice({ kind: 'not-ready' });
+    const problems = result.checks.filter((c) => c.status === 'incompatible').length;
+    if (problems > 0) return showNotice({ kind: 'problems', count: problems });
+    navigate('/upgrade-pc/summary');
   };
 
   return (
@@ -154,31 +112,40 @@ export function UpgradeAnalyzePage() {
               </Link>
             </div>
 
-            {loadError ? (
-              <ErrorState className="mt-6" message={loadError} onRetry={retryLoad} />
-            ) : items === null ? (
-              <div className="mt-6 rounded-2xl border border-slate-100 bg-white py-24 text-center text-sm text-slate-400 shadow-card">
-                กำลังวิเคราะห์สเปคของคุณ...
+            {/* No items-start here on purpose: the columns differ in height, and stretching
+                each grid cell to the row's full height gives the sticky panels below room to
+                travel and release at the right time instead of unsticking early and jumping. */}
+            <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-[300px_1fr_330px]">
+              <div>
+                <AnalysisSpecCard currentSpec={currentSpec} upgrades={upgrades} />
               </div>
-            ) : (
-              <>
-                {/* No items-start here on purpose: the columns differ in height, and stretching
-                    each grid cell to the row's full height gives the sticky panels below room to
-                    travel and release at the right time instead of unsticking early and jumping. */}
-                <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-[300px_1fr_330px]">
-                  <div>
-                    <AnalysisSpecCard currentSpec={currentSpec} upgrades={upgrades} />
-                  </div>
-                  <CompatibilityScorePanel />
-                  <div>
-                    <AiRecommendationPanel items={items} onViewAll={scrollToRecommended} onContinue={goToSummary} />
-                  </div>
-                </div>
+              <CompatibilityScorePanel status={status} error={error} result={result} stale={stale} onRetry={handleReanalyze} />
+              <div className="md:col-span-2 lg:col-span-1">
+                <AiRecommendationPanel
+                  result={result}
+                  status={status}
+                  stale={stale}
+                  upgrades={upgrades}
+                  upgradeSelections={upgradeSelections}
+                  notice={notice}
+                  onToggle={handleToggle}
+                  onReanalyze={handleReanalyze}
+                  onContinue={handleContinue}
+                  onConfirmContinue={() => navigate('/upgrade-pc/summary')}
+                  onDismissNotice={() => setNotice(null)}
+                />
+              </div>
+            </div>
 
-                <RecommendedProductsSection />
-                <UpgradePromoBanner onContinue={goToSummary} />
-              </>
-            )}
+            <RecommendedProductsSection
+              currentSpec={currentSpec}
+              upgrades={upgrades}
+              upgradeSelections={upgradeSelections}
+              recommendedIds={recommendedIds}
+              recommendedLabel={result?.source === 'ai' ? 'AI แนะนำ' : 'แนะนำ (Demo)'}
+              onToggle={handleToggle}
+            />
+            <UpgradePromoBanner onContinue={handleContinue} />
           </>
         )}
       </Container>

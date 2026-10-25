@@ -87,9 +87,15 @@ Backend ส่ง JSON ของ resource ตรง ๆ เป็น body (ไ�
 | Method | Path | ไฟล์ |
 |---|---|---|
 | POST | `/upgrade/analyze` | `src/services/upgrade/aiService.ts` |
-| POST | `/upgrade/compatibility` | `src/services/upgrade/compatibilityService.ts` |
-| POST | `/upgrade/recommend` | `src/services/upgrade/recommendationService.ts` |
 | POST | `/build/preview` | `src/services/build/pcPreviewService.ts` |
+
+`POST /upgrade/analyze` (STEP 3) รับ `UpgradeAnalysisRequest` — สเปคปัจจุบัน + ชิ้นส่วนอัปเกรดที่เลือกล่าสุด + งบ/การใช้งาน
+แล้วตอบ `UpgradeAnalysisResult` ครั้งเดียวครบ: คะแนน, รายการตรวจสอบความเข้ากันได้ (`compatible` / `warning` / `incompatible` พร้อม `fix`),
+Insight และคำแนะนำสินค้า — type อยู่ที่ [src/types/upgrade.ts](src/types/upgrade.ts)
+
+- Backend ต้องตอบ `source: 'ai'` — ถ้าติดต่อไม่ได้ (โหมด `auto`/`mock`) หน้าเว็บจะคำนวณแบบกฎจากข้อมูลสเปคสินค้าแทน
+  ([mockUpgradeAnalysis.ts](src/services/upgrade/mockUpgradeAnalysis.ts)) และติดป้าย "ผลจำลอง (Demo)" ทุกจุด
+- ผลวิเคราะห์ผูกกับชุดสินค้าที่ส่งไป เมื่อผู้ใช้เปลี่ยนชิ้นส่วน ผลเดิมจะถูกแสดงเป็น "รอตรวจสอบความเข้ากันได้" จนกว่าจะกดวิเคราะห์ใหม่
 
 ### แชทปรึกษาแอดมิน (Support Chat)
 

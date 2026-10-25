@@ -15,8 +15,8 @@ interface CompatibilityBadgeProps {
 }
 
 /**
- * Not wired to any real check yet — step 4 (ตรวจสอบความเข้ากันได้) and the real
- * compatibility engine (see services/upgrade/compatibilityService.ts) aren't built.
+ * Generic status pill. Not currently used by step 3 — its checklist styles each
+ * CompatibilityCheck itself (see CompatibilityScorePanel, services/upgrade/aiService.ts).
  * This just reserves the visual so that UI can render whatever the backend/AI
  * response says later, without another round of component work.
  */
