@@ -9,6 +9,7 @@ import { aiRouter } from './modules/ai/ai.router'
 import { catalogRouter } from './modules/ai/catalog.router'
 import { adminPasswordSetupRouter } from './modules/admin/admin-password-setup.router'
 import { adminRouter } from './modules/admin/admin.router'
+import { announcementRouter } from './modules/announcement/announcement.router'
 import { authRouter } from './modules/auth/auth.router'
 import { bannerRouter } from './modules/banner/banner.router'
 import { caseRouter } from './modules/case/case.router'
@@ -90,6 +91,9 @@ app.use('/api/banners', ...content, bannerRouter)
 // adminRouter guards itself per-route (list/create/delete are super_admin
 // only; view/edit is self-or-team-lead-or-super_admin) — see admin.router.ts.
 app.use('/api/admins', adminRouter)
+// Every role can read announcements (scoped per-department inside the
+// service); announcementRouter itself guards who can post.
+app.use('/api/announcements', authMiddleware, announcementRouter)
 app.use('/api/auth', authRouter)
 
 app.use(errorMiddleware)

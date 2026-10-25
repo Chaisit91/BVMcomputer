@@ -1,32 +1,33 @@
-# React + TypeScript + Vite
+# admin-web
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Admin dashboard for BVMcomputer — React + TypeScript + Vite, talking to [Backend-web](../Backend-web/README.md) over HTTP. No backend code lives here; every page calls a real API.
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+cp .env.example .env   # VITE_API_URL — defaults to /api, proxied to Backend-web in dev
+npm run dev             # http://localhost:5173
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Backend-web must be running (see its own README) — most pages fail to load data otherwise.
+
+## Structure
+
+- `src/pages/` — one folder per feature, usually `*ListPage` / `*CreatePage` / `*EditPage`
+- `src/components/` — `ui/` (generic, reusable), plus feature-specific folders (`layout/`, `dashboard/`, `inventory/`)
+- `src/services/` — one file per feature, wraps the matching Backend-web API, maps API shapes to the frontend's own types
+- `src/schemas/` — Zod validators, paired with React Hook Form via `@hookform/resolvers`
+- `src/types/` — one file per feature, independent of (not auto-generated from) Backend-web's types
+- `src/lib/permissions.ts` — which routes/nav items each `AdminRole` can see. **UX only** — Backend-web enforces the real access control independently; never rely on this file alone for security.
+- `src/routes/AuthRouter.tsx` — all routes; `ProtectedRoute` gates everything except `/login`, `/forgot-password`, `/set-password`
+
+## Auth & roles
+
+Login sets an httpOnly session cookie (no tokens in JS). Four roles: `super_admin` (sees everything), `inventory_manager`, `sales_staff`, `content_moderator` (each scoped to their own section). A `isTeamLead` flag on top of a role grants edit rights over teammates sharing that same role. Full flow documented in [Backend-web/README.md](../Backend-web/README.md).
+
+## Scripts
+
+- `npm run dev` — Vite dev server
+- `npm run build` — typecheck (`tsc -b`) + production build
+- `npm run lint` — oxlint

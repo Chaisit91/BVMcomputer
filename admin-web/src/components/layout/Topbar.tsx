@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { FiBell, FiChevronDown, FiLogOut, FiMenu, FiMonitor, FiUser, FiX } from 'react-icons/fi'
+import { HiMegaphone } from 'react-icons/hi2'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Avatar } from '../ui/Avatar'
 import { canAccess } from '../../lib/permissions'
+import { getUnreadAnnouncementCount } from '../../services/announcement.service'
 import { getUnreadChatSummary } from '../../services/chat.service'
 import { logout } from '../../services/auth.service'
 import { clearUser } from '../../store/authSlice'
@@ -45,6 +47,7 @@ export function Topbar() {
   // When exactly one conversation is unread, the bell jumps straight to it
   // instead of the list — with several open, there's no single "the" one to jump to.
   const [soleUnreadConversationId, setSoleUnreadConversationId] = useState<string | null>(null)
+  const [unreadAnnouncementCount, setUnreadAnnouncementCount] = useState(0)
   // super_admin manages every account; every other role gets a "my team" link
   // scoped to their own department instead of the full admin-management page.
   const showAdminsNav = Boolean(user)
@@ -93,6 +96,25 @@ export function Topbar() {
       clearInterval(interval)
     }
   }, [showChatBadge])
+
+  useEffect(() => {
+    if (!user) return
+
+    let cancelled = false
+    const poll = () => {
+      getUnreadAnnouncementCount()
+        .then((count) => {
+          if (!cancelled) setUnreadAnnouncementCount(count)
+        })
+        .catch(() => {})
+    }
+    poll()
+    const interval = setInterval(poll, 20_000)
+    return () => {
+      cancelled = true
+      clearInterval(interval)
+    }
+  }, [user])
 
   const toggleMenu = (menu: Exclude<OpenMenu, null>) => {
     setOpenMenu((current) => (current === menu ? null : menu))
@@ -185,6 +207,16 @@ export function Topbar() {
           >
             {mobileMenuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
           </button>
+          {user && (
+            <Link to="/announcements" className="relative text-gray-400 hover:text-gray-600" aria-label="ประกาศที่ยังไม่ได้อ่าน">
+              <HiMegaphone size={20} />
+              {unreadAnnouncementCount > 0 && (
+                <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-semibold text-white">
+                  {unreadAnnouncementCount > 99 ? '99+' : unreadAnnouncementCount}
+                </span>
+              )}
+            </Link>
+          )}
           {showChatBadge ? (
             <Link
               to={soleUnreadConversationId ? `/manage/chats/${soleUnreadConversationId}` : '/manage/chats'}

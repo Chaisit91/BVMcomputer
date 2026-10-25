@@ -10,7 +10,7 @@ const sectionPrefixes: Partial<Record<AdminRole, string[]>> = {
   content_moderator: ['/manage/banners'],
 }
 
-const alwaysAllowedPrefixes = ['/dashboard']
+const alwaysAllowedPrefixes = ['/dashboard', '/announcements']
 
 export function canAccess(role: AdminRole | undefined, pathname: string): boolean {
   if (!role) return false

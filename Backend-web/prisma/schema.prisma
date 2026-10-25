@@ -354,6 +354,8 @@ model DesktopPcHighlight {
   desktopPc   DesktopPc @relation(fields: [desktopPcId], references: [productId], onDelete: Cascade)
   desktopPcId String
   text        String
+
+  @@index([desktopPcId])
 }
 
 // Whether the bundle is still offered lives on Product.status (active/inactive/
@@ -391,6 +393,8 @@ model PromoSetExtraPart {
   promoSetId String
   name       String
   value      String
+
+  @@index([promoSetId])
 }
 
 model PromoSetHighlight {
@@ -398,6 +402,8 @@ model PromoSetHighlight {
   promoSet   PromoSet @relation(fields: [promoSetId], references: [productId], onDelete: Cascade)
   promoSetId String
   text       String
+
+  @@index([promoSetId])
 }
 
 model PromoSetVideoLink {
@@ -405,6 +411,8 @@ model PromoSetVideoLink {
   promoSet   PromoSet @relation(fields: [promoSetId], references: [productId], onDelete: Cascade)
   promoSetId String
   url        String
+
+  @@index([promoSetId])
 }
 
 // ---------- Customers & orders ----------
@@ -496,9 +504,9 @@ model CustomBuild {
   // model only stores/displays it (same pattern as ComputerUpgradeItem's
   // aiRecommendation), so admin can review whether the generated image
   // actually looks right for what the customer picked.
-  aiPreviewImageUrl String?
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
+  aiPreviewImageUrl    String?
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
 
   components CustomBuildComponent[]
 
@@ -554,8 +562,8 @@ model ComputerUpgradeItem {
 
   // What the customer says they currently have — never a catalog Product,
   // so it's free text + an optional photo, not a ProductPicker selection.
-  oldItemDescription String  @default("")
-  oldItemPhotoUrl    String?
+  oldItemDescription   String  @default("")
+  oldItemPhotoUrl      String?
   // Customer's stated intent from the (future) public submission form — "I
   // want this slot upgraded" — separate from newProductId, which is the
   // admin's/AI's actual catalog resolution of that request, set later.
@@ -563,8 +571,8 @@ model ComputerUpgradeItem {
 
   // What they're upgrading to — a real catalog Product, same as every other
   // component-slot bundle (Desktop PC / Promo Set / Custom Build).
-  newProduct   Product? @relation(fields: [newProductId], references: [id])
-  newProductId String?
+  newProduct      Product? @relation(fields: [newProductId], references: [id])
+  newProductId    String?
   // Snapshot at quote time — same rationale as CustomBuildComponent.price,
   // the catalog price can move later without changing what was quoted.
   newProductPrice Decimal? @db.Decimal(10, 2)
@@ -610,33 +618,36 @@ model Banner {
 // ---------- Admin accounts (RBAC) ----------
 
 model AdminAccount {
-  id           String             @id @default(cuid())
-  firstName    String
-  lastName     String
-  email        String             @unique
+  id                     String             @id @default(cuid())
+  firstName              String
+  lastName               String
+  email                  String             @unique
   // Personal inbox (not used for login) that account-setup notifications —
   // system email + initial password — get sent to. Kept separate from
   // `email` (the login identity) so a compromised personal inbox can't be
   // used to log in, and so credential notifications always go to this
   // address even if `email` is later changed.
-  personalEmail String            @default("")
-  phone        String
-  passwordHash String
-  jobTitle     String             @default("")
-  avatarUrl    String?
-  role         AdminRole
+  personalEmail          String             @default("")
+  phone                  String
+  passwordHash           String
+  jobTitle               String             @default("")
+  avatarUrl              String?
+  role                   AdminRole
   // Grants edit rights over every other account that shares this admin's own
   // role (their department) — plain staff can only ever edit themselves.
   // super_admin already has full access regardless of this flag.
-  isTeamLead   Boolean            @default(false)
-  status       AdminAccountStatus @default(active)
-  lastActiveAt DateTime?
-  createdAt    DateTime           @default(now())
+  isTeamLead             Boolean            @default(false)
+  status                 AdminAccountStatus @default(active)
+  lastActiveAt           DateTime?
+  createdAt              DateTime           @default(now())
   // "Force logout": any JWT issued before this timestamp is rejected by
   // authMiddleware even though it's still cryptographically valid and
   // unexpired — the only way to invalidate a specific admin's existing
   // sessions with stateless JWTs (no server-side session store to delete from).
-  sessionsInvalidatedAt DateTime?
+  sessionsInvalidatedAt  DateTime?
+  // Drives the announcements bell badge — unread count is every visible
+  // Announcement newer than this, no per-announcement read-receipt rows needed.
+  lastSeenAnnouncementAt DateTime?
 
   // One-time "set your password" link sent to personalEmail on creation.
   // Only the sha256 hash is stored (never the raw token) — same reasoning as
@@ -656,6 +667,7 @@ model AdminAccount {
 
   verifiedUpgradeItems ComputerUpgradeItem[]
   sentChatMessages     ChatMessage[]
+  announcements        Announcement[]
 }
 
 model AdminRoleHistory {
@@ -664,6 +676,8 @@ model AdminRoleHistory {
   adminId     String
   date        DateTime
   description String
+
+  @@index([adminId])
 }
 
 model AdminLoginHistory {
@@ -672,6 +686,8 @@ model AdminLoginHistory {
   adminId String
   date    DateTime
   device  String
+
+  @@index([adminId])
 }
 
 // ---------- Customer service chat ----------
@@ -709,4 +725,26 @@ model ChatMessage {
   senderAdminId  String?
   content        String
   createdAt      DateTime         @default(now())
+
+  @@index([conversationId])
+  @@index([senderAdminId])
+}
+
+// ---------- Internal announcements ----------
+// One-way broadcast, not a chat — super_admin or a team lead posts, their own
+// department (or everyone, for super_admin) reads. No reply/thread; team
+// coordination that needs back-and-forth happens outside this app.
+model Announcement {
+  id         String       @id @default(cuid())
+  author     AdminAccount @relation(fields: [authorId], references: [id])
+  authorId   String
+  // null = every department (super_admin only). A value scopes it to just
+  // that department (a team lead posting to their own team) — super_admin
+  // always sees every announcement regardless of this field.
+  department AdminRole?
+  content    String
+  createdAt  DateTime     @default(now())
+
+  @@index([authorId])
+  @@index([department])
 }

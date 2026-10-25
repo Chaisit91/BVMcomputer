@@ -5,6 +5,7 @@ import { NotFoundPage } from '../pages/status/NotFoundPage'
 import { AdminCreatePage } from '../pages/admins/AdminCreatePage'
 import { AdminEditPage } from '../pages/admins/AdminEditPage'
 import { AdminListPage } from '../pages/admins/AdminListPage'
+import { AnnouncementsPage } from '../pages/announcements/AnnouncementsPage'
 import { CaseCreatePage } from '../pages/inventory/case/CaseCreatePage'
 import { CaseEditPage } from '../pages/inventory/case/CaseEditPage'
 import { CaseListPage } from '../pages/inventory/case/CaseListPage'
@@ -126,6 +127,7 @@ export function AuthRouter() {
           <Route path="/manage/banners" element={<BannerListPage />} />
           <Route path="/manage/banners/new" element={<BannerCreatePage />} />
           <Route path="/manage/banners/:bannerId/edit" element={<BannerEditPage />} />
+          <Route path="/announcements" element={<AnnouncementsPage />} />
           <Route path="/admins" element={<AdminListPage />} />
           <Route path="/admins/new" element={<AdminCreatePage />} />
           <Route path="/admins/:adminId/edit" element={<AdminEditPage />} />
