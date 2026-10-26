@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { BsShieldCheck } from 'react-icons/bs';
-import { PiLightningFill } from 'react-icons/pi';
 import { FiChevronRight, FiHeart, FiMinus, FiPackage, FiPlus, FiRepeat, FiShare2, FiShoppingCart, FiStar } from 'react-icons/fi';
 import { Container } from '../components/ui/Container';
 import { EmptyState } from '../components/ui/EmptyState';
@@ -263,7 +262,7 @@ export function ProductDetailPage() {
                 <button
                   type="button"
                   onClick={handleAddToCart}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-full border border-slate-200 py-3 text-sm font-semibold text-ink transition-colors hover:bg-slate-50"
+                  className="flex h-12 flex-1 items-center justify-center gap-2 rounded-full border border-slate-200 text-sm font-semibold text-ink transition-colors hover:bg-slate-50"
                 >
                   <FiShoppingCart size={16} aria-hidden="true" />
                   เพิ่มลงตะกร้า
@@ -271,9 +270,8 @@ export function ProductDetailPage() {
                 <button
                   type="button"
                   onClick={handleBuyNow}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-full bg-brand py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+                  className="flex h-12 flex-1 items-center justify-center rounded-full border border-brand bg-brand text-sm font-semibold text-white transition-colors hover:border-brand-dark hover:bg-brand-dark"
                 >
-                  <PiLightningFill size={18} aria-hidden="true" />
                   ซื้อเลย
                 </button>
               </div>
@@ -334,17 +332,6 @@ export function ProductDetailPage() {
                       </li>
                     ))}
                   </ul>
-
-                  <Link
-                    to="/build"
-                    className="mt-5 flex flex-col gap-1 rounded-lg bg-ink p-4 text-white transition-colors hover:bg-ink-light"
-                  >
-                    <span className="text-xs font-semibold uppercase tracking-wide text-brand">Build Better Together</span>
-                    <span className="text-sm font-bold leading-snug">
-                      เลือกชิ้นส่วนที่ใช่ ประกอบคอมในแบบคุณ
-                    </span>
-                    <span className="mt-1 text-xs font-medium text-slate-300">จัดสเปคเลย →</span>
-                  </Link>
                 </div>
               </div>
             )}
@@ -390,7 +377,10 @@ export function ProductDetailPage() {
       {/* Related products */}
       <section className="bg-slate-50 pb-16">
         <Container>
-          <h2 className="mb-4 text-lg font-bold text-ink">สินค้าที่เกี่ยวข้อง</h2>
+          <h2 className="mb-4 flex items-center gap-2.5 text-lg font-bold text-ink">
+            <span className="h-6 w-1.5 rounded-full bg-brand" aria-hidden="true" />
+            สินค้าที่เกี่ยวข้อง
+          </h2>
           <RelatedProductsCarousel items={product.related} fallbackIcon={Icon} />
         </Container>
       </section>
