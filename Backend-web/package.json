@@ -8,7 +8,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "seed": "ts-node prisma/seed.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "playwright test"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
@@ -33,6 +33,7 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",

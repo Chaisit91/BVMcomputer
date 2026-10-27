@@ -49,6 +49,11 @@ app.use(
 )
 app.use(express.json())
 app.use(cookieParser())
+
+// No auth — lets infra (the Playwright test runner's webServer readiness
+// check, uptime monitors) confirm the server is up without needing a session.
+app.get('/health', (_req, res) => res.status(200).json({ ok: true }))
+
 app.use('/api/internal/ai', catalogRouter)
 
 // Single source of truth for who can touch what — mirrors
