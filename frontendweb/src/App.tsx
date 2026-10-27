@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { store } from './app/store';
 import { Layout } from './components/layout/Layout';
 import { HomePage } from './pages/HomePage';
@@ -23,6 +23,8 @@ import { UpgradeAnalyzePage } from './pages/UpgradeAnalyzePage';
 import { UpgradeSummaryPage } from './pages/UpgradeSummaryPage';
 import { SearchPage } from './pages/SearchPage';
 import { UpgradeFlowLayout } from './components/upgrade/UpgradeFlowLayout';
+import { AccountProfilePage } from './pages/AccountProfilePage';
+import { AccountProfileEditPage } from './pages/AccountProfileEditPage';
 
 function App() {
   return (
@@ -46,6 +48,9 @@ function App() {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/account" element={<Navigate to="/account/profile" replace />} />
+            <Route path="/account/profile" element={<AccountProfilePage />} />
+            <Route path="/account/profile/edit" element={<AccountProfileEditPage />} />
             <Route element={<UpgradeFlowLayout />}>
               <Route path="/upgrade-pc" element={<UpgradePcPage />} />
               <Route path="/upgrade-pc/select" element={<UpgradeSelectPartsPage />} />

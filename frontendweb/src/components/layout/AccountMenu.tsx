@@ -2,6 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { useState } from 'react';
 import { FiLogOut, FiPackage, FiUser } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { logoutUser } from '../../features/auth/authSlice';
 import { getInitials } from '../../lib/format';
@@ -37,10 +38,10 @@ export function AccountMenu() {
             </div>
             <DropdownMenu.Separator className="mb-1.5 border-t border-slate-100" />
             <DropdownMenu.Item asChild>
-              <a href="#account" className={itemClassName}>
+              <Link to="/account/profile" className={itemClassName}>
                 <FiUser size={19} strokeWidth={1.8} className="shrink-0 text-[#253047]" aria-hidden="true" />
                 บัญชีของฉัน
-              </a>
+              </Link>
             </DropdownMenu.Item>
             <DropdownMenu.Item asChild>
               <a href="#orders" className={itemClassName}>

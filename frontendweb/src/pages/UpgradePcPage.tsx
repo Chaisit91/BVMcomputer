@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FiChevronRight } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 import { Container } from '../components/ui/Container';
 import { UpgradeHeroBanner } from '../components/upgrade/UpgradeHeroBanner';
 import { UpgradeStepIndicator } from '../components/upgrade/UpgradeStepIndicator';
@@ -52,14 +51,6 @@ export function UpgradePcPage() {
     <>
       <section className="bg-slate-50 pb-16 pt-6">
         <Container>
-          <nav className="mb-4 flex items-center gap-1.5 text-xs text-slate-400">
-            <Link to="/" className="hover:text-brand">
-              หน้าแรก
-            </Link>
-            <FiChevronRight size={12} aria-hidden="true" />
-            <span className="text-slate-500">อัปเกรดคอมเก่า</span>
-          </nav>
-
           <UpgradeHeroBanner />
           <UpgradeStepIndicator currentStep={currentStep} />
 

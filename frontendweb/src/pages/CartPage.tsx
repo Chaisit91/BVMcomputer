@@ -82,14 +82,6 @@ export function CartPage() {
   return (
     <section className="bg-slate-50 py-6">
       <Container>
-        {/* Breadcrumb */}
-        <nav className="mb-4 flex items-center gap-1.5 text-xs text-slate-400">
-          <Link to="/" className="hover:text-brand">
-            หน้าแรก
-          </Link>
-          <FiChevronRight size={12} aria-hidden="true" />
-          <span className="text-slate-500">ตะกร้าสินค้า</span>
-        </nav>
 
         {/* Title row */}
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">

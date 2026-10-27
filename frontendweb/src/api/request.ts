@@ -14,6 +14,11 @@ export async function apiPost<T>(url: string, body?: unknown): Promise<T> {
   return data;
 }
 
+export async function apiPut<T>(url: string, body?: unknown): Promise<T> {
+  const { data } = await api.put<T>(url, body);
+  return data;
+}
+
 // In "auto" mode, once the backend has proven unreachable, skip straight to mocks
 // for the rest of the session instead of waiting on a failed request every time.
 let backendUnreachable = false;

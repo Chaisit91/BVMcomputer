@@ -4,6 +4,8 @@ import { cn } from '../../lib/cn';
 interface FormFieldProps {
   label: string;
   required?: boolean;
+  /** Small grey note after the label, e.g. "(ไม่บังคับ)". */
+  hint?: string;
   /** Validation message (e.g. from react-hook-form's `errors.x?.message`). */
   error?: string;
   className?: string;
@@ -11,12 +13,13 @@ interface FormFieldProps {
 }
 
 /** Label + control + error message — wrap any input so every form lays out and reports errors the same way. */
-export function FormField({ label, required, error, className, children }: FormFieldProps) {
+export function FormField({ label, required, hint, error, className, children }: FormFieldProps) {
   return (
     <label className={cn('flex flex-col gap-1.5', className)}>
       <span className="text-xs font-medium text-slate-500">
         {label}
         {required && <span className="text-brand"> *</span>}
+        {hint && <span className="font-normal text-slate-400"> {hint}</span>}
       </span>
       {children}
       {error && (

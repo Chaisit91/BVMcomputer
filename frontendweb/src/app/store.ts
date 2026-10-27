@@ -4,6 +4,7 @@ import authReducer, { sessionExpired } from '../features/auth/authSlice';
 import cartReducer from '../features/cart/cartSlice';
 import cartUiReducer from '../features/cart/cartUiSlice';
 import catalogReducer from '../features/catalog/catalogSlice';
+import accountReducer from '../features/account/accountSlice';
 import chatReducer from '../features/chat/chatSlice';
 import homeReducer from '../features/home/homeSlice';
 import orderReducer from '../features/order/orderSlice';
@@ -14,6 +15,7 @@ import upgradeAnalysisReducer from '../features/upgrade/upgradeAnalysisSlice';
 
 export const store = configureStore({
   reducer: {
+    account: accountReducer,
     auth: authReducer,
     cart: cartReducer,
     cartUi: cartUiReducer,

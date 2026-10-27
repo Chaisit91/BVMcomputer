@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import * as authApi from '../../api/authApi';
 import { clearSession, loadSession, saveSession } from '../../api/authSession';
 import { getErrorMessage } from '../../api/apiError';
@@ -84,6 +84,10 @@ const authSlice = createSlice({
       state.loginStatus = 'idle';
       state.loginError = null;
     },
+    /** After the customer edits their profile, keep the signed-in user's display details current. */
+    updateAuthUser: (state, action: PayloadAction<Partial<Omit<AuthUser, 'id'>>>) => {
+      if (state.user) setUser(state, { ...state.user, ...action.payload });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -114,5 +118,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { sessionExpired, clearLoginError } = authSlice.actions;
+export const { sessionExpired, clearLoginError, updateAuthUser } = authSlice.actions;
 export default authSlice.reducer;

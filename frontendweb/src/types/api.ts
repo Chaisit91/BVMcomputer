@@ -55,3 +55,37 @@ export interface CouponValidationResponse {
   discount: number;
   message?: string;
 }
+
+export type Gender = 'male' | 'female' | 'other';
+
+/** The signed-in customer's own profile (GET/PUT /account/profile). */
+export interface UserProfile {
+  id: string;
+  /** Login email — shown read-only; changing it is a separate, verified flow. */
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  /** ISO date "YYYY-MM-DD", when the customer has given one. */
+  birthDate?: string;
+  gender?: Gender;
+  avatarUrl?: string;
+  /** ISO timestamp of sign-up, if the backend provides it. */
+  memberSince?: string;
+}
+
+export type UpdateProfileRequest = Pick<UserProfile, 'firstName' | 'lastName' | 'phone' | 'birthDate' | 'gender'>;
+
+/**
+ * - live: read from / saved to the backend.
+ * - demo: backend unreachable (API_MODE auto/mock) — nothing was actually loaded from or saved to a server.
+ */
+export type AccountDataSource = 'live' | 'demo';
+
+/** Counts shown on the account page (GET /account/summary). */
+export interface AccountSummary {
+  orders: number;
+  wishlist: number;
+  shipping: number;
+  pendingPayment: number;
+}

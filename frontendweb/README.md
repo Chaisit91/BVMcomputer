@@ -72,6 +72,18 @@ Backend ส่ง JSON ของ resource ตรง ๆ เป็น body (ไ�
 
 `token` ไม่บังคับ — ถ้า backend ใช้ cookie session ก็ไม่ต้องส่งมา
 
+### บัญชีของฉัน (`/account/profile`)
+
+| Method | Path | Body | Response |
+|---|---|---|---|
+| GET | `/account/profile` | — | `UserProfile` |
+| PUT | `/account/profile` | `{ firstName, lastName, phone, birthDate?, gender? }` | `UserProfile` |
+| POST | `/account/profile/avatar` | `multipart/form-data` ฟิลด์ `avatar` (JPG/PNG ≤ 5 MB) | `{ avatarUrl }` |
+| GET | `/account/summary` | — | `{ orders, wishlist, shipping, pendingPayment }` (ตัวเลขบนการ์ดโปรไฟล์) |
+
+ทุก endpoint ต้องระบุตัวผู้ใช้จาก session/token ห้ามรับ user id จาก body — type อยู่ที่ [src/types/api.ts](src/types/api.ts)
+ถ้าติดต่อ backend ไม่ได้ (โหมด `auto`/`mock`) หน้าจะแสดง "โหมดทดสอบ" และบอกชัดว่าข้อมูลยังไม่ได้บันทึกไปยังเซิร์ฟเวอร์
+
 ### คำสั่งซื้อ
 
 | Method | Path | Body | Response |

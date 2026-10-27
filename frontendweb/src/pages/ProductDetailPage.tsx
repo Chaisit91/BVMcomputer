@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { BsShieldCheck } from 'react-icons/bs';
-import { FiChevronRight, FiHeart, FiMinus, FiPackage, FiPlus, FiRepeat, FiShare2, FiShoppingCart, FiStar } from 'react-icons/fi';
+import { FiHeart, FiMinus, FiPackage, FiPlus, FiRepeat, FiShare2, FiShoppingCart, FiStar } from 'react-icons/fi';
 import { Container } from '../components/ui/Container';
 import { EmptyState } from '../components/ui/EmptyState';
 import { ErrorState } from '../components/ui/ErrorState';
@@ -131,20 +131,6 @@ export function ProductDetailPage() {
     <>
       <section className="bg-slate-50 py-6">
         <Container>
-          {/* Breadcrumb */}
-          <nav className="mb-4 flex items-center gap-1.5 text-xs text-slate-400">
-            <Link to="/" className="hover:text-brand">
-              หน้าแรก
-            </Link>
-            <FiChevronRight size={12} aria-hidden="true" />
-            <Link to={product.categoryPath} className="hover:text-brand">
-              {product.categoryLabel}
-            </Link>
-            <FiChevronRight size={12} aria-hidden="true" />
-            <span className="truncate text-slate-500">{product.brand}</span>
-            <FiChevronRight size={12} aria-hidden="true" />
-            <span className="truncate text-ink">{product.name}</span>
-          </nav>
 
           {/* Hero: gallery + info */}
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
