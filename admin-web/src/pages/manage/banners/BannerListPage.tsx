@@ -124,7 +124,7 @@ export function BannerListPage() {
         </div>
         <Link
           to="/manage/banners/new"
-          className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600"
+          className="btn-primary"
         >
           <FiPlus size={16} />
           เพิ่มแบนเนอร์ใหม่
@@ -153,7 +153,7 @@ export function BannerListPage() {
         <StatChip dotColor="bg-rose-500" label="หมดอายุ" value={String(summary.expiredCount)} />
       </div>
 
-      <div className="rounded-2xl border border-gray-100 bg-white p-5">
+      <div className="card p-5">
         <div className="mb-5 flex flex-wrap items-center gap-3">
           <input
             type="text"
@@ -195,7 +195,7 @@ export function BannerListPage() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {visibleBanners.map((banner, index) => (
-                  <tr key={banner.id} className="whitespace-nowrap">
+                  <tr key={banner.id} className="whitespace-nowrap hover:bg-gray-50/80">
                     <td className="py-3 pr-4 text-gray-500">{index + 1}</td>
                     <td className="py-3 pr-4">
                       {banner.imageUrl ? (

@@ -36,7 +36,7 @@ interface GpuFormFieldsProps {
 export function GpuFormFields({ readOnly = false, register, errors, showSku = true }: GpuFormFieldsProps) {
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl border border-gray-100 bg-white p-5">
+      <section className="card p-5">
         <h2 className="mb-4 text-sm font-semibold text-gray-800">ข้อมูลทั่วไป (General Info)</h2>
         <div className="space-y-4">
           <div>
@@ -80,7 +80,7 @@ export function GpuFormFields({ readOnly = false, register, errors, showSku = tr
         </div>
       </section>
 
-      <section className="rounded-2xl border border-gray-100 bg-white p-5">
+      <section className="card p-5">
         <h2 className="mb-4 text-sm font-semibold text-gray-800">สเปคการ์ดจอ (GPU Specifications)</h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
@@ -235,7 +235,7 @@ export function GpuFormFields({ readOnly = false, register, errors, showSku = tr
         </div>
       </section>
 
-      <section className="rounded-2xl border border-gray-100 bg-white p-5">
+      <section className="card p-5">
         <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพสินค้า (Product Images)</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[0, 1, 2].map((index) => (
@@ -258,7 +258,7 @@ export function GpuFormFields({ readOnly = false, register, errors, showSku = tr
         </div>
       </section>
 
-      <section className="rounded-2xl border border-gray-100 bg-white p-5">
+      <section className="card p-5">
         <h2 className="mb-4 text-sm font-semibold text-gray-800">รายละเอียดเพิ่มเติม (Additional Details)</h2>
         <label className="mb-1.5 block text-sm font-medium text-gray-700">คำอธิบาย (Description)</label>
         <textarea

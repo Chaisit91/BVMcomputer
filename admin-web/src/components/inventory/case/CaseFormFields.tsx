@@ -70,7 +70,7 @@ export function CaseFormFields({
   return (
     <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
       <div className="space-y-6">
-        <section className="rounded-2xl border border-gray-100 bg-white p-5">
+        <section className="card p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพสินค้าหลัก</h2>
           <div className="flex h-40 items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
             {readOnly ? 'ยังไม่มีรูปภาพ' : 'ยังไม่ได้เลือกรูปหลัก'}
@@ -106,7 +106,7 @@ export function CaseFormFields({
           )}
         </section>
 
-        <section className="rounded-2xl border border-gray-100 bg-white p-5">
+        <section className="card p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">ข้อมูลการขายและสต๊อก</h2>
           <div className="space-y-4">
             <div>
@@ -171,7 +171,7 @@ export function CaseFormFields({
       </div>
 
       <div className="space-y-6 xl:col-span-2">
-        <section className="rounded-2xl border border-gray-100 bg-white p-5">
+        <section className="card p-5">
           <div className="mb-1 flex items-center justify-between">
             <h2 className="text-sm font-semibold text-gray-800">ข้อมูลสเปคทางเทคนิค (Specifications)</h2>
             <span className="rounded-full bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-500">Computer Case</span>
@@ -333,7 +333,7 @@ export function CaseFormFields({
           )}
         </section>
 
-        <section className="rounded-2xl border border-gray-100 bg-white p-5">
+        <section className="card p-5">
           <h2 className="mb-1 text-sm font-semibold text-gray-800">รายละเอียดคอนเทนต์สินค้าเพิ่มเติม (Extended Content)</h2>
           <p className="mb-4 text-xs text-gray-400">เพิ่มรูปภาพ วิดีโอ หรือคำอธิบายเพิ่มเติมเพื่อสร้างความน่าเชื่อถือให้กับสินค้านี้</p>
 

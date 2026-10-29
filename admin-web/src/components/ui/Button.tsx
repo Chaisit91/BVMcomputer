@@ -8,7 +8,7 @@ export function Button({ loading, disabled, children, className = '', ...props }
   return (
     <button
       disabled={disabled || loading}
-      className={`flex w-full items-center justify-center rounded-xl bg-rose-500 py-3 text-sm font-semibold text-white transition hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60 ${className}`}
+      className={`btn-primary w-full py-3 ${className}`}
       {...props}
     >
       {loading ? 'กำลังเข้าสู่ระบบ...' : children}

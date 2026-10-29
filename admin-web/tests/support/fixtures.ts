@@ -6,6 +6,7 @@ import { PrismaPg } from '@prisma/adapter-pg'
 // generating (or maintaining) a second copy of the same schema in this
 // project — admin-web has no database of its own.
 import { PrismaClient, type AdminRole } from '../../../Backend-web/generated/prisma/index.js'
+import { hashPassword } from '../../../Backend-web/src/utils/password'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 dotenv.config({ path: path.resolve(dirname, '../../../Backend-web/.env') })
@@ -36,6 +37,24 @@ export async function createFixtureAdmin(role: AdminRole, isTeamLead = false) {
       passwordHash: 'not-a-real-hash',
       role,
       isTeamLead,
+    },
+  })
+}
+
+// Only the login test needs a real, known password — every other test logs
+// in by injecting a signed session cookie (see jwt.ts + login.ts) and never
+// touches the real login form, so createFixtureAdmin's fake hash is fine there.
+export async function createFixtureAdminWithPassword(role: AdminRole, plainPassword: string) {
+  const suffix = uniqueSuffix()
+  return prisma.adminAccount.create({
+    data: {
+      firstName: 'PW',
+      lastName: `Fixture-${suffix}`,
+      email: `pw-fixture-${suffix}@test.local`,
+      personalEmail: `pw-fixture-personal-${suffix}@test.local`,
+      phone: '0000000000',
+      passwordHash: await hashPassword(plainPassword),
+      role,
     },
   })
 }
@@ -82,4 +101,28 @@ export async function createFixtureCustomer() {
 export async function deleteFixtureCustomer(id: string) {
   await prisma.chatConversation.deleteMany({ where: { customerId: id } })
   await prisma.customer.deleteMany({ where: { id } })
+}
+
+// Orders have no create UI (checkout isn't built by this project yet) — the
+// edit-page test needs one to already exist, created directly like a real
+// checkout would leave it.
+export async function createFixtureOrder() {
+  const suffix = uniqueSuffix()
+  return prisma.order.create({
+    data: {
+      orderCode: `PW-ORDER-${suffix}`,
+      customerName: 'Playwright Fixture Buyer',
+      customerPhone: '0000000000',
+      shippingAddress: '123 Fixture Rd.',
+      postalCode: '10000',
+      province: 'Bangkok',
+      district: 'Fixture District',
+      subdistrict: 'Fixture Subdistrict',
+      paymentMethod: 'bank_transfer',
+    },
+  })
+}
+
+export async function deleteFixtureOrder(id: string) {
+  await prisma.order.deleteMany({ where: { id } })
 }

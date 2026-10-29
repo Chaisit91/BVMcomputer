@@ -181,7 +181,7 @@ export function ComputerUpgradeEditPage({ readOnly = false }: { readOnly?: boole
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+                className="btn-primary"
               >
                 <FiSave size={16} />
                 {isSubmitting ? 'กำลังบันทึก...' : 'บันทึก'}
@@ -190,7 +190,7 @@ export function ComputerUpgradeEditPage({ readOnly = false }: { readOnly?: boole
           </div>
         </div>
 
-        <section className="mt-6 rounded-2xl border border-gray-100 bg-white p-5">
+        <section className="mt-6 card p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">ข้อมูลลูกค้า</h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
@@ -219,7 +219,7 @@ export function ComputerUpgradeEditPage({ readOnly = false }: { readOnly?: boole
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-gray-100 bg-white p-5">
+        <section className="mt-6 card p-5">
           <h2 className="mb-1 flex items-center gap-2 text-sm font-semibold text-gray-800">
             <FiMonitor className="text-gray-400" />
             สรุปสเปกทั้งเครื่องหลังอัพเกรด
@@ -252,7 +252,7 @@ export function ComputerUpgradeEditPage({ readOnly = false }: { readOnly?: boole
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-gray-100 bg-white p-5">
+        <section className="mt-6 card p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">รายการชิ้นส่วนที่อัพเกรด</h2>
           {uploadError && <p className="mb-3 text-xs text-red-500">{uploadError}</p>}
           <div className="space-y-4">
@@ -405,7 +405,7 @@ export function ComputerUpgradeEditPage({ readOnly = false }: { readOnly?: boole
             <button
               type="button"
               onClick={handleDelete}
-              className="flex items-center gap-2 rounded-xl border border-rose-200 px-5 py-2.5 text-sm font-medium text-rose-500 hover:bg-rose-50"
+              className="btn-danger-outline"
             >
               <FiTrash2 size={16} />
               ลบรายการนี้

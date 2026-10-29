@@ -237,7 +237,7 @@ export function AdminEditPage() {
         <p className="text-sm text-gray-400">แก้ไขข้อมูลและสิทธิ์การเข้าถึงของผู้ดูแลระบบ</p>
       </div>
 
-      <form onSubmit={onSubmit} noValidate className="space-y-6 rounded-2xl border border-gray-100 bg-white p-6">
+      <form onSubmit={onSubmit} noValidate className="space-y-6 card p-6">
         <div>
           <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold text-gray-800">
             <FiUser className="text-rose-500" />
@@ -497,7 +497,7 @@ export function AdminEditPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex items-center gap-2 rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+                className="btn-primary"
               >
                 <FiSave size={16} />
                 {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกการเปลี่ยนแปลง'}
@@ -506,7 +506,7 @@ export function AdminEditPage() {
             <button
               type="button"
               onClick={() => navigate('/admins')}
-              className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50"
+              className="btn-secondary"
             >
               ยกเลิก
             </button>
@@ -515,7 +515,7 @@ export function AdminEditPage() {
             <button
               type="button"
               onClick={handleSuspend}
-              className="flex items-center gap-2 rounded-xl border border-rose-200 px-5 py-2.5 text-sm font-medium text-rose-500 hover:bg-rose-50"
+              className="btn-danger-outline"
             >
               <FiSlash size={16} />
               ระงับบัญชี

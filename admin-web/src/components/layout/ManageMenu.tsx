@@ -27,7 +27,7 @@ export function ManageMenu({ onNavigate }: { onNavigate?: () => void }) {
   const visibleItems = items.filter((item) => !item.path || canAccess(role, item.path))
 
   return (
-    <div className="w-full rounded-2xl border border-gray-100 bg-white p-4 shadow-xl">
+    <div className="w-full card p-4 shadow-xl">
       <p className="mb-3 text-sm font-semibold text-gray-800">เมนูจัดการระบบ</p>
       <div className="space-y-2">
         {visibleItems.map((item) => {

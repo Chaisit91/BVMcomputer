@@ -138,7 +138,7 @@ export function OrderEditPage() {
       </div>
 
       <form onSubmit={onSubmit} noValidate className="space-y-6">
-        <div className="rounded-2xl border border-gray-100 bg-white p-6">
+        <div className="card p-6">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             <div>
               <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold text-gray-800">
@@ -306,7 +306,7 @@ export function OrderEditPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-gray-100 bg-white p-6">
+        <div className="card p-6">
           <div className="mb-4 flex items-start justify-between gap-4">
             <h2 className="flex items-center gap-2 text-sm font-semibold text-gray-800">
               <FiShoppingBag className="text-rose-500" />
@@ -376,14 +376,14 @@ export function OrderEditPage() {
           <button
             type="button"
             onClick={() => navigate('/manage/orders')}
-            className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50"
+            className="btn-secondary"
           >
             ยกเลิก
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+            className="btn-primary"
           >
             {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกการเปลี่ยนแปลง'}
           </button>

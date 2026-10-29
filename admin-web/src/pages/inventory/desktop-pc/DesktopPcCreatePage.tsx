@@ -87,7 +87,7 @@ export function DesktopPcCreatePage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-primary"
             >
               <FiSave size={16} />
               {isSubmitting ? 'กำลังบันทึก...' : 'บันทึก'}
@@ -97,7 +97,7 @@ export function DesktopPcCreatePage() {
 
         <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
           <div className="space-y-6 xl:col-span-2">
-            <section className="rounded-2xl border border-gray-100 bg-white p-5">
+            <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">ข้อมูลทั่วไป</h2>
               <div className="space-y-4">
                 <div>
@@ -143,7 +143,7 @@ export function DesktopPcCreatePage() {
               </div>
             </section>
 
-            <section className="rounded-2xl border border-gray-100 bg-white p-5">
+            <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">รายละเอียดสินค้า</h2>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">คำอธิบายสินค้า</label>
               <textarea
@@ -195,7 +195,7 @@ export function DesktopPcCreatePage() {
               </div>
             </section>
 
-            <section className="rounded-2xl border border-gray-100 bg-white p-5">
+            <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">ส่วนประกอบ (เลือกจากสินค้าจริงในคลัง)</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {COMPONENT_SLOTS.map((slot) => (
@@ -227,7 +227,7 @@ export function DesktopPcCreatePage() {
           </div>
 
           <div className="space-y-6">
-            <section className="rounded-2xl border border-gray-100 bg-white p-5">
+            <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพสินค้า</h2>
               <div className="flex h-40 flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
                 <FiPlus size={20} />
@@ -236,7 +236,7 @@ export function DesktopPcCreatePage() {
               </div>
             </section>
 
-            <section className="rounded-2xl border border-gray-100 bg-white p-5">
+            <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">สถานะสินค้า</h2>
               <label className="mb-1.5 block text-sm font-medium text-gray-700">สถานะ</label>
               <select className={inputClass} {...register('status')}>

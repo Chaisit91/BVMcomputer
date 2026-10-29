@@ -85,7 +85,7 @@ export function CustomBuildPage() {
         </div>
         <Link
           to="/inventory/custom-build/new"
-          className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600"
+          className="btn-primary"
         >
           <FiPlus size={16} />
           เพิ่มสเปคใหม่
@@ -99,7 +99,7 @@ export function CustomBuildPage() {
         <SummaryCard label="ยกเลิก" value={`${summary.cancelled} รายการ`} icon={<FiXCircle />} tone="gray" />
       </div>
 
-      <div className="rounded-2xl border border-gray-100 bg-white p-5">
+      <div className="card p-5">
         <div className="mb-4 flex flex-wrap items-center gap-3">
           <input
             type="text"

@@ -13,7 +13,7 @@ export function StatCard({ label, value, change, changeLabel, icon }: StatCardDa
   const positive = change >= 0
 
   return (
-    <div className="rounded-2xl border border-gray-100 bg-white p-5">
+    <div className="card p-5">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm text-gray-400">{label}</p>

@@ -64,7 +64,7 @@ export function AdminCreatePage() {
         <p className="text-sm text-gray-400">เพิ่มบัญชีผู้ดูแลระบบใหม่เข้าสู่ระบบควบคุม BVMcomputer</p>
       </div>
 
-      <form onSubmit={onSubmit} noValidate className="space-y-6 rounded-2xl border border-gray-100 bg-white p-6">
+      <form onSubmit={onSubmit} noValidate className="space-y-6 card p-6">
         <div>
           <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold text-gray-800">
             <FiUser className="text-rose-500" />
@@ -215,21 +215,21 @@ export function AdminCreatePage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+            className="btn-primary"
           >
             {isSubmitting ? 'กำลังบันทึก...' : 'สร้างบัญชีผู้ดูแล'}
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-xl border border-rose-200 px-5 py-2.5 text-sm font-semibold text-rose-500 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-60"
+            className="btn-danger-outline"
           >
             เพิ่มและส่งคำเชิญ
           </button>
           <button
             type="button"
             onClick={() => navigate('/admins')}
-            className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50"
+            className="btn-secondary"
           >
             ยกเลิก
           </button>

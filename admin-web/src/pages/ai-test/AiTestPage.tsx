@@ -181,7 +181,7 @@ export function AiTestPage() {
         <p className="mt-1 text-sm text-gray-500">เลือก CPU ก่อน แล้วเลือกชิ้นส่วนที่ AI กรองว่าเข้ากันได้กับชุดปัจจุบัน</p>
       </div>
 
-      <section className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+      <section className="card p-4 shadow-sm">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             {healthState === 'success' && health?.status === 'ok'
@@ -230,7 +230,7 @@ export function AiTestPage() {
             })}
           </div>
 
-          <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+          <div className="card p-5 shadow-sm">
             <h2 className="font-semibold text-gray-900">เลือก {labels[activePart]}</h2>
             <p className="mt-1 text-xs text-gray-500">
               {activePart === 'cpu' ? 'เริ่มจาก CPU ที่มีใน catalog'
@@ -268,7 +268,7 @@ export function AiTestPage() {
           </div>
         </section>
 
-        <section className="h-fit rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
+        <section className="h-fit card p-5 shadow-sm">
           <h2 className="font-semibold text-gray-900">ผลตรวจความเข้ากันได้</h2>
           {recommendState === 'idle' && <p className="mt-3 text-sm text-gray-500">เลือก CPU เพื่อเริ่มตรวจ</p>}
           {recommendState === 'loading' && <p className="mt-3 text-sm text-blue-600">กำลังตรวจชุดอุปกรณ์...</p>}

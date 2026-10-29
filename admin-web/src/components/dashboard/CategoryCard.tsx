@@ -15,7 +15,7 @@ const icons: Record<CategoryStat['icon'], ReactNode> = {
 
 export function CategoryCard({ name, count, percent, icon }: CategoryStat) {
   return (
-    <div className="rounded-2xl border border-gray-100 bg-white p-4">
+    <div className="card p-4">
       <div className="flex items-center justify-between">
         <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-rose-50 text-rose-500">
           {icons[icon]}

@@ -95,7 +95,7 @@ export function ChatDetailPage() {
 
   return (
     <main className="mx-auto grid max-w-5xl grid-cols-1 gap-6 px-6 py-6 lg:grid-cols-[280px_1fr]">
-      <aside className="h-fit space-y-4 rounded-2xl border border-gray-100 bg-white p-5">
+      <aside className="h-fit space-y-4 card p-5">
         <Link to="/manage/chats" className="flex items-center gap-1.5 text-xs font-medium text-gray-400 hover:text-gray-600">
           <FiArrowLeft size={14} />
           กลับไปหน้ารายการแชท
@@ -129,7 +129,7 @@ export function ChatDetailPage() {
         </div>
       </aside>
 
-      <section className="flex h-[calc(100vh-8rem)] flex-col rounded-2xl border border-gray-100 bg-white">
+      <section className="flex h-[calc(100vh-8rem)] flex-col card">
         <div className="flex-1 space-y-3 overflow-y-auto p-5">
           {messages.length === 0 ? (
             <p className="py-12 text-center text-sm text-gray-400">ยังไม่มีข้อความในแชทนี้</p>

@@ -103,7 +103,7 @@ export function PromoSetCreatePage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-primary"
             >
               <FiSave size={16} />
               {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกเซ็ต'}
@@ -113,7 +113,7 @@ export function PromoSetCreatePage() {
 
         <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
           <div className="space-y-6 xl:col-span-2">
-            <section className="rounded-2xl border border-gray-100 bg-white p-5">
+            <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">ข้อมูลเบื้องต้น</h2>
               <div className="space-y-4">
                 <div>
@@ -151,7 +151,7 @@ export function PromoSetCreatePage() {
               </div>
             </section>
 
-            <section className="rounded-2xl border border-gray-100 bg-white p-5">
+            <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">ส่วนประกอบ (เลือกจากสินค้าจริงในคลัง)</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {COMPONENT_SLOTS.map((slot) => (
@@ -173,7 +173,7 @@ export function PromoSetCreatePage() {
               <ExtraPartsEditor parts={extraParts} onChange={setExtraParts} />
             </section>
 
-            <section className="rounded-2xl border border-gray-100 bg-white p-5">
+            <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">รายละเอียดสินค้า</h2>
               <textarea
                 rows={4}
@@ -224,7 +224,7 @@ export function PromoSetCreatePage() {
               </div>
             </section>
 
-            <section className="rounded-2xl border border-gray-100 bg-white p-5">
+            <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">วิดีโอรีวิวประกอบ</h2>
               <div className="space-y-2">
                 {videoLinks.map((link) => (
@@ -261,7 +261,7 @@ export function PromoSetCreatePage() {
               </div>
             </section>
 
-            <section className="rounded-2xl border border-gray-100 bg-white p-5">
+            <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">ของแถมและเงื่อนไขเพิ่มเติม</h2>
               <textarea
                 rows={2}
@@ -273,7 +273,7 @@ export function PromoSetCreatePage() {
           </div>
 
           <div className="space-y-6">
-            <section className="rounded-2xl border border-gray-100 bg-white p-5">
+            <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพประกอบเซ็ตโปรโมชั่น</h2>
               <div className="flex h-40 flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
                 <FiPlus size={20} />
@@ -282,7 +282,7 @@ export function PromoSetCreatePage() {
               </div>
             </section>
 
-            <section className="rounded-2xl border border-gray-100 bg-white p-5">
+            <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">สถานะและราคา</h2>
               <div className="space-y-3">
                 <div>

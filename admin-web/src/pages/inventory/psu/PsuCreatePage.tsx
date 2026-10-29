@@ -70,7 +70,7 @@ export function PsuCreatePage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-primary"
             >
               <FiSave size={16} />
               {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกข้อมูล'}
@@ -96,14 +96,14 @@ export function PsuCreatePage() {
             <button
               type="button"
               onClick={() => navigate('/inventory/psu')}
-              className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50"
+              className="btn-secondary"
             >
               ยกเลิกการทำงาน
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-primary"
             >
               บันทึกสินค้าใหม่
             </button>

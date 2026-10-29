@@ -7,7 +7,7 @@ export function AppLayout() {
   const { toast, dismiss } = useFlashToast()
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="app-backdrop min-h-screen">
       <Topbar />
       <Outlet />
       {toast && <Toast toast={toast} onDismiss={dismiss} />}

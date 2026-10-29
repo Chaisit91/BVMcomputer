@@ -105,7 +105,7 @@ export function ChatListPage() {
         ))}
       </div>
 
-      <div className="divide-y divide-gray-50 overflow-hidden rounded-2xl border border-gray-100 bg-white">
+      <div className="divide-y divide-gray-50 overflow-hidden card">
         {visibleConversations.length === 0 ? (
           <div className="flex flex-col items-center gap-2 py-16 text-center text-sm text-gray-400">
             <FiMessageCircle size={28} className="text-gray-300" />

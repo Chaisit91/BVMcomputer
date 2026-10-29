@@ -85,7 +85,7 @@ export function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
-        <section className="rounded-2xl border border-gray-100 bg-white p-5 xl:col-span-2">
+        <section className="card p-5 xl:col-span-2">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">ภาพรวมหมวดหมู่สินค้า</h2>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {data.categories.map((category) => (
@@ -99,7 +99,7 @@ export function DashboardPage() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-gray-100 bg-white p-5">
+        <section className="card p-5">
           <h2 className="mb-1 text-sm font-semibold text-gray-800">วิเคราะห์ยอดขาย 7 วันล่าสุด</h2>
           <p className="mb-4 text-xs text-gray-400">
             ยอดขายเฉลี่ยต่อวัน ~
@@ -110,18 +110,18 @@ export function DashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
-        <section className="rounded-2xl border border-gray-100 bg-white p-5 xl:col-span-2">
+        <section className="card p-5 xl:col-span-2">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">คำสั่งซื้อล่าสุด</h2>
           <RecentOrdersTable orders={data.recentOrders} />
         </section>
 
-        <section className="rounded-2xl border border-gray-100 bg-white p-5">
+        <section className="card p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">สินค้าใกล้หมด / หมดสต็อก</h2>
           <LowStockList items={data.lowStock} />
         </section>
       </div>
 
-      <section className="rounded-2xl border border-gray-100 bg-white p-5">
+      <section className="card p-5">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-sm font-semibold text-gray-800">รายงานยอดขาย</h2>
           <div className="flex rounded-lg bg-gray-100 p-1 text-xs font-medium">
@@ -177,7 +177,7 @@ export function DashboardPage() {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-gray-100 bg-white p-5">
+      <section className="card p-5">
         <h2 className="mb-4 text-sm font-semibold text-gray-800">สินค้าขายดีประจำเดือน</h2>
         <TopProductsTable products={data.topProducts} />
       </section>

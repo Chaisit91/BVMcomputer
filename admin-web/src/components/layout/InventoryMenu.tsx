@@ -45,7 +45,7 @@ export function InventoryMenu({ onNavigate }: { onNavigate?: () => void }) {
   const location = useLocation()
 
   return (
-    <div className="w-full overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl">
+    <div className="w-full overflow-hidden card shadow-xl">
       <p className="border-b border-gray-100 px-4 py-3 text-sm font-semibold text-gray-800">
         หมวดหมู่อุปกรณ์คอมพิวเตอร์
       </p>

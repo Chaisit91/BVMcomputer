@@ -238,7 +238,7 @@ export function RamListPage() {
           />
           <Link
             to="/inventory/ram/new"
-            className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600"
+            className="btn-primary"
           >
             <FiPlus size={16} />
             เพิ่มแรมใหม่
@@ -254,7 +254,7 @@ export function RamListPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_1fr]">
-        <aside className="h-fit rounded-2xl border border-gray-100 bg-white p-4 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto">
+        <aside className="h-fit card p-4 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto">
           <div className="mb-2 flex items-center justify-between">
             <p className="text-sm font-semibold text-gray-800">ตัวกรองสินค้า</p>
             <button type="button" onClick={clearAllFilters} className="text-xs text-rose-500 hover:underline">
@@ -327,7 +327,7 @@ export function RamListPage() {
           </div>
         )}
 
-        <div className="rounded-2xl border border-gray-100 bg-white p-5">
+        <div className="card p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">รายการแรมในคลังสินค้าทั้งหมด (RAM List)</h2>
           {visibleRams.length === 0 ? (
             <p className="py-12 text-center text-sm text-gray-400">ไม่พบสินค้าที่ค้นหา</p>
@@ -349,7 +349,7 @@ export function RamListPage() {
                 </thead>
                 <tbody className="divide-y divide-gray-50">
                   {visibleRams.map((ram) => (
-                    <tr key={ram.id} className="whitespace-nowrap">
+                    <tr key={ram.id} className="whitespace-nowrap hover:bg-gray-50/80">
                       <td className="max-w-xs py-3 pr-4">
                         <Link to={`/inventory/ram/${ram.id}`} className="block truncate font-medium text-gray-800 hover:text-rose-500">
                           {ram.name}

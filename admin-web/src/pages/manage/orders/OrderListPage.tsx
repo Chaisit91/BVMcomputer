@@ -100,7 +100,7 @@ export function OrderListPage() {
         <StatChip dotColor={orderStatusMeta.cancelled.dot} label={orderStatusMeta.cancelled.label} value={String(summary.cancelledCount)} />
       </div>
 
-      <div className="rounded-2xl border border-gray-100 bg-white p-5">
+      <div className="card p-5">
         <div className="mb-5 flex flex-wrap items-center gap-3">
           <input
             type="text"
@@ -146,7 +146,7 @@ export function OrderListPage() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {visibleOrders.map((order) => (
-                  <tr key={order.id} className="whitespace-nowrap">
+                  <tr key={order.id} className="whitespace-nowrap hover:bg-gray-50/80">
                     <td className="py-3 pr-4 font-medium text-rose-500">{order.orderCode}</td>
                     <td className="py-3 pr-4 text-gray-600">{formatDateTime(order.orderedAt)}</td>
                     <td className="py-3 pr-4 text-gray-800">{order.customerName}</td>

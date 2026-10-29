@@ -159,7 +159,7 @@ export function AnnouncementsPage() {
             event.preventDefault()
             void handlePost()
           }}
-          className="space-y-2 rounded-2xl border border-gray-100 bg-white p-4"
+          className="space-y-2 card p-4"
         >
           {isSuperAdmin && (
             <select
@@ -284,12 +284,12 @@ export function AnnouncementsPage() {
 
       <div className="space-y-3">
         {announcements.length === 0 ? (
-          <div className="flex flex-col items-center gap-2 rounded-2xl border border-gray-100 bg-white py-16 text-center text-sm text-gray-400">
+          <div className="flex flex-col items-center gap-2 card py-16 text-center text-sm text-gray-400">
             <HiMegaphone size={28} className="text-gray-300" />
             ยังไม่มีประกาศ
           </div>
         ) : visibleAnnouncements.length === 0 ? (
-          <div className="flex flex-col items-center gap-2 rounded-2xl border border-gray-100 bg-white py-16 text-center text-sm text-gray-400">
+          <div className="flex flex-col items-center gap-2 card py-16 text-center text-sm text-gray-400">
             <HiMegaphone size={28} className="text-gray-300" />
             ไม่พบประกาศที่ค้นหา
           </div>
@@ -299,7 +299,7 @@ export function AnnouncementsPage() {
             return (
             <div
               key={announcement.id}
-              className={`rounded-2xl border border-gray-100 bg-white p-4 border-l-4 ${
+              className={`card p-4 border-l-4 ${
                 isFromSuperAdmin ? 'border-l-rose-400' : 'border-l-blue-400'
               }`}
             >

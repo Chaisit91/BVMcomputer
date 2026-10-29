@@ -1,3 +1,83 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  /* Smooth, consistent motion on every interactive element across the whole
+     app — one rule here instead of adding transition classes to every button
+     / input / link on every page. */
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  [role="button"] {
+    transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@layer components {
+  /* Centralized button styles — swapped in across pages for the same exact
+     markup (text/onClick/icons/disabled logic untouched), replacing ~75
+     near-duplicate inline className strings that had drifted into 4+ slightly
+     different paddings. Hover lift + growing shadow + a slight press-down on
+     click is the "micro-interaction" layer; disabled state is baked in once
+     instead of repeated per call site. */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-rose-500/20 hover:-translate-y-0.5 hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-500/30 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-medium text-gray-600 hover:-translate-y-0.5 hover:border-gray-300 hover:bg-gray-50 hover:shadow-md active:translate-y-0 active:scale-[0.98];
+  }
+
+  /* Minimal, single-tone surface: the page background and the card are close
+     in value (soft neutral vs. white), told apart by a hairline border and
+     a barely-there shadow rather than a hard light/dark jump — the "dark
+     shell / light card" version of this read as two unrelated themes
+     stitched together no matter how each side was tuned. */
+  .card {
+    @apply rounded-2xl border border-gray-200/70 bg-white shadow-sm shadow-gray-200/40;
+  }
+
+  .btn-danger-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-rose-200 px-5 py-2.5 text-sm font-medium text-rose-500 hover:-translate-y-0.5 hover:bg-rose-50 hover:shadow-md hover:shadow-rose-200/40 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+}
+
+@layer utilities {
+  /* One soft neutral behind the whole authenticated app — close enough to
+     the card's white that the page reads as one surface, not two competing
+     themes. The login page keeps its own, separate, deliberately darker
+     identity (halftone-backdrop/tech-grid below); this is calmer on purpose
+     since it sits behind dense tables/forms all day. */
+  .app-backdrop {
+    background-color: #f4f5f7;
+  }
+
+  /* Just the dot texture (no color/vignette layers) so it can sit as a thin
+     overlay on top of a photo background without fighting its own grading —
+     used on the login page over the shop photo. */
+  .halftone-dots {
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.5) 1px, transparent 1.4px);
+    background-size: 7px 7px;
+  }
+
+  /* Faint schematic grid lines for the "tech" login card — a dark panel reads
+     as generic without some texture, and a grid is the one motif that still
+     feels calm/legible behind a form instead of busy. */
+  .tech-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .glass-dark {
+    background-color: rgba(17, 14, 12, 0.72);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+}

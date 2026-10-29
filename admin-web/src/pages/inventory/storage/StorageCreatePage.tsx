@@ -73,7 +73,7 @@ export function StorageCreatePage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-primary"
             >
               <FiSave size={16} />
               {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกสินค้า'}
@@ -97,7 +97,7 @@ export function StorageCreatePage() {
           <button
             type="button"
             onClick={() => navigate('/inventory/storage')}
-            className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50"
+            className="btn-secondary"
           >
             ยกเลิกการเพิ่มสินค้า
           </button>
@@ -105,7 +105,7 @@ export function StorageCreatePage() {
             type="button"
             onClick={onSaveUnpublished}
             disabled={isSubmitting}
-            className="rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+            className="btn-primary"
           >
             บันทึกสินค้าไม่เผยแพร่
           </button>

@@ -26,6 +26,9 @@ interface RawCatalogItem {
   status: string
 }
 
+type Orders = Awaited<ReturnType<typeof getOrders>>
+type Catalog = { def: (typeof CATEGORY_DEFS)[number]; items: RawCatalogItem[] }[]
+
 const CATEGORY_DEFS: { id: string; apiPath: string; name: string; icon: CategoryStat['icon'] }[] = [
   { id: 'cpu', apiPath: 'cpus', name: 'ซีพียู (CPU)', icon: 'cpu' },
   { id: 'gpu', apiPath: 'gpus', name: 'การ์ดจอ (GPU)', icon: 'gpu' },
@@ -45,13 +48,17 @@ function isLowStock(status: string) {
   return status === 'low_stock' || status === 'out_of_stock'
 }
 
-async function loadAllCatalogItems() {
+async function loadAllCatalogItems(): Promise<Catalog> {
   const lists = await Promise.all(CATEGORY_DEFS.map((category) => fetchCategory(category.apiPath)))
   return CATEGORY_DEFS.map((def, index) => ({ def, items: lists[index] }))
 }
 
-export async function getStats(): Promise<StatCardData[]> {
-  const [catalog, orders] = await Promise.all([loadAllCatalogItems(), getOrders()])
+// Every stat below reads from the SAME catalog/orders fetch (loaded once in
+// getDashboardData) instead of each re-fetching all 8 category endpoints +
+// the orders list independently — that redundancy was ~38 HTTP requests per
+// dashboard load instead of 9, which is what was making it feel slow.
+
+function computeStats(catalog: Catalog, orders: Orders): StatCardData[] {
   const totalProducts = catalog.reduce((sum, c) => sum + c.items.length, 0)
   const lowStockCount = catalog.reduce((sum, c) => sum + c.items.filter((i) => isLowStock(i.status)).length, 0)
 
@@ -70,8 +77,7 @@ export async function getStats(): Promise<StatCardData[]> {
   ]
 }
 
-export async function getCategories(): Promise<CategoryStat[]> {
-  const catalog = await loadAllCatalogItems()
+function computeCategories(catalog: Catalog): CategoryStat[] {
   return catalog.map(({ def, items }) => ({
     id: def.id,
     name: def.name,
@@ -82,7 +88,7 @@ export async function getCategories(): Promise<CategoryStat[]> {
   }))
 }
 
-export async function getMiniStats(): Promise<MiniStat[]> {
+async function getMiniStats(): Promise<MiniStat[]> {
   const desktopPcs = await api.get<{ category: string }[]>('/desktop-pcs').then((res) => res.data)
   const aiCount = desktopPcs.filter((d) => d.category === 'ai_workstation' || d.category === 'ai_enterprise').length
   return [
@@ -94,12 +100,11 @@ export async function getMiniStats(): Promise<MiniStat[]> {
 const THAI_WEEKDAYS = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส']
 const THAI_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.']
 
-function orderTotal(order: Awaited<ReturnType<typeof getOrders>>[number]) {
+function orderTotal(order: Orders[number]) {
   return order.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0)
 }
 
-export async function getWeeklyTrend(): Promise<SalesTrendPoint[]> {
-  const orders = await getOrders()
+function computeWeeklyTrend(orders: Orders): SalesTrendPoint[] {
   const now = new Date()
   const days: SalesTrendPoint[] = []
   for (let i = 6; i >= 0; i--) {
@@ -112,8 +117,7 @@ export async function getWeeklyTrend(): Promise<SalesTrendPoint[]> {
   return days
 }
 
-export async function getMonthlyTrend(): Promise<SalesTrendPoint[]> {
-  const orders = await getOrders()
+function computeMonthlyTrend(orders: Orders): SalesTrendPoint[] {
   const now = new Date()
   const months: SalesTrendPoint[] = []
   for (let i = 11; i >= 0; i--) {
@@ -129,8 +133,7 @@ export async function getMonthlyTrend(): Promise<SalesTrendPoint[]> {
   return months
 }
 
-export async function getRecentOrders(): Promise<RecentOrder[]> {
-  const orders = await getOrders()
+function computeRecentOrders(orders: Orders): RecentOrder[] {
   return [...orders]
     .sort((a, b) => new Date(b.orderedAt).getTime() - new Date(a.orderedAt).getTime())
     .slice(0, 5)
@@ -145,18 +148,16 @@ export async function getRecentOrders(): Promise<RecentOrder[]> {
     }))
 }
 
-export async function getLowStock(): Promise<LowStockItem[]> {
-  const catalog = await loadAllCatalogItems()
-  const all = catalog.flatMap((c) => c.items)
-  return all
+function computeLowStock(catalog: Catalog): LowStockItem[] {
+  return catalog
+    .flatMap((c) => c.items)
     .filter((item) => isLowStock(item.status))
     .sort((a, b) => a.stock - b.stock)
     .slice(0, 10)
     .map((item) => ({ id: item.id, name: item.name, remaining: item.stock, urgent: item.stock <= 3 }))
 }
 
-export async function getTopProducts(): Promise<TopProduct[]> {
-  const [orders, catalog] = await Promise.all([getOrders(), loadAllCatalogItems()])
+function computeTopProducts(catalog: Catalog, orders: Orders): TopProduct[] {
   const stockByName = new Map(catalog.flatMap((c) => c.items).map((item) => [item.name, item.status]))
 
   const totals = new Map<string, { name: string; category: string; sold: number; revenue: number }>()
@@ -185,17 +186,16 @@ export async function getTopProducts(): Promise<TopProduct[]> {
 }
 
 export async function getDashboardData(): Promise<DashboardData> {
-  const [stats, categories, miniStats, weeklyTrend, recentOrders, lowStock, monthlyTrend, topProducts] =
-    await Promise.all([
-      getStats(),
-      getCategories(),
-      getMiniStats(),
-      getWeeklyTrend(),
-      getRecentOrders(),
-      getLowStock(),
-      getMonthlyTrend(),
-      getTopProducts(),
-    ])
+  const [catalog, orders, miniStats] = await Promise.all([loadAllCatalogItems(), getOrders(), getMiniStats()])
 
-  return { stats, categories, miniStats, weeklyTrend, recentOrders, lowStock, monthlyTrend, topProducts }
+  return {
+    stats: computeStats(catalog, orders),
+    categories: computeCategories(catalog),
+    miniStats,
+    weeklyTrend: computeWeeklyTrend(orders),
+    recentOrders: computeRecentOrders(orders),
+    lowStock: computeLowStock(catalog),
+    monthlyTrend: computeMonthlyTrend(orders),
+    topProducts: computeTopProducts(catalog, orders),
+  }
 }

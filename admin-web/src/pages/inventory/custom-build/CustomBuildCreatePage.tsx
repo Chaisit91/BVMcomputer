@@ -85,7 +85,7 @@ export function CustomBuildCreatePage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-primary"
             >
               <FiSave size={16} />
               {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกข้อมูล'}
@@ -94,7 +94,7 @@ export function CustomBuildCreatePage() {
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
-          <section className="rounded-2xl border border-gray-100 bg-white p-5 xl:col-span-2">
+          <section className="card p-5 xl:col-span-2">
             <h2 className="mb-4 border-b border-gray-100 pb-3 text-sm font-semibold text-gray-800">
               ข้อมูลอุปกรณ์สเปคคอมพิวเตอร์ (เลือกจากสินค้าจริงในคลัง)
             </h2>
@@ -125,7 +125,7 @@ export function CustomBuildCreatePage() {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-gray-100 bg-white p-5">
+          <section className="card p-5">
             <h2 className="mb-4 text-sm font-semibold text-gray-800">ราคาอุปกรณ์รายชิ้น (ราคาที่ตกลงกับลูกค้า)</h2>
             <div className="space-y-3">
               {COMPONENT_SLOTS.map((slot) => (

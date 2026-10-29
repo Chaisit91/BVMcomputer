@@ -125,7 +125,7 @@ export function AdminListPage() {
         {isSuperAdmin && (
           <Link
             to="/admins/new"
-            className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600"
+            className="btn-primary"
           >
             <FiPlus size={16} />
             เพิ่มผู้ดูแลใหม่
@@ -139,7 +139,7 @@ export function AdminListPage() {
         <StatChip dotColor="bg-rose-500" label="ระงับการใช้งาน (Inactive)" value={`${summary.inactiveCount} คน`} />
       </div>
 
-      <div className="rounded-2xl border border-gray-100 bg-white p-5">
+      <div className="card p-5">
         <div className="mb-5 flex flex-wrap items-center gap-3">
           <input
             type="text"
@@ -200,7 +200,7 @@ export function AdminListPage() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {visibleAdmins.map((admin, index) => (
-                  <tr key={admin.id} className="whitespace-nowrap">
+                  <tr key={admin.id} className="whitespace-nowrap hover:bg-gray-50/80">
                     <td className="py-3 pr-4 text-gray-500">{index + 1}</td>
                     <td className="py-3 pr-4">
                       <div className="flex items-center gap-2.5">

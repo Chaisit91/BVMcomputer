@@ -59,7 +59,7 @@ export function DepartmentOverviewPage() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-gray-100 bg-white p-6">
+      <div className="card p-6">
         <h2 className="mb-4 text-sm font-semibold text-gray-800">หน้าที่และความรับผิดชอบ</h2>
         <ul className="space-y-3">
           {info.duties.map((duty) => (
@@ -72,7 +72,7 @@ export function DepartmentOverviewPage() {
       </div>
 
       {currentUser?.isTeamLead && (
-        <div className="rounded-2xl border border-gray-100 bg-white p-6">
+        <div className="card p-6">
           <h2 className="mb-2 text-sm font-semibold text-gray-800">ในฐานะหัวหน้าแผนก</h2>
           <p className="text-sm text-gray-600">
             คุณเห็นและแก้ไขข้อมูลทั่วไป (ชื่อ, เบอร์โทร, ตำแหน่งงาน, สถานะ) ของทุกคนในแผนกนี้ได้ที่เมนู{' '}

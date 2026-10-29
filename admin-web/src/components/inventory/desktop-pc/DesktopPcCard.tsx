@@ -22,7 +22,7 @@ const statusMap: Record<DesktopPcStatus, { label: string; variant: 'success' | '
 
 export function DesktopPcCard({ product }: { product: DesktopPc }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white">
+    <div className="overflow-hidden card">
       <Link
         to={`/inventory/desktop-pc/${product.id}`}
         className="relative flex h-40 items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900"

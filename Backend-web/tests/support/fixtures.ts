@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient, type AdminRole } from '../../generated/prisma'
+import { hashPassword } from '../../src/utils/password'
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
 export const prisma = new PrismaClient({ adapter })
@@ -26,6 +27,23 @@ export async function createFixtureAdmin(role: AdminRole, isTeamLead = false) {
       passwordHash: 'not-a-real-hash',
       role,
       isTeamLead,
+    },
+  })
+}
+
+// Only the login test needs a real, known password — every other test
+// authenticates via a signed JWT (see jwt.ts) and never touches the real
+// login endpoint, so createFixtureAdmin's fake hash is fine there.
+export async function createFixtureAdminWithPassword(role: AdminRole, plainPassword: string) {
+  const suffix = uniqueSuffix()
+  return prisma.adminAccount.create({
+    data: {
+      firstName: 'PW',
+      lastName: `Fixture-${suffix}`,
+      email: `pw-fixture-${suffix}@test.local`,
+      phone: '0000000000',
+      passwordHash: await hashPassword(plainPassword),
+      role,
     },
   })
 }

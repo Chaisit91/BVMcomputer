@@ -17,7 +17,7 @@ export function PromoSetCard({ set }: { set: PromoSet }) {
     set.regularPrice > 0 ? Math.round(((set.regularPrice - set.promoPrice) / set.regularPrice) * 100) : 0
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white">
+    <div className="overflow-hidden card">
       <div className="relative flex h-40 items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
         <span className="absolute left-3 top-3 rounded-md bg-white/90 px-2 py-1 text-xs font-semibold text-rose-500">
           {set.code}

@@ -249,7 +249,7 @@ export function PsuListPage() {
           />
           <Link
             to="/inventory/psu/new"
-            className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600"
+            className="btn-primary"
           >
             <FiPlus size={16} />
             เพิ่มพาวเวอร์ซัพพลายใหม่
@@ -265,7 +265,7 @@ export function PsuListPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_1fr]">
-        <aside className="h-fit rounded-2xl border border-gray-100 bg-white p-4 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto">
+        <aside className="h-fit card p-4 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto">
           <div className="mb-2 flex items-center justify-between">
             <p className="text-sm font-semibold text-gray-800">ตัวกรองสินค้า</p>
             <button type="button" onClick={clearAllFilters} className="text-xs text-rose-500 hover:underline">
@@ -359,7 +359,7 @@ export function PsuListPage() {
           </div>
         )}
 
-        <div className="rounded-2xl border border-gray-100 bg-white p-5">
+        <div className="card p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">รายการพาวเวอร์ซัพพลายทั้งหมดที่ตรงตามเงื่อนไข</h2>
           {visibleItems.length === 0 ? (
             <p className="py-12 text-center text-sm text-gray-400">ไม่พบสินค้าที่ค้นหา</p>
@@ -383,7 +383,7 @@ export function PsuListPage() {
                 </thead>
                 <tbody className="divide-y divide-gray-50">
                   {visibleItems.map((item) => (
-                    <tr key={item.id} className="whitespace-nowrap">
+                    <tr key={item.id} className="whitespace-nowrap hover:bg-gray-50/80">
                       <td className="py-3 pr-4 text-gray-500">{item.displayCode}</td>
                       <td className="py-3 pr-4">
                         <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 text-rose-400">

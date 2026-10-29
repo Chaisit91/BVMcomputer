@@ -145,60 +145,58 @@ export function Topbar() {
     navigate('/login', { replace: true })
   }
 
+  const navItemClass = (active: boolean) =>
+    `flex items-center gap-1 rounded-full px-3 py-1.5 hover:bg-gray-100 hover:text-gray-900 ${
+      active ? 'bg-rose-50 text-rose-500' : 'text-gray-500'
+    }`
+
+  // Always mounted, visibility driven by CSS — a conditionally-rendered panel
+  // can only ever animate its *entrance* (it's gone from the DOM the instant
+  // state flips), which is exactly why closing felt instant/not smooth.
+  // transition-all here covers both directions.
+  const dropdownPanelClass = (open: boolean) =>
+    `absolute top-full origin-top transition-all duration-200 ease-out ${
+      open ? 'visible translate-y-0 scale-100 opacity-100' : 'invisible -translate-y-1 scale-95 opacity-0'
+    }`
+
   return (
-    <header className="sticky top-0 z-10 border-b border-gray-100 bg-white">
+    <header className="sticky top-0 z-20 border-b border-gray-100 bg-white">
       <div className="flex items-center justify-between px-4 py-3 md:px-6">
         <div className="flex items-center gap-4 md:gap-8">
           <Link to="/dashboard" className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-rose-500 text-white">
+            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-rose-500 text-white shadow-sm shadow-rose-500/30">
               <FiMonitor size={18} />
             </span>
             <span className="text-base font-bold text-gray-900">BVMcomputer</span>
           </Link>
 
-          <nav ref={navRef} className="hidden items-center gap-6 text-sm font-medium text-gray-500 md:flex">
+          <nav ref={navRef} className="hidden items-center gap-1 text-sm font-medium md:flex">
             {showInventoryNav && (
               <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => toggleMenu('inventory')}
-                  className={`flex items-center gap-1 hover:text-gray-900 ${isInventoryActive ? 'text-rose-500' : ''}`}
-                >
+                <button type="button" onClick={() => toggleMenu('inventory')} className={navItemClass(isInventoryActive)}>
                   คลังสินค้า
-                  <FiChevronDown size={14} />
+                  <FiChevronDown size={14} className={`transition-transform ${openMenu === 'inventory' ? 'rotate-180' : ''}`} />
                 </button>
-                {openMenu === 'inventory' && (
-                  <div className="absolute left-0 top-full mt-2 w-80">
-                    <InventoryMenu onNavigate={handleNavigate} />
-                  </div>
-                )}
+                <div className={`left-0 mt-2 w-80 ${dropdownPanelClass(openMenu === 'inventory')}`}>
+                  <InventoryMenu onNavigate={handleNavigate} />
+                </div>
               </div>
             )}
 
             {showManageNav && (
               <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => toggleMenu('manage')}
-                  className={`flex items-center gap-1 hover:text-gray-900 ${isManageActive ? 'text-rose-500' : ''}`}
-                >
+                <button type="button" onClick={() => toggleMenu('manage')} className={navItemClass(isManageActive)}>
                   จัดการ
-                  <FiChevronDown size={14} />
+                  <FiChevronDown size={14} className={`transition-transform ${openMenu === 'manage' ? 'rotate-180' : ''}`} />
                 </button>
-                {openMenu === 'manage' && (
-                  <div className="absolute left-0 top-full mt-2 w-96">
-                    <ManageMenu onNavigate={handleNavigate} />
-                  </div>
-                )}
+                <div className={`left-0 mt-2 w-96 ${dropdownPanelClass(openMenu === 'manage')}`}>
+                  <ManageMenu onNavigate={handleNavigate} />
+                </div>
               </div>
             )}
 
             {showAdminsNav && (
-              <Link
-                to="/admins"
-                onClick={handleNavigate}
-                className={`hover:text-gray-900 ${isAdminsActive ? 'text-rose-500' : ''}`}
-              >
+              <Link to="/admins" onClick={handleNavigate} className={navItemClass(isAdminsActive)}>
                 {adminsNavLabel}
               </Link>
             )}
@@ -210,16 +208,20 @@ export function Topbar() {
             ref={hamburgerRef}
             type="button"
             onClick={() => setMobileMenuOpen((open) => !open)}
-            className="text-gray-400 hover:text-gray-600 md:hidden"
+            className="rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700 md:hidden"
             aria-label="เมนู"
           >
             {mobileMenuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
           </button>
           {user && (
-            <Link to="/announcements" className="relative text-gray-400 hover:text-gray-600" aria-label="ประกาศที่ยังไม่ได้อ่าน">
+            <Link
+              to="/announcements"
+              className="relative rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700"
+              aria-label="ประกาศที่ยังไม่ได้อ่าน"
+            >
               <HiMegaphone size={20} />
               {unreadAnnouncementCount > 0 && (
-                <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-semibold text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-semibold text-white shadow-sm shadow-rose-500/50">
                   {unreadAnnouncementCount > 99 ? '99+' : unreadAnnouncementCount}
                 </span>
               )}
@@ -228,18 +230,18 @@ export function Topbar() {
           {showChatBadge ? (
             <Link
               to={soleUnreadConversationId ? `/manage/chats/${soleUnreadConversationId}` : '/manage/chats'}
-              className="relative text-gray-400 hover:text-gray-600"
+              className="relative rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700"
               aria-label="แชทลูกค้าที่ยังไม่ได้ตอบ"
             >
               <FiBell size={20} />
               {unreadChatCount > 0 && (
-                <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-semibold text-white">
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-semibold text-white shadow-sm shadow-rose-500/50">
                   {unreadChatCount > 99 ? '99+' : unreadChatCount}
                 </span>
               )}
             </Link>
           ) : (
-            <button type="button" className="text-gray-400 hover:text-gray-600" aria-label="การแจ้งเตือน">
+            <button type="button" className="rounded-full p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-700" aria-label="การแจ้งเตือน">
               <FiBell size={20} />
             </button>
           )}
@@ -248,7 +250,7 @@ export function Topbar() {
             <button
               type="button"
               onClick={() => toggleMenu('user')}
-              className="flex items-center gap-2 rounded-xl py-1 pl-1 pr-2 hover:bg-gray-50"
+              className="flex items-center gap-2 rounded-full py-1 pl-1 pr-2 hover:bg-gray-100"
             >
               <Avatar
                 key={user?.avatarUrl ?? 'none'}
@@ -266,90 +268,117 @@ export function Topbar() {
               />
             </button>
 
-            {openMenu === 'user' && (
-              <div className="absolute right-0 top-full mt-2 w-64 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl">
-                <div className="flex items-center gap-3 border-b border-gray-100 px-4 py-3">
-                  <Avatar
-                    key={user?.avatarUrl ?? 'none'}
-                    url={user?.avatarUrl}
-                    initials={getInitials(user?.name ?? 'แอดมิน')}
-                    size={40}
-                  />
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold text-gray-800">{user?.name ?? 'แอดมิน'}</p>
-                    <p className="truncate text-xs text-gray-400">{user?.email ?? 'ผู้ดูแลระบบ'}</p>
-                  </div>
-                </div>
-                <div className="p-1.5">
-                  <button
-                    type="button"
-                    disabled
-                    className="flex w-full cursor-not-allowed items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm text-gray-300"
-                  >
-                    <FiUser size={16} />
-                    โปรไฟล์ของฉัน
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleLogout}
-                    disabled={loggingOut}
-                    className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-rose-500 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    <FiLogOut size={16} />
-                    {loggingOut ? 'กำลังออกจากระบบ...' : 'ออกจากระบบ'}
-                  </button>
+            <div
+              className={`right-0 mt-2 w-64 origin-top-right overflow-hidden card shadow-xl ${dropdownPanelClass(
+                openMenu === 'user',
+              )}`}
+            >
+              <div className="flex items-center gap-3 border-b border-gray-100 px-4 py-3">
+                <Avatar
+                  key={user?.avatarUrl ?? 'none'}
+                  url={user?.avatarUrl}
+                  initials={getInitials(user?.name ?? 'แอดมิน')}
+                  size={40}
+                />
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-gray-800">{user?.name ?? 'แอดมิน'}</p>
+                  <p className="truncate text-xs text-gray-400">{user?.email ?? 'ผู้ดูแลระบบ'}</p>
                 </div>
               </div>
-            )}
+              <div className="p-1.5">
+                <button
+                  type="button"
+                  disabled
+                  className="flex w-full cursor-not-allowed items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm text-gray-300"
+                >
+                  <FiUser size={16} />
+                  โปรไฟล์ของฉัน
+                </button>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  disabled={loggingOut}
+                  className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-rose-500 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <FiLogOut size={16} />
+                  {loggingOut ? 'กำลังออกจากระบบ...' : 'ออกจากระบบ'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {mobileMenuOpen && (
-        <div ref={mobilePanelRef} className="space-y-2 border-t border-gray-100 px-4 py-3 md:hidden">
-          {showInventoryNav && (
-            <>
-              <button
-                type="button"
-                onClick={() => toggleMenu('inventory')}
-                className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium ${
-                  isInventoryActive ? 'text-rose-500' : 'text-gray-700'
-                }`}
-              >
-                คลังสินค้า
-                <FiChevronDown className={`transition-transform ${openMenu === 'inventory' ? 'rotate-180' : ''}`} size={16} />
-              </button>
-              {openMenu === 'inventory' && <InventoryMenu onNavigate={handleNavigate} />}
-            </>
-          )}
+      {/* Grid-rows trick: animates to/from an intrinsic height smoothly in
+          both directions, which a plain conditional render or a fixed max-h
+          transition can't do cleanly for content whose height varies by role. */}
+      <div
+        className={`grid transition-[grid-template-rows] duration-300 ease-out md:hidden ${
+          mobileMenuOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+        }`}
+      >
+        <div ref={mobilePanelRef} className="overflow-hidden">
+          <div className="space-y-2 border-t border-gray-100 px-4 py-3">
+            {showInventoryNav && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => toggleMenu('inventory')}
+                  className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium ${
+                    isInventoryActive ? 'text-rose-500' : 'text-gray-700'
+                  }`}
+                >
+                  คลังสินค้า
+                  <FiChevronDown className={`transition-transform ${openMenu === 'inventory' ? 'rotate-180' : ''}`} size={16} />
+                </button>
+                <div
+                  className={`grid transition-[grid-template-rows] duration-200 ease-out ${
+                    openMenu === 'inventory' ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <InventoryMenu onNavigate={handleNavigate} />
+                  </div>
+                </div>
+              </>
+            )}
 
-          {showManageNav && (
-            <>
-              <button
-                type="button"
-                onClick={() => toggleMenu('manage')}
-                className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium ${
-                  isManageActive ? 'text-rose-500' : 'text-gray-700'
-                }`}
-              >
-                จัดการ
-                <FiChevronDown className={`transition-transform ${openMenu === 'manage' ? 'rotate-180' : ''}`} size={16} />
-              </button>
-              {openMenu === 'manage' && <ManageMenu onNavigate={handleNavigate} />}
-            </>
-          )}
+            {showManageNav && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => toggleMenu('manage')}
+                  className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium ${
+                    isManageActive ? 'text-rose-500' : 'text-gray-700'
+                  }`}
+                >
+                  จัดการ
+                  <FiChevronDown className={`transition-transform ${openMenu === 'manage' ? 'rotate-180' : ''}`} size={16} />
+                </button>
+                <div
+                  className={`grid transition-[grid-template-rows] duration-200 ease-out ${
+                    openMenu === 'manage' ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <ManageMenu onNavigate={handleNavigate} />
+                  </div>
+                </div>
+              </>
+            )}
 
-          {showAdminsNav && (
-            <Link
-              to="/admins"
-              onClick={handleNavigate}
-              className={`block rounded-lg px-3 py-2 text-sm font-medium ${isAdminsActive ? 'text-rose-500' : 'text-gray-700'}`}
-            >
-              {adminsNavLabel}
-            </Link>
-          )}
+            {showAdminsNav && (
+              <Link
+                to="/admins"
+                onClick={handleNavigate}
+                className={`block rounded-lg px-3 py-2 text-sm font-medium ${isAdminsActive ? 'text-rose-500' : 'text-gray-700'}`}
+              >
+                {adminsNavLabel}
+              </Link>
+            )}
+          </div>
         </div>
-      )}
+      </div>
     </header>
   )
 }

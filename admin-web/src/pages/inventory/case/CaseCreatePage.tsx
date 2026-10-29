@@ -72,7 +72,7 @@ export function CaseCreatePage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-primary"
             >
               <FiSave size={16} />
               {isSubmitting ? 'กำลังบันทึก...' : 'บันทึกเคสใหม่'}
@@ -98,14 +98,14 @@ export function CaseCreatePage() {
             <button
               type="button"
               onClick={() => navigate('/inventory/case')}
-              className="rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50"
+              className="btn-secondary"
             >
               ยกเลิก
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-60"
+              className="btn-primary"
             >
               บันทึกเคสใหม่ทั้งหมด
             </button>

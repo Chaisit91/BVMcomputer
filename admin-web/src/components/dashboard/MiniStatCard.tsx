@@ -9,7 +9,7 @@ const icons: Record<MiniStat['icon'], ReactNode> = {
 
 export function MiniStatCard({ name, count, unit, icon }: MiniStat) {
   return (
-    <div className="flex items-center justify-between rounded-2xl border border-gray-100 bg-white p-4">
+    <div className="flex items-center justify-between card p-4">
       <div>
         <p className="text-sm font-medium text-gray-800">{name}</p>
         <p className="text-xs text-gray-400">

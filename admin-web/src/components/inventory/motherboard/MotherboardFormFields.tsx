@@ -40,7 +40,7 @@ export function MotherboardFormFields({ mode, readOnly = false, register, errors
   return (
     <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
       <div className="space-y-6">
-        <section className="rounded-2xl border border-gray-100 bg-white p-5">
+        <section className="card p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพสินค้า</h2>
           <div className="flex h-40 items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
             {readOnly ? 'ยังไม่มีรูปภาพ' : 'อัปโหลดรูปสินค้า'}
@@ -55,7 +55,7 @@ export function MotherboardFormFields({ mode, readOnly = false, register, errors
           )}
         </section>
 
-        <section className="rounded-2xl border border-gray-100 bg-white p-5">
+        <section className="card p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">ราคาสินค้าและสต็อก</h2>
           <div className="space-y-4">
             <div>
@@ -113,7 +113,7 @@ export function MotherboardFormFields({ mode, readOnly = false, register, errors
       </div>
 
       <div className="space-y-6 xl:col-span-2">
-        <section className="rounded-2xl border border-gray-100 bg-white p-5">
+        <section className="card p-5">
           <h2 className="mb-1 text-sm font-semibold text-gray-800">ข้อมูลสเปคทางเทคนิค (Specifications)</h2>
           <p className="mb-4 text-xs text-gray-400">กรอกข้อมูลเบื้องต้นของเมนบอร์ด กรุณากรอกให้ครบถ้วน</p>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -277,7 +277,7 @@ export function MotherboardFormFields({ mode, readOnly = false, register, errors
           )}
         </section>
 
-        <section className="rounded-2xl border border-gray-100 bg-white p-5">
+        <section className="card p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">รายละเอียดสินค้า</h2>
           <label className="mb-1.5 block text-sm font-medium text-gray-700">รายละเอียดสินค้า (Description)</label>
           <textarea

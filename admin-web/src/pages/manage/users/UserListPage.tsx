@@ -104,7 +104,7 @@ export function UserListPage() {
         <h1 className="text-xl font-bold text-gray-900">จัดการผู้ใช้ (User Management)</h1>
         <Link
           to="/manage/users/new"
-          className="flex items-center gap-2 rounded-xl bg-rose-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-rose-600"
+          className="btn-primary"
         >
           <FiPlus size={16} />
           เพิ่มผู้ใช้งานใหม่
@@ -145,7 +145,7 @@ export function UserListPage() {
         </select>
       </div>
 
-      <div className="rounded-2xl border border-gray-100 bg-white p-5">
+      <div className="card p-5">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-sm font-semibold text-gray-800">ข้อมูลลูกค้า / สมาชิกทั้งหมด</h2>
           <button type="button" className="flex items-center gap-1.5 text-sm font-medium text-rose-500 hover:underline">
@@ -173,7 +173,7 @@ export function UserListPage() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {visibleCustomers.map((customer) => (
-                  <tr key={customer.id} className="whitespace-nowrap">
+                  <tr key={customer.id} className="whitespace-nowrap hover:bg-gray-50/80">
                     <td className="py-3 pr-4 text-gray-500">{customer.customerCode}</td>
                     <td className="py-3 pr-4">
                       <div className="flex items-center gap-2.5">
