@@ -28,7 +28,7 @@ export function IncompleteSpecModal({ open, onClose, onClosed }: IncompleteSpecM
               onClosed();
             }
           }}
-          className="fixed left-1/2 top-1/2 z-50 max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-[460px] -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-2xl bg-white px-5 pb-5 pt-7 text-center shadow-xl outline-none sm:px-7 sm:pb-6"
+          className="fixed left-1/2 top-1/2 z-50 max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] max-w-[460px] -translate-x-1/2 -translate-y-1/2 overflow-y-auto no-scrollbar rounded-2xl bg-white px-5 pb-5 pt-7 text-center shadow-xl outline-none sm:px-7 sm:pb-6"
         >
           <Dialog.Close
             aria-label="ปิด"

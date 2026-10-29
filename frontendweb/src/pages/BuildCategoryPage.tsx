@@ -1,5 +1,4 @@
-import { useMemo, useState } from 'react';
-import type { IconType } from 'react-icons';
+import { useMemo, useRef, useState } from 'react';
 import { BsCpu, BsGpuCard, BsHdd, BsMemory, BsMotherboard, BsPlug, BsSnow2 } from 'react-icons/bs';
 import { PiComputerTower } from 'react-icons/pi';
 import { Container } from '../components/ui/Container';
@@ -9,6 +8,7 @@ import { BuildSummarySidebar, type BuildSummaryRow } from '../components/build/B
 import { BuildCartPreviewModal, type BuildCartPreviewItem } from '../components/build/BuildCartPreviewModal';
 import { ErrorState } from '../components/ui/ErrorState';
 import { ProductGridSkeleton } from '../components/category/ProductGridSkeleton';
+import { ProductPagination } from '../components/category/ProductPagination';
 import { useAppDispatch } from '../app/hooks';
 import { useCatalogs } from '../hooks/useCatalogs';
 import { addToCart } from '../features/cart/cartSlice';
@@ -27,23 +27,7 @@ export type StepId = 'cpu' | 'motherboard' | 'gpu' | 'ram' | 'storage' | 'psu' |
 // Module-level so useCatalogs gets a stable array and doesn't refetch on every render.
 const BUILD_CATEGORIES = ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'psu', 'case', 'cooling'] as const satisfies readonly StepId[];
 
-interface StepMeta {
-  id: StepId;
-  label: string;
-  icon: IconType;
-  required: boolean;
-}
-
-const stepMeta: StepMeta[] = [
-  { id: 'cpu', label: 'ซีพียู', icon: BsCpu, required: true },
-  { id: 'motherboard', label: 'เมนบอร์ด', icon: BsMotherboard, required: true },
-  { id: 'gpu', label: 'การ์ดจอ', icon: BsGpuCard, required: false },
-  { id: 'ram', label: 'แรม', icon: BsMemory, required: true },
-  { id: 'storage', label: 'สตอเรจ', icon: BsHdd, required: true },
-  { id: 'psu', label: 'พาวเวอร์ซัพพลาย', icon: BsPlug, required: true },
-  { id: 'case', label: 'เคส', icon: PiComputerTower, required: true },
-  { id: 'cooling', label: 'ชุดระบายความร้อน', icon: BsSnow2, required: false },
-];
+const PAGE_SIZE = 12;
 
 export function BuildCategoryPage() {
   const dispatch = useAppDispatch();
@@ -51,6 +35,8 @@ export function BuildCategoryPage() {
   const { catalogs, status: catalogStatus, error: catalogError, reload: reloadCatalogs } = useCatalogs(BUILD_CATEGORIES);
   const [activeStep, setActiveStep] = useState<StepId>('cpu');
   const [showCartPreview, setShowCartPreview] = useState(false);
+  const [pageState, setPageState] = useState<{ step: StepId; page: number }>({ step: 'cpu', page: 1 });
+  const sectionRef = useRef<HTMLElement>(null);
 
   const [selectedCpu, setSelectedCpu] = useState<CpuProduct | null>(null);
   const [selectedMotherboard, setSelectedMotherboard] = useState<MotherboardProduct | null>(null);
@@ -427,20 +413,23 @@ export function BuildCategoryPage() {
     }
   };
 
-  const currentIndex = stepMeta.findIndex((step) => step.id === activeStep);
+  // Same 12-per-page pagination as the category pages. The page number is stored together with
+  // the step it belongs to, so switching category starts back at page 1.
+  const stepOptions = renderStepOptions() ?? [];
+  const totalPages = Math.max(1, Math.ceil(stepOptions.length / PAGE_SIZE));
+  const currentPage = Math.min(pageState.step === activeStep ? pageState.page : 1, totalPages);
+  const pageOptions = stepOptions.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
-  const goToStep = (offset: number) => {
-    const nextIndex = currentIndex + offset;
-    if (nextIndex >= 0 && nextIndex < stepMeta.length) {
-      setActiveStep(stepMeta[nextIndex].id as StepId);
-    }
+  const handlePageChange = (next: number) => {
+    setPageState({ step: activeStep, page: next });
+    sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
     <>
       <BuildHeroBanner />
 
-      <section className="bg-slate-50 pb-16 pt-8">
+      <section ref={sectionRef} className="scroll-mt-20 bg-slate-50 pb-16 pt-8">
         <Container>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
             <BuildSummarySidebar
@@ -465,27 +454,18 @@ export function BuildCategoryPage() {
                 ) : catalogStatus !== 'succeeded' ? (
                   <ProductGridSkeleton />
                 ) : (
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">{renderStepOptions()}</div>
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">{pageOptions}</div>
                 )}
 
-                <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => goToStep(-1)}
-                    disabled={currentIndex === 0}
-                    className="rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-500 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
-                  >
-                    ก่อนหน้า
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => goToStep(1)}
-                    disabled={currentIndex === stepMeta.length - 1}
-                    className="rounded-full bg-brand px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-400"
-                  >
-                    ถัดไป
-                  </button>
-                </div>
+                {catalogStatus === 'succeeded' && (
+                  <ProductPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    pageSize={PAGE_SIZE}
+                    totalItems={stepOptions.length}
+                    onPageChange={handlePageChange}
+                  />
+                )}
               </div>
             </div>
           </div>

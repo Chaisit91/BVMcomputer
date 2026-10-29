@@ -97,3 +97,13 @@ body {
   box-shadow: 0 1px 2px rgba(11, 18, 32, 0.25);
   cursor: pointer;
 }
+
+/* Hide the scrollbar but keep the area scrollable (wheel, touch, keyboard). */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

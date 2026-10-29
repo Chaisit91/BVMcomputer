@@ -79,7 +79,7 @@ export function ChatMessageList({ messages, onRetry, openKey }: ChatMessageListP
         role="log"
         aria-live="polite"
         aria-label="ข้อความสนทนา"
-        className="h-full overflow-y-auto overscroll-contain px-4 py-4"
+        className="h-full overflow-y-auto no-scrollbar overscroll-contain px-4 py-4"
       >
         <AdminBubble>
           <p>{WELCOME_TEXT}</p>

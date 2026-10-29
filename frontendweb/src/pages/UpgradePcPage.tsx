@@ -54,7 +54,9 @@ export function UpgradePcPage() {
           <UpgradeHeroBanner />
           <UpgradeStepIndicator currentStep={currentStep} />
 
-          <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[1fr_320px]">
+          {/* lg: the form stretches to the row height (so with no errors it ends level with the sidebar), while the
+              sidebar is self-start and keeps its own height — validation errors grow the form, never the help card. */}
+          <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[1fr_320px] lg:items-stretch">
             <UpgradeSpecForm
               selection={selection}
               onSelectComponent={handleSelectComponent}

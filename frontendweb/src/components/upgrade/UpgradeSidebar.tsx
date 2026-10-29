@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BsCheckCircleFill } from 'react-icons/bs';
 import { FiChevronDown } from 'react-icons/fi';
 import { cn } from '../../lib/cn';
+import { SpecCheckHelpCard } from './SpecCheckHelpCard';
 
 const faqItems = [
   { question: 'ทำไมต้องรู้สเปคคอมตัวเองก่อน?', answer: 'เพื่อให้ระบบแนะนำชิ้นส่วนที่เข้ากันได้กับของเดิมที่คุณมีอยู่ และไม่แนะนำสิ่งที่คุณมีอยู่แล้ว' },
@@ -24,7 +25,7 @@ export function UpgradeSidebar() {
   const [openFaq, setOpenFaq] = useState<string | null>(null);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-3 lg:self-start">
       <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-card">
         <div className="mb-1 flex items-center justify-between">
           <h2 className="text-sm font-bold text-ink">คำถามที่พบบ่อย</h2>
@@ -68,6 +69,8 @@ export function UpgradeSidebar() {
           ))}
         </ul>
       </div>
+
+      <SpecCheckHelpCard />
     </div>
   );
 }

@@ -51,7 +51,7 @@ export function SpecShareDialog({ options, isDemo, onCancel, onConfirm }: SpecSh
         </button>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3">
+      <div className="min-h-0 flex-1 overflow-y-auto no-scrollbar px-4 py-3">
         {filled.length === 0 ? (
           <p className="rounded-xl bg-slate-50 px-4 py-6 text-center text-sm text-slate-500">
             ยังไม่มีข้อมูลสเปคที่กรอกไว้ — กรอกข้อมูลในฟอร์มอัปเกรดก่อน หรือพิมพ์สอบถามแอดมินได้เลย

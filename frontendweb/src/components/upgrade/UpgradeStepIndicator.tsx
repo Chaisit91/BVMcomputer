@@ -16,7 +16,7 @@ const steps = [
  */
 export function UpgradeStepIndicator({ currentStep }: { currentStep: number }) {
   return (
-    <div className="mb-5 flex items-start justify-center overflow-x-auto">
+    <div className="mb-5 flex items-start justify-center overflow-x-auto no-scrollbar">
       {steps.map((step, index) => {
         const isActive = step.id === currentStep;
         const isDone = step.id < currentStep;

@@ -169,7 +169,7 @@ export function UpgradeSpecForm({
         </div>
       </div>
 
-      <div className="mt-4 flex flex-col items-center gap-2 border-t border-slate-100 pt-4">
+      <div className="mt-4 flex flex-col items-center gap-2 border-t border-slate-100 pt-6">
         <button
           type="submit"
           className="flex h-11 w-full max-w-[345px] items-center justify-center gap-2 rounded-full bg-brand text-sm font-semibold text-white transition-colors hover:bg-brand-dark"

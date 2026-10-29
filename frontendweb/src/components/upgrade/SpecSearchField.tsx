@@ -127,7 +127,7 @@ export function SpecSearchField({
           {open && results.length > 0 && (
             <div
               role="listbox"
-              className="absolute left-0 right-0 top-full z-20 mt-1 max-h-64 overflow-y-auto rounded-lg border border-slate-200 bg-white p-1.5 shadow-card"
+              className="absolute left-0 right-0 top-full z-20 mt-1 max-h-64 overflow-y-auto no-scrollbar rounded-lg border border-slate-200 bg-white p-1.5 shadow-card"
             >
               {results.map((item) => (
                 <button
