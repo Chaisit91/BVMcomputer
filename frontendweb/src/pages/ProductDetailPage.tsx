@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { BsShieldCheck } from 'react-icons/bs';
-import { FiHeart, FiMinus, FiPackage, FiPlus, FiRepeat, FiShare2, FiShoppingCart, FiStar } from 'react-icons/fi';
+import { FiMinus, FiPackage, FiPlus, FiRepeat, FiShare2, FiShoppingCart, FiStar } from 'react-icons/fi';
 import { Container } from '../components/ui/Container';
 import { EmptyState } from '../components/ui/EmptyState';
 import { ErrorState } from '../components/ui/ErrorState';
 import { Skeleton } from '../components/ui/Skeleton';
 import { ProductGallery } from '../components/product-detail/ProductGallery';
 import { ProductSpecTable } from '../components/product-detail/ProductSpecTable';
+import { ProductWishlistButton } from '../components/product-detail/ProductWishlistButton';
 import { RelatedProductsCarousel } from '../components/product-detail/RelatedProductsCarousel';
 import { productCategoryIcons } from '../components/shared/productCategoryIcons';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
@@ -53,7 +54,6 @@ export function ProductDetailPage() {
   const dispatch = useAppDispatch();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<TabId>('specs');
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const { product, status, error, key } = useAppSelector((state) => state.productDetail);
 
@@ -182,14 +182,7 @@ export function ProductDetailPage() {
               </div>
 
               <div className="mt-3 flex items-center gap-4 text-sm text-slate-500">
-                <button
-                  type="button"
-                  onClick={() => setIsFavorite((prev) => !prev)}
-                  className={cn('flex items-center gap-1.5 transition-colors hover:text-brand', isFavorite && 'text-brand')}
-                >
-                  <FiHeart size={15} className={isFavorite ? 'fill-current' : ''} aria-hidden="true" />
-                  เพิ่มในรายการโปรด
-                </button>
+                <ProductWishlistButton category={product.categorySlug} productId={product.id} />
                 <button type="button" className="flex items-center gap-1.5 transition-colors hover:text-brand">
                   <FiRepeat size={15} aria-hidden="true" />
                   เปรียบเทียบ

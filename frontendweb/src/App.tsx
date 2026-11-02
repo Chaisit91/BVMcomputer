@@ -25,6 +25,7 @@ import { SearchPage } from './pages/SearchPage';
 import { UpgradeFlowLayout } from './components/upgrade/UpgradeFlowLayout';
 import { AccountProfilePage } from './pages/AccountProfilePage';
 import { AccountProfileEditPage } from './pages/AccountProfileEditPage';
+import { AccountWishlistPage } from './pages/AccountWishlistPage';
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
             <Route path="/account" element={<Navigate to="/account/profile" replace />} />
             <Route path="/account/profile" element={<AccountProfilePage />} />
             <Route path="/account/profile/edit" element={<AccountProfileEditPage />} />
+            <Route path="/account/wishlist" element={<AccountWishlistPage />} />
             <Route element={<UpgradeFlowLayout />}>
               <Route path="/upgrade-pc" element={<UpgradePcPage />} />
               <Route path="/upgrade-pc/select" element={<UpgradeSelectPartsPage />} />

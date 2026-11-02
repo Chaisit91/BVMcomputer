@@ -1,3 +1,5 @@
+import type { ProductCategorySlug } from '../data/catalog';
+
 /** Lifecycle of one async request, shared by every slice. */
 export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed';
 
@@ -88,4 +90,15 @@ export interface AccountSummary {
   wishlist: number;
   shipping: number;
   pendingPayment: number;
+}
+
+/**
+ * One saved product in the customer's wishlist (GET /wishlist). Only a reference is stored —
+ * name, price and stock are read from the live catalog, so they're never out of date.
+ */
+export interface WishlistEntry {
+  category: ProductCategorySlug;
+  productId: string;
+  /** ISO timestamp — drives the "ล่าสุด" sort. */
+  addedAt: string;
 }

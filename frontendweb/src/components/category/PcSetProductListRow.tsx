@@ -38,7 +38,7 @@ export function PcSetProductListRow({ product }: { product: PcSetProduct }) {
       to={`/product/pc-sets/${product.id}`}
       className="relative flex min-h-[132px] items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-card"
     >
-      <FavoriteButton label={`เพิ่ม ${product.name} ในรายการโปรด`} />
+      <FavoriteButton category="pc-sets" productId={product.id} productName={product.name} />
 
       <div className="relative flex h-28 w-28 shrink-0 items-center justify-center rounded-lg bg-slate-50 p-2">
         {product.badge && (

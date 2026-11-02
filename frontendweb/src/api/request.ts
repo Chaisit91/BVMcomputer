@@ -53,3 +53,8 @@ export async function withMockFallback<T>(label: string, call: () => Promise<T>,
 export function mockDelay(ms = 300): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+export async function apiDelete<T = void>(url: string): Promise<T> {
+  const { data } = await api.delete<T>(url);
+  return data;
+}
