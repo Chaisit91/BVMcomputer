@@ -23,7 +23,7 @@ const navGroups: { title: string; items: AccountNavItem[] }[] = [
     title: 'บัญชีของฉัน',
     items: [
       { label: 'ข้อมูลส่วนตัว', icon: FiUser, to: '/account/profile' },
-      { label: 'ที่อยู่สำหรับจัดส่ง', icon: FiMapPin },
+      { label: 'ที่อยู่สำหรับจัดส่ง', icon: FiMapPin, to: '/account/addresses' },
       { label: 'ที่อยู่ออกใบกำกับภาษี', icon: FiFileText },
       { label: 'ช่องทางชำระเงิน', icon: FiCreditCard },
     ],

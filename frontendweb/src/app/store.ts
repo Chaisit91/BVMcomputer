@@ -5,6 +5,7 @@ import cartReducer from '../features/cart/cartSlice';
 import cartUiReducer from '../features/cart/cartUiSlice';
 import catalogReducer from '../features/catalog/catalogSlice';
 import accountReducer from '../features/account/accountSlice';
+import addressReducer from '../features/address/addressSlice';
 import chatReducer from '../features/chat/chatSlice';
 import homeReducer from '../features/home/homeSlice';
 import orderReducer from '../features/order/orderSlice';
@@ -17,6 +18,7 @@ import wishlistReducer from '../features/wishlist/wishlistSlice';
 export const store = configureStore({
   reducer: {
     account: accountReducer,
+    address: addressReducer,
     auth: authReducer,
     cart: cartReducer,
     cartUi: cartUiReducer,

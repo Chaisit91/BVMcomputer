@@ -1,10 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BsHeartFill } from 'react-icons/bs';
 import { FiAlertCircle, FiHeart, FiInfo, FiSearch } from 'react-icons/fi';
 import { AccountLayout } from '../components/account/AccountLayout';
 import { RequireLogin } from '../components/account/RequireLogin';
 import { WishlistProductCard, type WishlistItemView } from '../components/account/WishlistProductCard';
+import { ProductPagination } from '../components/category/ProductPagination';
 import { EmptyState } from '../components/ui/EmptyState';
 import { ErrorState } from '../components/ui/ErrorState';
 import { Skeleton } from '../components/ui/Skeleton';
@@ -17,6 +18,8 @@ import type { CatalogLists, CategoryProductMap, ProductCategorySlug } from '../d
 import type { WishlistEntry } from '../types/api';
 
 type WishlistSort = 'latest' | 'price-asc' | 'price-desc';
+
+const PAGE_SIZE = 6;
 
 const sortOptions: { value: WishlistSort; label: string }[] = [
   { value: 'latest', label: 'ล่าสุด' },
@@ -54,6 +57,8 @@ function WishlistContent() {
   const wishlist = useWishlist();
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState<WishlistSort>('latest');
+  const [page, setPage] = useState(1);
+  const listRef = useRef<HTMLDivElement>(null);
 
   // Only the categories that actually hold saved products are loaded (in parallel). The joined
   // string keeps the array stable between renders, so useCatalogs doesn't refetch.
@@ -77,6 +82,26 @@ function WishlistContent() {
     else sorted.sort((a, b) => b.entry.addedAt.localeCompare(a.entry.addedAt));
     return sorted;
   }, [items, query, sort]);
+
+  // Pages follow the list: removing items so the current page empties falls back to the last page
+  // that still has products; adding a 7th item makes page 2 available.
+  const totalPages = Math.max(1, Math.ceil(visibleItems.length / PAGE_SIZE));
+  const currentPage = Math.min(page, totalPages);
+  const pageItems = visibleItems.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+  const handlePageChange = (next: number) => {
+    setPage(next);
+    listRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  // A new search or sort starts back at page 1.
+  const handleQueryChange = (next: string) => {
+    setQuery(next);
+    setPage(1);
+  };
+  const handleSortChange = (next: WishlistSort) => {
+    setSort(next);
+    setPage(1);
+  };
 
   const isLoading =
     wishlist.status === 'idle' || wishlist.status === 'loading' || (wishlist.entries.length > 0 && catalogStatus === 'loading');
@@ -117,7 +142,7 @@ function WishlistContent() {
           title="ไม่พบสินค้าที่ตรงกับคำค้นหา"
           description={`ไม่มีสินค้าในรายการโปรดที่ตรงกับ “${query.trim()}”`}
           action={
-            <button type="button" onClick={() => setQuery('')} className="text-sm font-semibold text-brand hover:text-brand-dark">
+            <button type="button" onClick={() => handleQueryChange('')} className="text-sm font-semibold text-brand hover:text-brand-dark">
               ล้างคำค้นหา
             </button>
           }
@@ -125,10 +150,20 @@ function WishlistContent() {
       );
     }
     return (
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
-        {visibleItems.map((item) => (
-          <WishlistProductCard key={`${item.entry.category}:${item.entry.productId}`} item={item} />
-        ))}
+      <div>
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4">
+          {pageItems.map((item) => (
+            <WishlistProductCard key={`${item.entry.category}:${item.entry.productId}`} item={item} />
+          ))}
+        </div>
+        <ProductPagination
+          variant="outline"
+          currentPage={currentPage}
+          totalPages={totalPages}
+          pageSize={PAGE_SIZE}
+          totalItems={visibleItems.length}
+          onPageChange={handlePageChange}
+        />
       </div>
     );
   };
@@ -146,7 +181,7 @@ function WishlistContent() {
             <input
               type="search"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => handleQueryChange(e.target.value)}
               placeholder="ค้นหาสินค้าที่ถูกใจ..."
               className="h-11 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-3 text-sm text-ink placeholder:text-slate-400 focus:border-brand focus:outline-none"
             />
@@ -155,7 +190,7 @@ function WishlistContent() {
             <span className="shrink-0">เรียงตาม:</span>
             <select
               value={sort}
-              onChange={(e) => setSort(e.target.value as WishlistSort)}
+              onChange={(e) => handleSortChange(e.target.value as WishlistSort)}
               className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-ink focus:border-brand focus:outline-none sm:w-40"
             >
               {sortOptions.map((option) => (
@@ -185,7 +220,7 @@ function WishlistContent() {
         </p>
       )}
 
-      <div className="flex flex-col gap-4">
+      <div ref={listRef} className="flex scroll-mt-24 flex-col gap-4">
         {!isLoading && items.length > 0 && (
           <p className="text-sm text-ink">
             สินค้าที่ถูกใจ <span className="font-bold">{items.length}</span> รายการ

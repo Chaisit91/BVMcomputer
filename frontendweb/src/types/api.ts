@@ -102,3 +102,21 @@ export interface WishlistEntry {
   /** ISO timestamp — drives the "ล่าสุด" sort. */
   addedAt: string;
 }
+
+/** Fields the customer fills in for a shipping address (POST/PUT /account/addresses). */
+export interface SavedAddressInput {
+  recipientName: string;
+  phone: string;
+  /** House number, village, soi, road — everything before the sub-district. */
+  addressLine: string;
+  subdistrict: string;
+  district: string;
+  province: string;
+  postalCode: string;
+}
+
+/** A saved shipping address (GET /account/addresses). Exactly one has `isDefault` when the list isn't empty. */
+export interface SavedAddress extends SavedAddressInput {
+  id: string;
+  isDefault: boolean;
+}

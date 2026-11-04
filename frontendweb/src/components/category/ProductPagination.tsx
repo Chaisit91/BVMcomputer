@@ -6,7 +6,27 @@ interface ProductPaginationProps {
   pageSize: number;
   totalItems: number;
   onPageChange: (page: number) => void;
+  /**
+   * 'default': range text left, filled red current page (category pages).
+   * 'outline': centered, no range text, red-ringed current page (wishlist).
+   */
+  variant?: 'default' | 'outline';
 }
+
+const variantClasses = {
+  default: {
+    wrapper: 'justify-between sm:flex-row',
+    arrow: 'bg-white text-slate-500 hover:bg-slate-100 disabled:opacity-40',
+    current: 'bg-brand font-semibold text-white',
+    page: 'font-medium text-slate-600 hover:bg-slate-100',
+  },
+  outline: {
+    wrapper: 'justify-center',
+    arrow: 'border border-brand bg-white text-brand hover:bg-red-50 disabled:border-slate-200 disabled:text-slate-300 disabled:opacity-60',
+    current: 'border border-brand bg-white font-semibold text-brand',
+    page: 'border border-slate-200 bg-white font-medium text-slate-600 hover:border-brand hover:text-brand',
+  },
+};
 
 type PageToken = number | 'ellipsis';
 
@@ -26,18 +46,29 @@ function buildPageTokens(current: number, total: number): PageToken[] {
   return tokens;
 }
 
-export function ProductPagination({ currentPage, totalPages, pageSize, totalItems, onPageChange }: ProductPaginationProps) {
+export function ProductPagination({
+  currentPage,
+  totalPages,
+  pageSize,
+  totalItems,
+  onPageChange,
+  variant = 'default',
+}: ProductPaginationProps) {
   if (totalItems === 0) return null;
 
   const rangeStart = (currentPage - 1) * pageSize + 1;
   const rangeEnd = Math.min(currentPage * pageSize, totalItems);
   const tokens = buildPageTokens(currentPage, totalPages);
+  const styles = variantClasses[variant];
+  const arrowClass = `flex h-8 w-8 items-center justify-center rounded-full transition-colors disabled:pointer-events-none ${styles.arrow}`;
 
   return (
-    <div className="mt-6 flex flex-col items-center justify-between gap-3 sm:flex-row">
-      <p className="text-xs text-slate-400">
-        แสดง {rangeStart} - {rangeEnd} จาก {totalItems} รายการ
-      </p>
+    <div className={`mt-6 flex flex-col items-center gap-3 ${styles.wrapper}`}>
+      {variant === 'default' && (
+        <p className="text-xs text-slate-400">
+          แสดง {rangeStart} - {rangeEnd} จาก {totalItems} รายการ
+        </p>
+      )}
 
       <div className="flex items-center gap-1.5">
         <button
@@ -45,7 +76,7 @@ export function ProductPagination({ currentPage, totalPages, pageSize, totalItem
           aria-label="หน้าก่อนหน้า"
           disabled={currentPage === 1}
           onClick={() => onPageChange(currentPage - 1)}
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-slate-500 transition-colors hover:bg-slate-100 disabled:pointer-events-none disabled:opacity-40"
+          className={arrowClass}
         >
           <FiChevronLeft size={15} aria-hidden="true" />
         </button>
@@ -62,11 +93,9 @@ export function ProductPagination({ currentPage, totalPages, pageSize, totalItem
               aria-label={`หน้า ${token}`}
               aria-current={token === currentPage ? 'page' : undefined}
               onClick={() => onPageChange(token)}
-              className={
-                token === currentPage
-                  ? 'flex h-8 w-8 items-center justify-center rounded-full bg-brand text-sm font-semibold text-white'
-                  : 'flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100'
-              }
+              className={`flex h-8 w-8 items-center justify-center rounded-full text-sm transition-colors ${
+                token === currentPage ? styles.current : styles.page
+              }`}
             >
               {token}
             </button>
@@ -78,7 +107,7 @@ export function ProductPagination({ currentPage, totalPages, pageSize, totalItem
           aria-label="หน้าถัดไป"
           disabled={currentPage === totalPages}
           onClick={() => onPageChange(currentPage + 1)}
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-slate-500 transition-colors hover:bg-slate-100 disabled:pointer-events-none disabled:opacity-40"
+          className={arrowClass}
         >
           <FiChevronRight size={15} aria-hidden="true" />
         </button>

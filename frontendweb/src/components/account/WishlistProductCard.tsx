@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { BsHeartFill } from 'react-icons/bs';
 import { FiCheck, FiShoppingCart, FiTrash2 } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../app/hooks';
@@ -47,23 +46,14 @@ export function WishlistProductCard({ item }: { item: WishlistItemView }) {
 
   return (
     <article className="flex flex-col rounded-2xl border border-slate-100 bg-white p-3 shadow-card sm:p-4">
-      <div className="relative">
-        <Link to={href} className="flex aspect-[4/3] items-center justify-center rounded-xl bg-white p-2">
-          {item.imageUrl ? (
-            <img src={item.imageUrl} alt={name} className="h-full w-full object-contain" />
-          ) : (
-            <PlaceholderIcon size={56} className="text-slate-300" aria-hidden="true" />
-          )}
-        </Link>
-        <button
-          type="button"
-          onClick={handleRemove}
-          aria-label={`นำ ${name} ออกจากรายการโปรด`}
-          className="absolute right-0 top-0 flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-[0_1px_4px_rgba(15,23,42,0.12)] transition-colors hover:bg-red-50"
-        >
-          <BsHeartFill size={17} className="text-brand" aria-hidden="true" />
-        </button>
-      </div>
+      {/* No heart on this page — everything here is already wishlisted; the trash button removes. */}
+      <Link to={href} className="flex aspect-[4/3] items-center justify-center rounded-xl bg-white p-2">
+        {item.imageUrl ? (
+          <img src={item.imageUrl} alt={name} className="h-full w-full object-contain" />
+        ) : (
+          <PlaceholderIcon size={56} className="text-slate-300" aria-hidden="true" />
+        )}
+      </Link>
 
       <div className="mt-3 flex flex-1 flex-col">
         {/* Always two lines tall, so prices line up across cards whatever the name length. */}
