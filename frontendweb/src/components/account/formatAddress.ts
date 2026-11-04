@@ -1,7 +1,9 @@
 import type { SavedAddress } from '../../types/api';
 
+type AddressParts = Pick<SavedAddress, 'addressLine' | 'subdistrict' | 'district' | 'province' | 'postalCode'>;
+
 /** "36/134 ซอย 4/13 ต.บางพูด อ.ปากเกร็ด จ.นนทบุรี 11120" — Bangkok uses แขวง/เขต instead of ต./อ./จ. */
-export function formatAddress(address: SavedAddress): string {
+export function formatAddress(address: AddressParts): string {
   const isBangkok = address.province === 'กรุงเทพมหานคร';
   return [
     address.addressLine,

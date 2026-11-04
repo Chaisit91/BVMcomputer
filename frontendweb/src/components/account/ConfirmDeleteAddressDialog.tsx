@@ -1,12 +1,23 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { FiAlertCircle, FiTrash2 } from 'react-icons/fi';
 import { Spinner } from '../ui/Spinner';
-import type { SavedAddress } from '../../types/api';
 import { formatAddress } from './formatAddress';
+
+/** Any saved address — shipping or tax-invoice — reduced to what the confirmation shows. */
+export interface DeletableAddress {
+  /** Recipient, person or company name. */
+  name: string;
+  addressLine: string;
+  subdistrict: string;
+  district: string;
+  province: string;
+  postalCode: string;
+  isDefault: boolean;
+}
 
 interface ConfirmDeleteAddressDialogProps {
   /** The address to delete; null = closed. */
-  address: SavedAddress | null;
+  address: DeletableAddress | null;
   deleting: boolean;
   error: string | null;
   onCancel: () => void;
@@ -27,7 +38,7 @@ export function ConfirmDeleteAddressDialog({ address, deleting, error, onCancel,
           <Dialog.Description className="mt-2 text-sm leading-relaxed text-slate-500">
             {address && (
               <>
-                <span className="font-semibold text-[#2B3445]">{address.recipientName}</span>
+                <span className="font-semibold text-[#2B3445]">{address.name}</span>
                 <br />
                 {formatAddress(address)}
               </>

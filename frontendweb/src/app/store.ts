@@ -14,6 +14,7 @@ import searchReducer from '../features/search/searchSlice';
 import upgradeReducer from '../features/upgrade/upgradeSlice';
 import upgradeAnalysisReducer from '../features/upgrade/upgradeAnalysisSlice';
 import wishlistReducer from '../features/wishlist/wishlistSlice';
+import taxAddressReducer from '../features/taxAddress/taxAddressSlice';
 
 export const store = configureStore({
   reducer: {
@@ -31,6 +32,7 @@ export const store = configureStore({
     upgrade: upgradeReducer,
     upgradeAnalysis: upgradeAnalysisReducer,
     wishlist: wishlistReducer,
+    taxAddress: taxAddressReducer,
   },
 });
 

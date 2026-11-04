@@ -120,3 +120,27 @@ export interface SavedAddress extends SavedAddressInput {
   id: string;
   isDefault: boolean;
 }
+
+export type TaxPayerType = 'individual' | 'company';
+
+/** Fields for a tax-invoice / receipt address (POST/PUT /account/tax-addresses). */
+export interface TaxAddressInput {
+  payerType: TaxPayerType;
+  /** Full name (individual) or registered company name (company). */
+  name: string;
+  /** 13-digit taxpayer ID — the national ID number for individuals. */
+  taxId: string;
+  phone: string;
+  addressLine: string;
+  subdistrict: string;
+  district: string;
+  province: string;
+  postalCode: string;
+  /** Ask for this one to become the default; the server unsets the previous default. */
+  isDefault: boolean;
+}
+
+/** A saved tax-invoice address (GET /account/tax-addresses). Exactly one is default when the list isn't empty. */
+export interface TaxAddress extends TaxAddressInput {
+  id: string;
+}

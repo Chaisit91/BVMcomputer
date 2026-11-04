@@ -159,7 +159,7 @@ function AddressesContent() {
         onSaved={handleSaved}
       />
       <ConfirmDeleteAddressDialog
-        address={pendingDelete}
+        address={pendingDelete && { ...pendingDelete, name: pendingDelete.recipientName }}
         deleting={busy}
         error={pendingDelete ? mutationError : null}
         onCancel={() => setPendingDelete(null)}
