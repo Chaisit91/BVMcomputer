@@ -144,3 +144,29 @@ export interface TaxAddressInput {
 export interface TaxAddress extends TaxAddressInput {
   id: string;
 }
+
+export type CardBrand = 'visa' | 'mastercard' | 'jcb' | 'amex' | 'unknown';
+
+/**
+ * A saved card (GET /account/payment-methods). Deliberately has no full card number and no CVV —
+ * the full number only ever goes to the payment gateway, which hands back a token.
+ */
+export interface PaymentMethod {
+  id: string;
+  brand: CardBrand;
+  last4: string;
+  holderName: string;
+  expMonth: number;
+  /** Four-digit year. */
+  expYear: number;
+  /** Issuing bank, e.g. "ธนาคารกรุงไทย (Krungthai Bank)". */
+  bankName: string;
+  isDefault: boolean;
+}
+
+/** POST /account/payment-methods — a gateway token plus display details; never raw card data. */
+export interface AddPaymentMethodRequest {
+  token: string;
+  bankName: string;
+  makeDefault: boolean;
+}

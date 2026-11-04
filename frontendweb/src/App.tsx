@@ -28,6 +28,7 @@ import { AccountProfileEditPage } from './pages/AccountProfileEditPage';
 import { AccountWishlistPage } from './pages/AccountWishlistPage';
 import { AccountAddressesPage } from './pages/AccountAddressesPage';
 import { AccountTaxAddressesPage } from './pages/AccountTaxAddressesPage';
+import { AccountPaymentMethodsPage } from './pages/AccountPaymentMethodsPage';
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
             <Route path="/account/wishlist" element={<AccountWishlistPage />} />
             <Route path="/account/addresses" element={<AccountAddressesPage />} />
             <Route path="/account/tax-addresses" element={<AccountTaxAddressesPage />} />
+            <Route path="/account/payment-methods" element={<AccountPaymentMethodsPage />} />
             <Route element={<UpgradeFlowLayout />}>
               <Route path="/upgrade-pc" element={<UpgradePcPage />} />
               <Route path="/upgrade-pc/select" element={<UpgradeSelectPartsPage />} />
