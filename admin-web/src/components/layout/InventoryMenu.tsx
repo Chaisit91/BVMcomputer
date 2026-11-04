@@ -17,7 +17,7 @@ import {
   FiActivity,
 } from 'react-icons/fi'
 
-interface InventoryMenuItem {
+export interface InventoryMenuItem {
   id: string
   name: string
   description: string
@@ -25,7 +25,9 @@ interface InventoryMenuItem {
   path?: string
 }
 
-const items: InventoryMenuItem[] = [
+// Exported so Sidebar.tsx (the department-role layout) can render the same
+// list in its own vertical nav instead of keeping a second copy in sync.
+export const inventoryMenuItems: InventoryMenuItem[] = [
   { id: 'ai-test', name: 'ทดสอบระบบ AI', description: 'ตรวจสถานะ ค้นหา และคำแนะนำจาก AI', icon: <FiActivity />, path: '/inventory/ai-test' },
   { id: 'build', name: 'จัดสเปคคอม', description: 'จัดสเปคอุปกรณ์ครบชุด', icon: <FiSliders />, path: '/inventory/custom-build' },
   { id: 'upgrade', name: 'อัพเกรดคอมพิวเตอร์', description: 'ตรวจสอบเครื่องเดิมและอัพเกรดของลูกค้า', icon: <FiRefreshCw />, path: '/inventory/computer-upgrade' },
@@ -41,45 +43,53 @@ const items: InventoryMenuItem[] = [
   { id: 'cooling', name: 'ชุดระบายความร้อน', description: 'ระบบระบายความร้อน', icon: <FiWind />, path: '/inventory/cooling' },
 ]
 
-export function InventoryMenu({ onNavigate }: { onNavigate?: () => void }) {
+// isOpen retriggers the stagger every time the dropdown opens, not just on
+// first mount — the panel itself stays permanently mounted (see Topbar's
+// dropdownPanelClass comment) so a plain "animate on mount" class would
+// only ever play once, the first time the page loads.
+export function InventoryMenu({ onNavigate, isOpen = true }: { onNavigate?: () => void; isOpen?: boolean }) {
   const location = useLocation()
 
   return (
-    <div className="w-full overflow-hidden card shadow-xl">
-      <p className="border-b border-gray-100 px-4 py-3 text-sm font-semibold text-gray-800">
+    <div className="w-full overflow-hidden rounded-xl border border-white/10 bg-[#0d0e11] shadow-xl shadow-black/50">
+      <p className="border-b border-white/10 px-4 py-3 text-sm font-semibold text-gray-300">
         หมวดหมู่อุปกรณ์คอมพิวเตอร์
       </p>
       <ul className="max-h-96 overflow-y-auto py-1">
-        {items.map((item) => {
+        {inventoryMenuItems.map((item, index) => {
           const isActive = item.path === location.pathname
           const rowClassName = `flex w-full items-center gap-3 px-4 py-2.5 text-left ${
-            isActive ? 'bg-rose-50' : 'hover:bg-gray-50'
+            isActive ? 'bg-white/5' : 'hover:bg-white/5'
           }`
           const rowContent = (
             <>
               <span
                 className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
-                  isActive ? 'bg-rose-500 text-white' : 'bg-rose-50 text-rose-500'
+                  isActive ? 'bg-rose-500 text-white' : 'bg-white/5 text-gray-400'
                 }`}
               >
                 {item.icon}
               </span>
               <span className="min-w-0 flex-1">
                 <span
-                  className={`block truncate text-sm font-medium ${isActive ? 'text-rose-600' : 'text-gray-800'}`}
+                  className={`block truncate text-sm font-medium ${isActive ? 'text-white' : 'text-gray-300'}`}
                 >
                   {item.name}
                 </span>
-                <span className={`block truncate text-xs ${isActive ? 'text-rose-400' : 'text-gray-400'}`}>
+                <span className={`block truncate text-xs ${isActive ? 'text-gray-400' : 'text-gray-500'}`}>
                   {item.description}
                 </span>
               </span>
-              <FiChevronRight className={`shrink-0 ${isActive ? 'text-rose-400' : 'text-gray-300'}`} />
+              <FiChevronRight className={`shrink-0 ${isActive ? 'text-rose-400' : 'text-gray-600'}`} />
             </>
           )
 
           return (
-            <li key={item.id}>
+            <li
+              key={item.id}
+              className={isOpen ? 'animate-rise-in' : ''}
+              style={isOpen ? { animationDelay: `${index * 20}ms` } : undefined}
+            >
               {item.path ? (
                 <Link to={item.path} onClick={onNavigate} className={rowClassName}>
                   {rowContent}

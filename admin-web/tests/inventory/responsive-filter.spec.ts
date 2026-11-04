@@ -28,7 +28,9 @@ test.describe('Inventory filter panel — responsive sticky behavior', () => {
     // clamp between the two scrolls and produces a false failure here.
     await expect(page.getByText('แสดงทั้งหมด')).toBeVisible()
 
-    const aside = page.locator('aside')
+    // Scoped to exclude the department Sidebar's own <aside> (inventory_manager
+    // gets one now too) — only the filter panel's is the one under test here.
+    const aside = page.locator('aside').filter({ hasNotText: 'BVMcomputer' })
     // The very first scroll transitions the panel from its normal flow
     // position to its stuck one — that jump is expected. Sticky is proven by
     // comparing two points *after* it has already engaged: further scrolling
@@ -49,7 +51,7 @@ test.describe('Inventory filter panel — responsive sticky behavior', () => {
     await page.goto('/inventory/cpu')
     await expect(page.getByText('แสดงทั้งหมด')).toBeVisible()
 
-    const aside = page.locator('aside')
+    const aside = page.locator('aside').filter({ hasNotText: 'BVMcomputer' })
     const before = await aside.boundingBox()
     await page.mouse.wheel(0, 1200)
     const after = await aside.boundingBox()

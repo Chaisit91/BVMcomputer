@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { Button } from '../../components/ui/Button'
 import { TextField } from '../../components/ui/TextField'
 import { requestPasswordReset } from '../../services/admin.service'
+import loginBackground from '../../assets/login-background.png'
 
 const forgotPasswordSchema = z.object({
   personalEmail: z.string().min(1, 'กรุณากรอกอีเมล').email('รูปแบบอีเมลไม่ถูกต้อง'),
@@ -70,65 +71,81 @@ export function ForgotPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 px-4">
-      <div className="flex w-full max-w-md flex-col items-center">
-        <div className="w-full rounded-3xl bg-white p-8 shadow-xl shadow-gray-200/60">
-          <div className="mb-6 flex flex-col items-center text-center">
-            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500 text-white">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4">
+      <div
+        className="absolute inset-0 animate-welcome-zoom bg-cover bg-center"
+        style={{ backgroundImage: `url(${loginBackground})` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#05070d]/93 via-[#05070d]/85 to-[#05070d]/96" />
+      <div className="halftone-dots absolute inset-0 opacity-10" />
+
+      <div className="relative z-10 flex w-full max-w-md flex-col items-center animate-fade-in">
+        <div className="tech-grid relative w-full overflow-hidden rounded-3xl border border-white/15 bg-[#0b0e16] p-8 shadow-2xl shadow-black/80 ring-1 ring-white/5 sm:p-10">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-rose-400/70 to-transparent" />
+
+          <div className="mb-8 flex flex-col items-center text-center">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500 text-white shadow-lg shadow-rose-500/40">
               <FiMonitor size={24} />
             </div>
-            <span className="text-lg font-bold text-gray-900">BVMcomputer</span>
-            <h1 className="mt-4 text-xl font-bold text-gray-900">ลืมรหัสผ่าน</h1>
-            <p className="mt-1 text-sm text-gray-400">กรอกอีเมลส่วนตัว (Gmail) ที่ผูกกับบัญชีของคุณ</p>
+            <span className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">BVMcomputer</span>
+            <h1 className="mt-2 text-2xl font-bold tracking-tight text-white">ลืมรหัสผ่าน</h1>
+            <p className="mt-1.5 text-sm text-gray-400">กรอกอีเมลส่วนตัว (Gmail) ที่ผูกกับบัญชีของคุณ</p>
           </div>
 
           {sentMessage ? (
-            <div className="space-y-4 text-center">
-              <p className="text-sm text-gray-600">{sentMessage}</p>
-              <p className="text-xs text-gray-400">ไม่เห็นอีเมลเข้ามา? เช็คโฟลเดอร์สแปม/จดหมายขยะด้วย</p>
+            <div className="animate-rise-in space-y-4 text-center">
+              <p className="text-sm text-gray-300">{sentMessage}</p>
+              <p className="text-xs text-gray-500">ไม่เห็นอีเมลเข้ามา? เช็คโฟลเดอร์สแปม/จดหมายขยะด้วย</p>
               <button
                 type="button"
                 disabled={resending || cooldown > 0}
                 onClick={onResend}
-                className="w-full rounded-xl border border-gray-200 py-3 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full rounded-xl border border-white/10 bg-white/5 py-3 text-sm font-semibold text-gray-300 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/10 hover:shadow-lg active:translate-y-0 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {resending ? 'กำลังส่ง...' : cooldown > 0 ? `ส่งอีกครั้งใน ${cooldown} วินาที` : 'ส่งอีเมลอีกครั้ง'}
               </button>
               {resendError && (
-                <p role="alert" className="text-sm text-red-500">
+                <p role="alert" className="animate-shake text-sm text-red-400">
                   {resendError}
                 </p>
               )}
             </div>
           ) : (
-            <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
-              <TextField
-                label="อีเมลส่วนตัว (Gmail)"
-                placeholder="your.name@gmail.com"
-                type="email"
-                icon={<FiMail />}
-                error={errors.personalEmail?.message}
-                {...register('personalEmail')}
-              />
+            <form className="space-y-5" onSubmit={handleSubmit(onSubmit)} noValidate>
+              <div className="animate-rise-in" style={{ animationDelay: '80ms' }}>
+                <TextField
+                  tone="dark"
+                  label="อีเมลส่วนตัว (Gmail)"
+                  placeholder="your.name@gmail.com"
+                  type="email"
+                  icon={<FiMail />}
+                  error={errors.personalEmail?.message}
+                  {...register('personalEmail')}
+                />
+              </div>
 
               {errors.root && (
-                <p role="alert" className="text-center text-sm text-red-500">
+                <p role="alert" className="animate-shake text-center text-sm text-red-400">
                   {errors.root.message}
                 </p>
               )}
 
-              <Button type="submit" loading={isSubmitting}>
-                ส่งลิงก์ตั้งรหัสผ่านใหม่
-              </Button>
+              <div className="animate-rise-in" style={{ animationDelay: '150ms' }}>
+                <Button type="submit" loading={isSubmitting}>
+                  ส่งลิงก์ตั้งรหัสผ่านใหม่
+                </Button>
+              </div>
             </form>
           )}
 
           <p className="mt-6 text-center text-sm">
-            <Link to="/login" className="font-medium text-rose-500 hover:underline">
+            <Link to="/login" className="link-underline font-medium text-rose-400 hover:text-rose-300">
               กลับไปหน้าเข้าสู่ระบบ
             </Link>
           </p>
         </div>
+
+        <p className="mt-6 text-xs text-gray-400/80">BVMcomputer v1.0 | สงวนลิขสิทธิ์ 2024</p>
       </div>
     </div>
   )

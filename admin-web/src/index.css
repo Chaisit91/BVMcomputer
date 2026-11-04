@@ -26,7 +26,26 @@
      click is the "micro-interaction" layer; disabled state is baked in once
      instead of repeated per call site. */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-rose-500/20 hover:-translate-y-0.5 hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-500/30 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none;
+    @apply relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-rose-500/20 hover:-translate-y-0.5 hover:bg-rose-600 hover:shadow-lg hover:shadow-rose-500/30 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none;
+  }
+
+  /* The "slide" micro-interaction: a diagonal highlight glides across the
+     button on hover instead of the fill just snapping to a new color —
+     pure CSS (one pseudo-element), no JS, and disabled automatically
+     whenever the button itself is disabled since :hover still fires but
+     the button's own disabled:pointer-events-none means hover never
+     triggers on a genuinely disabled control in practice. */
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+  .btn-primary:hover::after {
+    transform: translateX(120%);
   }
 
   .btn-secondary {
@@ -44,6 +63,28 @@
 
   .btn-danger-outline {
     @apply inline-flex items-center justify-center gap-2 rounded-xl border border-rose-200 px-5 py-2.5 text-sm font-medium text-rose-500 hover:-translate-y-0.5 hover:bg-rose-50 hover:shadow-md hover:shadow-rose-200/40 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  /* Sidebar row hover: a fill wipes in from the left instead of the
+     background just snapping on. One pseudo-element scaled from 0→1 on the
+     x-axis; the row's own content needs z-10 so the wipe stays behind it. */
+  .nav-wipe {
+    @apply relative overflow-hidden;
+  }
+  .nav-wipe::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.06);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .nav-wipe:hover::before {
+    transform: scaleX(1);
+  }
+  .nav-wipe > * {
+    position: relative;
   }
 }
 
@@ -79,5 +120,19 @@
     background-color: rgba(17, 14, 12, 0.72);
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+
+  /* Underline that grows in from the left on hover instead of just
+     appearing — a small thing, but it's the difference between a link
+     that "turns on" and one that feels like it's responding to you. */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
   }
 }

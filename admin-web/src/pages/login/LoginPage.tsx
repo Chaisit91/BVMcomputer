@@ -83,52 +83,58 @@ export function LoginPage() {
           </div>
 
           <form className="space-y-5" onSubmit={handleSubmit(onSubmit)} noValidate>
-            <TextField
-              tone="dark"
-              label="อีเมลหรือชื่อผู้ใช้"
-              placeholder="กรอกอีเมลหรือชื่อผู้ใช้"
-              icon={<FiUser />}
-              error={errors.identifier?.message}
-              {...register('identifier')}
-            />
+            <div className="animate-rise-in" style={{ animationDelay: '80ms' }}>
+              <TextField
+                tone="dark"
+                label="อีเมลหรือชื่อผู้ใช้"
+                placeholder="กรอกอีเมลหรือชื่อผู้ใช้"
+                icon={<FiUser />}
+                error={errors.identifier?.message}
+                {...register('identifier')}
+              />
+            </div>
 
-            <TextField
-              tone="dark"
-              label="รหัสผ่าน"
-              placeholder="กรอกรหัสผ่าน"
-              type={showPassword ? 'text' : 'password'}
-              icon={<FiLock />}
-              error={errors.password?.message}
-              rightElement={
-                <button
-                  type="button"
-                  tabIndex={-1}
-                  onClick={() => setShowPassword((v) => !v)}
-                  className="text-gray-500 hover:text-gray-300"
-                  aria-label={showPassword ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน'}
-                >
-                  {showPassword ? <FiEyeOff /> : <FiEye />}
-                </button>
-              }
-              {...register('password')}
-            />
+            <div className="animate-rise-in" style={{ animationDelay: '150ms' }}>
+              <TextField
+                tone="dark"
+                label="รหัสผ่าน"
+                placeholder="กรอกรหัสผ่าน"
+                type={showPassword ? 'text' : 'password'}
+                icon={<FiLock />}
+                error={errors.password?.message}
+                rightElement={
+                  <button
+                    type="button"
+                    tabIndex={-1}
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="text-gray-500 transition-transform hover:text-gray-300 active:scale-90"
+                    aria-label={showPassword ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน'}
+                  >
+                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                }
+                {...register('password')}
+              />
+            </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex animate-rise-in items-center justify-between" style={{ animationDelay: '210ms' }}>
               <Checkbox label="จดจำการเข้าสู่ระบบ" {...register('remember')} />
-              <Link to="/forgot-password" className="text-sm text-rose-400 hover:text-rose-300 hover:underline">
+              <Link to="/forgot-password" className="link-underline text-sm text-rose-400 hover:text-rose-300">
                 ลืมรหัสผ่าน?
               </Link>
             </div>
 
             {errors.root && (
-              <p role="alert" className="text-center text-sm text-red-400">
+              <p role="alert" className="animate-shake text-center text-sm text-red-400">
                 {errors.root.message}
               </p>
             )}
 
-            <Button type="submit" loading={isSubmitting}>
-              เข้าสู่ระบบ
-            </Button>
+            <div className="animate-rise-in" style={{ animationDelay: '270ms' }}>
+              <Button type="submit" loading={isSubmitting}>
+                เข้าสู่ระบบ
+              </Button>
+            </div>
           </form>
         </div>
 
