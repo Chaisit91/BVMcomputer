@@ -726,8 +726,27 @@ model ChatMessage {
   content        String
   createdAt      DateTime         @default(now())
 
+  attachments ChatMessageAttachment[]
+
   @@index([conversationId])
   @@index([senderAdminId])
+}
+
+// Files/images attached to a chat message — separate table (not a column on
+// ChatMessage) so one message can carry several files at once, same pattern
+// as AnnouncementAttachment. The file itself lives in Supabase Storage; only
+// the URL and metadata are stored here.
+model ChatMessageAttachment {
+  id            String      @id @default(cuid())
+  message       ChatMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  messageId     String
+  url           String
+  fileName      String
+  contentType   String
+  fileSizeBytes Int
+  createdAt     DateTime    @default(now())
+
+  @@index([messageId])
 }
 
 // ---------- Internal announcements ----------

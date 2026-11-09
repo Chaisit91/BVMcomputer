@@ -2,6 +2,10 @@ import { prisma } from '../../lib/prisma'
 
 export const customerRepository = {
   findMany: () => prisma.customer.findMany(),
+  // Cheap existence check for public (no-auth) endpoints that take a raw
+  // customerId from the URL — check this before doing any real work (like
+  // uploading a file) with an attacker-supplied id that might not exist.
+  exists: (id: string) => prisma.customer.count({ where: { id } }).then((count) => count > 0),
   findById: (id: string) =>
     prisma.customer.findUnique({
       where: { id },

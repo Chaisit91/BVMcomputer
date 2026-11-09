@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { FiArrowLeft, FiSend } from 'react-icons/fi'
+import { FiArrowLeft, FiFile, FiPaperclip, FiSend, FiX } from 'react-icons/fi'
 import { Link, useParams } from 'react-router-dom'
 import { Avatar } from '../../../components/ui/Avatar'
 import { Badge } from '../../../components/ui/Badge'
@@ -22,6 +22,34 @@ function getInitials(name: string) {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
 }
 
+function formatFileSize(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+}
+
+const ACCEPTED_ATTACHMENT_TYPES = 'image/jpeg,image/png,image/webp,image/gif,application/pdf'
+
+// Split (global flag, used only by .split) vs. test (no flag — a stateful
+// lastIndex on a shared global regex would otherwise give wrong alternating
+// results across calls) need separate regex objects.
+const URL_SPLIT_REGEX = /(https?:\/\/[^\s]+)/g
+const URL_TEST_REGEX = /^https?:\/\//
+
+// Splits message text around any http(s) URL and turns each one into a real
+// clickable link, instead of showing the raw text.
+function linkifyContent(content: string) {
+  return content.split(URL_SPLIT_REGEX).map((part, index) =>
+    URL_TEST_REGEX.test(part) ? (
+      <a key={index} href={part} target="_blank" rel="noreferrer" className="break-all underline">
+        {part}
+      </a>
+    ) : (
+      <span key={index}>{part}</span>
+    ),
+  )
+}
+
 export function ChatDetailPage() {
   const { conversationId } = useParams<{ conversationId: string }>()
   const [status, setStatus] = useState<LoadStatus>('loading')
@@ -29,8 +57,10 @@ export function ChatDetailPage() {
   const [customer, setCustomer] = useState<Customer | null>(null)
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [draft, setDraft] = useState('')
+  const [pendingFiles, setPendingFiles] = useState<File[]>([])
   const [sending, setSending] = useState(false)
   const threadEndRef = useRef<HTMLDivElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (!conversationId) return
@@ -70,12 +100,14 @@ export function ChatDetailPage() {
 
   const handleSend = async () => {
     const content = draft.trim()
-    if (!content || !conversationId || sending) return
+    if ((!content && pendingFiles.length === 0) || !conversationId || sending) return
     setSending(true)
     try {
-      const message = await sendMessage(conversationId, content)
+      const message = await sendMessage(conversationId, content, pendingFiles)
       setMessages((prev) => [...prev, message])
       setDraft('')
+      setPendingFiles([])
+      if (fileInputRef.current) fileInputRef.current.value = ''
     } finally {
       setSending(false)
     }
@@ -142,7 +174,40 @@ export function ChatDetailPage() {
                 <div className={`max-w-[70%] rounded-2xl px-4 py-2.5 text-sm ${
                   message.sender === 'admin' ? 'bg-rose-500 text-white' : 'bg-gray-100 text-gray-800'
                 }`}>
-                  <p className="whitespace-pre-wrap break-words">{message.content}</p>
+                  {message.content && (
+                    <p className="whitespace-pre-wrap break-words">{linkifyContent(message.content)}</p>
+                  )}
+                  {message.attachments.length > 0 && (
+                    <div className={`space-y-1.5 ${message.content ? 'mt-2' : ''}`}>
+                      {message.attachments.map((attachment) =>
+                        attachment.contentType.startsWith('image/') ? (
+                          <a key={attachment.id} href={attachment.url} target="_blank" rel="noreferrer" className="block">
+                            <img
+                              src={attachment.url}
+                              alt={attachment.fileName}
+                              className="max-h-48 rounded-lg border border-black/5 object-cover"
+                            />
+                          </a>
+                        ) : (
+                          <a
+                            key={attachment.id}
+                            href={attachment.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-xs ${
+                              message.sender === 'admin'
+                                ? 'border-white/30 text-white hover:bg-white/10'
+                                : 'border-gray-200 text-gray-600 hover:border-rose-200 hover:text-rose-500'
+                            }`}
+                          >
+                            <FiFile size={14} className="shrink-0" />
+                            <span className="truncate">{attachment.fileName}</span>
+                            <span className="shrink-0 opacity-70">({formatFileSize(attachment.fileSizeBytes)})</span>
+                          </a>
+                        ),
+                      )}
+                    </div>
+                  )}
                   <p className={`mt-1 text-[10px] ${message.sender === 'admin' ? 'text-rose-100' : 'text-gray-400'}`}>
                     {formatDateTime(message.createdAt)}
                   </p>
@@ -158,23 +223,60 @@ export function ChatDetailPage() {
             event.preventDefault()
             void handleSend()
           }}
-          className="flex items-center gap-3 border-t border-gray-100 p-4"
+          className="border-t border-gray-100 p-4"
         >
-          <input
-            type="text"
-            value={draft}
-            onChange={(event) => setDraft(event.target.value)}
-            placeholder="พิมพ์ข้อความตอบลูกค้า..."
-            className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-rose-400 focus:ring-2 focus:ring-rose-100"
-          />
-          <button
-            type="submit"
-            disabled={!draft.trim() || sending}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-500 text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-50"
-            aria-label="ส่งข้อความ"
-          >
-            <FiSend size={16} />
-          </button>
+          {pendingFiles.length > 0 && (
+            <ul className="mb-2 space-y-1">
+              {pendingFiles.map((file, index) => (
+                <li key={`${file.name}-${index}`} className="flex items-center justify-between gap-2 rounded-lg bg-gray-50 px-3 py-1.5 text-xs text-gray-600">
+                  <span className="truncate">
+                    {file.name} <span className="text-gray-400">({formatFileSize(file.size)})</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setPendingFiles((prev) => prev.filter((_, i) => i !== index))}
+                    className="shrink-0 text-gray-400 hover:text-rose-500"
+                    aria-label="เอาไฟล์นี้ออก"
+                  >
+                    <FiX size={14} />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+          <div className="flex items-center gap-3">
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept={ACCEPTED_ATTACHMENT_TYPES}
+              onChange={(event) => setPendingFiles(Array.from(event.target.files ?? []))}
+              className="hidden"
+              id="chat-attachment-input"
+            />
+            <label
+              htmlFor="chat-attachment-input"
+              className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-xl text-gray-400 hover:bg-gray-50 hover:text-rose-500"
+              aria-label="แนบไฟล์"
+            >
+              <FiPaperclip size={18} />
+            </label>
+            <input
+              type="text"
+              value={draft}
+              onChange={(event) => setDraft(event.target.value)}
+              placeholder="พิมพ์ข้อความตอบลูกค้า..."
+              className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm text-gray-900 outline-none placeholder:text-gray-400 focus:border-rose-400 focus:ring-2 focus:ring-rose-100"
+            />
+            <button
+              type="submit"
+              disabled={(!draft.trim() && pendingFiles.length === 0) || sending}
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-rose-500 text-white hover:bg-rose-600 disabled:cursor-not-allowed disabled:opacity-50"
+              aria-label="ส่งข้อความ"
+            >
+              <FiSend size={16} />
+            </button>
+          </div>
         </form>
       </section>
     </main>

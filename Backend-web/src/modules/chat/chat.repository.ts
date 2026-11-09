@@ -3,13 +3,23 @@ import type { ChatSender } from '../../../generated/prisma'
 
 const adminSelect = { select: { id: true, firstName: true, lastName: true } }
 const customerSelect = { select: { id: true, fullName: true, customerCode: true } }
+const attachmentsInclude = { orderBy: { createdAt: 'asc' as const } }
+
+export interface IncomingAttachment {
+  url: string
+  fileName: string
+  contentType: string
+  fileSizeBytes: number
+}
 
 export const chatRepository = {
   findConversations: () =>
     prisma.chatConversation.findMany({
       include: {
         customer: customerSelect,
-        messages: { orderBy: { createdAt: 'desc' }, take: 1 },
+        // Only the attachment count, not the files themselves — the list
+        // view just needs to know whether to show "📎 ไฟล์แนบ" as the preview.
+        messages: { orderBy: { createdAt: 'desc' }, take: 1, include: { _count: { select: { attachments: true } } } },
       },
       orderBy: { lastMessageAt: 'desc' },
     }),
@@ -25,18 +35,30 @@ export const chatRepository = {
   findMessages: (conversationId: string) =>
     prisma.chatMessage.findMany({
       where: { conversationId },
-      include: { senderAdmin: adminSelect },
+      include: { senderAdmin: adminSelect, attachments: attachmentsInclude },
       orderBy: { createdAt: 'asc' },
     }),
   createConversation: (customerId: string) => prisma.chatConversation.create({ data: { customerId } }),
   // Customer messages bump unreadCount; an admin reply always resets it back
   // to 0 (the thread is caught up as of the admin's own reply). Any admin can
   // reply to any conversation — there's no ownership/claim to check.
-  appendMessage: (conversationId: string, sender: ChatSender, content: string, senderAdminId?: string) =>
+  appendMessage: (
+    conversationId: string,
+    sender: ChatSender,
+    content: string,
+    senderAdminId?: string,
+    attachments: IncomingAttachment[] = [],
+  ) =>
     prisma.$transaction(async (tx) => {
       const message = await tx.chatMessage.create({
-        data: { conversationId, sender, content, senderAdminId },
-        include: { senderAdmin: adminSelect },
+        data: {
+          conversationId,
+          sender,
+          content,
+          senderAdminId,
+          attachments: { create: attachments },
+        },
+        include: { senderAdmin: adminSelect, attachments: attachmentsInclude },
       })
 
       await tx.chatConversation.update({

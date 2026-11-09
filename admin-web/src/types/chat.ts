@@ -1,5 +1,13 @@
 export type ChatSender = 'customer' | 'admin'
 
+export interface ChatMessageAttachment {
+  id: string
+  url: string
+  fileName: string
+  contentType: string
+  fileSizeBytes: number
+}
+
 export interface ChatMessage {
   id: string
   sender: ChatSender
@@ -9,6 +17,7 @@ export interface ChatMessage {
   // for accountability; a customer-facing surface would show the company's
   // name instead, never this.
   senderAdminName: string | null
+  attachments: ChatMessageAttachment[]
 }
 
 export interface ChatConversation {
