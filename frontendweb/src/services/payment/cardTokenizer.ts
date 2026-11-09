@@ -17,6 +17,11 @@ export interface CardToken {
   holderName: string;
   expMonth: number;
   expYear: number;
+  /**
+   * Issuing bank from the provider's BIN/IIN lookup (e.g. Omise's `card.bank`, Stripe's `card.issuer`),
+   * or null when the provider couldn't identify it. Never guessed locally.
+   */
+  issuerBank: string | null;
 }
 
 export function detectCardBrand(digits: string): CardBrand {
@@ -45,9 +50,10 @@ export function passesLuhn(digits: string): boolean {
  * Turn card details into a gateway token. The full number and CVV go no further than this function.
  *
  * - demo (no backend): builds a local demo token from the safe fields only — nothing is charged or stored.
+ *   There's no BIN/IIN database to ask, so the issuing bank is reported as unknown rather than guessed.
  * - live: must call the payment gateway's client SDK (e.g. Omise.js / Stripe.js) so card data goes straight
- *   from the browser to the gateway, never through MAXCOM's servers. Not wired up yet, so it refuses
- *   rather than sending card data anywhere.
+ *   from the browser to the gateway, never through MAXCOM's servers; the gateway's token response also
+ *   carries the issuer from its BIN lookup. Not wired up yet, so it refuses rather than sending card data anywhere.
  */
 export async function tokenizeCard(card: CardDetails, { demo }: { demo: boolean }): Promise<CardToken> {
   const digits = card.number.replace(/\D/g, '');
@@ -60,9 +66,10 @@ export async function tokenizeCard(card: CardDetails, { demo }: { demo: boolean 
   };
 
   if (demo) {
-    return { token: `demo_tok_${Date.now().toString(36)}`, ...safe };
+    return { token: `demo_tok_${Date.now().toString(36)}`, ...safe, issuerBank: null };
   }
 
-  // TODO(payment-gateway): replace with the gateway SDK's createToken call and return its token id.
+  // TODO(payment-gateway): replace with the gateway SDK's createToken call; return its token id and
+  // map the response's issuer field (null if absent) to `issuerBank`.
   throw new Error('ยังไม่ได้เชื่อมต่อระบบ Payment Gateway จึงยังไม่สามารถเพิ่มบัตรได้');
 }

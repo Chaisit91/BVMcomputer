@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useForm, useWatch } from 'react-hook-form';
-import { FiAlertCircle, FiCreditCard, FiLock, FiX } from 'react-icons/fi';
+import { FiAlertCircle, FiCreditCard, FiX } from 'react-icons/fi';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { addPaymentMethod, clearPaymentMethodError } from '../../features/paymentMethod/paymentMethodSlice';
-import { OTHER_BANK, thaiCardIssuers } from '../../data/thaiBanks';
 import { detectCardBrand, passesLuhn, tokenizeCard } from '../../services/payment/cardTokenizer';
 import { getErrorMessage } from '../../api/apiError';
-import { cn } from '../../lib/cn';
-import { FormField, SelectInput, TextInput } from '../ui/FormField';
+import { FormField, TextInput } from '../ui/FormField';
 import { Spinner } from '../ui/Spinner';
 import { CardBrandLogo } from './CardBrandLogo';
 
@@ -17,20 +15,16 @@ interface AddCardFormValues {
   holderName: string;
   expiry: string;
   cvv: string;
-  bank: string;
-  otherBank: string;
   makeDefault: boolean;
 }
 
 const REQUIRED = 'กรุณากรอกข้อมูลนี้';
-const blankValues = (isFirst: boolean): AddCardFormValues => ({
+const blankValues = (): AddCardFormValues => ({
   number: '',
   holderName: '',
   expiry: '',
   cvv: '',
-  bank: '',
-  otherBank: '',
-  makeDefault: isFirst,
+  makeDefault: true,
 });
 
 const digitsOf = (value: string) => value.replace(/\D/g, '');
@@ -61,9 +55,9 @@ interface AddCardModalProps {
 }
 
 /**
- * "เพิ่มบัตร". Card number and CVV stay inside this form: they're turned into a gateway token here,
- * and only the token plus display fields (brand, last 4, expiry, name, bank) go to the store and API.
- * The form is wiped on every open and close.
+ * "เพิ่มบัตร" — four fields only. Card number and CVV stay inside this form: they're turned into a gateway
+ * token here, and only the token plus display fields (brand, last 4, expiry, name, issuer from the provider's
+ * BIN lookup) go to the store and API. The form is wiped on every open and close.
  */
 export function AddCardModal({ open, isFirst, demo, onClose, onSaved }: AddCardModalProps) {
   const dispatch = useAppDispatch();
@@ -78,18 +72,17 @@ export function AddCardModal({ open, isFirst, demo, onClose, onSaved }: AddCardM
     reset,
     control,
     formState: { errors },
-  } = useForm<AddCardFormValues>({ mode: 'onBlur', reValidateMode: 'onChange', defaultValues: blankValues(isFirst) });
+  } = useForm<AddCardFormValues>({ mode: 'onBlur', reValidateMode: 'onChange', defaultValues: blankValues() });
 
   const number = useWatch({ control, name: 'number' });
-  const bank = useWatch({ control, name: 'bank' });
   const brand = detectCardBrand(digitsOf(number ?? ''));
   const cvvLength = brand === 'amex' ? 4 : 3;
 
   // Fresh, empty form on every open — and wipe it on close, so card data doesn't linger in memory.
   useEffect(() => {
-    reset(blankValues(isFirst));
+    reset(blankValues());
     if (open) dispatch(clearPaymentMethodError());
-  }, [open, isFirst, reset, dispatch]);
+  }, [open, reset, dispatch]);
 
   const close = () => {
     setTokenError(null);
@@ -123,7 +116,6 @@ export function AddCardModal({ open, isFirst, demo, onClose, onSaved }: AddCardM
     const result = await dispatch(
       addPaymentMethod({
         token,
-        bankName: values.bank === OTHER_BANK ? values.otherBank.trim() : values.bank,
         makeDefault: isFirst || values.makeDefault,
       }),
     );
@@ -230,45 +222,12 @@ export function AddCardModal({ open, isFirst, demo, onClose, onSaved }: AddCardM
                 />
               </FormField>
 
-              <FormField label="ธนาคารผู้ออกบัตร" required error={errors.bank?.message} className="col-span-2">
-                <SelectInput invalid={!!errors.bank} {...register('bank', { required: 'กรุณาเลือกธนาคาร' })}>
-                  <option value="">เลือกธนาคาร</option>
-                  {thaiCardIssuers.map((name) => (
-                    <option key={name} value={name}>
-                      {name}
-                    </option>
-                  ))}
-                  <option value={OTHER_BANK}>ธนาคารอื่น ๆ</option>
-                </SelectInput>
-              </FormField>
-              {bank === OTHER_BANK && (
-                <FormField label="ชื่อธนาคาร" required error={errors.otherBank?.message} className="col-span-2">
-                  <TextInput
-                    invalid={!!errors.otherBank}
-                    {...register('otherBank', {
-                      validate: (v) => v.trim().length > 0 || REQUIRED,
-                      maxLength: { value: 120, message: 'ไม่เกิน 120 ตัวอักษร' },
-                    })}
-                  />
-                </FormField>
-              )}
-
-              <label className={cn('col-span-2 flex items-center gap-2.5 text-sm text-[#2B3445]', isFirst ? 'cursor-not-allowed' : 'cursor-pointer')}>
-                <input
-                  key={isFirst ? 'locked' : 'free'}
-                  type="checkbox"
-                  disabled={isFirst}
-                  className="h-4 w-4 accent-brand"
-                  {...(isFirst ? { checked: true, readOnly: true } : register('makeDefault'))}
-                />
+              {/* Ticked by default and can be unticked. The first card becomes the default regardless (see hint). */}
+              <label className="col-span-2 flex cursor-pointer flex-wrap items-center gap-x-2.5 gap-y-1 text-sm text-[#2B3445]">
+                <input type="checkbox" className="h-4 w-4 accent-brand" {...register('makeDefault')} />
                 ตั้งเป็นบัตรเริ่มต้นสำหรับการชำระเงิน
-                {isFirst && <span className="text-xs text-slate-400">(บัตรใบแรกจะเป็นค่าเริ่มต้น)</span>}
+                <span className="text-xs text-slate-400">(บัตรใบแรกจะเป็นค่าเริ่มต้น)</span>
               </label>
-
-              <p className="col-span-2 flex items-start gap-2 rounded-xl bg-slate-50 px-3.5 py-3 text-xs leading-relaxed text-slate-500">
-                <FiLock size={14} className="mt-0.5 shrink-0 text-[#7D879C]" aria-hidden="true" />
-                MAXCOM ไม่จัดเก็บหมายเลขบัตรเต็มและรหัส CVV — บันทึกเพียง 4 หลักท้าย วันหมดอายุ ชื่อเจ้าของบัตร และธนาคาร เพื่อให้คุณจดจำบัตรได้
-              </p>
 
               {shownError && (
                 <p role="alert" className="col-span-2 flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-brand">

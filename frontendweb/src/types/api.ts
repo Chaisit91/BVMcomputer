@@ -159,14 +159,16 @@ export interface PaymentMethod {
   expMonth: number;
   /** Four-digit year. */
   expYear: number;
-  /** Issuing bank, e.g. "ธนาคารกรุงไทย (Krungthai Bank)". */
-  bankName: string;
+  /**
+   * Issuing bank as identified from the card's BIN/IIN by the payment provider, e.g. "ธนาคารกรุงไทย (KRUNG THAI BANK)".
+   * null when it couldn't be identified — never filled in by guessing or by the customer.
+   */
+  bankName: string | null;
   isDefault: boolean;
 }
 
-/** POST /account/payment-methods — a gateway token plus display details; never raw card data. */
+/** POST /account/payment-methods — just the gateway token; the backend reads brand, last 4 and issuer from the provider. */
 export interface AddPaymentMethodRequest {
   token: string;
-  bankName: string;
   makeDefault: boolean;
 }

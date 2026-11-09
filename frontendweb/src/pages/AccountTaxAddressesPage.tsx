@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BsGeoAltFill } from 'react-icons/bs';
-import { FiAlertCircle, FiCheckCircle, FiFileText, FiInfo, FiPlus } from 'react-icons/fi';
+import { FiAlertCircle, FiCheckCircle, FiFileText, FiPlus } from 'react-icons/fi';
 import { AccountLayout } from '../components/account/AccountLayout';
 import { ConfirmDeleteAddressDialog } from '../components/account/ConfirmDeleteAddressDialog';
 import { RequireLogin } from '../components/account/RequireLogin';
@@ -30,7 +30,7 @@ type FormState = { open: false } | { open: true; address: TaxAddress | null };
 
 function TaxAddressesContent() {
   const dispatch = useAppDispatch();
-  const { addresses, status, error, source, mutationStatus, mutationError } = useAppSelector((state) => state.taxAddress);
+  const { addresses, status, error, mutationStatus, mutationError } = useAppSelector((state) => state.taxAddress);
   const [form, setForm] = useState<FormState>({ open: false });
   const [pendingDelete, setPendingDelete] = useState<TaxAddress | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -132,19 +132,10 @@ function TaxAddressesContent() {
         </button>
       }
     >
-      <p className="flex items-start gap-2.5 rounded-xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-[#2B3445]">
-        <FiInfo size={17} className="mt-0.5 shrink-0 text-sky-600" aria-hidden="true" />
-        <span>
-          <span className="font-bold text-ink">หมายเหตุ:</span> ใช้สำหรับออกใบกำกับภาษีในนามบุคคลธรรมดาหรือนิติบุคคล
-          กรุณาตรวจสอบข้อมูลให้ถูกต้องก่อนบันทึก
-        </span>
-      </p>
-
       {notice && (
         <p role="status" className="flex items-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
           <FiCheckCircle size={16} className="shrink-0" aria-hidden="true" />
           {notice}
-          {source === 'demo' && <span className="text-emerald-600/80">(บันทึกไว้ในเบราว์เซอร์นี้)</span>}
         </p>
       )}
 
@@ -153,13 +144,6 @@ function TaxAddressesContent() {
         <p role="alert" className="flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-brand">
           <FiAlertCircle size={16} className="shrink-0" aria-hidden="true" />
           {mutationError}
-        </p>
-      )}
-
-      {source === 'demo' && (
-        <p className="flex items-center gap-2 rounded-xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm text-amber-700">
-          <FiInfo size={16} className="shrink-0" aria-hidden="true" />
-          โหมดทดลอง: ยังไม่ได้เชื่อมต่อระบบ ที่อยู่บันทึกไว้ในเบราว์เซอร์นี้เท่านั้น
         </p>
       )}
 

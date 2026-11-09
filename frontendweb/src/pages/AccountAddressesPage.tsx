@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BsGeoAltFill } from 'react-icons/bs';
-import { FiAlertCircle, FiCheckCircle, FiInfo, FiMapPin, FiPlus } from 'react-icons/fi';
+import { FiAlertCircle, FiCheckCircle, FiMapPin, FiPlus } from 'react-icons/fi';
 import { AccountLayout } from '../components/account/AccountLayout';
 import { AddressCard } from '../components/account/AddressCard';
 import { AddressFormModal } from '../components/account/AddressFormModal';
@@ -25,7 +25,7 @@ type FormState = { open: false } | { open: true; address: SavedAddress | null };
 
 function AddressesContent() {
   const dispatch = useAppDispatch();
-  const { addresses, status, error, source, mutationStatus, mutationError } = useAppSelector((state) => state.address);
+  const { addresses, status, error, mutationStatus, mutationError } = useAppSelector((state) => state.address);
   const [form, setForm] = useState<FormState>({ open: false });
   const [pendingDelete, setPendingDelete] = useState<SavedAddress | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -131,7 +131,6 @@ function AddressesContent() {
         <p role="status" className="flex items-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
           <FiCheckCircle size={16} className="shrink-0" aria-hidden="true" />
           {notice}
-          {source === 'demo' && <span className="text-emerald-600/80">(บันทึกไว้ในเบราว์เซอร์นี้)</span>}
         </p>
       )}
 
@@ -140,13 +139,6 @@ function AddressesContent() {
         <p role="alert" className="flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-brand">
           <FiAlertCircle size={16} className="shrink-0" aria-hidden="true" />
           {mutationError}
-        </p>
-      )}
-
-      {source === 'demo' && (
-        <p className="flex items-center gap-2 rounded-xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm text-amber-700">
-          <FiInfo size={16} className="shrink-0" aria-hidden="true" />
-          โหมดทดลอง: ยังไม่ได้เชื่อมต่อระบบ ที่อยู่บันทึกไว้ในเบราว์เซอร์นี้เท่านั้น
         </p>
       )}
 

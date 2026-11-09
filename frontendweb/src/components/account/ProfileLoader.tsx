@@ -1,5 +1,4 @@
 import { useEffect, type ReactNode } from 'react';
-import { FiInfo } from 'react-icons/fi';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { fetchProfile } from '../../features/account/accountSlice';
 import { ErrorState } from '../ui/ErrorState';
@@ -8,12 +7,11 @@ import type { UserProfile } from '../../types/api';
 
 /**
  * Loads the signed-in customer's profile (once per sign-in — the slice resets on logout) and
- * renders `children` with it; shows a skeleton while loading, a retry on failure, and a clear
- * notice when the data is demo-only because the account backend isn't connected.
+ * renders `children` with it; shows a skeleton while loading and a retry on failure.
  */
 export function ProfileLoader({ children }: { children: (profile: UserProfile) => ReactNode }) {
   const dispatch = useAppDispatch();
-  const { profile, source, loadStatus, loadError } = useAppSelector((state) => state.account);
+  const { profile, loadStatus, loadError } = useAppSelector((state) => state.account);
 
   useEffect(() => {
     if (loadStatus === 'idle') void dispatch(fetchProfile());
@@ -38,15 +36,5 @@ export function ProfileLoader({ children }: { children: (profile: UserProfile) =
     );
   }
 
-  return (
-    <>
-      {source === 'demo' && (
-        <p className="flex items-start gap-2 rounded-xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm text-amber-700">
-          <FiInfo size={16} className="mt-0.5 shrink-0" aria-hidden="true" />
-          โหมดทดสอบ: ระบบบัญชียังไม่ได้เชื่อมต่อ ข้อมูลด้านล่างมาจากการเข้าสู่ระบบในเครื่องนี้เท่านั้น และการแก้ไขจะยังไม่ถูกบันทึกไปยังเซิร์ฟเวอร์
-        </p>
-      )}
-      {children(profile)}
-    </>
-  );
+  return <>{children(profile)}</>;
 }

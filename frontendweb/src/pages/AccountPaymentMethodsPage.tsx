@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BsCreditCard2FrontFill } from 'react-icons/bs';
-import { FiAlertCircle, FiCheckCircle, FiCreditCard, FiInfo, FiPlus } from 'react-icons/fi';
+import { FiAlertCircle, FiCheckCircle, FiCreditCard, FiPlus } from 'react-icons/fi';
 import { AccountLayout } from '../components/account/AccountLayout';
 import { AddCardModal } from '../components/account/AddCardModal';
 import { ConfirmDeleteCardDialog } from '../components/account/ConfirmDeleteCardDialog';
@@ -93,7 +93,7 @@ function PaymentMethodsContent() {
       );
     }
     return (
-      <div role="radiogroup" aria-label="เลือกบัตรเริ่มต้น" className="flex flex-col gap-4">
+      <div role="radiogroup" aria-label="เลือกบัตรเริ่มต้น" className="flex flex-col gap-3">
         {methods.map((method) => (
           <PaymentMethodCard
             key={method.id}
@@ -124,19 +124,10 @@ function PaymentMethodsContent() {
         </button>
       }
     >
-      <p className="flex items-start gap-2.5 rounded-xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-[#2B3445]">
-        <FiInfo size={17} className="mt-0.5 shrink-0 text-sky-600" aria-hidden="true" />
-        <span>
-          <span className="font-bold text-ink">หมายเหตุ:</span> MAXCOM ไม่จัดเก็บหมายเลขบัตรเต็มและรหัส CVV
-          ระบบบันทึกเพียง 4 หลักท้ายของบัตรเพื่อให้คุณเลือกใช้ได้สะดวก
-        </span>
-      </p>
-
       {notice && (
         <p role="status" className="flex items-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
           <FiCheckCircle size={16} className="shrink-0" aria-hidden="true" />
           {notice}
-          {source === 'demo' && <span className="text-emerald-600/80">(บันทึกไว้ในเบราว์เซอร์นี้)</span>}
         </p>
       )}
 
@@ -145,13 +136,6 @@ function PaymentMethodsContent() {
         <p role="alert" className="flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-brand">
           <FiAlertCircle size={16} className="shrink-0" aria-hidden="true" />
           {mutationError}
-        </p>
-      )}
-
-      {source === 'demo' && (
-        <p className="flex items-center gap-2 rounded-xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm text-amber-700">
-          <FiInfo size={16} className="shrink-0" aria-hidden="true" />
-          โหมดทดลอง: ยังไม่ได้เชื่อมต่อระบบชำระเงิน บัตรที่เพิ่มใช้ชำระเงินจริงไม่ได้ และบันทึกไว้ในเบราว์เซอร์นี้เท่านั้น
         </p>
       )}
 

@@ -75,7 +75,8 @@ export function addPaymentMethod(request: AddPaymentMethodRequest, card: Omit<Ca
     () =>
       demoWrite((list) => {
         const id = `pm-${Date.now().toString(36)}`;
-        const method: PaymentMethod = { id, ...card, bankName: request.bankName, isDefault: false };
+        const { issuerBank, ...display } = card;
+        const method: PaymentMethod = { id, ...display, bankName: issuerBank, isDefault: false };
         return { list: [...list, method], preferId: request.makeDefault ? id : undefined };
       }),
   );

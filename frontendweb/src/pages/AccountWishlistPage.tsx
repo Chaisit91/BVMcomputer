@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BsHeartFill } from 'react-icons/bs';
-import { FiAlertCircle, FiHeart, FiInfo, FiSearch } from 'react-icons/fi';
+import { FiAlertCircle, FiHeart, FiSearch } from 'react-icons/fi';
 import { AccountLayout } from '../components/account/AccountLayout';
 import { RequireLogin } from '../components/account/RequireLogin';
 import { WishlistProductCard, type WishlistItemView } from '../components/account/WishlistProductCard';
@@ -210,13 +210,6 @@ function WishlistContent() {
           <button type="button" onClick={() => dispatch(clearWishlistError())} className="ml-auto text-xs font-semibold underline">
             ปิด
           </button>
-        </p>
-      )}
-
-      {wishlist.source === 'demo' && (
-        <p className="flex items-center gap-2 rounded-xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm text-amber-700">
-          <FiInfo size={16} className="shrink-0" aria-hidden="true" />
-          โหมดทดลอง: ยังไม่ได้เชื่อมต่อระบบ รายการโปรดบันทึกไว้ในเบราว์เซอร์นี้เท่านั้น
         </p>
       )}
 

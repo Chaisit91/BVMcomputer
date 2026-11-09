@@ -66,9 +66,9 @@ function mutation<Arg>(type: string, call: (arg: Arg) => Promise<paymentMethodAp
 }
 
 /** Takes an already-created gateway token — raw card data never reaches the store (or its devtools). */
-export const addPaymentMethod = mutation('paymentMethod/add', ({ token, bankName, makeDefault }: { token: CardToken; bankName: string; makeDefault: boolean }) => {
+export const addPaymentMethod = mutation('paymentMethod/add', ({ token, makeDefault }: { token: CardToken; makeDefault: boolean }) => {
   const { token: tokenId, ...card } = token;
-  return paymentMethodApi.addPaymentMethod({ token: tokenId, bankName, makeDefault }, card);
+  return paymentMethodApi.addPaymentMethod({ token: tokenId, makeDefault }, card);
 });
 export const setDefaultPaymentMethod = mutation('paymentMethod/setDefault', (id: string) => paymentMethodApi.setDefaultPaymentMethod(id));
 export const deletePaymentMethod = mutation('paymentMethod/delete', (id: string) => paymentMethodApi.deletePaymentMethod(id));
