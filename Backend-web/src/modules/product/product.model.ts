@@ -1,5 +1,13 @@
 import { z } from 'zod'
-import { ValidationError } from '../lib/errors'
+import { prisma } from '../../lib/prisma'
+import { ValidationError } from '../../lib/errors'
+import type { Product as ProductRecord } from '../../../generated/prisma'
+
+// Product is the one entity every catalog module (cpu, gpu, ram, motherboard,
+// psu, case, cooling, storage, desktop-pc, promo-set) is ultimately rooted
+// in — it lives here, once, instead of inside any single one of them.
+export const Product = prisma.product
+export type { ProductRecord }
 
 // Mirrors the CHECK constraints in prisma/manual/constraints.sql — this catches
 // the same mistakes earlier, with a readable message instead of a raw Postgres

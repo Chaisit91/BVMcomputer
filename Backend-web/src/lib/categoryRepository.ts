@@ -1,7 +1,7 @@
 import { prisma } from './prisma'
 import { deriveDisplayStatus } from './stockStatus'
 import { presentSpecs, publicationFields } from './catalogPresentation'
-import { assertValidProductPricing } from '../schemas/product.schema'
+import { Product, assertValidProductPricing } from '../modules/product/product.model'
 import type { CatalogCategory, PartCategory, Prisma } from '../../generated/prisma'
 
 // Fields that always live on Product itself, regardless of category.
@@ -127,11 +127,11 @@ export function createCategoryRepository({
 
   const repository = {
     findMany: async () => {
-      const rows = await prisma.product.findMany({ where: { category: catalogCategory }, include })
+      const rows = await Product.findMany({ where: { category: catalogCategory }, include })
       return rows.map((row) => shape(row, subtypeAccessor))
     },
 
-    findById: async (id: string) => shape(await prisma.product.findUnique({ where: { id }, include }), subtypeAccessor),
+    findById: async (id: string) => shape(await Product.findUnique({ where: { id }, include }), subtypeAccessor),
 
     create: async (data: any) => {
       const { specs, extraSpecs, videoLinks, ...body } = data
@@ -179,7 +179,7 @@ export function createCategoryRepository({
     // Product is the root now — every child (subtype row, spec values, extra
     // specs, video links, images) cascades off it, so this is the only
     // deletion path that can't leave orphans.
-    remove: (id: string) => prisma.product.delete({ where: { id } }),
+    remove: (id: string) => Product.delete({ where: { id } }),
   }
 
   return repository

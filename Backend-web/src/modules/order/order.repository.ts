@@ -1,15 +1,14 @@
-import { prisma } from '../../lib/prisma'
-import { assertValidOrderItems } from '../../schemas/orderItem.schema'
+import { Order, OrderLineItem, assertValidOrderItems } from './order.model'
 
 // Line items are nested writes (Order 1-N OrderLineItem), not a plain column,
 // so create/update need the { items: { create: [...] } } shape Prisma expects.
 export const orderRepository = {
-  findMany: () => prisma.order.findMany({ include: { items: true } }),
-  findById: (id: string) => prisma.order.findUnique({ where: { id }, include: { items: true } }),
+  findMany: () => Order.findMany({ include: { items: true } }),
+  findById: (id: string) => Order.findUnique({ where: { id }, include: { items: true } }),
   create: (data: any) => {
     const { items, ...rest } = data
     assertValidOrderItems(items)
-    return prisma.order.create({
+    return Order.create({
       data: { ...rest, items: { create: items ?? [] } },
       include: { items: true },
     })
@@ -18,16 +17,16 @@ export const orderRepository = {
     const { items, ...rest } = data
     if (items) assertValidOrderItems(items)
 
-    await prisma.order.update({ where: { id }, data: rest })
+    await Order.update({ where: { id }, data: rest })
 
     if (items) {
-      await prisma.orderLineItem.deleteMany({ where: { orderId: id } })
+      await OrderLineItem.deleteMany({ where: { orderId: id } })
       if (items.length) {
-        await prisma.orderLineItem.createMany({ data: items.map((item: any) => ({ ...item, orderId: id })) })
+        await OrderLineItem.createMany({ data: items.map((item: any) => ({ ...item, orderId: id })) })
       }
     }
 
-    return prisma.order.findUnique({ where: { id }, include: { items: true } })
+    return Order.findUnique({ where: { id }, include: { items: true } })
   },
-  remove: (id: string) => prisma.order.delete({ where: { id } }),
+  remove: (id: string) => Order.delete({ where: { id } }),
 }

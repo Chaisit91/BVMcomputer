@@ -1,6 +1,5 @@
-import { prisma } from '../../lib/prisma'
+import { Product, PromoSetComponent, PromoSetExtraPart, PromoSetHighlight, PromoSetVideoLink, assertValidProductPricing } from './promo-set.model'
 import { deriveDisplayStatus } from '../../lib/stockStatus'
-import { assertValidProductPricing } from '../../schemas/product.schema'
 import { getProductName } from '../../lib/productLookup'
 
 const PRODUCT_FIELDS = [
@@ -57,12 +56,12 @@ const include = {
 
 export const promoSetRepository = {
   findMany: async () => {
-    const rows = await prisma.product.findMany({ where: { category: 'promo_set' }, include })
+    const rows = await Product.findMany({ where: { category: 'promo_set' }, include })
     return Promise.all(rows.map(shape))
   },
 
   findById: async (id: string) => {
-    const row = await prisma.product.findUnique({ where: { id }, include })
+    const row = await Product.findUnique({ where: { id }, include })
     return row ? shape(row) : null
   },
 
@@ -72,7 +71,7 @@ export const promoSetRepository = {
     const { product, promoSet } = split(body)
     assertValidProductPricing(product)
 
-    const created = await prisma.product.create({
+    const created = await Product.create({
       data: {
         ...product,
         category: 'promo_set',
@@ -95,43 +94,43 @@ export const promoSetRepository = {
     const { product, promoSet } = split(body)
     assertValidProductPricing(product)
 
-    await prisma.product.update({
+    await Product.update({
       where: { id },
       data: { ...product, ...(Object.keys(promoSet).length ? { promoSet: { update: promoSet } } : {}) },
     })
 
     if (components) {
-      await prisma.promoSetComponent.deleteMany({ where: { promoSetId: id } })
-      await prisma.promoSetComponent.createMany({
+      await PromoSetComponent.deleteMany({ where: { promoSetId: id } })
+      await PromoSetComponent.createMany({
         data: Object.entries(components).map(([slot, productId]) => ({ promoSetId: id, slot, productId })) as any,
       })
     }
 
     if (extraParts) {
-      await prisma.promoSetExtraPart.deleteMany({ where: { promoSetId: id } })
+      await PromoSetExtraPart.deleteMany({ where: { promoSetId: id } })
       if (extraParts.length) {
-        await prisma.promoSetExtraPart.createMany({
+        await PromoSetExtraPart.createMany({
           data: extraParts.map((e: any) => ({ promoSetId: id, name: e.name, value: e.value })),
         })
       }
     }
 
     if (highlights) {
-      await prisma.promoSetHighlight.deleteMany({ where: { promoSetId: id } })
+      await PromoSetHighlight.deleteMany({ where: { promoSetId: id } })
       if (highlights.length) {
-        await prisma.promoSetHighlight.createMany({ data: highlights.map((text: string) => ({ promoSetId: id, text })) })
+        await PromoSetHighlight.createMany({ data: highlights.map((text: string) => ({ promoSetId: id, text })) })
       }
     }
 
     if (videoLinks) {
-      await prisma.promoSetVideoLink.deleteMany({ where: { promoSetId: id } })
+      await PromoSetVideoLink.deleteMany({ where: { promoSetId: id } })
       if (videoLinks.length) {
-        await prisma.promoSetVideoLink.createMany({ data: videoLinks.map((url: string) => ({ promoSetId: id, url })) })
+        await PromoSetVideoLink.createMany({ data: videoLinks.map((url: string) => ({ promoSetId: id, url })) })
       }
     }
 
     return promoSetRepository.findById(id)
   },
 
-  remove: (id: string) => prisma.product.delete({ where: { id } }),
+  remove: (id: string) => Product.delete({ where: { id } }),
 }

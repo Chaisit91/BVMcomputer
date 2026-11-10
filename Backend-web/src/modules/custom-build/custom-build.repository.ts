@@ -1,4 +1,4 @@
-import { prisma } from '../../lib/prisma'
+import { CustomBuild, CustomBuildComponent } from './custom-build.model'
 import { getProductName } from '../../lib/productLookup'
 
 async function shape(row: any) {
@@ -19,12 +19,12 @@ async function shape(row: any) {
 
 export const customBuildRepository = {
   findMany: async () => {
-    const rows = await prisma.customBuild.findMany({ include: { components: true } })
+    const rows = await CustomBuild.findMany({ include: { components: true } })
     return Promise.all(rows.map(shape))
   },
 
   findById: async (id: string) => {
-    const row = await prisma.customBuild.findUnique({ where: { id }, include: { components: true } })
+    const row = await CustomBuild.findUnique({ where: { id }, include: { components: true } })
     return row ? shape(row) : null
   },
 
@@ -32,7 +32,7 @@ export const customBuildRepository = {
   // { <slot>: number } (snapshotted per component) — see desktop-pc.repository.ts
   create: async (data: any) => {
     const { components, prices, ...own } = data
-    const created = await prisma.customBuild.create({
+    const created = await CustomBuild.create({
       data: {
         ...own,
         components: {
@@ -49,11 +49,11 @@ export const customBuildRepository = {
 
   update: async (id: string, data: any) => {
     const { components, prices, ...own } = data
-    await prisma.customBuild.update({ where: { id }, data: own })
+    await CustomBuild.update({ where: { id }, data: own })
 
     if (components) {
-      await prisma.customBuildComponent.deleteMany({ where: { customBuildId: id } })
-      await prisma.customBuildComponent.createMany({
+      await CustomBuildComponent.deleteMany({ where: { customBuildId: id } })
+      await CustomBuildComponent.createMany({
         data: Object.entries(components).map(([slot, productId]) => ({
           customBuildId: id,
           slot,
@@ -66,10 +66,10 @@ export const customBuildRepository = {
     return customBuildRepository.findById(id)
   },
 
-  remove: (id: string) => prisma.customBuild.delete({ where: { id } }),
+  remove: (id: string) => CustomBuild.delete({ where: { id } }),
 
   setAiPreviewImage: async (id: string, imageUrl: string) => {
-    await prisma.customBuild.update({ where: { id }, data: { aiPreviewImageUrl: imageUrl } })
+    await CustomBuild.update({ where: { id }, data: { aiPreviewImageUrl: imageUrl } })
     return customBuildRepository.findById(id)
   },
 }

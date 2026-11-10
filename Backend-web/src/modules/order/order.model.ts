@@ -1,5 +1,11 @@
 import { z } from 'zod'
-import { ValidationError } from '../lib/errors'
+import { prisma } from '../../lib/prisma'
+import { ValidationError } from '../../lib/errors'
+import type { Order as OrderRecord } from '../../../generated/prisma'
+
+export const Order = prisma.order
+export const OrderLineItem = prisma.orderLineItem
+export type { OrderRecord }
 
 const orderLineItemSchema = z.object({
   quantity: z.number().int('quantity must be a whole number').positive('quantity must be greater than 0'),

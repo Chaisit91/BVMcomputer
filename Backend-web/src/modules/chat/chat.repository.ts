@@ -1,4 +1,5 @@
 import { prisma } from '../../lib/prisma'
+import { ChatConversation, ChatMessage } from './chat.model'
 import type { ChatSender } from '../../../generated/prisma'
 
 const adminSelect = { select: { id: true, firstName: true, lastName: true } }
@@ -14,7 +15,7 @@ export interface IncomingAttachment {
 
 export const chatRepository = {
   findConversations: () =>
-    prisma.chatConversation.findMany({
+    ChatConversation.findMany({
       include: {
         customer: customerSelect,
         // Only the attachment count, not the files themselves — the list
@@ -23,9 +24,9 @@ export const chatRepository = {
       },
       orderBy: { lastMessageAt: 'desc' },
     }),
-  findByCustomerId: (customerId: string) => prisma.chatConversation.findUnique({ where: { customerId } }),
+  findByCustomerId: (customerId: string) => ChatConversation.findUnique({ where: { customerId } }),
   findById: (id: string) =>
-    prisma.chatConversation.findUnique({
+    ChatConversation.findUnique({
       where: { id },
       include: { customer: customerSelect },
     }),
@@ -33,12 +34,12 @@ export const chatRepository = {
   // actually sent a given reply, even though a customer-facing surface would
   // show the company's name instead.
   findMessages: (conversationId: string) =>
-    prisma.chatMessage.findMany({
+    ChatMessage.findMany({
       where: { conversationId },
       include: { senderAdmin: adminSelect, attachments: attachmentsInclude },
       orderBy: { createdAt: 'asc' },
     }),
-  createConversation: (customerId: string) => prisma.chatConversation.create({ data: { customerId } }),
+  createConversation: (customerId: string) => ChatConversation.create({ data: { customerId } }),
   // Customer messages bump unreadCount; an admin reply always resets it back
   // to 0 (the thread is caught up as of the admin's own reply). Any admin can
   // reply to any conversation — there's no ownership/claim to check.
@@ -49,6 +50,8 @@ export const chatRepository = {
     senderAdminId?: string,
     attachments: IncomingAttachment[] = [],
   ) =>
+    // Transactional client (tx) is its own scoped delegate, separate from the
+    // module-level ChatConversation/ChatMessage accessors above.
     prisma.$transaction(async (tx) => {
       const message = await tx.chatMessage.create({
         data: {
@@ -71,11 +74,11 @@ export const chatRepository = {
       return message
     }),
   markRead: (conversationId: string) =>
-    prisma.chatConversation.update({ where: { id: conversationId }, data: { unreadCount: 0 } }),
+    ChatConversation.update({ where: { id: conversationId }, data: { unreadCount: 0 } }),
   // For the Topbar bell: total unread across every conversation, plus the id
   // of the one conversation to jump straight to when it's the only one open.
   unreadSummary: async () => {
-    const unread = await prisma.chatConversation.findMany({
+    const unread = await ChatConversation.findMany({
       where: { unreadCount: { gt: 0 } },
       select: { id: true, unreadCount: true },
     })

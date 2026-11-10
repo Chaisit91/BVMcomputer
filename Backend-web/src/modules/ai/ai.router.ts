@@ -1,3 +1,6 @@
+// No model.ts/repository.ts here on purpose — this module has no table of
+// its own, it calls an external AI API (see ai.service.ts). catalog.router.ts
+// is the one place this module reads from the DB, via product/product.model.
 import { Router } from 'express'
 import { z } from 'zod'
 import { ValidationError } from '../../lib/errors'

@@ -1,6 +1,5 @@
-import { prisma } from '../../lib/prisma'
+import { Product, ProductVideoLink, CpuBenchmark, assertValidProductPricing } from './cpu.model'
 import { deriveDisplayStatus } from '../../lib/stockStatus'
-import { assertValidProductPricing } from '../../schemas/product.schema'
 
 const include = { cpu: { include: { benchmarks: true } }, videoLinks: true } as const
 
@@ -56,15 +55,15 @@ function shape(row: any) {
 }
 
 export const cpuRepository = {
-  findMany: async () => (await prisma.product.findMany({ where: { category: 'cpu' }, include })).map(shape),
+  findMany: async () => (await Product.findMany({ where: { category: 'cpu' }, include })).map(shape),
 
-  findById: async (id: string) => shape(await prisma.product.findUnique({ where: { id }, include })),
+  findById: async (id: string) => shape(await Product.findUnique({ where: { id }, include })),
 
   create: async (data: any) => {
     const { benchmarks, videoLinks, ...body } = data
     const { product, cpu } = split(body)
     assertValidProductPricing(product)
-    const created = await prisma.product.create({
+    const created = await Product.create({
       data: {
         ...product,
         category: 'cpu',
@@ -72,7 +71,7 @@ export const cpuRepository = {
       },
     })
     if (videoLinks?.length) {
-      await prisma.productVideoLink.createMany({
+      await ProductVideoLink.createMany({
         data: videoLinks.map((url: string) => ({ productId: created.id, url })),
       })
     }
@@ -84,24 +83,24 @@ export const cpuRepository = {
     const { product, cpu } = split(body)
     assertValidProductPricing(product)
 
-    await prisma.product.update({
+    await Product.update({
       where: { id },
       data: { ...product, ...(Object.keys(cpu).length ? { cpu: { update: cpu } } : {}) },
     })
 
     if (benchmarks) {
-      await prisma.cpuBenchmark.deleteMany({ where: { cpuId: id } })
+      await CpuBenchmark.deleteMany({ where: { cpuId: id } })
       if (benchmarks.length) {
-        await prisma.cpuBenchmark.createMany({
+        await CpuBenchmark.createMany({
           data: benchmarks.map((b: any) => ({ cpuId: id, name: b.name, score: b.score, unit: b.unit })),
         })
       }
     }
 
     if (videoLinks) {
-      await prisma.productVideoLink.deleteMany({ where: { productId: id } })
+      await ProductVideoLink.deleteMany({ where: { productId: id } })
       if (videoLinks.length) {
-        await prisma.productVideoLink.createMany({ data: videoLinks.map((url: string) => ({ productId: id, url })) })
+        await ProductVideoLink.createMany({ data: videoLinks.map((url: string) => ({ productId: id, url })) })
       }
     }
 
@@ -109,5 +108,5 @@ export const cpuRepository = {
   },
 
   // Product is the root — deleting it cascades to Cpu, benchmarks, and video links.
-  remove: (id: string) => prisma.product.delete({ where: { id } }),
+  remove: (id: string) => Product.delete({ where: { id } }),
 }

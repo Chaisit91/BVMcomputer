@@ -1,4 +1,4 @@
-import { prisma } from '../../lib/prisma'
+import { ComputerUpgrade, ComputerUpgradeItem } from './computer-upgrade.model'
 
 const include = {
   customer: { select: { id: true, fullName: true } },
@@ -56,13 +56,13 @@ function pickEditableItemFields(item: Record<string, unknown>): any {
 
 export const computerUpgradeRepository = {
   findMany: async () =>
-    (await prisma.computerUpgrade.findMany({ include, orderBy: { createdAt: 'desc' } })).map(shape),
+    (await ComputerUpgrade.findMany({ include, orderBy: { createdAt: 'desc' } })).map(shape),
 
-  findById: async (id: string) => shape(await prisma.computerUpgrade.findUnique({ where: { id }, include })),
+  findById: async (id: string) => shape(await ComputerUpgrade.findUnique({ where: { id }, include })),
 
   create: async (data: any) => {
     const { items, ...rest } = data
-    const created = await prisma.computerUpgrade.create({
+    const created = await ComputerUpgrade.create({
       data: {
         ...rest,
         items: { create: (items ?? []).map((item: any) => pickEditableItemFields(item)) },
@@ -74,7 +74,7 @@ export const computerUpgradeRepository = {
   update: async (id: string, data: any) => {
     const { items, ...rest } = data
     if (Object.keys(rest).length) {
-      await prisma.computerUpgrade.update({ where: { id }, data: rest })
+      await ComputerUpgrade.update({ where: { id }, data: rest })
     }
 
     // Upsert per slot (not delete-all-recreate like sibling bundle modules) —
@@ -83,7 +83,7 @@ export const computerUpgradeRepository = {
     if (items) {
       for (const item of items) {
         const fields = pickEditableItemFields(item)
-        await prisma.computerUpgradeItem.upsert({
+        await ComputerUpgradeItem.upsert({
           where: { upgradeId_slot: { upgradeId: id, slot: item.slot } },
           create: { upgradeId: id, ...fields },
           update: fields,
@@ -94,10 +94,10 @@ export const computerUpgradeRepository = {
     return computerUpgradeRepository.findById(id)
   },
 
-  remove: (id: string) => prisma.computerUpgrade.delete({ where: { id } }),
+  remove: (id: string) => ComputerUpgrade.delete({ where: { id } }),
 
   setItemPhoto: async (upgradeId: string, slot: string, photoUrl: string) => {
-    await prisma.computerUpgradeItem.upsert({
+    await ComputerUpgradeItem.upsert({
       where: { upgradeId_slot: { upgradeId, slot: slot as any } },
       create: { upgradeId, slot: slot as any, oldItemPhotoUrl: photoUrl },
       update: { oldItemPhotoUrl: photoUrl },
@@ -106,7 +106,7 @@ export const computerUpgradeRepository = {
   },
 
   verifyItem: async (upgradeId: string, slot: string, adminId: string) => {
-    await prisma.computerUpgradeItem.upsert({
+    await ComputerUpgradeItem.upsert({
       where: { upgradeId_slot: { upgradeId, slot: slot as any } },
       create: { upgradeId, slot: slot as any, verifiedByAdmin: true, verifiedAt: new Date(), verifiedById: adminId },
       update: { verifiedByAdmin: true, verifiedAt: new Date(), verifiedById: adminId },

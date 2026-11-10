@@ -1,6 +1,5 @@
-import { prisma } from '../../lib/prisma'
+import { Product, DesktopPcComponent, DesktopPcHighlight, assertValidProductPricing } from './desktop-pc.model'
 import { deriveDisplayStatus } from '../../lib/stockStatus'
-import { assertValidProductPricing } from '../../schemas/product.schema'
 import { getProductName } from '../../lib/productLookup'
 
 // admin-web's DesktopPcSpecs interface calls the motherboard slot "mainboard"
@@ -65,7 +64,7 @@ async function shape(row: any) {
 
 export const desktopPcRepository = {
   findMany: async () => {
-    const rows = await prisma.product.findMany({
+    const rows = await Product.findMany({
       where: { category: 'desktop_pc' },
       include: { desktopPc: { include: { components: true, highlights: true } } },
     })
@@ -73,7 +72,7 @@ export const desktopPcRepository = {
   },
 
   findById: async (id: string) => {
-    const row = await prisma.product.findUnique({
+    const row = await Product.findUnique({
       where: { id },
       include: { desktopPc: { include: { components: true, highlights: true } } },
     })
@@ -88,7 +87,7 @@ export const desktopPcRepository = {
     const { product, desktopPc } = split(body)
     assertValidProductPricing(product)
 
-    const created = await prisma.product.create({
+    const created = await Product.create({
       data: {
         ...product,
         category: 'desktop_pc',
@@ -109,27 +108,27 @@ export const desktopPcRepository = {
     const { product, desktopPc } = split(body)
     assertValidProductPricing(product)
 
-    await prisma.product.update({
+    await Product.update({
       where: { id },
       data: { ...product, ...(Object.keys(desktopPc).length ? { desktopPc: { update: desktopPc } } : {}) },
     })
 
     if (components) {
-      await prisma.desktopPcComponent.deleteMany({ where: { desktopPcId: id } })
-      await prisma.desktopPcComponent.createMany({
+      await DesktopPcComponent.deleteMany({ where: { desktopPcId: id } })
+      await DesktopPcComponent.createMany({
         data: Object.entries(components).map(([slot, productId]) => ({ desktopPcId: id, slot, productId })) as any,
       })
     }
 
     if (highlights) {
-      await prisma.desktopPcHighlight.deleteMany({ where: { desktopPcId: id } })
+      await DesktopPcHighlight.deleteMany({ where: { desktopPcId: id } })
       if (highlights.length) {
-        await prisma.desktopPcHighlight.createMany({ data: highlights.map((text: string) => ({ desktopPcId: id, text })) })
+        await DesktopPcHighlight.createMany({ data: highlights.map((text: string) => ({ desktopPcId: id, text })) })
       }
     }
 
     return desktopPcRepository.findById(id)
   },
 
-  remove: (id: string) => prisma.product.delete({ where: { id } }),
+  remove: (id: string) => Product.delete({ where: { id } }),
 }

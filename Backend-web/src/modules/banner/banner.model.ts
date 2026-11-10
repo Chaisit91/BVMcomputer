@@ -1,5 +1,10 @@
 import { z } from 'zod'
-import { ValidationError } from '../lib/errors'
+import { prisma } from '../../lib/prisma'
+import { ValidationError } from '../../lib/errors'
+import type { Banner as BannerRecord } from '../../../generated/prisma'
+
+export const Banner = prisma.banner
+export type { BannerRecord }
 
 const bannerDatesSchema = z
   .object({

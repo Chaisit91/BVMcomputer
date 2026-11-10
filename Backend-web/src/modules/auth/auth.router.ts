@@ -1,3 +1,7 @@
+// No model.ts/repository.ts/service.ts here on purpose — this app has no
+// separate "User" entity to authenticate. Login IS admin login, so this
+// router delegates straight to admin.repository/admin.service instead of
+// duplicating a second data-access layer over the same AdminAccount table.
 import type { Response } from 'express'
 import { Router } from 'express'
 import { prisma } from '../../lib/prisma'

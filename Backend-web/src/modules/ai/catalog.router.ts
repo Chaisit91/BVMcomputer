@@ -1,6 +1,6 @@
 import { createHash, timingSafeEqual } from 'node:crypto'
 import { Router } from 'express'
-import { prisma } from '../../lib/prisma'
+import { Product } from '../product/product.model'
 
 // Server-to-server only. The browser uses the existing authenticated CRUD routes.
 export const catalogRouter = Router()
@@ -25,7 +25,7 @@ catalogRouter.use((req, res, next) => {
 })
 
 catalogRouter.get('/catalog', async (_req, res) => {
-  const items = await prisma.product.findMany({
+  const items = await Product.findMany({
     where: {
       category: { in: ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'case', 'psu', 'cooling'] },
       ...catalogPublicationFilter(),
