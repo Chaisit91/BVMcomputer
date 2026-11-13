@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
@@ -65,10 +66,12 @@ export function MotherboardEditPage({ readOnly = false }: { readOnly?: boolean }
     navigate('/inventory/motherboard')
   }
 
+  const confirm = useConfirm()
+
   const handleDelete = async () => {
-    if (!window.confirm('ยืนยันการลบเมนบอร์ดนี้?')) return
+    if (!(await confirm('ยืนยันการลบเมนบอร์ดนี้?'))) return
     await deleteMotherboard(motherboardId)
-    navigate('/inventory/motherboard')
+    navigate('/inventory/motherboard', { state: { toast: { type: 'success', message: 'ลบเมนบอร์ดสำเร็จ' } } })
   }
 
   if (status === 'loading') {

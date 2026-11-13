@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
@@ -75,10 +76,12 @@ export function CaseEditPage({ readOnly = false }: { readOnly?: boolean }) {
     navigate('/inventory/case')
   })
 
+  const confirm = useConfirm()
+
   const handleDelete = async () => {
-    if (!window.confirm('ยืนยันการลบเคสคอมพิวเตอร์นี้?')) return
+    if (!(await confirm('ยืนยันการลบเคสคอมพิวเตอร์นี้?'))) return
     await deleteCase(caseId)
-    navigate('/inventory/case')
+    navigate('/inventory/case', { state: { toast: { type: 'success', message: 'ลบเคสคอมพิวเตอร์สำเร็จ' } } })
   }
 
   if (status === 'loading') {

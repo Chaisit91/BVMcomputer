@@ -1,6 +1,12 @@
 import { api } from '../lib/api'
 import { getOrders } from './order.service'
+import { getUnreadChatSummary } from './chat.service'
+import { getAnnouncements } from './announcement.service'
+import { getCustomBuilds } from './customBuild.service'
+import { getComputerUpgrades } from './computerUpgrade.service'
 import type {
+  ActionItem,
+  AnnouncementBrief,
   CategoryStat,
   DashboardData,
   LowStockItem,
@@ -10,6 +16,10 @@ import type {
   StatCardData,
   TopProduct,
 } from '../types/dashboard'
+import type { Announcement } from '../types/announcement'
+import type { CustomBuild } from '../types/customBuild'
+import type { ComputerUpgrade } from '../types/computerUpgrade'
+import type { ChatUnreadSummary } from '../types/chat'
 
 // ponytail: aggregated client-side from the existing list endpoints instead of
 // building dedicated backend analytics routes — this app has no historical
@@ -48,7 +58,7 @@ function isLowStock(status: string) {
   return status === 'low_stock' || status === 'out_of_stock'
 }
 
-async function loadAllCatalogItems(): Promise<Catalog> {
+export async function loadAllCatalogItems(): Promise<Catalog> {
   const lists = await Promise.all(CATEGORY_DEFS.map((category) => fetchCategory(category.apiPath)))
   return CATEGORY_DEFS.map((def, index) => ({ def, items: lists[index] }))
 }
@@ -70,14 +80,14 @@ function computeStats(catalog: Catalog, orders: Orders): StatCardData[] {
   )
 
   return [
-    { id: 'products', label: 'สินค้าทั้งหมด', value: `${totalProducts.toLocaleString()} รายการ`, change: 0, changeLabel: 'ไม่มีข้อมูลเปรียบเทียบ', icon: 'box' },
-    { id: 'sales', label: 'ยอดขายวันนี้', value: todaysSales.toLocaleString(), change: 0, changeLabel: 'ไม่มีข้อมูลเปรียบเทียบ', icon: 'wallet' },
-    { id: 'orders', label: 'คำสั่งซื้อวันนี้', value: `${todaysOrders.length} รายการ`, change: 0, changeLabel: 'ไม่มีข้อมูลเปรียบเทียบ', icon: 'cart' },
-    { id: 'lowstock', label: 'สินค้าใกล้หมด', value: `${lowStockCount} รายการ`, change: 0, changeLabel: 'ไม่มีข้อมูลเปรียบเทียบ', icon: 'alert' },
+    { id: 'products', label: 'สินค้าทั้งหมด', value: `${totalProducts.toLocaleString()} รายการ`, icon: 'box' },
+    { id: 'sales', label: 'ยอดขายวันนี้', value: todaysSales.toLocaleString(), icon: 'wallet' },
+    { id: 'orders', label: 'คำสั่งซื้อวันนี้', value: `${todaysOrders.length} รายการ`, icon: 'cart' },
+    { id: 'lowstock', label: 'สินค้าใกล้หมด', value: `${lowStockCount} รายการ`, icon: 'alert' },
   ]
 }
 
-function computeCategories(catalog: Catalog): CategoryStat[] {
+export function computeCategories(catalog: Catalog): CategoryStat[] {
   return catalog.map(({ def, items }) => ({
     id: def.id,
     name: def.name,
@@ -88,13 +98,40 @@ function computeCategories(catalog: Catalog): CategoryStat[] {
   }))
 }
 
-async function getMiniStats(): Promise<MiniStat[]> {
+export async function getMiniStats(): Promise<MiniStat[]> {
   const desktopPcs = await api.get<{ category: string }[]>('/desktop-pcs').then((res) => res.data)
-  const aiCount = desktopPcs.filter((d) => d.category === 'ai_workstation' || d.category === 'ai_enterprise').length
+  return [{ id: 'prebuilt', name: 'คอมพิวเตอร์ครบชุด', count: desktopPcs.length, unit: 'ชุด', icon: 'package' }]
+}
+
+// "Needs action today" — distinct from the read-only stats above: unread
+// customer chats, computer-upgrade items nobody has verified yet, and new
+// custom-build requests nobody has picked up. Each count === 0 just drops
+// out of the rendered list (see ActionQueueList).
+export function computeInventoryActionItems(upgrades: ComputerUpgrade[], builds: CustomBuild[]): ActionItem[] {
+  const pendingVerifications = upgrades.reduce(
+    (sum, u) => sum + u.items.filter((item) => !item.verifiedByAdmin).length,
+    0,
+  )
+  const newBuilds = builds.filter((b) => b.status === 'pending').length
+
   return [
-    { id: 'prebuilt', name: 'คอมพิวเตอร์ครบชุด', count: desktopPcs.length, unit: 'ชุด', icon: 'package' },
-    { id: 'aipc', name: 'AI PC', count: aiCount, unit: 'เครื่อง', icon: 'cpu' },
+    { id: 'upgrade-verify', label: 'รายการอัปเกรดที่ยังไม่ตรวจสอบ', count: pendingVerifications, href: '/inventory/computer-upgrade', tone: 'normal' },
+    { id: 'new-builds', label: 'คำขอสั่งประกอบคอมใหม่', count: newBuilds, href: '/inventory/custom-build', tone: 'normal' },
   ]
+}
+
+export function computeActionItems(unread: ChatUnreadSummary, upgrades: ComputerUpgrade[], builds: CustomBuild[]): ActionItem[] {
+  return [
+    { id: 'chats', label: 'แชทลูกค้าที่ยังไม่ได้ตอบ', count: unread.total, href: '/manage/chats', tone: 'urgent' },
+    ...computeInventoryActionItems(upgrades, builds),
+  ]
+}
+
+export function computeLatestAnnouncements(announcements: Announcement[]): AnnouncementBrief[] {
+  return [...announcements]
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 3)
+    .map((a) => ({ id: a.id, authorName: a.authorName, content: a.content, department: a.department, createdAt: a.createdAt }))
 }
 
 const THAI_WEEKDAYS = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส']
@@ -133,7 +170,7 @@ function computeMonthlyTrend(orders: Orders): SalesTrendPoint[] {
   return months
 }
 
-function computeRecentOrders(orders: Orders): RecentOrder[] {
+export function computeRecentOrders(orders: Orders): RecentOrder[] {
   return [...orders]
     .sort((a, b) => new Date(b.orderedAt).getTime() - new Date(a.orderedAt).getTime())
     .slice(0, 5)
@@ -148,7 +185,7 @@ function computeRecentOrders(orders: Orders): RecentOrder[] {
     }))
 }
 
-function computeLowStock(catalog: Catalog): LowStockItem[] {
+export function computeLowStock(catalog: Catalog): LowStockItem[] {
   return catalog
     .flatMap((c) => c.items)
     .filter((item) => isLowStock(item.status))
@@ -186,12 +223,22 @@ function computeTopProducts(catalog: Catalog, orders: Orders): TopProduct[] {
 }
 
 export async function getDashboardData(): Promise<DashboardData> {
-  const [catalog, orders, miniStats] = await Promise.all([loadAllCatalogItems(), getOrders(), getMiniStats()])
+  const [catalog, orders, miniStats, unreadChats, upgrades, builds, announcements] = await Promise.all([
+    loadAllCatalogItems(),
+    getOrders(),
+    getMiniStats(),
+    getUnreadChatSummary(),
+    getComputerUpgrades(),
+    getCustomBuilds(),
+    getAnnouncements(),
+  ])
 
   return {
     stats: computeStats(catalog, orders),
     categories: computeCategories(catalog),
     miniStats,
+    actionItems: computeActionItems(unreadChats, upgrades, builds),
+    latestAnnouncements: computeLatestAnnouncements(announcements),
     weeklyTrend: computeWeeklyTrend(orders),
     recentOrders: computeRecentOrders(orders),
     lowStock: computeLowStock(catalog),

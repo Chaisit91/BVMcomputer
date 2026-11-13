@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useConfirm } from '../../hooks/useConfirmDialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
@@ -164,15 +165,17 @@ export function AdminEditPage() {
     navigate('/admins', { state: { toast: { type: 'success', message: 'บันทึกการเปลี่ยนแปลงสำเร็จ' } } })
   })
 
+  const confirm = useConfirm()
+
   const handleForceLogout = async () => {
-    if (!window.confirm('บังคับออกจากระบบทุกอุปกรณ์ของผู้ดูแลคนนี้?')) return
+    if (!(await confirm('บังคับออกจากระบบทุกอุปกรณ์ของผู้ดูแลคนนี้?'))) return
     await forceLogoutAdmin(adminId)
     setLogoutNotice(true)
   }
 
   const handleSuspend = async () => {
     if (!detail) return
-    if (!window.confirm(`ยืนยันการระงับบัญชีของ ${detail.firstName} ${detail.lastName}?`)) return
+    if (!(await confirm(`ยืนยันการระงับบัญชีของ ${detail.firstName} ${detail.lastName}?`))) return
     await updateAdminStatus(adminId, 'inactive')
     navigate('/admins', { state: { toast: { type: 'success', message: 'ระงับบัญชีสำเร็จ' } } })
   }

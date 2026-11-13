@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
+import { useScheduleDelete } from '../../../hooks/usePendingDelete'
 import { FiEdit2, FiPlus, FiTrash2 } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
@@ -84,10 +86,15 @@ export function BannerListPage() {
     )
   }
 
+  const confirm = useConfirm()
+  const scheduleDelete = useScheduleDelete()
+
   const handleDelete = async (banner: Banner) => {
-    if (!window.confirm(`ยืนยันการลบแบนเนอร์ "${banner.name}"?`)) return
-    await deleteBanner(banner.id)
+    if (!(await confirm(`ยืนยันการลบแบนเนอร์ "${banner.name}"?`))) return
     setBanners((prev) => prev.filter((item) => item.id !== banner.id))
+    scheduleDelete(`ลบแบนเนอร์ "${banner.name}" สำเร็จ`, () => deleteBanner(banner.id), () => {
+      setBanners((prev) => [...prev, banner])
+    })
   }
 
   const visibleBanners = useMemo(() => {

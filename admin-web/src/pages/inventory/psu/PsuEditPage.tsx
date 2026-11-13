@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
@@ -75,10 +76,12 @@ export function PsuEditPage({ readOnly = false }: { readOnly?: boolean }) {
     navigate('/inventory/psu')
   })
 
+  const confirm = useConfirm()
+
   const handleDelete = async () => {
-    if (!window.confirm('ยืนยันการลบพาวเวอร์ซัพพลายนี้?')) return
+    if (!(await confirm('ยืนยันการลบพาวเวอร์ซัพพลายนี้?'))) return
     await deletePsu(psuId)
-    navigate('/inventory/psu')
+    navigate('/inventory/psu', { state: { toast: { type: 'success', message: 'ลบพาวเวอร์ซัพพลายสำเร็จ' } } })
   }
 
   if (status === 'loading') {

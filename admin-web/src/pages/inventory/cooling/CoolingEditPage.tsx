@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
@@ -75,10 +76,12 @@ export function CoolingEditPage({ readOnly = false }: { readOnly?: boolean }) {
     navigate('/inventory/cooling')
   })
 
+  const confirm = useConfirm()
+
   const handleDelete = async () => {
-    if (!window.confirm('ยืนยันการลบชุดระบายความร้อนนี้?')) return
+    if (!(await confirm('ยืนยันการลบชุดระบายความร้อนนี้?'))) return
     await deleteCooling(coolingId)
-    navigate('/inventory/cooling')
+    navigate('/inventory/cooling', { state: { toast: { type: 'success', message: 'ลบชุดระบายความร้อนสำเร็จ' } } })
   }
 
   if (status === 'loading') {

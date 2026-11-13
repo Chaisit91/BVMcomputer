@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
+import { useScheduleDelete } from '../../../hooks/usePendingDelete'
 import { FiBox, FiCheckCircle, FiEdit2, FiHardDrive, FiLayers, FiPlus, FiTrash2, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
@@ -167,10 +169,16 @@ export function CaseListPage() {
     })
   }
 
+  const confirm = useConfirm()
+  const scheduleDelete = useScheduleDelete()
+
   const handleDelete = async (id: string) => {
-    if (!window.confirm('ยืนยันการลบเคสคอมพิวเตอร์นี้?')) return
-    await deleteCase(id)
+    if (!(await confirm('ยืนยันการลบเคสคอมพิวเตอร์นี้?'))) return
+    const removed = items.find((item) => item.id === id)
     setItems((prev) => prev.filter((item) => item.id !== id))
+    scheduleDelete('ลบเคสคอมพิวเตอร์สำเร็จ', () => deleteCase(id), () => {
+      if (removed) setItems((prev) => [...prev, removed])
+    })
   }
 
   const availableToAdd = extraFilterDefs.filter((def) => !addedFilterKeys.includes(def.key))
@@ -253,7 +261,7 @@ export function CaseListPage() {
         <SummaryCard label="สินค้าใกล้หมดระบบเตือน" value={`${summary.lowStockCount} รายการ`} icon={<FiHardDrive />} tone="amber" />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_1fr]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
         <aside className="h-fit card p-4 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto">
           <div className="mb-2 flex items-center justify-between">
             <p className="text-sm font-semibold text-gray-800">ตัวกรองสินค้า</p>

@@ -6,6 +6,8 @@ import { MiniBarChart } from '../../components/dashboard/MiniBarChart'
 import { RecentOrdersTable } from '../../components/dashboard/RecentOrdersTable'
 import { LowStockList } from '../../components/dashboard/LowStockList'
 import { TopProductsTable } from '../../components/dashboard/TopProductsTable'
+import { ActionQueueList } from '../../components/dashboard/ActionQueueList'
+import { AnnouncementFeed } from '../../components/dashboard/AnnouncementFeed'
 import { getDashboardData } from '../../services/dashboard.service'
 import { useAppSelector } from '../../store/hooks'
 import type { DashboardData } from '../../types/dashboard'
@@ -82,6 +84,18 @@ export function DashboardPage() {
         {data.stats.map((stat) => (
           <StatCard key={stat.id} {...stat} />
         ))}
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+        <section className="card p-5 xl:col-span-2">
+          <h2 className="mb-4 text-sm font-semibold text-gray-800">ต้องดำเนินการวันนี้</h2>
+          <ActionQueueList items={data.actionItems} />
+        </section>
+
+        <section className="card p-5">
+          <h2 className="mb-4 text-sm font-semibold text-gray-800">ประกาศล่าสุด</h2>
+          <AnnouncementFeed announcements={data.latestAnnouncements} />
+        </section>
       </div>
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">

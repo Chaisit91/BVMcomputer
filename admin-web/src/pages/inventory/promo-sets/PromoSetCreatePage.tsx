@@ -39,7 +39,9 @@ export function PromoSetCreatePage() {
     resolver: zodResolver(promoSetFormSchema),
     defaultValues: {
       name: '',
-      code: '',
+      // Generated server-side on create (see promo-set.repository.ts) — this
+      // placeholder is never shown and never reaches the database.
+      code: 'AUTO',
       specSummary: '',
       status: 'active',
       regularPrice: 0,
@@ -126,22 +128,15 @@ export function PromoSetCreatePage() {
                   />
                   {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
                 </div>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700">รหัสเซ็ต *</label>
-                    <input type="text" placeholder="เช่น AUG26-D5-001" className={inputClass} {...register('code')} />
-                    {errors.code && <p className="mt-1 text-xs text-red-500">{errors.code.message}</p>}
-                  </div>
-                  <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700">สเปคย่อ *</label>
-                    <input
-                      type="text"
-                      placeholder="เช่น i5-14400F + RTX 5070"
-                      className={inputClass}
-                      {...register('specSummary')}
-                    />
-                    {errors.specSummary && <p className="mt-1 text-xs text-red-500">{errors.specSummary.message}</p>}
-                  </div>
+                <div>
+                  <label className="mb-1.5 block text-sm font-medium text-gray-700">สเปคย่อ *</label>
+                  <input
+                    type="text"
+                    placeholder="เช่น i5-14400F + RTX 5070"
+                    className={inputClass}
+                    {...register('specSummary')}
+                  />
+                  {errors.specSummary && <p className="mt-1 text-xs text-red-500">{errors.specSummary.message}</p>}
                 </div>
                 <Toggle
                   checked={publishImmediately}

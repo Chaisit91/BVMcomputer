@@ -75,6 +75,13 @@ export const chatRepository = {
     }),
   markRead: (conversationId: string) =>
     ChatConversation.update({ where: { id: conversationId }, data: { unreadCount: 0 } }),
+  // A personal "what you did today" count for the dashboard — not an
+  // assignment/ownership check, just how many replies this admin happened to
+  // send (any admin can reply to any conversation, see appendMessage above).
+  countRepliesToday: (adminId: string) => {
+    const startOfToday = new Date(new Date().setHours(0, 0, 0, 0))
+    return ChatMessage.count({ where: { senderAdminId: adminId, sender: 'admin', createdAt: { gte: startOfToday } } })
+  },
   // For the Topbar bell: total unread across every conversation, plus the id
   // of the one conversation to jump straight to when it's the only one open.
   unreadSummary: async () => {

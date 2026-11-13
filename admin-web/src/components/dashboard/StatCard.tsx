@@ -9,9 +9,7 @@ const icons: Record<StatCardData['icon'], ReactNode> = {
   alert: <FiAlertTriangle />,
 }
 
-export function StatCard({ label, value, change, changeLabel, icon }: StatCardData) {
-  const positive = change >= 0
-
+export function StatCard({ label, value, icon }: StatCardData) {
   return (
     <div className="card p-5">
       <div className="flex items-start justify-between">
@@ -20,12 +18,9 @@ export function StatCard({ label, value, change, changeLabel, icon }: StatCardDa
           <p className="mt-2 text-2xl font-bold text-gray-900">{value}</p>
         </div>
         <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 text-rose-500">
-          {icons[icon]}
+          {icons[icon]}                                                       
         </span>
       </div>
-      <p className={`mt-3 text-xs font-medium ${positive ? 'text-emerald-500' : 'text-rose-500'}`}>
-        {positive ? '↑' : '↓'} {Math.abs(change)}% {changeLabel}
-      </p>
     </div>
   )
 }

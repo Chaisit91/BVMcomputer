@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
@@ -77,10 +78,12 @@ export function GpuEditPage({ readOnly = false }: { readOnly?: boolean }) {
     navigate('/inventory/gpu')
   }
 
+  const confirm = useConfirm()
+
   const handleDelete = async () => {
-    if (!window.confirm('ยืนยันการลบการ์ดจอนี้?')) return
+    if (!(await confirm('ยืนยันการลบการ์ดจอนี้?'))) return
     await deleteGpu(gpuId)
-    navigate('/inventory/gpu')
+    navigate('/inventory/gpu', { state: { toast: { type: 'success', message: 'ลบการ์ดจอสำเร็จ' } } })
   }
 
   if (status === 'loading') {

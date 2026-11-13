@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
@@ -93,8 +94,10 @@ export function ComputerUpgradeEditPage({ readOnly = false }: { readOnly?: boole
     navigate('/inventory/computer-upgrade', { state: { toast: { type: 'success', message: 'บันทึกการเปลี่ยนแปลงสำเร็จ' } } })
   }
 
+  const confirm = useConfirm()
+
   const handleDelete = async () => {
-    if (!window.confirm('ยืนยันการลบรายการนี้?')) return
+    if (!(await confirm('ยืนยันการลบรายการนี้?'))) return
     await deleteComputerUpgrade(upgradeId)
     navigate('/inventory/computer-upgrade', { state: { toast: { type: 'success', message: 'ลบรายการสำเร็จ' } } })
   }

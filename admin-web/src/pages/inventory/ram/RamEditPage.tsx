@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
@@ -72,10 +73,12 @@ export function RamEditPage({ readOnly = false }: { readOnly?: boolean }) {
     navigate('/inventory/ram')
   }
 
+  const confirm = useConfirm()
+
   const handleDelete = async () => {
-    if (!window.confirm('ยืนยันการลบแรมนี้?')) return
+    if (!(await confirm('ยืนยันการลบแรมนี้?'))) return
     await deleteRam(ramId)
-    navigate('/inventory/ram')
+    navigate('/inventory/ram', { state: { toast: { type: 'success', message: 'ลบแรมสำเร็จ' } } })
   }
 
   if (status === 'loading') {

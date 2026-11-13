@@ -14,6 +14,10 @@ chatRouter.get('/unread-count', async (_req, res) => {
   res.json(await chatService.unreadSummary())
 })
 
+chatRouter.get('/my-replies-today', async (req: AuthenticatedRequest, res) => {
+  res.json({ count: await chatService.countMyRepliesToday(req.user!.id) })
+})
+
 chatRouter.get('/:conversationId', async (req, res) => {
   const conversation = await chatService.getConversation(String(req.params.conversationId))
   if (!conversation) {

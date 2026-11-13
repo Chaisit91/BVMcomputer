@@ -18,6 +18,10 @@ computerUpgradeRouter.get('/', async (_req, res) => {
   res.json(await computerUpgradeService.list())
 })
 
+computerUpgradeRouter.get('/my-verifications-today', async (req: AuthenticatedRequest, res) => {
+  res.json({ count: await computerUpgradeService.countMyVerificationsToday(req.user!.id) })
+})
+
 computerUpgradeRouter.get('/:id', async (req, res) => {
   const item = await computerUpgradeService.getById(String(req.params.id))
   if (!item) {

@@ -96,6 +96,14 @@ export const computerUpgradeRepository = {
 
   remove: (id: string) => ComputerUpgrade.delete({ where: { id } }),
 
+  // A personal "what you did today" count for the dashboard — any
+  // inventory_manager can verify any item (shared queue), so this is just how
+  // many this admin happened to verify, not an assignment/ownership check.
+  countVerifiedToday: (adminId: string) => {
+    const startOfToday = new Date(new Date().setHours(0, 0, 0, 0))
+    return ComputerUpgradeItem.count({ where: { verifiedById: adminId, verifiedAt: { gte: startOfToday } } })
+  },
+
   setItemPhoto: async (upgradeId: string, slot: string, photoUrl: string) => {
     await ComputerUpgradeItem.upsert({
       where: { upgradeId_slot: { upgradeId, slot: slot as any } },

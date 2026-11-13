@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
@@ -71,10 +72,12 @@ export function StorageEditPage({ readOnly = false }: { readOnly?: boolean }) {
     navigate('/inventory/storage')
   }
 
+  const confirm = useConfirm()
+
   const handleDelete = async () => {
-    if (!window.confirm('ยืนยันการลบอุปกรณ์จัดเก็บข้อมูลนี้?')) return
+    if (!(await confirm('ยืนยันการลบอุปกรณ์จัดเก็บข้อมูลนี้?'))) return
     await deleteStorage(storageId)
-    navigate('/inventory/storage')
+    navigate('/inventory/storage', { state: { toast: { type: 'success', message: 'ลบอุปกรณ์จัดเก็บข้อมูลสำเร็จ' } } })
   }
 
   if (status === 'loading') {

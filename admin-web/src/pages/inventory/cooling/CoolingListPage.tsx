@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
+import { useScheduleDelete } from '../../../hooks/usePendingDelete'
 import { FiAlertTriangle, FiBox, FiCheckCircle, FiEdit2, FiPlus, FiTrash2, FiWind, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
@@ -163,10 +165,16 @@ export function CoolingListPage() {
     })
   }
 
+  const confirm = useConfirm()
+  const scheduleDelete = useScheduleDelete()
+
   const handleDelete = async (id: string) => {
-    if (!window.confirm('ยืนยันการลบชุดระบายความร้อนนี้?')) return
-    await deleteCooling(id)
+    if (!(await confirm('ยืนยันการลบชุดระบายความร้อนนี้?'))) return
+    const removed = items.find((item) => item.id === id)
     setItems((prev) => prev.filter((item) => item.id !== id))
+    scheduleDelete('ลบชุดระบายความร้อนสำเร็จ', () => deleteCooling(id), () => {
+      if (removed) setItems((prev) => [...prev, removed])
+    })
   }
 
   const availableToAdd = extraFilterDefs.filter((def) => !addedFilterKeys.includes(def.key))
@@ -239,7 +247,7 @@ export function CoolingListPage() {
         <SummaryCard label="สินค้าหมดชั่วคราว" value={`${summary.outOfStockCount} รายการ`} icon={<FiWind />} tone="rose" />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_1fr]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
         <aside className="h-fit card p-4 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto">
           <div className="mb-2 flex items-center justify-between">
             <p className="text-sm font-semibold text-gray-800">ตัวกรองสินค้า</p>

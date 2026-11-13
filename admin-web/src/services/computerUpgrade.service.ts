@@ -19,6 +19,10 @@ export function getComputerUpgrades(): Promise<ComputerUpgrade[]> {
   return api.get<any[]>('/computer-upgrades').then((res) => res.data.map(fromApi))
 }
 
+export function getMyUpgradeVerificationsToday(): Promise<number> {
+  return api.get<{ count: number }>('/computer-upgrades/my-verifications-today').then((res) => res.data.count)
+}
+
 export function getComputerUpgradeDetail(id: string): Promise<ComputerUpgrade | null> {
   return api
     .get<any>(`/computer-upgrades/${id}`)

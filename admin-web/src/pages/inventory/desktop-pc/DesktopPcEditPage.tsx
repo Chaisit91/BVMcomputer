@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiPlus, FiSave, FiTrash2, FiX } from 'react-icons/fi'
@@ -123,10 +124,12 @@ export function DesktopPcEditPage({ readOnly = false }: { readOnly?: boolean }) 
     navigate('/inventory/desktop-pc')
   }
 
+  const confirm = useConfirm()
+
   const handleDelete = async () => {
-    if (!window.confirm('ยืนยันการลบสินค้านี้?')) return
+    if (!(await confirm('ยืนยันการลบสินค้านี้?'))) return
     await deleteDesktopPc(productId)
-    navigate('/inventory/desktop-pc')
+    navigate('/inventory/desktop-pc', { state: { toast: { type: 'success', message: 'ลบสินค้าสำเร็จ' } } })
   }
 
   if (status === 'loading') {

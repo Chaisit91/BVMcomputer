@@ -1,4 +1,5 @@
 import { Product, ProductVideoLink, CpuBenchmark, assertValidProductPricing } from './cpu.model'
+import { generateSku } from '../product/product.model'
 import { deriveDisplayStatus } from '../../lib/stockStatus'
 
 const include = { cpu: { include: { benchmarks: true } }, videoLinks: true } as const
@@ -62,6 +63,7 @@ export const cpuRepository = {
   create: async (data: any) => {
     const { benchmarks, videoLinks, ...body } = data
     const { product, cpu } = split(body)
+    product.sku = generateSku('CPU')
     assertValidProductPricing(product)
     const created = await Product.create({
       data: {

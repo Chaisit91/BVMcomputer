@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
 import { FiDownload, FiPlus, FiUserCheck, FiUserMinus, FiUserX, FiUsers } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
@@ -63,9 +64,11 @@ export function UserListPage() {
     [customers],
   )
 
+  const confirm = useConfirm()
+
   const toggleSuspend = async (customer: Customer) => {
     const nextStatus: CustomerStatus = customer.status === 'suspended' ? 'active' : 'suspended'
-    if (nextStatus === 'suspended' && !window.confirm(`ยืนยันการระงับบัญชีของ ${customer.fullName}?`)) return
+    if (nextStatus === 'suspended' && !(await confirm(`ยืนยันการระงับบัญชีของ ${customer.fullName}?`))) return
     await updateCustomerStatus(customer.id, nextStatus)
     setCustomers((prev) => prev.map((item) => (item.id === customer.id ? { ...item, status: nextStatus } : item)))
   }

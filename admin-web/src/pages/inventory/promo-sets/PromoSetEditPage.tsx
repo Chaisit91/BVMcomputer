@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiPlus, FiSave, FiTrash2, FiX } from 'react-icons/fi'
@@ -133,10 +134,12 @@ export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
     navigate('/inventory/promo-sets')
   }
 
+  const confirm = useConfirm()
+
   const handleDelete = async () => {
-    if (!window.confirm('ยืนยันการลบเซ็ตนี้?')) return
+    if (!(await confirm('ยืนยันการลบเซ็ตนี้?'))) return
     await deletePromoSet(setId)
-    navigate('/inventory/promo-sets')
+    navigate('/inventory/promo-sets', { state: { toast: { type: 'success', message: 'ลบเซ็ตสำเร็จ' } } })
   }
 
   if (status === 'loading') {
@@ -206,8 +209,9 @@ export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
                 </div>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium text-gray-700">รหัสเซ็ต *</label>
-                    <input type="text" disabled={readOnly} className={inputClass} {...register('code')} />
+                    <label className="mb-1.5 block text-sm font-medium text-gray-700">รหัสเซ็ต</label>
+                    <input type="text" disabled className={inputClass} {...register('code')} />
+                    <p className="mt-1 text-xs text-gray-400">กำหนดโดยระบบ แก้ไขไม่ได้</p>
                   </div>
                   <div>
                     <label className="mb-1.5 block text-sm font-medium text-gray-700">สเปคย่อ *</label>

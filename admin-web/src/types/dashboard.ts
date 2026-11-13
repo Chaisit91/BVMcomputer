@@ -2,9 +2,26 @@ export interface StatCardData {
   id: string
   label: string
   value: string
-  change: number
-  changeLabel: string
   icon: 'box' | 'wallet' | 'cart' | 'alert'
+}
+
+// A thing this admin should go do something about today — distinct from the
+// read-only stats above. count === 0 means nothing to do, 'urgent' just picks
+// the badge color (e.g. unread chats vs. a routine verification queue).
+export interface ActionItem {
+  id: string
+  label: string
+  count: number
+  href: string
+  tone: 'urgent' | 'normal'
+}
+
+export interface AnnouncementBrief {
+  id: string
+  authorName: string
+  content: string
+  department: string | null
+  createdAt: string
 }
 
 export interface CategoryStat {
@@ -63,6 +80,8 @@ export interface DashboardData {
   stats: StatCardData[]
   categories: CategoryStat[]
   miniStats: MiniStat[]
+  actionItems: ActionItem[]
+  latestAnnouncements: AnnouncementBrief[]
   weeklyTrend: SalesTrendPoint[]
   recentOrders: RecentOrder[]
   lowStock: LowStockItem[]

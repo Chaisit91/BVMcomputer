@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
+import { useScheduleDelete } from '../../../hooks/usePendingDelete'
 import { FiBox, FiCheckCircle, FiCpu, FiEdit2, FiPlus, FiTrash2, FiX } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
@@ -168,10 +170,16 @@ export function RamListPage() {
     })
   }
 
+  const confirm = useConfirm()
+  const scheduleDelete = useScheduleDelete()
+
   const handleDelete = async (id: string) => {
-    if (!window.confirm('ยืนยันการลบแรมนี้?')) return
-    await deleteRam(id)
+    if (!(await confirm('ยืนยันการลบแรมนี้?'))) return
+    const removed = rams.find((ram) => ram.id === id)
     setRams((prev) => prev.filter((ram) => ram.id !== id))
+    scheduleDelete('ลบแรมสำเร็จ', () => deleteRam(id), () => {
+      if (removed) setRams((prev) => [...prev, removed])
+    })
   }
 
   const availableToAdd = extraFilterDefs.filter((def) => !addedFilterKeys.includes(def.key))
@@ -253,7 +261,7 @@ export function RamListPage() {
         <SummaryCard label="แบรนด์ทั้งหมด" value={`${summary.totalBrands} แบรนด์`} icon={<FiPlus />} tone="amber" />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_1fr]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
         <aside className="h-fit card p-4 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto">
           <div className="mb-2 flex items-center justify-between">
             <p className="text-sm font-semibold text-gray-800">ตัวกรองสินค้า</p>

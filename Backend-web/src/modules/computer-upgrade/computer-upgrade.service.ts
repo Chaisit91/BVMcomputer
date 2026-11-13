@@ -10,4 +10,5 @@ export const computerUpgradeService = {
     computerUpgradeRepository.setItemPhoto(upgradeId, slot, photoUrl),
   verifyItem: (upgradeId: string, slot: string, adminId: string) =>
     computerUpgradeRepository.verifyItem(upgradeId, slot, adminId),
+  countMyVerificationsToday: (adminId: string) => computerUpgradeRepository.countVerifiedToday(adminId),
 }

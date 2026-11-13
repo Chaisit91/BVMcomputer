@@ -1,4 +1,5 @@
 import { Product, DesktopPcComponent, DesktopPcHighlight, assertValidProductPricing } from './desktop-pc.model'
+import { generateSku } from '../product/product.model'
 import { deriveDisplayStatus } from '../../lib/stockStatus'
 import { getProductName } from '../../lib/productLookup'
 
@@ -85,6 +86,7 @@ export const desktopPcRepository = {
   create: async (data: any) => {
     const { components, highlights, ...body } = data
     const { product, desktopPc } = split(body)
+    product.sku = generateSku('DESKTOP')
     assertValidProductPricing(product)
 
     const created = await Product.create({

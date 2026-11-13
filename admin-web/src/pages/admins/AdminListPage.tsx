@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useConfirm } from '../../hooks/useConfirmDialog'
 import { FiEdit2, FiPlus, FiRefreshCw, FiSlash } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Avatar } from '../../components/ui/Avatar'
@@ -65,13 +66,15 @@ export function AdminListPage() {
     [admins],
   )
 
+  const confirm = useConfirm()
+
   const handleSuspend = async (admin: AdminAccount) => {
     const nextStatus: AdminStatus = admin.status === 'inactive' ? 'active' : 'inactive'
     const confirmMessage =
       nextStatus === 'inactive'
         ? `ยืนยันการระงับการใช้งานของ ${admin.firstName} ${admin.lastName}?`
         : `ยืนยันการเปิดใช้งานบัญชีของ ${admin.firstName} ${admin.lastName}?`
-    if (!window.confirm(confirmMessage)) return
+    if (!(await confirm(confirmMessage))) return
     await updateAdminStatus(admin.id, nextStatus)
     setAdmins((prev) => prev.map((item) => (item.id === admin.id ? { ...item, status: nextStatus } : item)))
   }

@@ -25,6 +25,13 @@ const productPricingSchema = z
     path: ['promoPrice'],
   })
 
+// Product.sku (and PromoSet.code, which doubles as its Product's sku) is
+// @unique with no DB default — every create path must assign one itself
+// rather than trust whatever the client sent (or didn't).
+export function generateSku(prefix: string): string {
+  return `${prefix}-${Date.now().toString(36).toUpperCase()}`
+}
+
 export function assertValidProductPricing(data: Record<string, unknown>) {
   const { sellingPrice, costPrice, promoPrice, stock } = data
   const result = productPricingSchema.safeParse({ sellingPrice, costPrice, promoPrice, stock })

@@ -8,6 +8,7 @@ export const chatService = {
     chatRepository.appendMessage(conversationId, 'admin', content, adminId, attachments),
   markRead: (conversationId: string) => chatRepository.markRead(conversationId),
   unreadSummary: () => chatRepository.unreadSummary(),
+  countMyRepliesToday: (adminId: string) => chatRepository.countRepliesToday(adminId),
   // Called by the public (no-auth) endpoint once the storefront exists.
   // First message from a given customer opens their one running thread.
   receiveFromCustomer: async (customerId: string, content: string, attachments: IncomingAttachment[] = []) => {

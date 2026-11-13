@@ -44,6 +44,10 @@ export function getUnreadChatSummary(): Promise<ChatUnreadSummary> {
   return api.get('/chats/unread-count').then((res) => res.data)
 }
 
+export function getMyChatRepliesToday(): Promise<number> {
+  return api.get<{ count: number }>('/chats/my-replies-today').then((res) => res.data.count)
+}
+
 export function getMessages(conversationId: string): Promise<ChatMessage[]> {
   return api.get(`/chats/${conversationId}/messages`).then((res) => res.data.map(mapMessageFromApi))
 }

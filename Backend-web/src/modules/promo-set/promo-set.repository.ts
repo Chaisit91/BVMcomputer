@@ -1,4 +1,5 @@
 import { Product, PromoSetComponent, PromoSetExtraPart, PromoSetHighlight, PromoSetVideoLink, assertValidProductPricing } from './promo-set.model'
+import { generateSku } from '../product/product.model'
 import { deriveDisplayStatus } from '../../lib/stockStatus'
 import { getProductName } from '../../lib/productLookup'
 
@@ -69,6 +70,11 @@ export const promoSetRepository = {
   create: async (data: any) => {
     const { components, extraParts, highlights, videoLinks, ...body } = data
     const { product, promoSet } = split(body)
+    // code and sku are kept equal — PromoSet.code doubles as its Product's
+    // sku (see promoSet.service.ts on the frontend) — both system-generated.
+    const code = generateSku('PROMO')
+    product.sku = code
+    promoSet.code = code
     assertValidProductPricing(product)
 
     const created = await Product.create({

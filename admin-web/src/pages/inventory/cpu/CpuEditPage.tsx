@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiSave, FiTrash2, FiX } from 'react-icons/fi'
@@ -97,10 +98,12 @@ export function CpuEditPage({ readOnly = false }: { readOnly?: boolean }) {
     navigate('/inventory/cpu')
   }
 
+  const confirm = useConfirm()
+
   const handleDelete = async () => {
-    if (!window.confirm('ยืนยันการลบซีพียูนี้?')) return
+    if (!(await confirm('ยืนยันการลบซีพียูนี้?'))) return
     await deleteCpu(cpuId)
-    navigate('/inventory/cpu')
+    navigate('/inventory/cpu', { state: { toast: { type: 'success', message: 'ลบซีพียูสำเร็จ' } } })
   }
 
   if (status === 'loading') {

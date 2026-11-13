@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useConfirm } from '../../../hooks/useConfirmDialog'
+import { useScheduleDelete } from '../../../hooks/usePendingDelete'
 import { FiAlertTriangle, FiBox, FiEdit2, FiPlus, FiShield, FiTrash2, FiX, FiXCircle } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
@@ -169,10 +171,16 @@ export function PsuListPage() {
     })
   }
 
+  const confirm = useConfirm()
+  const scheduleDelete = useScheduleDelete()
+
   const handleDelete = async (id: string) => {
-    if (!window.confirm('ยืนยันการลบพาวเวอร์ซัพพลายนี้?')) return
-    await deletePsu(id)
+    if (!(await confirm('ยืนยันการลบพาวเวอร์ซัพพลายนี้?'))) return
+    const removed = items.find((item) => item.id === id)
     setItems((prev) => prev.filter((item) => item.id !== id))
+    scheduleDelete('ลบพาวเวอร์ซัพพลายสำเร็จ', () => deletePsu(id), () => {
+      if (removed) setItems((prev) => [...prev, removed])
+    })
   }
 
   const availableToAdd = extraFilterDefs.filter((def) => !addedFilterKeys.includes(def.key))
@@ -264,7 +272,7 @@ export function PsuListPage() {
         <SummaryCard label="สินค้าหมดชั่วคราว" value={`${summary.outOfStockCount} รายการ`} icon={<FiXCircle />} tone="rose" />
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_1fr]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[220px_minmax(0,1fr)]">
         <aside className="h-fit card p-4 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto">
           <div className="mb-2 flex items-center justify-between">
             <p className="text-sm font-semibold text-gray-800">ตัวกรองสินค้า</p>

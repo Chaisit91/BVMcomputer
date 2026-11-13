@@ -1,7 +1,7 @@
 import { prisma } from './prisma'
 import { deriveDisplayStatus } from './stockStatus'
 import { presentSpecs, publicationFields } from './catalogPresentation'
-import { Product, assertValidProductPricing } from '../modules/product/product.model'
+import { Product, assertValidProductPricing, generateSku } from '../modules/product/product.model'
 import type { CatalogCategory, PartCategory, Prisma } from '../../generated/prisma'
 
 // Fields that always live on Product itself, regardless of category.
@@ -136,6 +136,7 @@ export function createCategoryRepository({
     create: async (data: any) => {
       const { specs, extraSpecs, videoLinks, ...body } = data
       const { product, subtype } = splitBody(publicationFields(body), subtypeFields)
+      product.sku = generateSku(catalogCategory.toUpperCase())
       assertValidProductPricing(product)
 
       const created = await prisma.$transaction(async (tx) => {

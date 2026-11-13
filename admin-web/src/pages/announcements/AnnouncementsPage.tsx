@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useConfirm } from '../../hooks/useConfirmDialog'
+import { useScheduleDelete } from '../../hooks/usePendingDelete'
 import { FiLink, FiPaperclip, FiSearch, FiSend, FiTrash2, FiX } from 'react-icons/fi'
 import { HiMegaphone } from 'react-icons/hi2'
 import { formatDateTime } from '../../lib/formatDate'
@@ -121,20 +123,25 @@ export function AnnouncementsPage() {
     }
   }
 
+  const confirm = useConfirm()
+  const scheduleDelete = useScheduleDelete()
+
   const handleDelete = async (id: string) => {
-    if (!window.confirm('ยืนยันลบประกาศนี้?')) return
-    try {
-      await deleteAnnouncement(id)
-    } catch (error: any) {
-      // Someone else already deleted it (or it's gone for any other reason) —
-      // the end state the user wants is the same, so just drop it locally
-      // instead of leaving a stale row stuck on screen.
-      if (error?.response?.status !== 404) {
-        window.alert('ลบประกาศไม่สำเร็จ กรุณาลองใหม่')
-        return
-      }
-    }
+    if (!(await confirm('ยืนยันลบประกาศนี้?'))) return
+    const removed = announcements.find((item) => item.id === id)
     setAnnouncements((prev) => prev.filter((item) => item.id !== id))
+    scheduleDelete(
+      'ลบประกาศสำเร็จ',
+      () =>
+        deleteAnnouncement(id).catch((error: any) => {
+          // Someone else already deleted it (or it's gone for any other
+          // reason) — the end state the user wants is the same either way.
+          if (error?.response?.status !== 404) window.alert('ลบประกาศไม่สำเร็จ กรุณาลองใหม่')
+        }),
+      () => {
+        if (removed) setAnnouncements((prev) => [...prev, removed])
+      },
+    )
   }
 
   if (status === 'loading') {

@@ -126,7 +126,7 @@ export function ChatDetailPage() {
   }
 
   return (
-    <main className="mx-auto grid max-w-5xl grid-cols-1 gap-6 px-6 py-6 lg:grid-cols-[280px_1fr]">
+    <main className="mx-auto grid max-w-5xl grid-cols-1 gap-6 px-6 py-6 lg:grid-cols-[280px_minmax(0,1fr)]">
       <aside className="h-fit space-y-4 card p-5">
         <Link to="/manage/chats" className="flex items-center gap-1.5 text-xs font-medium text-gray-400 hover:text-gray-600">
           <FiArrowLeft size={14} />
