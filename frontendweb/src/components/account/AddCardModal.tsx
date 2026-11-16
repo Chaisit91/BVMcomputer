@@ -9,6 +9,7 @@ import { getErrorMessage } from '../../api/apiError';
 import { FormField, TextInput } from '../ui/FormField';
 import { Spinner } from '../ui/Spinner';
 import { CardBrandLogo } from './CardBrandLogo';
+import { DefaultCheckbox } from './DefaultCheckbox';
 
 interface AddCardFormValues {
   number: string;
@@ -24,7 +25,7 @@ const blankValues = (): AddCardFormValues => ({
   holderName: '',
   expiry: '',
   cvv: '',
-  makeDefault: true,
+  makeDefault: false,
 });
 
 const digitsOf = (value: string) => value.replace(/\D/g, '');
@@ -222,12 +223,13 @@ export function AddCardModal({ open, isFirst, demo, onClose, onSaved }: AddCardM
                 />
               </FormField>
 
-              {/* Ticked by default and can be unticked. The first card becomes the default regardless (see hint). */}
-              <label className="col-span-2 flex cursor-pointer flex-wrap items-center gap-x-2.5 gap-y-1 text-sm text-[#2B3445]">
-                <input type="checkbox" className="h-4 w-4 accent-brand" {...register('makeDefault')} />
-                ตั้งเป็นบัตรเริ่มต้นสำหรับการชำระเงิน
-                <span className="text-xs text-slate-400">(บัตรใบแรกจะเป็นค่าเริ่มต้น)</span>
-              </label>
+              <DefaultCheckbox
+                locked={isFirst}
+                label="ตั้งเป็นบัตรเริ่มต้นสำหรับการชำระเงิน"
+                lockedHint="(บัตรใบแรกจะเป็นค่าเริ่มต้น)"
+                registration={register('makeDefault')}
+                className="col-span-2"
+              />
 
               {shownError && (
                 <p role="alert" className="col-span-2 flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-brand">

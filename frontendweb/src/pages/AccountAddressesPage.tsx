@@ -147,6 +147,7 @@ function AddressesContent() {
       <AddressFormModal
         open={form.open}
         address={form.open ? form.address : null}
+        isFirst={addresses.length === 0}
         onClose={() => setForm({ open: false })}
         onSaved={handleSaved}
       />

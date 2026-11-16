@@ -16,6 +16,7 @@ import upgradeAnalysisReducer from '../features/upgrade/upgradeAnalysisSlice';
 import wishlistReducer from '../features/wishlist/wishlistSlice';
 import taxAddressReducer from '../features/taxAddress/taxAddressSlice';
 import paymentMethodReducer from '../features/paymentMethod/paymentMethodSlice';
+import orderHistoryReducer from '../features/orderHistory/orderHistorySlice';
 
 export const store = configureStore({
   reducer: {
@@ -35,6 +36,7 @@ export const store = configureStore({
     wishlist: wishlistReducer,
     taxAddress: taxAddressReducer,
     paymentMethod: paymentMethodReducer,
+    orderHistory: orderHistoryReducer,
   },
 });
 

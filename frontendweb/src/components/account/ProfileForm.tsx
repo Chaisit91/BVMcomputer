@@ -161,7 +161,7 @@ export function ProfileForm({ profile }: { profile: UserProfile }) {
         <div className="flex flex-col-reverse gap-3 sm:ml-auto sm:flex-row">
           <Link
             to="/account/profile"
-            className="flex h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-ink transition-colors hover:bg-slate-50 sm:flex-none"
+            className="flex h-11 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-[#2B3445] transition-colors hover:bg-slate-50 sm:flex-none"
           >
             <FiArrowLeft size={15} aria-hidden="true" />
             กลับไปหน้าข้อมูลส่วนตัว

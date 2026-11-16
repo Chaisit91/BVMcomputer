@@ -20,9 +20,9 @@ export function AddressCard({ address, busy, onSetDefault, onEdit, onDelete }: A
 
   return (
     <article
-      className={cn(listItemBoxClass, listItemBorderClass(address.isDefault), 'flex flex-col gap-4 md:flex-row md:items-center md:gap-5')}
+      className={cn(listItemBoxClass, listItemBorderClass(address.isDefault), 'flex flex-col gap-4 md:flex-row md:items-center md:gap-6')}
     >
-      <div className="flex items-center gap-3 md:gap-5">
+      <div className="flex items-center gap-3 md:gap-4">
         <input
           id={radioId}
           type="radio"
@@ -33,7 +33,6 @@ export function AddressCard({ address, busy, onSetDefault, onEdit, onDelete }: A
           aria-label={`ใช้ที่อยู่ของ ${address.recipientName} เป็นที่อยู่หลัก`}
           className={listItemRadioClass}
         />
-        <span className="hidden h-10 w-px bg-slate-100 md:block" aria-hidden="true" />
         {/* Fixed width on desktop so the recipient column lines up across cards. */}
         <span className="md:w-[88px]">
           {address.isDefault ? (
@@ -47,9 +46,8 @@ export function AddressCard({ address, busy, onSetDefault, onEdit, onDelete }: A
       </div>
 
       <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
           <p className="text-base font-bold text-ink">{address.recipientName}</p>
-          <span className="hidden h-4 w-px bg-slate-200 sm:block" aria-hidden="true" />
           <p className="flex items-center gap-1.5 text-sm text-[#2B3445]">
             <FiPhone size={14} className="text-[#7D879C]" aria-hidden="true" />
             {formatPhone(address.phone)}

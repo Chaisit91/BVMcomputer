@@ -19,8 +19,6 @@ function isExpired(method: PaymentMethod): boolean {
   return method.expYear < now.getFullYear() || (method.expYear === now.getFullYear() && method.expMonth < now.getMonth() + 1);
 }
 
-/** Thin vertical rule before a desktop column, matching the name | phone rule on the address rows. */
-const columnRule = 'md:border-l md:border-slate-200 md:pl-5';
 
 /**
  * One saved card as a single row: default radio | network logo | holder | masked number | issuing bank,
@@ -37,7 +35,7 @@ export function PaymentMethodCard({ method, busy, onSetDefault, onDelete }: Paym
         listItemBorderClass(method.isDefault),
         'grid grid-cols-[auto_auto_minmax(0,1fr)] items-center gap-x-4 gap-y-3',
         // Fixed radio / logo / number / actions widths so the columns line up from one card to the next.
-        'md:grid-cols-[20px_56px_minmax(0,1fr)_180px_minmax(0,1.6fr)_148px] md:gap-x-5',
+        'md:grid-cols-[20px_56px_minmax(0,1fr)_164px_minmax(0,1.6fr)_132px] md:gap-x-6',
       )}
     >
       <input
@@ -57,12 +55,12 @@ export function PaymentMethodCard({ method, busy, onSetDefault, onDelete }: Paym
       </p>
 
       {/* Mobile: number and bank sit under the name, aligned with it. */}
-      <div className={cn('col-start-3 md:col-start-auto', columnRule)}>
+      <div className="col-start-3 md:col-start-auto">
         <p className="whitespace-nowrap text-sm tracking-wide text-[#2B3445]">XXXX-XXXX-XXXX-{method.last4}</p>
         {expired && <p className="text-xs font-semibold text-brand">บัตรหมดอายุแล้ว ({expiry})</p>}
       </div>
 
-      <div className={cn('col-start-3 min-w-0 md:col-start-auto', columnRule)}>
+      <div className="col-start-3 min-w-0 md:col-start-auto">
         {method.bankName ? (
           <p className="line-clamp-2 text-sm uppercase text-[#2B3445]" title={method.bankName}>
             {method.bankName}
@@ -73,7 +71,7 @@ export function PaymentMethodCard({ method, busy, onSetDefault, onDelete }: Paym
         )}
       </div>
 
-      <div className={cn('col-span-3 flex items-center gap-2 border-t border-slate-100 pt-3 md:col-span-1 md:justify-end md:border-t-0 md:pt-0', columnRule)}>
+      <div className="col-span-3 flex items-center gap-2 border-t border-slate-100 pt-3 md:col-span-1 md:justify-end md:border-t-0 md:pt-0">
         {method.isDefault && (
           <span className="mr-auto md:mr-0">
             <DefaultBadge label="ค่าเริ่มต้น" />

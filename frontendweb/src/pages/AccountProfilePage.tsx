@@ -21,9 +21,9 @@ export function AccountProfilePage() {
         actions={
           <Link
             to="/account/profile/edit"
-            className="flex h-10 shrink-0 items-center gap-2 rounded-xl bg-red-50 px-4 text-sm font-semibold text-brand transition-colors hover:bg-red-100"
+            className="flex h-11 shrink-0 items-center gap-2 rounded-xl bg-brand px-5 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
           >
-            <FiEdit2 size={15} aria-hidden="true" />
+            <FiEdit2 size={18} aria-hidden="true" />
             แก้ไขข้อมูลส่วนตัว
           </Link>
         }

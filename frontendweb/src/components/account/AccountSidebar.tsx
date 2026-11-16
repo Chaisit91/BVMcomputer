@@ -1,5 +1,5 @@
 import type { IconType } from 'react-icons';
-import { FiCreditCard, FiFileText, FiHeart, FiMapPin, FiShoppingBag, FiTruck, FiUser } from 'react-icons/fi';
+import { FiCreditCard, FiFileText, FiHeart, FiMapPin, FiShoppingBag, FiUser } from 'react-icons/fi';
 import { NavLink } from 'react-router-dom';
 import { cn } from '../../lib/cn';
 
@@ -14,9 +14,8 @@ const navGroups: { title: string; items: AccountNavItem[] }[] = [
   {
     title: 'รายการของฉัน',
     items: [
-      { label: 'คำสั่งซื้อ', icon: FiShoppingBag },
+      { label: 'คำสั่งซื้อ', icon: FiShoppingBag, to: '/account/orders' },
       { label: 'สินค้าที่ถูกใจ', icon: FiHeart, to: '/account/wishlist' },
-      { label: 'เช็กสถานะการจัดส่ง', icon: FiTruck },
     ],
   },
   {

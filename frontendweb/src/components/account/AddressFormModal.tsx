@@ -7,21 +7,12 @@ import { clearAddressError, createAddress, updateAddress } from '../../features/
 import { thaiProvinces } from '../../data/thaiProvinces';
 import { FormField, SelectInput, TextInput } from '../ui/FormField';
 import { Spinner } from '../ui/Spinner';
+import { DefaultCheckbox } from './DefaultCheckbox';
 import type { SavedAddress, SavedAddressInput } from '../../types/api';
 
 const REQUIRED = 'กรุณากรอกข้อมูลนี้';
 
-const emptyValues: SavedAddressInput = {
-  recipientName: '',
-  phone: '',
-  addressLine: '',
-  subdistrict: '',
-  district: '',
-  province: '',
-  postalCode: '',
-};
-
-const toFormValues = (address: SavedAddress | null): SavedAddressInput =>
+const toFormValues = (address: SavedAddress | null, isFirst: boolean): SavedAddressInput =>
   address
     ? {
         recipientName: address.recipientName,
@@ -31,8 +22,18 @@ const toFormValues = (address: SavedAddress | null): SavedAddressInput =>
         district: address.district,
         province: address.province,
         postalCode: address.postalCode,
+        isDefault: address.isDefault,
       }
-    : emptyValues;
+    : {
+        recipientName: '',
+        phone: '',
+        addressLine: '',
+        subdistrict: '',
+        district: '',
+        province: '',
+        postalCode: '',
+        isDefault: isFirst,
+      };
 
 const requiredText = (max: number) => ({
   validate: (v: string) => v.trim().length > 0 || REQUIRED,
@@ -43,13 +44,15 @@ interface AddressFormModalProps {
   open: boolean;
   /** The address being edited; null = adding a new one. */
   address: SavedAddress | null;
+  /** No saved addresses yet (per the loaded list) — the new one has to be the default. */
+  isFirst: boolean;
   onClose: () => void;
   /** After the save succeeded — the page shows its own confirmation. */
   onSaved: (mode: 'create' | 'update') => void;
 }
 
 /** Add / edit a shipping address. Validates on blur, then again on submit; nothing is saved until "บันทึกที่อยู่". */
-export function AddressFormModal({ open, address, onClose, onSaved }: AddressFormModalProps) {
+export function AddressFormModal({ open, address, isFirst, onClose, onSaved }: AddressFormModalProps) {
   const dispatch = useAppDispatch();
   const { mutationStatus, mutationError } = useAppSelector((state) => state.address);
   const isSaving = mutationStatus === 'loading';
@@ -59,14 +62,17 @@ export function AddressFormModal({ open, address, onClose, onSaved }: AddressFor
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<SavedAddressInput>({ mode: 'onBlur', reValidateMode: 'onChange', defaultValues: toFormValues(address) });
+  } = useForm<SavedAddressInput>({ mode: 'onBlur', reValidateMode: 'onChange', defaultValues: toFormValues(address, isFirst) });
 
   // Every opening starts from the address being edited (or blank), with no leftover error.
   useEffect(() => {
     if (!open) return;
-    reset(toFormValues(address));
+    reset(toFormValues(address, isFirst));
     dispatch(clearAddressError());
-  }, [open, address, reset, dispatch]);
+  }, [open, address, isFirst, reset, dispatch]);
+
+  // The only address, or the current default, has to stay the default — the box is shown ticked and locked.
+  const defaultLocked = isFirst || Boolean(address?.isDefault);
 
   const onSubmit = handleSubmit(async (values) => {
     const input: SavedAddressInput = {
@@ -77,6 +83,7 @@ export function AddressFormModal({ open, address, onClose, onSaved }: AddressFor
       district: values.district.trim(),
       province: values.province,
       postalCode: values.postalCode.trim(),
+      isDefault: defaultLocked || values.isDefault,
     };
     const result = address
       ? await dispatch(updateAddress({ id: address.id, input }))
@@ -164,6 +171,14 @@ export function AddressFormModal({ open, address, onClose, onSaved }: AddressFor
                   })}
                 />
               </FormField>
+
+              <DefaultCheckbox
+                locked={defaultLocked}
+                label="ตั้งเป็นที่อยู่หลักสำหรับจัดส่ง"
+                lockedHint={isFirst ? '(ที่อยู่แรกจะเป็นที่อยู่หลัก)' : '(ที่อยู่หลักปัจจุบัน)'}
+                registration={register('isDefault')}
+                className="sm:col-span-2"
+              />
 
               {mutationError && (
                 <p role="alert" className="flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-brand sm:col-span-2">

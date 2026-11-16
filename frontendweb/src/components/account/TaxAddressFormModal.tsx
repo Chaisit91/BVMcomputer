@@ -8,6 +8,7 @@ import { thaiProvinces } from '../../data/thaiProvinces';
 import { cn } from '../../lib/cn';
 import { FormField, SelectInput, TextInput } from '../ui/FormField';
 import { Spinner } from '../ui/Spinner';
+import { DefaultCheckbox } from './DefaultCheckbox';
 import type { TaxAddress, TaxAddressInput, TaxPayerType } from '../../types/api';
 
 const REQUIRED = 'กรุณากรอกข้อมูลนี้';
@@ -229,18 +230,13 @@ export function TaxAddressFormModal({ open, address, isFirst, onClose, onSaved }
                 />
               </FormField>
 
-              <label className={cn('flex items-center gap-2.5 text-sm text-[#2B3445] sm:col-span-2', defaultLocked ? 'cursor-not-allowed' : 'cursor-pointer')}>
-                <input
-                  // Separate elements for locked (fixed checked) vs free (registered), so React never switches one input's mode.
-                  key={defaultLocked ? 'locked' : 'free'}
-                  type="checkbox"
-                  disabled={defaultLocked}
-                  className="h-4 w-4 accent-brand"
-                  {...(defaultLocked ? { checked: true, readOnly: true } : register('isDefault'))}
-                />
-                ตั้งเป็นที่อยู่หลักสำหรับออกใบกำกับภาษี
-                {defaultLocked && <span className="text-xs text-slate-400">{isFirst ? '(ที่อยู่แรกจะเป็นที่อยู่หลัก)' : '(ที่อยู่หลักปัจจุบัน)'}</span>}
-              </label>
+              <DefaultCheckbox
+                locked={defaultLocked}
+                label="ตั้งเป็นที่อยู่หลักสำหรับออกใบกำกับภาษี"
+                lockedHint={isFirst ? '(ที่อยู่แรกจะเป็นที่อยู่หลัก)' : '(ที่อยู่หลักปัจจุบัน)'}
+                registration={register('isDefault')}
+                className="sm:col-span-2"
+              />
 
               {mutationError && (
                 <p role="alert" className="flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-brand sm:col-span-2">

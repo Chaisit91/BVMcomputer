@@ -113,12 +113,13 @@ export interface SavedAddressInput {
   district: string;
   province: string;
   postalCode: string;
+  /** Ask for this one to become the default; the server unsets the previous default. */
+  isDefault: boolean;
 }
 
 /** A saved shipping address (GET /account/addresses). Exactly one has `isDefault` when the list isn't empty. */
 export interface SavedAddress extends SavedAddressInput {
   id: string;
-  isDefault: boolean;
 }
 
 export type TaxPayerType = 'individual' | 'company';
@@ -171,4 +172,71 @@ export interface PaymentMethod {
 export interface AddPaymentMethodRequest {
   token: string;
   makeDefault: boolean;
+}
+
+/** Where an order is in fulfilment. The tabs on "คำสั่งซื้อของฉัน" filter by this. */
+export type OrderStatus = 'to_ship' | 'shipping' | 'delivered';
+
+/** One line of an order, as it was when the customer bought it (prices don't follow later catalog changes). */
+export interface OrderItem {
+  name: string;
+  quantity: number;
+  /** Price per unit at the time of purchase. */
+  unitPrice: number;
+  imageUrl?: string;
+}
+
+/** A row in the order history (GET /account/orders). */
+export interface OrderSummary {
+  id: string;
+  /** Shown to the customer, e.g. "ORD-20261114-089". */
+  orderNumber: string;
+  /** ISO timestamp with offset. */
+  placedAt: string;
+  status: OrderStatus;
+  items: OrderItem[];
+  /** Net amount actually charged — from the backend, never re-added on the client. */
+  total: number;
+}
+
+/** Carrier milestones, in order: accepted into the carrier's system → in transit → out for delivery → delivered. */
+export type OrderTrackingStep = 'picked_up' | 'in_transit' | 'out_for_delivery' | 'delivered';
+
+export interface OrderTrackingEvent {
+  step: OrderTrackingStep;
+  /** ISO timestamp of when the parcel reached this step. */
+  at: string;
+}
+
+/** One scan / update from the carrier ("ประวัติการอัปเดตล่าสุด"). */
+export interface OrderTrackingUpdate {
+  /** ISO timestamp. */
+  at: string;
+  description: string;
+  /** Branch or hub where it happened, when the carrier reports one. */
+  location: string | null;
+}
+
+export interface OrderCarrier {
+  name: string;
+  /** Carrier hotline, e.g. "1436". */
+  phone: string | null;
+}
+
+/** One order in full (GET /account/orders/:id). */
+export interface OrderDetail extends OrderSummary {
+  subtotal: number;
+  shippingFee: number;
+  discount: number;
+  /** Delivery company and parcel number, once the parcel has been handed over. */
+  carrier: OrderCarrier | null;
+  trackingNumber: string | null;
+  /** Milestones reached so far, oldest first. */
+  trackingEvents: OrderTrackingEvent[];
+  /** Carrier updates, newest first. */
+  trackingUpdates: OrderTrackingUpdate[];
+  /** ISO timestamp the carrier expects to deliver by; null once delivered or when not known yet. */
+  estimatedDeliveryBy: string | null;
+  /** Delivery address as printed on the parcel, when the backend includes it. */
+  shippingAddress: { recipientName: string; phone: string; address: string } | null;
 }
