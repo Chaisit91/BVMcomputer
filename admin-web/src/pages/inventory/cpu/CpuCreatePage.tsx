@@ -6,12 +6,16 @@ import { useNavigate } from 'react-router-dom'
 import { CpuFormFields } from '../../../components/inventory/cpu/CpuFormFields'
 import { cpuFormSchema, type CpuFormValues } from '../../../schemas/cpu.schema'
 import { createCpu } from '../../../services/cpu.service'
+import { uploadModelAssets } from '../../../services/productModelAsset.service'
+import { uploadProductImages } from '../../../services/productImage.service'
 import type { CpuBenchmark } from '../../../types/cpu'
 
 export function CpuCreatePage() {
   const navigate = useNavigate()
   const [benchmarks, setBenchmarks] = useState<CpuBenchmark[]>([])
   const [videoLinks, setVideoLinks] = useState<string[]>([])
+  const [stagedImages, setStagedImages] = useState<File[]>([])
+  const [stagedModelAssets, setStagedModelAssets] = useState<File[]>([])
 
   const {
     register,
@@ -51,7 +55,9 @@ export function CpuCreatePage() {
   })
 
   const onSubmit = async (values: CpuFormValues) => {
-    await createCpu({ ...values, benchmarks, videoLinks })
+    const created = await createCpu({ ...values, benchmarks, videoLinks })
+    if (stagedImages.length) await uploadProductImages(created.id, stagedImages)
+    if (stagedModelAssets.length) await uploadModelAssets(created.id, stagedModelAssets)
     navigate('/inventory/cpu')
   }
 
@@ -106,6 +112,10 @@ export function CpuCreatePage() {
           onBenchmarksChange={setBenchmarks}
           videoLinks={videoLinks}
           onVideoLinksChange={setVideoLinks}
+          stagedImages={stagedImages}
+          onStagedImagesChange={setStagedImages}
+          stagedModelAssets={stagedModelAssets}
+          onStagedModelAssetsChange={setStagedModelAssets}
         />
       </form>
     </main>

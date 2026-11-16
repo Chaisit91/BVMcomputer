@@ -6,12 +6,16 @@ import { useNavigate } from 'react-router-dom'
 import { CaseFormFields } from '../../../components/inventory/case/CaseFormFields'
 import { caseFormSchema, type CaseFormValues } from '../../../schemas/case.schema'
 import { createCase } from '../../../services/case.service'
+import { uploadModelAssets } from '../../../services/productModelAsset.service'
+import { uploadProductImages } from '../../../services/productImage.service'
 import type { ExtraSpec } from '../../../types/case'
 
 export function CaseCreatePage() {
   const navigate = useNavigate()
   const [videoLinks, setVideoLinks] = useState<string[]>([])
   const [extraSpecs, setExtraSpecs] = useState<ExtraSpec[]>([])
+  const [stagedImages, setStagedImages] = useState<File[]>([])
+  const [stagedModelAssets, setStagedModelAssets] = useState<File[]>([])
 
   const {
     register,
@@ -48,7 +52,9 @@ export function CaseCreatePage() {
   })
 
   const onSubmit = handleSubmit(async (values) => {
-    await createCase({ ...values, videoLinks, extraSpecs })
+    const created = await createCase({ ...values, videoLinks, extraSpecs })
+    if (stagedImages.length) await uploadProductImages(created.id, stagedImages)
+    if (stagedModelAssets.length) await uploadModelAssets(created.id, stagedModelAssets)
     navigate('/inventory/case')
   })
 
@@ -90,6 +96,10 @@ export function CaseCreatePage() {
           onVideoLinksChange={setVideoLinks}
           extraSpecs={extraSpecs}
           onExtraSpecsChange={setExtraSpecs}
+          stagedImages={stagedImages}
+          onStagedImagesChange={setStagedImages}
+          stagedModelAssets={stagedModelAssets}
+          onStagedModelAssetsChange={setStagedModelAssets}
         />
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-6">

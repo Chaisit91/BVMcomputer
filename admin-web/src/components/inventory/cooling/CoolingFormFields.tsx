@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { FiBold, FiItalic, FiList, FiPlus, FiTrash2, FiUnderline } from 'react-icons/fi'
 import type { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { Toggle } from '../../ui/Toggle'
+import { ProductImageUpload } from '../ProductImageUpload'
+import { ProductModelAssetUpload } from '../ProductModelAssetUpload'
 import type { CoolingFormValues } from '../../../schemas/cooling.schema'
 import type { ExtraSpec } from '../../../types/cooling'
 
@@ -21,6 +23,11 @@ const statusOptions: { value: CoolingFormValues['status']; label: string }[] = [
 
 interface CoolingFormFieldsProps {
   readOnly?: boolean
+  productId?: string
+  stagedImages?: File[]
+  onStagedImagesChange?: (files: File[]) => void
+  stagedModelAssets?: File[]
+  onStagedModelAssetsChange?: (files: File[]) => void
   register: UseFormRegister<CoolingFormValues>
   errors: FieldErrors<CoolingFormValues>
   watch: UseFormWatch<CoolingFormValues>
@@ -34,6 +41,11 @@ interface CoolingFormFieldsProps {
 
 export function CoolingFormFields({
   readOnly = false,
+  productId,
+  stagedImages,
+  onStagedImagesChange,
+  stagedModelAssets,
+  onStagedModelAssetsChange,
   register,
   errors,
   watch,
@@ -69,32 +81,19 @@ export function CoolingFormFields({
   return (
     <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
       <div className="space-y-6">
-        <section className="card p-5">
-          <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพสินค้าหลัก</h2>
-          <div className="flex h-40 flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
-            {readOnly ? 'ยังไม่มีรูปภาพ' : 'คลิกเพื่ออัปโหลดรูปภาพหลัก'}
-          </div>
-          {!readOnly && (
-            <div className="mt-3 grid grid-cols-4 gap-2">
-              {[0, 1, 2, 3].map((slot) => (
-                <div
-                  key={slot}
-                  className="flex aspect-square items-center justify-center rounded-xl border border-dashed border-gray-200 text-gray-300"
-                >
-                  <FiPlus size={16} />
-                </div>
-              ))}
-            </div>
-          )}
-          {!readOnly && (
-            <button
-              type="button"
-              className="mt-3 w-full rounded-xl bg-rose-50 py-2 text-sm font-medium text-rose-500 hover:bg-rose-100"
-            >
-              เลือกไฟล์รูปภาพ
-            </button>
-          )}
-        </section>
+        <ProductImageUpload
+          productId={productId}
+          readOnly={readOnly}
+          stagedFiles={stagedImages}
+          onStagedFilesChange={onStagedImagesChange}
+        />
+
+        <ProductModelAssetUpload
+          productId={productId}
+          readOnly={readOnly}
+          stagedFiles={stagedModelAssets}
+          onStagedFilesChange={onStagedModelAssetsChange}
+        />
 
         <section className="card p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">ข้อมูลการขายและสต็อก</h2>

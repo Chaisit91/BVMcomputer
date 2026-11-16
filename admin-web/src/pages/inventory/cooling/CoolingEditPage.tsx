@@ -155,6 +155,7 @@ export function CoolingEditPage({ readOnly = false }: { readOnly?: boolean }) {
 
         <CoolingFormFields
           readOnly={readOnly}
+          productId={coolingId}
           register={register}
           errors={errors}
           watch={watch}

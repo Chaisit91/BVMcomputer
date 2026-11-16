@@ -4,10 +4,14 @@ import { useForm } from 'react-hook-form'
 import { FiPlus, FiSave, FiX } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import { ExtraPartsEditor } from '../../../components/inventory/ExtraPartsEditor'
+import { ProductImageUpload } from '../../../components/inventory/ProductImageUpload'
+import { ProductModelAssetUpload } from '../../../components/inventory/ProductModelAssetUpload'
 import { ProductPicker } from '../../../components/ui/ProductPicker'
 import { Toggle } from '../../../components/ui/Toggle'
 import { promoSetFormSchema, type PromoSetFormValues } from '../../../schemas/promoSet.schema'
 import { createPromoSet } from '../../../services/promoSet.service'
+import { uploadModelAssets } from '../../../services/productModelAsset.service'
+import { uploadProductImages } from '../../../services/productImage.service'
 import { COMPONENT_SLOTS, COMPONENT_SLOT_LABELS, COMPONENT_SLOT_TO_API_CATEGORY } from '../../../types/componentSlots'
 import type { PromoSetExtraPart } from '../../../types/promoSet'
 
@@ -28,6 +32,8 @@ export function PromoSetCreatePage() {
   const [videoLinks, setVideoLinks] = useState<string[]>([])
   const [videoInput, setVideoInput] = useState('')
   const [extraParts, setExtraParts] = useState<PromoSetExtraPart[]>([])
+  const [stagedImages, setStagedImages] = useState<File[]>([])
+  const [stagedModelAssets, setStagedModelAssets] = useState<File[]>([])
 
   const {
     register,
@@ -84,7 +90,9 @@ export function PromoSetCreatePage() {
   }
 
   const onSubmit = async (values: PromoSetFormValues) => {
-    await createPromoSet({ ...values, highlights, videoLinks, extraParts })
+    const created = await createPromoSet({ ...values, highlights, videoLinks, extraParts })
+    if (stagedImages.length) await uploadProductImages(created.id, stagedImages)
+    if (stagedModelAssets.length) await uploadModelAssets(created.id, stagedModelAssets)
     navigate('/inventory/promo-sets')
   }
 
@@ -268,14 +276,9 @@ export function PromoSetCreatePage() {
           </div>
 
           <div className="space-y-6">
-            <section className="card p-5">
-              <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพประกอบเซ็ตโปรโมชั่น</h2>
-              <div className="flex h-40 flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
-                <FiPlus size={20} />
-                <span>อัปโหลดภาพหลักคอมพิวเตอร์</span>
-                <span>PNG, JPG (แนะนำ 1200x800px)</span>
-              </div>
-            </section>
+            <ProductImageUpload stagedFiles={stagedImages} onStagedFilesChange={setStagedImages} />
+
+            <ProductModelAssetUpload stagedFiles={stagedModelAssets} onStagedFilesChange={setStagedModelAssets} />
 
             <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">สถานะและราคา</h2>

@@ -6,12 +6,16 @@ import { useNavigate } from 'react-router-dom'
 import { StorageFormFields } from '../../../components/inventory/storage/StorageFormFields'
 import { storageFormSchema, type StorageFormValues } from '../../../schemas/storage.schema'
 import { createStorage } from '../../../services/storage.service'
+import { uploadModelAssets } from '../../../services/productModelAsset.service'
+import { uploadProductImages } from '../../../services/productImage.service'
 import type { ExtraSpec } from '../../../types/storage'
 
 export function StorageCreatePage() {
   const navigate = useNavigate()
   const [videoLinks, setVideoLinks] = useState<string[]>([])
   const [extraSpecs, setExtraSpecs] = useState<ExtraSpec[]>([])
+  const [stagedImages, setStagedImages] = useState<File[]>([])
+  const [stagedModelAssets, setStagedModelAssets] = useState<File[]>([])
 
   const {
     register,
@@ -46,7 +50,9 @@ export function StorageCreatePage() {
   })
 
   const submitAs = async (values: StorageFormValues, status: StorageFormValues['status']) => {
-    await createStorage({ ...values, status, videoLinks, extraSpecs })
+    const created = await createStorage({ ...values, status, videoLinks, extraSpecs })
+    if (stagedImages.length) await uploadProductImages(created.id, stagedImages)
+    if (stagedModelAssets.length) await uploadModelAssets(created.id, stagedModelAssets)
     navigate('/inventory/storage')
   }
 
@@ -91,6 +97,10 @@ export function StorageCreatePage() {
           onVideoLinksChange={setVideoLinks}
           extraSpecs={extraSpecs}
           onExtraSpecsChange={setExtraSpecs}
+          stagedImages={stagedImages}
+          onStagedImagesChange={setStagedImages}
+          stagedModelAssets={stagedModelAssets}
+          onStagedModelAssetsChange={setStagedModelAssets}
         />
 
         <div className="mt-6 flex flex-wrap justify-end gap-3 border-t border-gray-100 pt-6">

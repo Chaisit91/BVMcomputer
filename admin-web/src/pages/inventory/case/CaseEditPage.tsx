@@ -155,6 +155,7 @@ export function CaseEditPage({ readOnly = false }: { readOnly?: boolean }) {
 
         <CaseFormFields
           readOnly={readOnly}
+          productId={caseId}
           register={register}
           errors={errors}
           watch={watch}

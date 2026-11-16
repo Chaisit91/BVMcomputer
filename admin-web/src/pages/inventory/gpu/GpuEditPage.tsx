@@ -154,7 +154,7 @@ export function GpuEditPage({ readOnly = false }: { readOnly?: boolean }) {
       </div>
 
       <form id="gpu-edit-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-        <GpuFormFields readOnly={readOnly} register={register} errors={errors} />
+        <GpuFormFields readOnly={readOnly} productId={gpuId} register={register} errors={errors} />
       </form>
     </main>
   )

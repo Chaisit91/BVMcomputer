@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiSave, FiX } from 'react-icons/fi'
@@ -5,9 +6,13 @@ import { useNavigate } from 'react-router-dom'
 import { MotherboardFormFields } from '../../../components/inventory/motherboard/MotherboardFormFields'
 import { motherboardFormSchema, type MotherboardFormValues } from '../../../schemas/motherboard.schema'
 import { createMotherboard } from '../../../services/motherboard.service'
+import { uploadModelAssets } from '../../../services/productModelAsset.service'
+import { uploadProductImages } from '../../../services/productImage.service'
 
 export function MotherboardCreatePage() {
   const navigate = useNavigate()
+  const [stagedImages, setStagedImages] = useState<File[]>([])
+  const [stagedModelAssets, setStagedModelAssets] = useState<File[]>([])
 
   const {
     register,
@@ -49,7 +54,9 @@ export function MotherboardCreatePage() {
   })
 
   const onSubmit = async (values: MotherboardFormValues) => {
-    await createMotherboard(values)
+    const created = await createMotherboard(values)
+    if (stagedImages.length) await uploadProductImages(created.id, stagedImages)
+    if (stagedModelAssets.length) await uploadModelAssets(created.id, stagedModelAssets)
     navigate('/inventory/motherboard')
   }
 
@@ -94,7 +101,17 @@ export function MotherboardCreatePage() {
           </div>
         </div>
 
-        <MotherboardFormFields mode="create" register={register} errors={errors} watch={watch} setValue={setValue} />
+        <MotherboardFormFields
+          mode="create"
+          register={register}
+          errors={errors}
+          watch={watch}
+          setValue={setValue}
+          stagedImages={stagedImages}
+          onStagedImagesChange={setStagedImages}
+          stagedModelAssets={stagedModelAssets}
+          onStagedModelAssetsChange={setStagedModelAssets}
+        />
       </form>
     </main>
   )

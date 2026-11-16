@@ -6,12 +6,16 @@ import { useNavigate } from 'react-router-dom'
 import { RamFormFields } from '../../../components/inventory/ram/RamFormFields'
 import { ramFormSchema, type RamFormValues } from '../../../schemas/ram.schema'
 import { createRam } from '../../../services/ram.service'
+import { uploadModelAssets } from '../../../services/productModelAsset.service'
+import { uploadProductImages } from '../../../services/productImage.service'
 import type { ExtraSpec } from '../../../types/ram'
 
 export function RamCreatePage() {
   const navigate = useNavigate()
   const [videoLinks, setVideoLinks] = useState<string[]>([])
   const [extraSpecs, setExtraSpecs] = useState<ExtraSpec[]>([])
+  const [stagedImages, setStagedImages] = useState<File[]>([])
+  const [stagedModelAssets, setStagedModelAssets] = useState<File[]>([])
 
   const {
     register,
@@ -46,7 +50,9 @@ export function RamCreatePage() {
   })
 
   const submitAs = async (values: RamFormValues, status: RamFormValues['status']) => {
-    await createRam({ ...values, status, videoLinks, extraSpecs })
+    const created = await createRam({ ...values, status, videoLinks, extraSpecs })
+    if (stagedImages.length) await uploadProductImages(created.id, stagedImages)
+    if (stagedModelAssets.length) await uploadModelAssets(created.id, stagedModelAssets)
     navigate('/inventory/ram')
   }
 
@@ -91,6 +97,10 @@ export function RamCreatePage() {
           onVideoLinksChange={setVideoLinks}
           extraSpecs={extraSpecs}
           onExtraSpecsChange={setExtraSpecs}
+          stagedImages={stagedImages}
+          onStagedImagesChange={setStagedImages}
+          stagedModelAssets={stagedModelAssets}
+          onStagedModelAssetsChange={setStagedModelAssets}
         />
 
         <div className="mt-6 flex flex-wrap justify-end gap-3 border-t border-gray-100 pt-6">

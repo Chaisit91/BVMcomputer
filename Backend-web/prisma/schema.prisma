@@ -153,10 +153,11 @@ model Product {
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
 
-  specValues ProductSpecValue[]
-  extraSpecs ExtraSpec[]
-  videoLinks ProductVideoLink[]
-  images     ProductImage[]
+  specValues  ProductSpecValue[]
+  extraSpecs  ExtraSpec[]
+  videoLinks  ProductVideoLink[]
+  images      ProductImage[]
+  modelAssets ProductModelAsset[]
 
   cpu     Cpu?
   gpu     Gpu?
@@ -246,6 +247,23 @@ model ProductImage {
   sortOrder Int      @default(0)
   isPrimary Boolean  @default(false)
   createdAt DateTime @default(now())
+
+  @@index([productId])
+}
+
+// Admin-only 3D sculpted model file per product (CPU, GPU, case, ...) — fed to
+// the AI service later to assemble a full-PC 3D render, never shown on the
+// storefront. Generic file (not image-only) since the AI pipeline may expect
+// a mesh format (.glb/.obj/.fbx) rather than a flat picture.
+model ProductModelAsset {
+  id            String   @id @default(cuid())
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId     String
+  url           String
+  fileName      String
+  contentType   String
+  fileSizeBytes Int
+  createdAt     DateTime @default(now())
 
   @@index([productId])
 }

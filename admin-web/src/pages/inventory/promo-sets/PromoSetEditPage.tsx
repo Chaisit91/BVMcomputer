@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form'
 import { FiPlus, FiSave, FiTrash2, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ExtraPartsEditor } from '../../../components/inventory/ExtraPartsEditor'
+import { ProductImageUpload } from '../../../components/inventory/ProductImageUpload'
+import { ProductModelAssetUpload } from '../../../components/inventory/ProductModelAssetUpload'
 import { Badge } from '../../../components/ui/Badge'
 import { ProductPicker } from '../../../components/ui/ProductPicker'
 import { Toggle } from '../../../components/ui/Toggle'
@@ -410,20 +412,9 @@ export function PromoSetEditPage({ readOnly = false }: { readOnly?: boolean }) {
           </div>
 
           <div className="space-y-6">
-            <section className="card p-5">
-              <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพประกอบเซ็ตโปรโมชั่น</h2>
-              <div className="flex h-40 items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
-                ยังไม่มีรูปภาพ
-              </div>
-              {!readOnly && (
-                <button
-                  type="button"
-                  className="mt-3 w-full rounded-xl border border-dashed border-gray-300 py-2 text-sm text-gray-500 hover:bg-gray-50"
-                >
-                  + เพิ่มรูป
-                </button>
-              )}
-            </section>
+            <ProductImageUpload productId={setId} readOnly={readOnly} />
+
+            <ProductModelAssetUpload productId={setId} readOnly={readOnly} />
 
             <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">สรุปข้อมูลราคาและส่วนลด</h2>

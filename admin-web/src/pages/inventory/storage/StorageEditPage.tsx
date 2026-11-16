@@ -151,6 +151,7 @@ export function StorageEditPage({ readOnly = false }: { readOnly?: boolean }) {
 
         <StorageFormFields
           readOnly={readOnly}
+          productId={storageId}
           register={register}
           errors={errors}
           watch={watch}

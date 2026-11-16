@@ -1,12 +1,17 @@
+import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { GpuFormFields } from '../../../components/inventory/gpu/GpuFormFields'
 import { gpuFormSchema, type GpuFormValues } from '../../../schemas/gpu.schema'
 import { createGpu } from '../../../services/gpu.service'
+import { uploadModelAssets } from '../../../services/productModelAsset.service'
+import { uploadProductImages } from '../../../services/productImage.service'
 
 export function GpuCreatePage() {
   const navigate = useNavigate()
+  const [stagedImages, setStagedImages] = useState<File[]>([])
+  const [stagedModelAssets, setStagedModelAssets] = useState<File[]>([])
 
   const {
     register,
@@ -45,7 +50,9 @@ export function GpuCreatePage() {
   })
 
   const onSubmit = async (values: GpuFormValues) => {
-    await createGpu(values)
+    const created = await createGpu(values)
+    if (stagedImages.length) await uploadProductImages(created.id, stagedImages)
+    if (stagedModelAssets.length) await uploadModelAssets(created.id, stagedModelAssets)
     navigate('/inventory/gpu')
   }
 
@@ -59,7 +66,15 @@ export function GpuCreatePage() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
-        <GpuFormFields showSku={false} register={register} errors={errors} />
+        <GpuFormFields
+          showSku={false}
+          register={register}
+          errors={errors}
+          stagedImages={stagedImages}
+          onStagedImagesChange={setStagedImages}
+          stagedModelAssets={stagedModelAssets}
+          onStagedModelAssetsChange={setStagedModelAssets}
+        />
 
         <div className="flex justify-end gap-3">
           <button

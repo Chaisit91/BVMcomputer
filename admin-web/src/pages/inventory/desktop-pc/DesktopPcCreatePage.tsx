@@ -3,9 +3,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FiPlus, FiSave, FiX } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
+import { ProductImageUpload } from '../../../components/inventory/ProductImageUpload'
+import { ProductModelAssetUpload } from '../../../components/inventory/ProductModelAssetUpload'
 import { ProductPicker } from '../../../components/ui/ProductPicker'
 import { desktopPcFormSchema, type DesktopPcFormValues } from '../../../schemas/desktopPc.schema'
 import { createDesktopPc } from '../../../services/desktopPc.service'
+import { uploadModelAssets } from '../../../services/productModelAsset.service'
+import { uploadProductImages } from '../../../services/productImage.service'
 import { COMPONENT_SLOTS, COMPONENT_SLOT_LABELS, COMPONENT_SLOT_TO_API_CATEGORY } from '../../../types/componentSlots'
 import type { DesktopPcCategory } from '../../../types/desktopPc'
 
@@ -24,6 +28,8 @@ export function DesktopPcCreatePage() {
   const navigate = useNavigate()
   const [highlights, setHighlights] = useState<string[]>([])
   const [highlightInput, setHighlightInput] = useState('')
+  const [stagedImages, setStagedImages] = useState<File[]>([])
+  const [stagedModelAssets, setStagedModelAssets] = useState<File[]>([])
 
   const {
     register,
@@ -66,7 +72,9 @@ export function DesktopPcCreatePage() {
   }
 
   const onSubmit = async (values: DesktopPcFormValues) => {
-    await createDesktopPc({ ...values, highlights })
+    const created = await createDesktopPc({ ...values, highlights })
+    if (stagedImages.length) await uploadProductImages(created.id, stagedImages)
+    if (stagedModelAssets.length) await uploadModelAssets(created.id, stagedModelAssets)
     navigate('/inventory/desktop-pc')
   }
 
@@ -227,14 +235,9 @@ export function DesktopPcCreatePage() {
           </div>
 
           <div className="space-y-6">
-            <section className="card p-5">
-              <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพสินค้า</h2>
-              <div className="flex h-40 flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
-                <FiPlus size={20} />
-                <span>อัปโหลดภาพสินค้า</span>
-                <span>PNG, JPG (แนะนำ 1200x800px)</span>
-              </div>
-            </section>
+            <ProductImageUpload stagedFiles={stagedImages} onStagedFilesChange={setStagedImages} />
+
+            <ProductModelAssetUpload stagedFiles={stagedModelAssets} onStagedFilesChange={setStagedModelAssets} />
 
             <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">สถานะสินค้า</h2>

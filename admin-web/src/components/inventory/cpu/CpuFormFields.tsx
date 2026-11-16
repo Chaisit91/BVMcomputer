@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { FiEdit2, FiPlus, FiTrash2 } from 'react-icons/fi'
 import type { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { Toggle } from '../../ui/Toggle'
+import { ProductImageUpload } from '../ProductImageUpload'
+import { ProductModelAssetUpload } from '../ProductModelAssetUpload'
 import type { CpuFormValues } from '../../../schemas/cpu.schema'
 import type { CpuBenchmark } from '../../../types/cpu'
 
@@ -20,6 +22,11 @@ const statusOptions: { value: CpuFormValues['status']; label: string }[] = [
 interface CpuFormFieldsProps {
   mode: 'create' | 'edit'
   readOnly?: boolean
+  productId?: string
+  stagedImages?: File[]
+  onStagedImagesChange?: (files: File[]) => void
+  stagedModelAssets?: File[]
+  onStagedModelAssetsChange?: (files: File[]) => void
   register: UseFormRegister<CpuFormValues>
   errors: FieldErrors<CpuFormValues>
   watch: UseFormWatch<CpuFormValues>
@@ -33,6 +40,11 @@ interface CpuFormFieldsProps {
 export function CpuFormFields({
   mode,
   readOnly = false,
+  productId,
+  stagedImages,
+  onStagedImagesChange,
+  stagedModelAssets,
+  onStagedModelAssetsChange,
   register,
   errors,
   watch,
@@ -63,20 +75,19 @@ export function CpuFormFields({
   return (
     <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-2">
       <div className="space-y-6">
-        <section className="card p-5">
-          <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพสินค้า</h2>
-          <div className="flex h-40 flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
-            {readOnly ? (
-              <span>ยังไม่มีรูปภาพ</span>
-            ) : (
-              <>
-                <FiPlus size={20} />
-                <span>อัปโหลดรูปสินค้า</span>
-                <span>รองรับ JPG, PNG ขนาดไม่เกิน 5MB</span>
-              </>
-            )}
-          </div>
-        </section>
+        <ProductImageUpload
+          productId={productId}
+          readOnly={readOnly}
+          stagedFiles={stagedImages}
+          onStagedFilesChange={onStagedImagesChange}
+        />
+
+        <ProductModelAssetUpload
+          productId={productId}
+          readOnly={readOnly}
+          stagedFiles={stagedModelAssets}
+          onStagedFilesChange={onStagedModelAssetsChange}
+        />
 
         <section className="card p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">ราคาสินค้าและสต็อก</h2>

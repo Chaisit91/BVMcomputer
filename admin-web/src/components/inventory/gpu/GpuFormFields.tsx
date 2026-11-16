@@ -1,5 +1,6 @@
-import { FiPlus } from 'react-icons/fi'
 import type { FieldErrors, UseFormRegister } from 'react-hook-form'
+import { ProductImageUpload } from '../ProductImageUpload'
+import { ProductModelAssetUpload } from '../ProductModelAssetUpload'
 import type { GpuFormValues } from '../../../schemas/gpu.schema'
 
 const inputClass =
@@ -28,14 +29,43 @@ const statusOptions: { value: GpuFormValues['status']; label: string }[] = [
 
 interface GpuFormFieldsProps {
   readOnly?: boolean
+  productId?: string
+  stagedImages?: File[]
+  onStagedImagesChange?: (files: File[]) => void
+  stagedModelAssets?: File[]
+  onStagedModelAssetsChange?: (files: File[]) => void
   register: UseFormRegister<GpuFormValues>
   errors: FieldErrors<GpuFormValues>
   showSku?: boolean
 }
 
-export function GpuFormFields({ readOnly = false, register, errors, showSku = true }: GpuFormFieldsProps) {
+export function GpuFormFields({
+  readOnly = false,
+  productId,
+  stagedImages,
+  onStagedImagesChange,
+  stagedModelAssets,
+  onStagedModelAssetsChange,
+  register,
+  errors,
+  showSku = true,
+}: GpuFormFieldsProps) {
   return (
     <div className="space-y-6">
+      <ProductImageUpload
+        productId={productId}
+        readOnly={readOnly}
+        stagedFiles={stagedImages}
+        onStagedFilesChange={onStagedImagesChange}
+      />
+
+      <ProductModelAssetUpload
+        productId={productId}
+        readOnly={readOnly}
+        stagedFiles={stagedModelAssets}
+        onStagedFilesChange={onStagedModelAssetsChange}
+      />
+
       <section className="card p-5">
         <h2 className="mb-4 text-sm font-semibold text-gray-800">ข้อมูลทั่วไป (General Info)</h2>
         <div className="space-y-4">
@@ -232,29 +262,6 @@ export function GpuFormFields({ readOnly = false, register, errors, showSku = tr
               {...register('specs.pcieInterface')}
             />
           </div>
-        </div>
-      </section>
-
-      <section className="card p-5">
-        <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพสินค้า (Product Images)</h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {[0, 1, 2].map((index) => (
-            <div
-              key={index}
-              className="flex aspect-square items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400"
-            >
-              รูปภาพ
-            </div>
-          ))}
-          {!readOnly && (
-            <button
-              type="button"
-              className="flex aspect-square flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-rose-200 text-xs text-rose-400 hover:bg-rose-50"
-            >
-              <FiPlus size={18} />
-              เพิ่มรูปภาพ
-            </button>
-          )}
         </div>
       </section>
 

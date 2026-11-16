@@ -150,6 +150,7 @@ export function RamEditPage({ readOnly = false }: { readOnly?: boolean }) {
 
         <RamFormFields
           readOnly={readOnly}
+          productId={ramId}
           register={register}
           errors={errors}
           watch={watch}

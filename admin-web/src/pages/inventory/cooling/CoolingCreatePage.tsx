@@ -6,12 +6,16 @@ import { useNavigate } from 'react-router-dom'
 import { CoolingFormFields } from '../../../components/inventory/cooling/CoolingFormFields'
 import { coolingFormSchema, type CoolingFormValues } from '../../../schemas/cooling.schema'
 import { createCooling } from '../../../services/cooling.service'
+import { uploadModelAssets } from '../../../services/productModelAsset.service'
+import { uploadProductImages } from '../../../services/productImage.service'
 import type { ExtraSpec } from '../../../types/cooling'
 
 export function CoolingCreatePage() {
   const navigate = useNavigate()
   const [videoLinks, setVideoLinks] = useState<string[]>([])
   const [extraSpecs, setExtraSpecs] = useState<ExtraSpec[]>([])
+  const [stagedImages, setStagedImages] = useState<File[]>([])
+  const [stagedModelAssets, setStagedModelAssets] = useState<File[]>([])
 
   const {
     register,
@@ -47,7 +51,9 @@ export function CoolingCreatePage() {
   })
 
   const onSubmit = handleSubmit(async (values) => {
-    await createCooling({ ...values, videoLinks, extraSpecs })
+    const created = await createCooling({ ...values, videoLinks, extraSpecs })
+    if (stagedImages.length) await uploadProductImages(created.id, stagedImages)
+    if (stagedModelAssets.length) await uploadModelAssets(created.id, stagedModelAssets)
     navigate('/inventory/cooling')
   })
 
@@ -89,6 +95,10 @@ export function CoolingCreatePage() {
           onVideoLinksChange={setVideoLinks}
           extraSpecs={extraSpecs}
           onExtraSpecsChange={setExtraSpecs}
+          stagedImages={stagedImages}
+          onStagedImagesChange={setStagedImages}
+          stagedModelAssets={stagedModelAssets}
+          onStagedModelAssetsChange={setStagedModelAssets}
         />
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-6">

@@ -1,6 +1,8 @@
 import { FiPlus } from 'react-icons/fi'
 import type { FieldErrors, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { Toggle } from '../../ui/Toggle'
+import { ProductImageUpload } from '../ProductImageUpload'
+import { ProductModelAssetUpload } from '../ProductModelAssetUpload'
 import type { MotherboardFormValues } from '../../../schemas/motherboard.schema'
 
 const inputClass =
@@ -27,33 +29,49 @@ const warrantyOptions = ['1 ปี', '2 ปี', '3 ปี', 'ตลอดอา
 interface MotherboardFormFieldsProps {
   mode: 'create' | 'edit'
   readOnly?: boolean
+  productId?: string
+  stagedImages?: File[]
+  onStagedImagesChange?: (files: File[]) => void
+  stagedModelAssets?: File[]
+  onStagedModelAssetsChange?: (files: File[]) => void
   register: UseFormRegister<MotherboardFormValues>
   errors: FieldErrors<MotherboardFormValues>
   watch: UseFormWatch<MotherboardFormValues>
   setValue: UseFormSetValue<MotherboardFormValues>
 }
 
-export function MotherboardFormFields({ mode, readOnly = false, register, errors, watch, setValue }: MotherboardFormFieldsProps) {
+export function MotherboardFormFields({
+  mode,
+  readOnly = false,
+  productId,
+  stagedImages,
+  onStagedImagesChange,
+  stagedModelAssets,
+  onStagedModelAssetsChange,
+  register,
+  errors,
+  watch,
+  setValue,
+}: MotherboardFormFieldsProps) {
   const stock = watch('stock') || 0
   const publishImmediately = watch('publishImmediately')
 
   return (
     <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
       <div className="space-y-6">
-        <section className="card p-5">
-          <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพสินค้า</h2>
-          <div className="flex h-40 items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
-            {readOnly ? 'ยังไม่มีรูปภาพ' : 'อัปโหลดรูปสินค้า'}
-          </div>
-          {!readOnly && (
-            <button
-              type="button"
-              className="mt-3 w-full rounded-xl border border-dashed border-gray-300 py-2 text-sm text-gray-500 hover:bg-gray-50"
-            >
-              + เพิ่มรูป
-            </button>
-          )}
-        </section>
+        <ProductImageUpload
+          productId={productId}
+          readOnly={readOnly}
+          stagedFiles={stagedImages}
+          onStagedFilesChange={onStagedImagesChange}
+        />
+
+        <ProductModelAssetUpload
+          productId={productId}
+          readOnly={readOnly}
+          stagedFiles={stagedModelAssets}
+          onStagedFilesChange={onStagedModelAssetsChange}
+        />
 
         <section className="card p-5">
           <h2 className="mb-4 text-sm font-semibold text-gray-800">ราคาสินค้าและสต็อก</h2>

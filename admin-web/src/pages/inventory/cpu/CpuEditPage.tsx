@@ -202,6 +202,7 @@ export function CpuEditPage({ readOnly = false }: { readOnly?: boolean }) {
         <CpuFormFields
           mode="edit"
           readOnly={readOnly}
+          productId={cpuId}
           register={register}
           errors={errors}
           watch={watch}

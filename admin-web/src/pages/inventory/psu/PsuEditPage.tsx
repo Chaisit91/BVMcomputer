@@ -155,6 +155,7 @@ export function PsuEditPage({ readOnly = false }: { readOnly?: boolean }) {
 
         <PsuFormFields
           readOnly={readOnly}
+          productId={psuId}
           register={register}
           errors={errors}
           watch={watch}

@@ -164,7 +164,15 @@ export function MotherboardEditPage({ readOnly = false }: { readOnly?: boolean }
           </div>
         </div>
 
-        <MotherboardFormFields mode="edit" readOnly={readOnly} register={register} errors={errors} watch={watch} setValue={setValue} />
+        <MotherboardFormFields
+          mode="edit"
+          readOnly={readOnly}
+          productId={motherboardId}
+          register={register}
+          errors={errors}
+          watch={watch}
+          setValue={setValue}
+        />
       </form>
     </main>
   )

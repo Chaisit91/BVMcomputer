@@ -24,6 +24,8 @@ import { desktopPcRouter } from './modules/desktop-pc/desktop-pc.router'
 import { gpuRouter } from './modules/gpu/gpu.router'
 import { motherboardRouter } from './modules/motherboard/motherboard.router'
 import { orderRouter } from './modules/order/order.router'
+import { productImageRouter } from './modules/product-image/product-image.router'
+import { productModelAssetRouter } from './modules/product-model-asset/product-model-asset.router'
 import { promoSetRouter } from './modules/promo-set/promo-set.router'
 import { psuRouter } from './modules/psu/psu.router'
 import { ramRouter } from './modules/ram/ram.router'
@@ -73,6 +75,8 @@ app.use('/api/cases', ...inventory, caseRouter)
 app.use('/api/psus', ...inventory, psuRouter)
 app.use('/api/coolings', ...inventory, coolingRouter)
 app.use('/api/desktop-pcs', ...inventory, desktopPcRouter)
+app.use('/api/products/:productId/model-assets', ...inventory, productModelAssetRouter)
+app.use('/api/products/:productId/images', ...inventory, productImageRouter)
 app.use('/api/promo-sets', ...inventory, promoSetRouter)
 app.use('/api/custom-builds', ...inventory, customBuildRouter)
 app.use('/api/computer-upgrades', ...inventory, computerUpgradeRouter)

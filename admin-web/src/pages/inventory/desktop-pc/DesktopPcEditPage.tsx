@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form'
 import { FiPlus, FiSave, FiTrash2, FiX } from 'react-icons/fi'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Badge } from '../../../components/ui/Badge'
+import { ProductImageUpload } from '../../../components/inventory/ProductImageUpload'
+import { ProductModelAssetUpload } from '../../../components/inventory/ProductModelAssetUpload'
 import { ProductPicker } from '../../../components/ui/ProductPicker'
 import { formatDateTime } from '../../../lib/formatDate'
 import { desktopPcFormSchema, type DesktopPcFormValues } from '../../../schemas/desktopPc.schema'
@@ -346,20 +348,9 @@ export function DesktopPcEditPage({ readOnly = false }: { readOnly?: boolean }) 
           </div>
 
           <div className="space-y-6">
-            <section className="card p-5">
-              <h2 className="mb-4 text-sm font-semibold text-gray-800">รูปภาพสินค้า</h2>
-              <div className="flex h-40 items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 text-xs text-gray-400">
-                ยังไม่มีรูปภาพ
-              </div>
-              {!readOnly && (
-                <button
-                  type="button"
-                  className="mt-3 w-full rounded-xl border border-dashed border-gray-300 py-2 text-sm text-gray-500 hover:bg-gray-50"
-                >
-                  + เพิ่มภาพ
-                </button>
-              )}
-            </section>
+            <ProductImageUpload productId={productId} readOnly={readOnly} />
+
+            <ProductModelAssetUpload productId={productId} readOnly={readOnly} />
 
             <section className="card p-5">
               <h2 className="mb-4 text-sm font-semibold text-gray-800">สรุปข้อมูลในระบบ</h2>
