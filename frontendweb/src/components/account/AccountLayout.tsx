@@ -5,8 +5,6 @@ import { AccountSidebar } from './AccountSidebar';
 
 interface AccountLayoutProps {
   title: string;
-  /** Smaller grey text after the title, e.g. "(Track Your Order)". */
-  titleNote?: string;
   /** Red icon before the heading. */
   icon: IconType;
   description: string;
@@ -19,7 +17,7 @@ interface AccountLayoutProps {
  * Shell for every "บัญชีของฉัน" page: sidebar on the left, heading + content on the right
  * (stacked on smaller screens). Header and Footer come from the site-wide Layout as usual.
  */
-export function AccountLayout({ title, titleNote, icon: Icon, description, actions, children }: AccountLayoutProps) {
+export function AccountLayout({ title, icon: Icon, description, actions, children }: AccountLayoutProps) {
   return (
     <section className="bg-slate-50 pb-16 pt-6">
       <Container>
@@ -32,10 +30,7 @@ export function AccountLayout({ title, titleNote, icon: Icon, description, actio
                 <div className="flex items-center gap-2.5">
                   <Icon size={24} className="shrink-0 text-brand" aria-hidden="true" />
                   {/* Text only, nudged down 2px so it reads level with the icon — the icon and row stay put. */}
-                  <h1 className="m-0 translate-y-[2px] text-2xl font-bold leading-[1.4] text-ink">
-                    {title}
-                    {titleNote && <span className="ml-2 hidden text-base font-medium text-slate-500 sm:inline">{titleNote}</span>}
-                  </h1>
+                  <h1 className="m-0 translate-y-[2px] text-2xl font-bold leading-[1.4] text-ink">{title}</h1>
                 </div>
                 <p className="mt-1 text-sm text-slate-500">{description}</p>
               </div>

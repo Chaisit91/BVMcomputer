@@ -38,7 +38,7 @@ export function OrderCard({ order }: { order: OrderSummary }) {
 
       <div className="col-span-2 md:col-span-1">
         <Link
-          to={tracking ? `${path}/tracking` : path}
+          to={path}
           className={cn(
             actionClass,
             tracking ? 'bg-brand text-white hover:bg-brand-dark' : 'border border-brand bg-white text-brand hover:bg-red-50',

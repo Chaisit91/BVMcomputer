@@ -35,6 +35,12 @@ export function formatDeliveryEstimate(value: string): string {
   return parts ? `${parts.weekday}ที่ ${parts.day} (ภายในเวลา ${parts.time} น.)` : value;
 }
 
+/** "วันศุกร์ที่ 14 พ.ย. 2026 เวลา 16:42 น." — when the parcel was actually delivered. */
+export function formatDeliveredAt(value: string): string {
+  const parts = thaiParts(value);
+  return parts ? `${parts.weekday}ที่ ${parts.day} เวลา ${parts.time} น.` : value;
+}
+
 /** Carrier milestones as labelled on the tracking timeline. */
 export const TRACKING_STEPS: { step: OrderTrackingStep; label: string; status: string }[] = [
   { step: 'picked_up', label: 'รับเข้าระบบ', status: 'รับพัสดุเข้าระบบแล้ว (Picked Up)' },

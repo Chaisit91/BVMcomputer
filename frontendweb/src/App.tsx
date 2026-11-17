@@ -59,8 +59,8 @@ function App() {
             <Route path="/account/profile/edit" element={<AccountProfileEditPage />} />
             <Route path="/account/wishlist" element={<AccountWishlistPage />} />
             <Route path="/account/orders" element={<AccountOrdersPage />} />
-            <Route path="/account/orders/:orderId" element={<AccountOrderDetailPage view="details" />} />
-            <Route path="/account/orders/:orderId/tracking" element={<AccountOrderDetailPage view="tracking" />} />
+            <Route path="/account/orders/:orderId" element={<AccountOrderDetailPage />} />
+            <Route path="/account/orders/:orderId/tracking" element={<AccountOrderDetailPage />} />
             <Route path="/account/addresses" element={<AccountAddressesPage />} />
             <Route path="/account/tax-addresses" element={<AccountTaxAddressesPage />} />
             <Route path="/account/payment-methods" element={<AccountPaymentMethodsPage />} />
