@@ -28,6 +28,9 @@ import { AccountProfileEditPage } from './pages/AccountProfileEditPage';
 import { AccountWishlistPage } from './pages/AccountWishlistPage';
 import { AccountOrdersPage } from './pages/AccountOrdersPage';
 import { AccountOrderDetailPage } from './pages/AccountOrderDetailPage';
+import { ArticlesPage } from './pages/ArticlesPage';
+import { ServicesPage } from './pages/ServicesPage';
+import { HelpPage } from './pages/HelpPage';
 import { AccountAddressesPage } from './pages/AccountAddressesPage';
 import { AccountTaxAddressesPage } from './pages/AccountTaxAddressesPage';
 import { AccountPaymentMethodsPage } from './pages/AccountPaymentMethodsPage';
@@ -52,6 +55,9 @@ function App() {
             <Route path="/build" element={<BuildCategoryPage />} />
             <Route path="/product/:category/:id" element={<ProductDetailPage />} />
             <Route path="/search" element={<SearchPage />} />
+            <Route path="/articles" element={<ArticlesPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/help" element={<HelpPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/account" element={<Navigate to="/account/profile" replace />} />

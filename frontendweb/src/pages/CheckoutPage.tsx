@@ -14,8 +14,8 @@ import {
 import { FiAlertCircle, FiChevronRight, FiLock, FiShoppingCart, FiTag } from 'react-icons/fi';
 import { Container } from '../components/ui/Container';
 import { EmptyState } from '../components/ui/EmptyState';
-import { FormField, SelectInput, TextInput } from '../components/ui/FormField';
 import { Spinner } from '../components/ui/Spinner';
+import { ShippingInfoSection } from '../components/checkout/ShippingInfoSection';
 import { categoryIcons } from '../components/home/categoryIcons';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { selectCartItems } from '../features/cart/cartSelectors';
@@ -24,7 +24,7 @@ import { validateCoupon } from '../api/orderApi';
 import { getErrorMessage } from '../api/apiError';
 import { formatTHB } from '../lib/format';
 import { cn } from '../lib/cn';
-import type { CreateOrderResponse, PaymentMethodId, ShippingAddress, ShippingMethodId } from '../types/api';
+import type { CheckoutTaxInvoice, CreateOrderResponse, PaymentMethodId, ShippingAddress, ShippingMethodId } from '../types/api';
 
 const steps = [
   { id: 1, label: 'ตรวจสอบคำสั่งซื้อ' },
@@ -44,17 +44,6 @@ const paymentMethods: { id: PaymentMethodId; icon: typeof BsBank; label: string;
   { id: 'cod', icon: BsCashCoin, label: 'เก็บเงินปลายทาง (COD)', subtitle: 'ชำระเงินเมื่อได้รับสินค้า', feeNote: '+ ฿50' },
 ];
 
-const provinceOptions = [
-  'กรุงเทพมหานคร',
-  'นนทบุรี',
-  'ปทุมธานี',
-  'สมุทรปราการ',
-  'ชลบุรี',
-  'เชียงใหม่',
-  'ขอนแก่น',
-  'นครราชสีมา',
-];
-
 const trustNotes = [
   'จัดส่งทั่วประเทศไทย',
   'สินค้าของแท้ 100%',
@@ -65,41 +54,35 @@ const trustNotes = [
 const VAT_RATE = 0.07;
 const COD_FEE = 50;
 
-interface CheckoutFormValues extends ShippingAddress {
-  saveAddress: boolean;
+/** The address and tax details come from ShippingInfoSection's modals; the form itself holds the two method picks. */
+interface CheckoutFormValues {
   shippingMethod: ShippingMethodId;
   paymentMethod: PaymentMethodId;
 }
-
-const REQUIRED = 'กรุณากรอกข้อมูลนี้';
 
 export function CheckoutPage() {
   const dispatch = useAppDispatch();
   const items = useAppSelector(selectCartItems);
   const { status: orderStatus, error: orderError, lastOrder } = useAppSelector((state) => state.order);
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors },
-  } = useForm<CheckoutFormValues>({
-    mode: 'onBlur',
-    reValidateMode: 'onChange',
+  const { register, handleSubmit, control, setValue } = useForm<CheckoutFormValues>({
     defaultValues: {
-      fullName: '',
-      phone: '',
-      address: '',
-      province: '',
-      district: '',
-      subdistrict: '',
-      postalCode: '',
-      saveAddress: false,
       shippingMethod: 'standard',
       paymentMethod: 'bank',
     },
   });
+
+  // Step 1 — kept for this order only (nothing is saved to the account from checkout).
+  const [shippingAddress, setShippingAddress] = useState<ShippingAddress | null>(null);
+  const [saveAddress, setSaveAddress] = useState(false);
+  const [taxRequested, setTaxRequested] = useState(false);
+  const [taxInvoice, setTaxInvoice] = useState<CheckoutTaxInvoice | null>(null);
+  // Only point at missing details after the customer has tried to place the order.
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+  const missing = {
+    address: submitAttempted && !shippingAddress,
+    taxInvoice: submitAttempted && taxRequested && !taxInvoice,
+  };
 
   // Both drive the live fee/total in the summary column.
   const shippingMethod = useWatch({ control, name: 'shippingMethod' });
@@ -145,7 +128,12 @@ export function CheckoutPage() {
     }
   };
 
-  const onSubmit = handleSubmit(async ({ saveAddress, shippingMethod: shipping, paymentMethod: payment, ...shippingAddress }) => {
+  const onSubmit = handleSubmit(async ({ shippingMethod: shipping, paymentMethod: payment }) => {
+    if (!shippingAddress || (taxRequested && !taxInvoice)) {
+      setSubmitAttempted(true);
+      document.getElementById('checkout-shipping-info')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
     const result = await dispatch(
       placeOrder({
         items: items.map(({ product, quantity }) => ({
@@ -159,6 +147,7 @@ export function CheckoutPage() {
         paymentMethod: payment,
         couponCode: coupon?.code,
         saveAddress,
+        taxInvoice: taxRequested && taxInvoice ? taxInvoice : undefined,
       }),
     );
     // Card / QR payments continue on the payment gateway's own page when the backend provides one.
@@ -235,92 +224,22 @@ export function CheckoutPage() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
           {/* Left column — the form; the submit button lives in the summary column and targets it by id. */}
           <form id="checkout-form" onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
-            {/* 1. Shipping info */}
-            <div className="rounded-2xl border border-slate-100 bg-white p-5 sm:p-6">
+            {/* 1. Shipping info — address card, "ขอใบกำกับภาษี", and the tax card while it's ticked */}
+            <div id="checkout-shipping-info" className="scroll-mt-24 rounded-2xl border border-slate-100 bg-white p-5 sm:p-6">
               <SectionTitle number={1} title="ข้อมูลการจัดส่ง" />
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <FormField label="ชื่อ - นามสกุล" required error={errors.fullName?.message}>
-                  <TextInput
-                    type="text"
-                    placeholder="ชื่อผู้รับสินค้า"
-                    autoComplete="name"
-                    invalid={!!errors.fullName}
-                    {...register('fullName', { required: REQUIRED, minLength: { value: 2, message: 'กรุณากรอกชื่อให้ครบถ้วน' } })}
-                  />
-                </FormField>
-                <FormField label="เบอร์โทรศัพท์" required error={errors.phone?.message}>
-                  <TextInput
-                    type="tel"
-                    placeholder="08X-XXX-XXXX"
-                    autoComplete="tel"
-                    invalid={!!errors.phone}
-                    {...register('phone', {
-                      required: REQUIRED,
-                      validate: (value) =>
-                        /^0\d{8,9}$/.test(value.replace(/[\s-]/g, '')) || 'เบอร์โทรศัพท์ไม่ถูกต้อง',
-                    })}
-                  />
-                </FormField>
-                <FormField label="ที่อยู่" required error={errors.address?.message} className="sm:col-span-2">
-                  <TextInput
-                    type="text"
-                    placeholder="บ้านเลขที่ / ถนน / ซอย"
-                    autoComplete="street-address"
-                    invalid={!!errors.address}
-                    {...register('address', { required: REQUIRED })}
-                  />
-                </FormField>
-                <FormField label="จังหวัด" required error={errors.province?.message}>
-                  <SelectInput invalid={!!errors.province} {...register('province', { required: 'กรุณาเลือกจังหวัด' })}>
-                    <option value="" disabled>
-                      เลือกจังหวัด
-                    </option>
-                    {provinceOptions.map((province) => (
-                      <option key={province} value={province}>
-                        {province}
-                      </option>
-                    ))}
-                  </SelectInput>
-                </FormField>
-                <FormField label="อำเภอ / เขต" required error={errors.district?.message}>
-                  <TextInput
-                    type="text"
-                    placeholder="อำเภอ / เขต"
-                    invalid={!!errors.district}
-                    {...register('district', { required: REQUIRED })}
-                  />
-                </FormField>
-                <FormField label="ตำบล / แขวง" required error={errors.subdistrict?.message}>
-                  <TextInput
-                    type="text"
-                    placeholder="ตำบล / แขวง"
-                    invalid={!!errors.subdistrict}
-                    {...register('subdistrict', { required: REQUIRED })}
-                  />
-                </FormField>
-                <FormField label="รหัสไปรษณีย์" required error={errors.postalCode?.message}>
-                  <TextInput
-                    type="text"
-                    inputMode="numeric"
-                    placeholder="10xxx"
-                    autoComplete="postal-code"
-                    maxLength={5}
-                    invalid={!!errors.postalCode}
-                    {...register('postalCode', {
-                      required: REQUIRED,
-                      pattern: { value: /^\d{5}$/, message: 'รหัสไปรษณีย์ต้องเป็นตัวเลข 5 หลัก' },
-                    })}
-                  />
-                </FormField>
-              </div>
-              <label className="mt-4 flex items-center gap-2 text-xs text-slate-500">
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
-                  {...register('saveAddress')}
-                />
-                บันทึกที่อยู่นี้สำหรับการสั่งซื้อครั้งถัดไป
-              </label>
+              <ShippingInfoSection
+                address={shippingAddress}
+                saveAddress={saveAddress}
+                onAddressChange={(next, save) => {
+                  setShippingAddress(next);
+                  setSaveAddress(save);
+                }}
+                taxRequested={taxRequested}
+                onTaxRequestedChange={setTaxRequested}
+                taxInvoice={taxInvoice}
+                onTaxInvoiceChange={setTaxInvoice}
+                missing={missing}
+              />
             </div>
 
             {/* 2. Shipping method */}

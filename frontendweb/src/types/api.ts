@@ -41,7 +41,12 @@ export interface CreateOrderRequest {
   paymentMethod: PaymentMethodId;
   couponCode?: string;
   saveAddress: boolean;
+  /** Present only when the customer ticked "ขอใบกำกับภาษี" at checkout. */
+  taxInvoice?: CheckoutTaxInvoice;
 }
+
+/** Tax-invoice details entered at checkout (same fields as a saved tax address, minus the default flag). */
+export type CheckoutTaxInvoice = Omit<TaxAddressInput, 'isDefault'>;
 
 export interface CreateOrderResponse {
   orderId: string;
