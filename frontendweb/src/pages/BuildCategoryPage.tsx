@@ -13,6 +13,7 @@ import { useAppDispatch } from '../app/hooks';
 import { useCatalogs } from '../hooks/useCatalogs';
 import { addToCart } from '../features/cart/cartSlice';
 import type { CategoryIconKey } from '../types';
+import type { StepId } from '../types/build';
 import type { CpuProduct } from '../data/cpuProducts';
 import type { MotherboardProduct } from '../data/motherboardProducts';
 import type { GpuProduct } from '../data/gpuProducts';
@@ -21,8 +22,6 @@ import type { StorageProduct } from '../data/storageProducts';
 import type { PsuProduct } from '../data/psuProducts';
 import type { CaseProduct } from '../data/caseProducts';
 import type { CoolingProduct } from '../data/coolingProducts';
-
-export type StepId = 'cpu' | 'motherboard' | 'gpu' | 'ram' | 'storage' | 'psu' | 'case' | 'cooling';
 
 // Module-level so useCatalogs gets a stable array and doesn't refetch on every render.
 const BUILD_CATEGORIES = ['cpu', 'motherboard', 'gpu', 'ram', 'storage', 'psu', 'case', 'cooling'] as const satisfies readonly StepId[];

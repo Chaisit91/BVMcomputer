@@ -12,16 +12,22 @@ interface UseCategoryProductsResult<T> {
   reload: () => void;
 }
 
+interface UseCategoryProductsOptions {
+  /** false = don't load yet (e.g. an autocomplete that only needs the list once it's opened). Default true. */
+  enabled?: boolean;
+}
+
 /** Loads (once, then cached in Redux) and returns one category's product list. */
 export function useCategoryProducts<K extends ProductCategorySlug>(
   slug: K,
+  { enabled = true }: UseCategoryProductsOptions = {},
 ): UseCategoryProductsResult<CategoryProductMap[K]> {
   const dispatch = useAppDispatch();
   const list = useAppSelector((state) => state.catalog[slug]);
 
   useEffect(() => {
-    void dispatch(fetchCategoryProducts({ slug }));
-  }, [dispatch, slug]);
+    if (enabled) void dispatch(fetchCategoryProducts({ slug }));
+  }, [dispatch, slug, enabled]);
 
   const reload = useCallback(() => {
     void dispatch(fetchCategoryProducts({ slug, force: true }));

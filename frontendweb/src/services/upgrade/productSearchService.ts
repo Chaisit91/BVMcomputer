@@ -29,28 +29,28 @@ function toUpgradeProduct<K extends UpgradeComponentKey>(category: K, p: Categor
   };
 }
 
-// The search box calls this on every keystroke — keep one in-flight/finished request
-// per category instead of refetching the whole list each time. Failed requests are
-// dropped from the cache so the next call retries.
-const cache = new Map<UpgradeComponentKey, Promise<UpgradeProduct[]>>();
-
-/** Backed by GET /products?category= (via productApi). */
-export function listUpgradeProducts(component: UpgradeComponentKey): Promise<UpgradeProduct[]> {
-  const cached = cache.get(component);
-  if (cached) return cached;
-
-  const request = getCategoryProducts(component).then((products) =>
-    products.map((p) => toUpgradeProduct(component, p)),
-  );
-  cache.set(component, request);
-  request.catch(() => cache.delete(component));
-  return request;
+/** Category products (as loaded into the Redux catalog) → the upgrade flow's product shape. */
+export function toUpgradeProducts<K extends UpgradeComponentKey>(
+  component: K,
+  products: CategoryProductMap[K][],
+): UpgradeProduct[] {
+  return products.map((p) => toUpgradeProduct(component, p));
 }
 
-/** Filters the category list locally — the lists are small enough that a round-trip per keystroke isn't worth it. */
-export async function searchUpgradeProducts(component: UpgradeComponentKey, query: string): Promise<UpgradeProduct[]> {
-  const pool = await listUpgradeProducts(component);
+/**
+ * Autocomplete filter over an already-loaded category list — the lists are small enough
+ * that a round-trip per keystroke isn't worth it. Empty query = first 8 items.
+ */
+export function filterUpgradeProducts(pool: UpgradeProduct[], query: string): UpgradeProduct[] {
   const q = query.trim().toLowerCase();
   if (!q) return pool.slice(0, 8);
   return pool.filter((item) => `${item.brand} ${item.name}`.toLowerCase().includes(q)).slice(0, 8);
+}
+
+/**
+ * Backed by GET /products?category= (via productApi). Used outside React (the in-browser
+ * mock analysis); components read the same lists from the Redux catalog via useUpgradeProducts.
+ */
+export async function listUpgradeProducts(component: UpgradeComponentKey): Promise<UpgradeProduct[]> {
+  return toUpgradeProducts(component, await getCategoryProducts(component));
 }

@@ -54,6 +54,7 @@ Backend ส่ง JSON ของ resource ตรง ๆ เป็น body (ไ�
 | GET | `/products/{slug}/{id}` | `CategoryProduct` หรือ 404 |
 | GET | `/products/search?q={query}` | `ProductSummary[]` |
 | GET | `/products/popular` | `Product[]` (หน้าแรก) |
+| GET | `/products/recommendations` | `CartRecommendationItem[]` — สินค้าแนะนำในตะกร้า ("สินค้าที่คุณอาจสนใจ") = `Product` + `subtitle` (เช่น "SSD M.2 NVMe") หน้าเว็บจะซ่อนชิ้นที่อยู่ในตะกร้าแล้วและแสดง 4 ชิ้นแรกเอง |
 | GET | `/categories` | `Category[]` |
 | GET | `/banners/promo` | `PromoBanner[]` |
 | GET | `/deals/special` | `SpecialDeal[]` |
@@ -61,6 +62,10 @@ Backend ส่ง JSON ของ resource ตรง ๆ เป็น body (ไ�
 `slug` = `cpu` `gpu` `motherboard` `ram` `storage` `psu` `case` `cooling` `desktop-pc` `pc-sets`
 — รูปแบบของ `CategoryProduct` แต่ละหมวดดูได้ที่ `src/data/{category}Products.ts` (เช่น `CpuProduct`, `GpuProduct`)
 และ map รวมที่ [src/data/catalog.ts](src/data/catalog.ts)
+
+หน้าหมวดสินค้าทุกหน้าใช้ component ชุดเดียวกัน (`CategoryListingPage` + hero / sidebar / card / row)
+ส่วนที่ต่างกันแต่ละหมวด (ข้อความ hero, กลุ่มตัวกรอง, บรรทัดสเปค, ไอคอน) อยู่ที่
+[src/components/category/categoryConfigs.ts](src/components/category/categoryConfigs.ts) ที่เดียว
 
 ### ผู้ใช้
 
@@ -92,6 +97,13 @@ Backend ส่ง JSON ของ resource ตรง ๆ เป็น body (ไ�
 | POST | `/coupons/validate` | `{ code, subtotal }` | `{ valid, discount, message? }` |
 
 ถ้าส่ง `paymentUrl` กลับมา (บัตรเครดิต / QR) หน้าเว็บจะพาผู้ใช้ไปหน้าชำระเงินนั้นต่อ
+
+**ที่อยู่ใน Checkout**
+- ลูกค้าที่ login: ใช้ที่อยู่จาก `/account/addresses` และ `/account/tax-addresses` (ไม่มีที่เก็บแยก) เลือกได้ต่อคำสั่งซื้อโดยไม่เปลี่ยนที่อยู่หลัก
+  `shippingAddress` / `taxInvoice` ใน `CreateOrderRequest` คือสำเนาของที่อยู่ที่เลือก และ `saveAddress` เป็น `false` เสมอ
+- กด "+ เพิ่ม…" ใน Checkout → ไปหน้า Account พร้อมเปิด Modal เพิ่มให้อัตโนมัติ → บันทึก/ยกเลิกแล้วกลับ Checkout
+  (ดู [checkoutReturn.ts](src/features/checkout/checkoutReturn.ts) และ [checkoutSlice.ts](src/features/checkout/checkoutSlice.ts))
+- ลูกค้าที่ไม่ได้ login: กรอกที่อยู่ใน Modal ของหน้า Checkout สำหรับคำสั่งซื้อนั้นเหมือนเดิม
 — type ทั้งหมดอยู่ที่ [src/types/api.ts](src/types/api.ts)
 
 ### AI / Upgrade / Build

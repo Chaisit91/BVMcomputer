@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { categoryIcons } from '../home/categoryIcons';
 import { cn } from '../../lib/cn';
 import { useAppDispatch } from '../../app/hooks';
 import { addToCart } from '../../features/cart/cartSlice';
-import { listUpgradeProducts } from '../../services/upgrade/productSearchService';
+import { useUpgradeProducts } from '../../hooks/useUpgradeProducts';
 import { UpgradeProductCard } from './UpgradeProductCard';
 import type { UpgradeComponentKey, UpgradeProduct, UpgradeSelection } from '../../types/upgrade';
 
@@ -50,34 +50,21 @@ export function RecommendedProductsSection({
 }: RecommendedProductsSectionProps) {
   const dispatch = useAppDispatch();
   const [activeKey, setActiveKey] = useState<UpgradeComponentKey>('cpu');
-  const [loaded, setLoaded] = useState<{ key: UpgradeComponentKey; items: UpgradeProduct[] }>({ key: 'cpu', items: [] });
-
-  useEffect(() => {
-    let cancelled = false;
-    listUpgradeProducts(activeKey)
-      .then((items) => {
-        if (!cancelled) setLoaded({ key: activeKey, items });
-      })
-      // Optional browsing section — on failure just leave it empty rather than blocking the page.
-      .catch(() => {
-        if (!cancelled) setLoaded({ key: activeKey, items: [] });
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [activeKey]);
+  // From the Redux catalog cache. Optional browsing section — while loading or on failure it
+  // just stays empty rather than blocking the page.
+  const { products: loadedProducts, status } = useUpgradeProducts(activeKey);
 
   // Recomputed whenever the selection changes, so the product in effect — including a step-2
   // product that comes back after a deselect — is always on the grid with its ✓, even when it
   // isn't among the first few products.
   const chosenId = upgrades[activeKey]?.productId;
   const products = useMemo(() => {
-    const items = loaded.key === activeKey ? loaded.items : [];
+    const items = status === 'succeeded' ? loadedProducts : [];
     const top = items.slice(0, GRID_SIZE);
     if (!chosenId || top.some((p) => p.productId === chosenId)) return top;
     const chosenItem = items.find((p) => p.productId === chosenId);
     return chosenItem ? [chosenItem, ...top.slice(0, GRID_SIZE - 1)] : top;
-  }, [loaded, activeKey, chosenId]);
+  }, [loadedProducts, status, chosenId]);
 
   const Icon = categoryIcons[activeKey];
 

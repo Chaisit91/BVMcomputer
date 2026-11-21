@@ -1,7 +1,7 @@
 export type CategoryView = 'grid' | 'list';
 export type CategorySort = 'popular' | 'price-asc' | 'price-desc';
 
-/** The prop contract every category's filter sidebar implements (FilterSidebar, GpuFilterSidebar, ...). */
+/** Props CategoryListingPage passes to the shared CategoryFilterSidebar. */
 export interface CategoryFilterSidebarProps<F> {
   title: string;
   count: number;

@@ -1,5 +1,5 @@
 import { apiPost, mockDelay, withMockFallback } from '../../api/request';
-import type { StepId } from '../../pages/BuildCategoryPage';
+import type { StepId } from '../../types/build';
 
 export interface PcPreviewPart {
   category: StepId;

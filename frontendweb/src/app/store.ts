@@ -3,10 +3,12 @@ import { setUnauthorizedHandler } from '../api/axiosClient';
 import authReducer, { sessionExpired } from '../features/auth/authSlice';
 import cartReducer from '../features/cart/cartSlice';
 import cartUiReducer from '../features/cart/cartUiSlice';
+import cartRecommendationReducer from '../features/cart/cartRecommendationSlice';
 import catalogReducer from '../features/catalog/catalogSlice';
 import accountReducer from '../features/account/accountSlice';
 import addressReducer from '../features/address/addressSlice';
 import chatReducer from '../features/chat/chatSlice';
+import checkoutReducer from '../features/checkout/checkoutSlice';
 import homeReducer from '../features/home/homeSlice';
 import orderReducer from '../features/order/orderSlice';
 import productDetailReducer from '../features/productDetail/productDetailSlice';
@@ -25,8 +27,10 @@ export const store = configureStore({
     auth: authReducer,
     cart: cartReducer,
     cartUi: cartUiReducer,
+    cartRecommendation: cartRecommendationReducer,
     catalog: catalogReducer,
     chat: chatReducer,
+    checkout: checkoutReducer,
     home: homeReducer,
     order: orderReducer,
     productDetail: productDetailReducer,

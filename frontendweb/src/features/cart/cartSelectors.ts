@@ -9,3 +9,5 @@ export const selectCartTotal = (state: RootState) =>
   state.cart.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
 
 export const selectIsCartOpen = (state: RootState) => state.cartUi.isOpen;
+
+export const selectCartRecommendationPool = (state: RootState) => state.cartRecommendation.items;

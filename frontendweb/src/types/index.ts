@@ -41,6 +41,12 @@ export interface Product {
   shortSpec?: string;
 }
 
+/** Upsell item in the cart drawer's "สินค้าที่คุณอาจสนใจ" section — a Product plus a short type line. */
+export interface CartRecommendationItem extends Product {
+  /** Short product-type line shown under the name, e.g. "Air Cooler", "SSD M.2 NVMe". */
+  subtitle: string;
+}
+
 export interface PromoBanner {
   id: string;
   title: string;

@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { IconType } from 'react-icons';
 import { FiSearch, FiX } from 'react-icons/fi';
-import { searchUpgradeProducts } from '../../services/upgrade/productSearchService';
+import { filterUpgradeProducts } from '../../services/upgrade/productSearchService';
+import { useUpgradeProducts } from '../../hooks/useUpgradeProducts';
 import { cn } from '../../lib/cn';
 import type { UpgradeComponentKey, UpgradeProduct } from '../../types/upgrade';
 
@@ -39,25 +40,14 @@ export function SpecSearchField({
   inputId,
 }: SpecSearchFieldProps) {
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState<UpgradeProduct[]>([]);
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!open) return;
-    let cancelled = false;
-    searchUpgradeProducts(component, query)
-      .then((items) => {
-        if (!cancelled) setResults(items);
-      })
-      // A failed lookup just shows no suggestions — the user can keep typing to retry.
-      .catch(() => {
-        if (!cancelled) setResults([]);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [component, query, open]);
+  // The category list is loaded (into the Redux catalog) the first time the field is opened;
+  // suggestions are then just a local filter of it — derived data, so useMemo, not an effect.
+  // A failed load simply shows no suggestions.
+  const { products: pool } = useUpgradeProducts(component, { enabled: open });
+  const results = useMemo(() => filterUpgradeProducts(pool, query), [pool, query]);
 
   useEffect(() => {
     if (!open) return;

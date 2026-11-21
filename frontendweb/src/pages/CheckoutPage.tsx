@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   BsBank,
   BsCashCoin,
@@ -8,23 +8,36 @@ import {
   BsCreditCard2Front,
   BsQrCode,
   BsShieldCheck,
-  BsTruck,
-  BsTruckFront,
 } from 'react-icons/bs';
-import { FiAlertCircle, FiChevronRight, FiLock, FiShoppingCart, FiTag } from 'react-icons/fi';
+import { FiAlertCircle, FiLock, FiShoppingCart, FiTag } from 'react-icons/fi';
+import type { IconType } from 'react-icons';
+import { TbCalendar, TbTruck } from 'react-icons/tb';
+import { FastDeliveryVanIcon } from '../components/checkout/FastDeliveryVanIcon';
 import { Container } from '../components/ui/Container';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Spinner } from '../components/ui/Spinner';
-import { ShippingInfoSection } from '../components/checkout/ShippingInfoSection';
+import { ShippingInfoSection, type AccountAddressBook } from '../components/checkout/ShippingInfoSection';
 import { categoryIcons } from '../components/home/categoryIcons';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { selectCartItems } from '../features/cart/cartSelectors';
 import { placeOrder, resetOrder } from '../features/order/orderSlice';
+import { fetchAddresses } from '../features/address/addressSlice';
+import { fetchTaxAddresses } from '../features/taxAddress/taxAddressSlice';
+import { clearCheckoutDraft, saveCheckoutDraft } from '../features/checkout/checkoutSlice';
+import { ACCOUNT_ADDRESS_ROUTES, type CheckoutReturnState } from '../features/checkout/checkoutReturn';
 import { validateCoupon } from '../api/orderApi';
 import { getErrorMessage } from '../api/apiError';
 import { formatTHB } from '../lib/format';
 import { cn } from '../lib/cn';
-import type { CheckoutTaxInvoice, CreateOrderResponse, PaymentMethodId, ShippingAddress, ShippingMethodId } from '../types/api';
+import type {
+  CheckoutTaxInvoice,
+  CreateOrderResponse,
+  PaymentMethodId,
+  SavedAddress,
+  ShippingAddress,
+  ShippingMethodId,
+  TaxAddress,
+} from '../types/api';
 
 const steps = [
   { id: 1, label: 'ตรวจสอบคำสั่งซื้อ' },
@@ -32,9 +45,9 @@ const steps = [
   { id: 3, label: 'ชำระเงิน' },
 ];
 
-const shippingMethods: { id: ShippingMethodId; icon: typeof BsTruck; label: string; subtitle: string; fee: number; recommended?: boolean }[] = [
-  { id: 'standard', icon: BsTruck, label: 'จัดส่งมาตรฐาน', subtitle: '1 - 3 วันทำการ', fee: 0, recommended: true },
-  { id: 'express', icon: BsTruckFront, label: 'จัดส่งด่วน', subtitle: 'ภายใน 1 วัน', fee: 50 },
+const shippingMethods: { id: ShippingMethodId; icon: IconType; label: string; subtitle: string; fee: number; recommended?: boolean }[] = [
+  { id: 'standard', icon: TbTruck, label: 'จัดส่งมาตรฐาน', subtitle: '1 - 3 วันทำการ', fee: 0, recommended: true },
+  { id: 'express', icon: FastDeliveryVanIcon, label: 'จัดส่งด่วน', subtitle: 'ภายใน 1 วัน', fee: 50 },
 ];
 
 const paymentMethods: { id: PaymentMethodId; icon: typeof BsBank; label: string; subtitle: string; feeNote?: string }[] = [
@@ -54,6 +67,35 @@ const trustNotes = [
 const VAT_RATE = 0.07;
 const COD_FEE = 50;
 
+/** The order's shipping address, from a saved account address. */
+const toShippingAddress = (saved: SavedAddress): ShippingAddress => ({
+  fullName: saved.recipientName,
+  phone: saved.phone,
+  address: saved.addressLine,
+  province: saved.province,
+  district: saved.district,
+  subdistrict: saved.subdistrict,
+  postalCode: saved.postalCode,
+});
+
+/** The order's tax-invoice details, from a saved account tax address (without its id / default flag). */
+const toCheckoutTaxInvoice = ({ payerType, name, taxId, phone, addressLine, subdistrict, district, province, postalCode }: TaxAddress): CheckoutTaxInvoice => ({
+  payerType,
+  name,
+  taxId,
+  phone,
+  addressLine,
+  subdistrict,
+  district,
+  province,
+  postalCode,
+});
+
+/** The order's pick if it's still in the list, else the account default, else the first one. */
+function pickSaved<T extends { id: string; isDefault: boolean }>(items: T[], selectedId: string | null): T | null {
+  return items.find((item) => item.id === selectedId) ?? items.find((item) => item.isDefault) ?? items[0] ?? null;
+}
+
 /** The address and tax details come from ShippingInfoSection's modals; the form itself holds the two method picks. */
 interface CheckoutFormValues {
   shippingMethod: ShippingMethodId;
@@ -62,21 +104,37 @@ interface CheckoutFormValues {
 
 export function CheckoutPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const items = useAppSelector(selectCartItems);
   const { status: orderStatus, error: orderError, lastOrder } = useAppSelector((state) => state.order);
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const addressState = useAppSelector((state) => state.address);
+  const taxAddressState = useAppSelector((state) => state.taxAddress);
 
+  // Picks saved before a trip to the account pages (see checkoutSlice) — frozen at mount, used as initial values.
+  const storedDraft = useAppSelector((state) => state.checkout.draft);
+  const [draft] = useState(storedDraft);
   const { register, handleSubmit, control, setValue } = useForm<CheckoutFormValues>({
     defaultValues: {
-      shippingMethod: 'standard',
-      paymentMethod: 'bank',
+      shippingMethod: draft?.shippingMethod ?? 'standard',
+      paymentMethod: draft?.paymentMethod ?? 'bank',
     },
   });
 
-  // Step 1 — kept for this order only (nothing is saved to the account from checkout).
-  const [shippingAddress, setShippingAddress] = useState<ShippingAddress | null>(null);
+  // Guest checkout — details kept for this order only (nothing is saved to an account).
+  const [guestAddress, setGuestAddress] = useState<ShippingAddress | null>(null);
   const [saveAddress, setSaveAddress] = useState(false);
-  const [taxRequested, setTaxRequested] = useState(false);
-  const [taxInvoice, setTaxInvoice] = useState<CheckoutTaxInvoice | null>(null);
+  const [taxRequested, setTaxRequested] = useState(draft?.taxRequested ?? false);
+  const [guestTaxInvoice, setGuestTaxInvoice] = useState<CheckoutTaxInvoice | null>(null);
+
+  // Signed in — which saved account address this order uses (the account default is never changed here).
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(draft?.selectedAddressId ?? null);
+  const [selectedTaxAddressId, setSelectedTaxAddressId] = useState<string | null>(draft?.selectedTaxAddressId ?? null);
+  const selectedAddress = isAuthenticated ? pickSaved(addressState.addresses, selectedAddressId) : null;
+  const selectedTaxAddress = isAuthenticated ? pickSaved(taxAddressState.addresses, selectedTaxAddressId) : null;
+
+  const shippingAddress = isAuthenticated ? (selectedAddress && toShippingAddress(selectedAddress)) : guestAddress;
+  const taxInvoice = isAuthenticated ? (selectedTaxAddress && toCheckoutTaxInvoice(selectedTaxAddress)) : guestTaxInvoice;
   // Only point at missing details after the customer has tried to place the order.
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const missing = {
@@ -88,8 +146,8 @@ export function CheckoutPage() {
   const shippingMethod = useWatch({ control, name: 'shippingMethod' });
   const paymentMethod = useWatch({ control, name: 'paymentMethod' });
 
-  const [couponCode, setCouponCode] = useState('');
-  const [coupon, setCoupon] = useState<{ code: string; discount: number } | null>(null);
+  const [couponCode, setCouponCode] = useState(draft?.couponCode ?? '');
+  const [coupon, setCoupon] = useState<{ code: string; discount: number } | null>(draft?.coupon ?? null);
   const [couponChecking, setCouponChecking] = useState(false);
   const [couponError, setCouponError] = useState<string | null>(null);
 
@@ -99,6 +157,62 @@ export function CheckoutPage() {
       dispatch(resetOrder());
     };
   }, [dispatch]);
+
+  // The draft is one-shot: it has been copied into this page's state above, so drop it.
+  useEffect(() => {
+    dispatch(clearCheckoutDraft());
+  }, [dispatch]);
+
+  // Real side effect: load the signed-in customer's saved addresses fresh from the account every
+  // time checkout opens, so anything added or edited there shows up here. Both run in parallel.
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    void dispatch(fetchAddresses({ force: true }));
+    void dispatch(fetchTaxAddresses({ force: true }));
+  }, [isAuthenticated, dispatch]);
+
+  /** "+ เพิ่ม…" for a signed-in customer: keep this page's picks, then add it on the account page. */
+  const goAddInAccount = (kind: 'address' | 'tax') => {
+    dispatch(
+      saveCheckoutDraft({
+        shippingMethod,
+        paymentMethod,
+        couponCode,
+        coupon,
+        taxRequested,
+        selectedAddressId: selectedAddress?.id ?? null,
+        selectedTaxAddressId: selectedTaxAddress?.id ?? null,
+      }),
+    );
+    // replace: the account page takes this entry's place, and comes back here with replace too,
+    // so Back never ping-pongs between checkout and the account page.
+    navigate(ACCOUNT_ADDRESS_ROUTES[kind], {
+      replace: true,
+      state: { from: 'checkout', autoOpenAdd: true } satisfies CheckoutReturnState,
+    });
+  };
+
+  const accountBook: AccountAddressBook | undefined = isAuthenticated
+    ? {
+        addresses: {
+          items: addressState.addresses,
+          status: addressState.status,
+          error: addressState.error,
+          onRetry: () => void dispatch(fetchAddresses({ force: true })),
+          selected: selectedAddress,
+          onSelect: setSelectedAddressId,
+        },
+        taxAddresses: {
+          items: taxAddressState.addresses,
+          status: taxAddressState.status,
+          error: taxAddressState.error,
+          onRetry: () => void dispatch(fetchTaxAddresses({ force: true })),
+          selected: selectedTaxAddress,
+          onSelect: setSelectedTaxAddressId,
+        },
+        onAdd: goAddInAccount,
+      }
+    : undefined;
 
   const subtotal = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
   const shippingFee = shippingMethods.find((m) => m.id === shippingMethod)?.fee ?? 0;
@@ -146,7 +260,8 @@ export function CheckoutPage() {
         shippingMethod: shipping,
         paymentMethod: payment,
         couponCode: coupon?.code,
-        saveAddress,
+        // A signed-in customer's address already lives in their account.
+        saveAddress: isAuthenticated ? false : saveAddress,
         taxInvoice: taxRequested && taxInvoice ? taxInvoice : undefined,
       }),
     );
@@ -185,11 +300,6 @@ export function CheckoutPage() {
   return (
     <section className="bg-slate-50 py-6">
       <Container>
-        <Link to="/" className="mb-4 inline-flex items-center gap-1.5 text-xs font-medium text-slate-400 hover:text-brand">
-          <FiChevronRight size={12} className="rotate-180" aria-hidden="true" />
-          กลับไปหน้าสินค้า
-        </Link>
-
         {/* Step indicator — each step sits in a fixed-width column so differing label
             lengths never throw off the spacing between circles; connectors get a fixed
             width and are nudged to the circle's own vertical center (half its height). */}
@@ -228,16 +338,17 @@ export function CheckoutPage() {
             <div id="checkout-shipping-info" className="scroll-mt-24 rounded-2xl border border-slate-100 bg-white p-5 sm:p-6">
               <SectionTitle number={1} title="ข้อมูลการจัดส่ง" />
               <ShippingInfoSection
-                address={shippingAddress}
+                account={accountBook}
+                address={guestAddress}
                 saveAddress={saveAddress}
                 onAddressChange={(next, save) => {
-                  setShippingAddress(next);
+                  setGuestAddress(next);
                   setSaveAddress(save);
                 }}
                 taxRequested={taxRequested}
                 onTaxRequestedChange={setTaxRequested}
-                taxInvoice={taxInvoice}
-                onTaxInvoiceChange={setTaxInvoice}
+                taxInvoice={guestTaxInvoice}
+                onTaxInvoiceChange={setGuestTaxInvoice}
                 missing={missing}
               />
             </div>
@@ -245,31 +356,43 @@ export function CheckoutPage() {
             {/* 2. Shipping method */}
             <div className="rounded-2xl border border-slate-100 bg-white p-5 sm:p-6">
               <SectionTitle number={2} title="วิธีการจัดส่ง" />
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {/* Selection is shown by background + border colour only (no check mark, no radio dot).
+                  Same-height cards: the grid row stretches both to the taller one. */}
+              <div role="radiogroup" aria-label="วิธีการจัดส่ง" className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
                 {shippingMethods.map((method) => {
                   const selected = shippingMethod === method.id;
                   return (
                     <button
                       key={method.id}
                       type="button"
-                      aria-pressed={selected}
+                      role="radio"
+                      aria-checked={selected}
                       onClick={() => setValue('shippingMethod', method.id)}
                       className={cn(
-                        'relative flex flex-col gap-2 rounded-xl border p-4 text-left transition-colors',
-                        selected ? 'border-brand bg-red-50' : 'border-slate-200 bg-white hover:border-slate-300',
+                        // ring-1 on top of the 1px border = a 2px red edge when selected, without shifting the layout.
+                        'relative flex min-h-[124px] items-center gap-3 rounded-2xl border px-4 py-5 text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-brand/40 sm:gap-4 sm:px-5',
+                        selected ? 'border-brand bg-[#FFF1F2] ring-1 ring-brand' : 'border-slate-200 bg-white hover:border-slate-300',
                       )}
                     >
                       {method.recommended && (
-                        <span className="absolute right-3 top-3 rounded-full bg-ink px-2 py-0.5 text-[10px] font-semibold text-white">
+                        <span className="absolute right-3 top-3 rounded-full bg-ink px-2.5 py-0.5 text-[11px] font-semibold text-white">
                           แนะนำ
                         </span>
                       )}
-                      <method.icon size={22} className={selected ? 'text-brand' : 'text-slate-400'} aria-hidden="true" />
-                      <div>
-                        <p className="text-sm font-semibold text-ink">{method.label}</p>
-                        <p className="text-xs text-slate-400">{method.subtitle}</p>
+                      <method.icon
+                        size={40}
+                        strokeWidth={1.6}
+                        className={cn('shrink-0 transition-colors', selected ? 'text-brand' : 'text-slate-400')}
+                        aria-hidden="true"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-base font-bold text-ink">{method.label}</p>
+                        <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-500">
+                          <TbCalendar size={16} className="shrink-0 text-slate-400" aria-hidden="true" />
+                          {method.subtitle}
+                        </p>
                       </div>
-                      <span className={cn('text-sm font-bold', selected ? 'text-brand' : 'text-ink')}>
+                      <span className={cn('shrink-0 text-xl font-bold', selected ? 'text-brand' : 'text-ink')}>
                         {method.fee === 0 ? '฿0' : formatTHB(method.fee)}
                       </span>
                     </button>

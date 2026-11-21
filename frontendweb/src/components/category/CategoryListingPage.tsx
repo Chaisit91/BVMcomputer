@@ -1,47 +1,31 @@
-import { useMemo, useRef, useState, type ComponentType, type ReactNode } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Container } from '../ui/Container';
 import { ErrorState } from '../ui/ErrorState';
 import { ProductPagination } from './ProductPagination';
 import { ProductGridSkeleton } from './ProductGridSkeleton';
+import { CategoryHeroBanner } from './CategoryHeroBanner';
+import { CategoryFilterSidebar } from './CategoryFilterSidebar';
+import { CategoryProductCard } from './CategoryProductCard';
+import { CategoryProductListRow } from './CategoryProductListRow';
+import { categoryConfigs, type CategoryConfig, type CategoryFilterMap } from './categoryConfigs';
 import { useCategoryProducts } from '../../hooks/useCategoryProducts';
-import { sortByPrice, type CategoryFilterSidebarProps, type CategorySort, type CategoryView } from './categoryListing';
-import type { CategoryProductMap, ProductCategorySlug } from '../../data/catalog';
+import { sortByPrice, type CategorySort, type CategoryView } from './categoryListing';
+import type { ProductCategorySlug } from '../../data/catalog';
 
 const PAGE_SIZE = 12;
 
-interface CategoryListingPageProps<K extends ProductCategorySlug, F> {
-  slug: K;
-  /** Heading shown in the sidebar, e.g. "ซีพียู". */
-  title: string;
-  sectionId: string;
-  hero: ReactNode;
-  Sidebar: ComponentType<CategoryFilterSidebarProps<F>>;
-  Card: ComponentType<{ product: CategoryProductMap[K] }>;
-  Row: ComponentType<{ product: CategoryProductMap[K] }>;
-  defaultFilters: F;
-  applyFilters: (products: CategoryProductMap[K][], filters: F) => CategoryProductMap[K][];
-  priceCeiling: number;
-}
-
 /**
  * Shared layout + behaviour for every category page: loads the category from the
- * backend (via Redux), then filters, sorts and paginates it. Each category page only
- * supplies its own hero, sidebar, card/row components and filter function.
+ * backend (via Redux), then filters, sorts and paginates it. Everything that differs
+ * per category (hero text, filter groups, card spec lines, icon) lives in categoryConfigs.
  */
-export function CategoryListingPage<K extends ProductCategorySlug, F>({
-  slug,
-  title,
-  sectionId,
-  hero,
-  Sidebar,
-  Card,
-  Row,
-  defaultFilters,
-  applyFilters,
-  priceCeiling,
-}: CategoryListingPageProps<K, F>) {
+export function CategoryListingPage<K extends ProductCategorySlug>({ slug }: { slug: K }) {
+  const config: CategoryConfig<K> = categoryConfigs[slug];
+  const { title, sectionId, hero } = config;
+  const { defaults: defaultFilters, apply: applyFilters, priceCeiling, sections } = config.filters;
+
   const { products, status, error, reload } = useCategoryProducts(slug);
-  const [filters, setFilters] = useState<F>(defaultFilters);
+  const [filters, setFilters] = useState<CategoryFilterMap[K]>(defaultFilters);
   const [sort, setSort] = useState<CategorySort>('popular');
   const [view, setView] = useState<CategoryView>('grid');
   const [page, setPage] = useState(1);
@@ -58,7 +42,7 @@ export function CategoryListingPage<K extends ProductCategorySlug, F>({
   const pageProducts = visibleProducts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
   // Any change to what's being shown starts back at page 1.
-  const handleFiltersChange = (next: F) => {
+  const handleFiltersChange = (next: CategoryFilterMap[K]) => {
     setFilters(next);
     setPage(1);
   };
@@ -88,13 +72,13 @@ export function CategoryListingPage<K extends ProductCategorySlug, F>({
         {view === 'grid' ? (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {pageProducts.map((product) => (
-              <Card key={product.id} product={product} />
+              <CategoryProductCard key={product.id} slug={slug} product={product} />
             ))}
           </div>
         ) : (
           <div className="flex flex-col gap-3">
             {pageProducts.map((product) => (
-              <Row key={product.id} product={product} />
+              <CategoryProductListRow key={product.id} slug={slug} product={product} />
             ))}
           </div>
         )}
@@ -112,12 +96,13 @@ export function CategoryListingPage<K extends ProductCategorySlug, F>({
 
   return (
     <>
-      {hero}
+      <CategoryHeroBanner icon={config.icon} {...hero} />
 
       <section ref={sectionRef} id={sectionId} className="scroll-mt-20 bg-slate-50 pb-16 pt-8">
         <Container>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-            <Sidebar
+            <CategoryFilterSidebar
+              sections={sections}
               title={title}
               count={visibleProducts.length}
               sort={sort}

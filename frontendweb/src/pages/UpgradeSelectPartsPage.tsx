@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiCheck, FiFilter } from 'react-icons/fi';
 import { Container } from '../components/ui/Container';
@@ -11,8 +11,7 @@ import { categoryIcons } from '../components/home/categoryIcons';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { addToCart } from '../features/cart/cartSlice';
 import { clearUpgrades, removeUpgrade, toggleUpgrade } from '../features/upgrade/upgradeSlice';
-import { listUpgradeProducts } from '../services/upgrade/productSearchService';
-import { getErrorMessage } from '../api/apiError';
+import { useUpgradeProducts } from '../hooks/useUpgradeProducts';
 import { cn } from '../lib/cn';
 import type { UpgradeComponentKey, UpgradeProduct } from '../types/upgrade';
 
@@ -53,38 +52,20 @@ export function UpgradeSelectPartsPage() {
   const { currentSpec, upgrades } = useAppSelector((state) => state.upgrade);
 
   const [activeKey, setActiveKey] = useState<UpgradeComponentKey>('cpu');
-  const [loaded, setLoaded] = useState<{ key: UpgradeComponentKey; items: UpgradeProduct[]; error: string | null } | null>(
-    null,
-  );
-  const [retryCount, setRetryCount] = useState(0);
   const [sort, setSort] = useState<SortKey>('recommended');
   const [page, setPage] = useState(1);
   const [filterOpen, setFilterOpen] = useState(false);
   const [brands, setBrands] = useState<string[]>([]);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
 
-  useEffect(() => {
-    let cancelled = false;
-    listUpgradeProducts(activeKey)
-      .then((items) => {
-        if (!cancelled) setLoaded({ key: activeKey, items, error: null });
-      })
-      .catch((error: unknown) => {
-        if (!cancelled) setLoaded({ key: activeKey, items: [], error: getErrorMessage(error) });
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [activeKey, retryCount]);
-
-  // Only trust products that belong to the tab currently open (avoids a one-frame flash of
-  // the previous tab's items while the next category is loading).
-  const products = loaded?.key === activeKey ? loaded.items : null;
-  const loadError = loaded?.key === activeKey ? loaded.error : null;
-  const retryLoad = () => {
-    setLoaded(null);
-    setRetryCount((count) => count + 1);
-  };
+  // The active tab's list comes from the Redux catalog (fetched once per category, then cached).
+  const { products: loadedProducts, status, error, reload: retryLoad } = useUpgradeProducts(activeKey);
+  // null = still loading; a failed load shows the error state instead of an empty grid.
+  const products = useMemo(
+    () => (status === 'succeeded' ? loadedProducts : status === 'failed' ? [] : null),
+    [status, loadedProducts],
+  );
+  const loadError = status === 'failed' ? (error ?? 'โหลดข้อมูลสินค้าไม่สำเร็จ') : null;
 
   const brandOptions = useMemo(() => Array.from(new Set((products ?? []).map((p) => p.brand))).sort(), [products]);
 

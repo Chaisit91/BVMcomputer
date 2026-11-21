@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { BsGeoAltFill } from 'react-icons/bs';
 import { FiAlertCircle, FiCheckCircle, FiFileText, FiPlus } from 'react-icons/fi';
 import { AccountLayout } from '../components/account/AccountLayout';
@@ -15,6 +15,7 @@ import {
   fetchTaxAddresses,
   setDefaultTaxAddress,
 } from '../features/taxAddress/taxAddressSlice';
+import { useCheckoutReturn } from '../features/checkout/checkoutReturn';
 import type { TaxAddress } from '../types/api';
 
 /** "บัญชีของฉัน › ที่อยู่สำหรับออกใบกำกับภาษี" — list, add, edit, delete and choose the default. */
@@ -49,14 +50,30 @@ function TaxAddressesContent() {
     return () => window.clearTimeout(timer);
   }, [notice]);
 
-  const openForm = (address: TaxAddress | null) => {
+  const openForm = useCallback((address: TaxAddress | null) => {
     setNotice(null);
     setForm({ open: true, address });
+  }, []);
+
+  // Came from checkout's "+ เพิ่มข้อมูลใบกำกับภาษี": the add modal opens by itself once the list
+  // has loaded, and saving or closing it goes straight back to checkout.
+  const { fromCheckout, returnToCheckout } = useCheckoutReturn('tax', {
+    ready: status === 'succeeded',
+    openAdd: useCallback(() => openForm(null), [openForm]),
+  });
+
+  const handleSaved = (mode: 'create' | 'update', savedId: string | undefined) => {
+    setForm({ open: false });
+    if (fromCheckout) {
+      returnToCheckout(savedId);
+      return;
+    }
+    setNotice(mode === 'create' ? 'เพิ่มที่อยู่สำหรับออกใบกำกับภาษีเรียบร้อยแล้ว' : 'แก้ไขที่อยู่สำหรับออกใบกำกับภาษีเรียบร้อยแล้ว');
   };
 
-  const handleSaved = (mode: 'create' | 'update') => {
+  const handleFormClose = () => {
     setForm({ open: false });
-    setNotice(mode === 'create' ? 'เพิ่มที่อยู่สำหรับออกใบกำกับภาษีเรียบร้อยแล้ว' : 'แก้ไขที่อยู่สำหรับออกใบกำกับภาษีเรียบร้อยแล้ว');
+    if (fromCheckout) returnToCheckout();
   };
 
   const askDelete = (address: TaxAddress) => {
@@ -153,7 +170,7 @@ function TaxAddressesContent() {
         open={form.open}
         address={form.open ? form.address : null}
         isFirst={addresses.length === 0}
-        onClose={() => setForm({ open: false })}
+        onClose={handleFormClose}
         onSaved={handleSaved}
       />
       <ConfirmDeleteAddressDialog

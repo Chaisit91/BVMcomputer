@@ -57,14 +57,14 @@ interface TaxAddressFormModalProps {
   /** No saved addresses yet — the new one has to be the default. */
   isFirst: boolean;
   onClose: () => void;
-  /** After the save succeeded — the page shows its own confirmation. */
-  onSaved: (mode: 'create' | 'update') => void;
+  /** After the save succeeded — the page shows its own confirmation. `savedId` = the created / edited address. */
+  onSaved: (mode: 'create' | 'update', savedId: string | undefined) => void;
 }
 
 /** Add / edit a tax-invoice address, for an individual or a company. Nothing is saved until "บันทึกที่อยู่". */
 export function TaxAddressFormModal({ open, address, isFirst, onClose, onSaved }: TaxAddressFormModalProps) {
   const dispatch = useAppDispatch();
-  const { mutationStatus, mutationError } = useAppSelector((state) => state.taxAddress);
+  const { addresses, mutationStatus, mutationError } = useAppSelector((state) => state.taxAddress);
   const isSaving = mutationStatus === 'loading';
 
   const {
@@ -100,10 +100,17 @@ export function TaxAddressFormModal({ open, address, isFirst, onClose, onSaved }
       postalCode: values.postalCode.trim(),
       isDefault: defaultLocked || values.isDefault,
     };
-    const result = address
-      ? await dispatch(updateTaxAddress({ id: address.id, input }))
-      : await dispatch(createTaxAddress(input));
-    if (result.meta.requestStatus === 'fulfilled') onSaved(address ? 'update' : 'create');
+    if (address) {
+      const result = await dispatch(updateTaxAddress({ id: address.id, input }));
+      if (updateTaxAddress.fulfilled.match(result)) onSaved('update', address.id);
+      return;
+    }
+    // Every write returns the full list — the new address is the one whose id wasn't there before.
+    const knownIds = new Set(addresses.map((a) => a.id));
+    const result = await dispatch(createTaxAddress(input));
+    if (createTaxAddress.fulfilled.match(result)) {
+      onSaved('create', result.payload.addresses.find((a) => !knownIds.has(a.id))?.id);
+    }
   });
 
   return (

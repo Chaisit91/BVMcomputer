@@ -1,4 +1,4 @@
-import type { Product, CategoryIconKey } from '../types';
+import type { CartRecommendationItem, CategoryIconKey } from '../types';
 import { cpuProducts } from './cpuProducts';
 import { gpuProducts } from './gpuProducts';
 import { motherboardProducts } from './motherboardProducts';
@@ -7,11 +7,6 @@ import { storageProducts } from './storageProducts';
 import { psuProducts } from './psuProducts';
 import { caseProducts } from './caseProducts';
 import { coolingProducts } from './coolingProducts';
-
-export interface CartRecommendationItem extends Product {
-  /** Short product-type line shown under the name, e.g. "Air Cooler", "SSD M.2 NVMe". */
-  subtitle: string;
-}
 
 function pick<T extends { id: string; name: string; brand: string; price: number; imageUrl?: string }>(
   items: T[],
@@ -31,6 +26,8 @@ function pick<T extends { id: string; name: string; brand: string; price: number
 }
 
 /**
+ * Mock for GET /products/recommendations — only served when the backend is unreachable
+ * or API_MODE is "mock" (see api/recommendationApi.ts).
  * Small cross-category upsell pool for the cart drawer's "สินค้าที่คุณอาจสนใจ" section.
  * Deliberately a curated slice of each category (not the full catalog) so the
  * drawer's recommendation list stays short and fast to scan.

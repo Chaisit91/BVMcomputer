@@ -47,14 +47,14 @@ interface AddressFormModalProps {
   /** No saved addresses yet (per the loaded list) — the new one has to be the default. */
   isFirst: boolean;
   onClose: () => void;
-  /** After the save succeeded — the page shows its own confirmation. */
-  onSaved: (mode: 'create' | 'update') => void;
+  /** After the save succeeded — the page shows its own confirmation. `savedId` = the created / edited address. */
+  onSaved: (mode: 'create' | 'update', savedId: string | undefined) => void;
 }
 
 /** Add / edit a shipping address. Validates on blur, then again on submit; nothing is saved until "บันทึกที่อยู่". */
 export function AddressFormModal({ open, address, isFirst, onClose, onSaved }: AddressFormModalProps) {
   const dispatch = useAppDispatch();
-  const { mutationStatus, mutationError } = useAppSelector((state) => state.address);
+  const { addresses, mutationStatus, mutationError } = useAppSelector((state) => state.address);
   const isSaving = mutationStatus === 'loading';
 
   const {
@@ -85,10 +85,17 @@ export function AddressFormModal({ open, address, isFirst, onClose, onSaved }: A
       postalCode: values.postalCode.trim(),
       isDefault: defaultLocked || values.isDefault,
     };
-    const result = address
-      ? await dispatch(updateAddress({ id: address.id, input }))
-      : await dispatch(createAddress(input));
-    if (result.meta.requestStatus === 'fulfilled') onSaved(address ? 'update' : 'create');
+    if (address) {
+      const result = await dispatch(updateAddress({ id: address.id, input }));
+      if (updateAddress.fulfilled.match(result)) onSaved('update', address.id);
+      return;
+    }
+    // Every write returns the full list — the new address is the one whose id wasn't there before.
+    const knownIds = new Set(addresses.map((a) => a.id));
+    const result = await dispatch(createAddress(input));
+    if (createAddress.fulfilled.match(result)) {
+      onSaved('create', result.payload.addresses.find((a) => !knownIds.has(a.id))?.id);
+    }
   });
 
   return (

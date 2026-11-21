@@ -1,11 +1,16 @@
 import { useState, type ReactNode } from 'react';
 import { FiChevronDown, FiChevronRight, FiGrid, FiList } from 'react-icons/fi';
-import { coolingBrandOptions, type CoolingFilterState } from '../../data/coolingProducts';
+import type { CategoryFilterSidebarProps, CategorySort } from './categoryListing';
+import type { FilterOption, FilterSectionConfig } from './categoryConfigs';
 
-export type CategoryView = 'grid' | 'list';
-export type CategorySort = 'popular' | 'price-asc' | 'price-desc';
+/** Fields every category's filter state has (stock checkboxes + price range). */
+export interface BaseCategoryFilters {
+  stock: readonly string[];
+  minPrice: number;
+  maxPrice: number;
+}
 
-function toggle<T>(list: T[], value: T): T[] {
+function toggle<T>(list: readonly T[], value: T): T[] {
   return list.includes(value) ? list.filter((item) => item !== value) : [...list, value];
 }
 
@@ -16,7 +21,7 @@ function Checkbox({ label, checked, onChange }: { label: string; checked: boolea
         type="checkbox"
         checked={checked}
         onChange={onChange}
-        className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
+        className="h-4 w-4 shrink-0 rounded border-slate-300 text-brand focus:ring-brand"
       />
       {label}
     </label>
@@ -96,20 +101,16 @@ function PriceRangeSlider({
   );
 }
 
-interface CoolingFilterSidebarProps {
-  title: string;
-  count: number;
-  sort: CategorySort;
-  onSortChange: (value: CategorySort) => void;
-  view: CategoryView;
-  onViewChange: (value: CategoryView) => void;
-  priceCeiling: number;
-  filters: CoolingFilterState;
-  onChange: (next: CoolingFilterState) => void;
-  onClear: () => void;
+const optionValue = (option: FilterOption) => (typeof option === 'string' ? option : option.value);
+const optionLabel = (option: FilterOption) => (typeof option === 'string' ? option : option.label);
+
+interface Props<F extends BaseCategoryFilters> extends CategoryFilterSidebarProps<F> {
+  /** Category-specific checkbox groups, in display order (from categoryConfigs). */
+  sections: FilterSectionConfig<F>[];
 }
 
-export function CoolingFilterSidebar({
+/** Sort / view / filter sidebar shared by every category page. */
+export function CategoryFilterSidebar<F extends BaseCategoryFilters>({
   title,
   count,
   sort,
@@ -120,7 +121,14 @@ export function CoolingFilterSidebar({
   filters,
   onChange,
   onClear,
-}: CoolingFilterSidebarProps) {
+  sections,
+}: Props<F>) {
+  // Checkbox groups are all string lists; the cast back to F is safe because only that list changes.
+  const toggleIn = (field: keyof F, value: string) => {
+    const current = filters[field] as unknown as readonly string[];
+    onChange({ ...filters, [field]: toggle(current, value) } as F);
+  };
+
   return (
     <aside className="flex w-full shrink-0 flex-col gap-4 lg:sticky lg:top-4 lg:w-72">
       {/* Title + count + sort + view toggle */}
@@ -177,15 +185,11 @@ export function CoolingFilterSidebar({
         <div>
           <h3 className="mb-1 text-sm font-semibold text-ink">เลือกการแสดงสินค้า</h3>
           <div className="flex flex-wrap gap-x-4">
-            <Checkbox
-              label="มีในสต็อก"
-              checked={filters.stock.includes('in')}
-              onChange={() => onChange({ ...filters, stock: toggle(filters.stock, 'in') })}
-            />
+            <Checkbox label="มีในสต็อก" checked={filters.stock.includes('in')} onChange={() => toggleIn('stock', 'in')} />
             <Checkbox
               label="ไม่มีในสต็อก"
               checked={filters.stock.includes('preorder')}
-              onChange={() => onChange({ ...filters, stock: toggle(filters.stock, 'preorder') })}
+              onChange={() => toggleIn('stock', 'preorder')}
             />
           </div>
         </div>
@@ -222,16 +226,24 @@ export function CoolingFilterSidebar({
           </div>
         </div>
 
-        <CollapsibleSection title="Brands" defaultOpen>
-          {coolingBrandOptions.map((brand) => (
-            <Checkbox
-              key={brand}
-              label={brand}
-              checked={filters.brands.includes(brand)}
-              onChange={() => onChange({ ...filters, brands: toggle(filters.brands, brand) })}
-            />
-          ))}
-        </CollapsibleSection>
+        {sections.map((section) => {
+          const selected = filters[section.field] as unknown as readonly string[];
+          return (
+            <CollapsibleSection key={String(section.field)} title={section.title} defaultOpen={section.defaultOpen}>
+              {section.options.map((option) => {
+                const value = optionValue(option);
+                return (
+                  <Checkbox
+                    key={value}
+                    label={optionLabel(option)}
+                    checked={selected.includes(value)}
+                    onChange={() => toggleIn(section.field, value)}
+                  />
+                );
+              })}
+            </CollapsibleSection>
+          );
+        })}
 
         <button
           type="button"

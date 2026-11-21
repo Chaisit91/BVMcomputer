@@ -1,7 +1,16 @@
-import { BsCpu } from 'react-icons/bs';
+import type { IconType } from 'react-icons';
 import { Container } from '../ui/Container';
 
-export function CpuHeroBanner() {
+interface CategoryHeroBannerProps {
+  icon: IconType;
+  tag: string;
+  title: string;
+  subtitle: string;
+  description: string;
+}
+
+/** Hero banner at the top of every category page — content comes from categoryConfigs. */
+export function CategoryHeroBanner({ icon: Icon, tag, title, subtitle, description }: CategoryHeroBannerProps) {
   return (
     <section className="bg-slate-50 pt-6">
       <Container>
@@ -9,25 +18,22 @@ export function CpuHeroBanner() {
           <div className="pointer-events-none absolute -right-10 -top-10 h-72 w-72 rounded-full bg-brand/30 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-24 left-1/4 h-72 w-72 rounded-full bg-sky-500/10 blur-3xl" />
 
-          {/* Large decorative CPU glyph, not a copy of any real chip photo/logo. */}
-          <BsCpu
+          {/* Large decorative category glyph, not a copy of any real product photo/logo. */}
+          <Icon
             className="pointer-events-none absolute -right-6 bottom-0 hidden text-white/10 sm:block"
             size={220}
             aria-hidden="true"
           />
 
           <div className="relative flex max-w-xl flex-col gap-3">
-            <span className="w-fit rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white">CPU</span>
+            <span className="w-fit rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white">{tag}</span>
             <h1 className="text-4xl font-extrabold leading-none text-white sm:text-5xl">
-              CPU
+              {title}
               <span className="mt-1 block text-lg font-semibold uppercase tracking-wide text-slate-300 sm:text-xl">
-                The Brain of Your PC
+                {subtitle}
               </span>
             </h1>
-            <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
-              พลังประมวลผลที่มากกว่า เพื่อทุกการใช้งาน เล่นเกม ทำงาน สตรีมมิ่ง ไม่มีสะดุด
-              เลือกซีพียู Intel และ AMD ของแท้ ประกันศูนย์ไทย
-            </p>
+            <p className="text-sm leading-relaxed text-slate-300 sm:text-base">{description}</p>
           </div>
         </div>
       </Container>
